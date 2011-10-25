@@ -162,10 +162,9 @@ static ssize_t quantis_read(struct file* file,
                             size_t length,
                             loff_t* ppos);
 
-static int quantis_ioctl(struct inode* inode,
-                         struct file* file,
-                         unsigned int cmd,
-                         unsigned long arg);
+static long quantis_ioctl(  struct file* file,
+                            unsigned int cmd,
+                            unsigned long arg);
 
 static int __devinit quantis_pci_probe(struct pci_dev* pdev,
                                        const struct pci_device_id* ent);
@@ -221,7 +220,7 @@ static struct file_operations quantis_fops =
   .read     =   quantis_read,     /* Read method */
   /*.write    =   quantis_write,*/    /* Write method */
   /*.llseek   =   quantis_llseek,*/   /* Seek method */
-  .ioctl    =   quantis_ioctl,    /* Ioctl method */
+  .unlocked_ioctl    =   quantis_ioctl,    /* Ioctl method */
 };
 
 
@@ -339,13 +338,14 @@ ssize_t quantis_read(struct file* file,
 /**
  *
  */
-int quantis_ioctl(struct inode* inode,
-                  struct file* file,
+long quantis_ioctl(struct file* file,
                   unsigned int cmd,
                   unsigned long arg)
 {
+  struct inode* inode = file != NULL ? file->f_path.dentry->d_inode : NULL ;
   int status = 0;
   int card_number = MINOR(inode->i_rdev);
+
   quantis_pci_device* device = quantis_devices[card_number];
 
   if(down_interruptible(&device->mutex))
