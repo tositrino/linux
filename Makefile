@@ -2,7 +2,7 @@ VERSION = 3
 PATCHLEVEL = 1
 SUBLEVEL = 0
 EXTRAVERSION =
-NAME = "Divemaster Edition"
+NAME = "Odonata Draconis"
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
@@ -668,6 +668,12 @@ ifeq ($(CONFIG_STRIP_ASM_SYMS),y)
 LDFLAGS_vmlinux	+= $(call ld-option, -X,)
 endif
 
+#### THS include addons  (standard) ####
+include $(srctree)/Makefile.addons
+## KERNELRELEASE=$(FULL_RELEASE_STR)
+## export KERNELRELEASE
+####################################
+
 # Default kernel image to build when no specific target is given.
 # KBUILD_IMAGE may be overruled on the command line or
 # set in the environment
@@ -1009,11 +1015,19 @@ define filechk_version.h
 	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
 endef
 
-include/linux/version.h: $(srctree)/Makefile FORCE
+#### THS - write KERNELRELAESE 
+THS-KERNELRELEASE: FORCE
+	@echo "Kernel release is : \"${KERNELRELEASE}\""
+	@echo "ths release is    : \"${FULL_RELEASE_STR}\""
+	@echo ${FULL_RELEASE_STR} > THS-KERNELRELEASE
+	@cp -f .config config-${FULL_RELEASE_STR}
+  
+include/linux/version.h: THS-KERNELRELEASE $(srctree)/Makefile include/config/kernel.release .config FORCE
 	$(call filechk,version.h)
-
-include/generated/utsrelease.h: include/config/kernel.release FORCE
+ 
+include/generated/utsrelease.h:  THS-KERNELRELEASE include/config/kernel.release FORCE
 	$(call filechk,utsrelease.h)
+
 
 PHONY += headerdep
 headerdep:
@@ -1154,7 +1168,10 @@ endif # CONFIG_MODULES
 
 # Directories & files removed with 'make clean'
 CLEAN_DIRS  += $(MODVERDIR)
-CLEAN_FILES +=	vmlinux System.map \
+
+#### THS : add THS-KERNELRELEASE to CLEAN_FILES
+
+CLEAN_FILES +=	vmlinux System.map THS-KERNELRELEASE \
                 .tmp_kallsyms* .tmp_version .tmp_vmlinux* .tmp_System.map
 
 # Directories & files removed with 'make mrproper'
