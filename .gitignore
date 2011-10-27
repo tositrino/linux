@@ -84,6 +84,7 @@ GTAGS
 # THS
 THS-KERNELRELEASE
 config-*
+*.log
 
 *.orig
 *~
