@@ -88,14 +88,6 @@ unsigned short cbanner_id     = __CBANNER_DEFAULT__;
 
 const char *cbanner_data[]  = {
 
-""8"" 8   8 8""""8                              eeee     88      eeeeee 
-  8   8   8 8        e   e  eeee eeeee  eeeee      8      8      8    8 
-  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8      8      8    8 
-  88  88  8     88   8eee8e 8eee 8eee8e 8e  8   eee8      8      8    8 
-  88  88  8 e   88   88   8 88   88   8 88  8      88    8888    8    8 
-  88  88  8 8eee88   88   8 88ee 88   8 88  8   eee88 88 8888 88 8eeee8 
-
-
                                //12345678901234567890123456789012345678901234567890123456789012345678901234567890
                                 "88888 8   8 888888                              eeea    88      eeeea    \n"
                                 "  8   8   8 8        e   e  eeee eeeee  eeeee      8     8      8   8    \n"

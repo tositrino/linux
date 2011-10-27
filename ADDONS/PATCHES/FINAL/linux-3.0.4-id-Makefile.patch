@@ -1,0 +1,60 @@
+--- linux-3.0-org/Makefile	2011-08-13 10:04:41.000000000 +0200
++++ linux-3.0-ths/Makefile	2011-08-13 10:11:29.490680781 +0200
+@@ -2,7 +2,7 @@
+ PATCHLEVEL = 0
+ SUBLEVEL = 4
+ EXTRAVERSION =
+-NAME = Sneaky Weasel
++NAME = Odonata Draconis
+ 
+ # *DOCUMENTATION*
+ # To see a list of typical targets execute "make help"
+@@ -668,6 +668,12 @@
+ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+ endif
+ 
++#### THS include addons  (standard) ####
++include $(srctree)/Makefile.addons
++## KERNELRELEASE=$(FULL_RELEASE_STR)
++## export KERNELRELEASE
++####################################
++
+ # Default kernel image to build when no specific target is given.
+ # KBUILD_IMAGE may be overruled on the command line or
+ # set in the environment
+@@ -1009,12 +1015,20 @@
+ 	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
+ endef
+ 
+-include/linux/version.h: $(srctree)/Makefile FORCE
++#### THS - write KERNELRELAESE 
++THS-KERNELRELEASE: FORCE
++	@echo "Kernel release is : \"${KERNELRELEASE}\""
++	@echo "ths release is    : \"${FULL_RELEASE_STR}\""
++	@echo ${FULL_RELEASE_STR} > THS-KERNELRELEASE
++	@cp -f .config config-${FULL_RELEASE_STR}
++  
++include/linux/version.h: THS-KERNELRELEASE $(srctree)/Makefile include/config/kernel.release .config FORCE
+ 	$(call filechk,version.h)
+-
+-include/generated/utsrelease.h: include/config/kernel.release FORCE
++ 
++include/generated/utsrelease.h:  THS-KERNELRELEASE include/config/kernel.release FORCE
+ 	$(call filechk,utsrelease.h)
+ 
++
+ PHONY += headerdep
+ headerdep:
+ 	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
+@@ -1154,7 +1168,10 @@
+ 
+ # Directories & files removed with 'make clean'
+ CLEAN_DIRS  += $(MODVERDIR)
+-CLEAN_FILES +=	vmlinux System.map \
++
++#### THS : add THS-KERNELRELEASE to CLEAN_FILES
++
++CLEAN_FILES +=	vmlinux System.map THS-KERNELRELEASE \
+                 .tmp_kallsyms* .tmp_version .tmp_vmlinux* .tmp_System.map
+ 
+ # Directories & files removed with 'make mrproper'

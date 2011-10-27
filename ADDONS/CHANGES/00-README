@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.1.0-ths
 # created : 11/10/05
-# changed : 11/10/05
+# changed : 11/10/27
 #
 # TODO:
 #   * ubuntu
@@ -22,11 +22,37 @@
 #   * gentoo-x86_64 (amd)
 #   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
+# 11/10/27
+#   - setup & build kernel 3.1.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CP
+#   - setup & build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
+#   -
+#   - git push origin v3.1.0-ths
+#   - THS-RELEASE 3.1.0-mmxi-x-xxvii
+#   - moved checkps3 from CHANGES to tools
+#   - updated makefile.addons
+#   - added genpatches-3.1-2
+# 11/10/26
+#   - rebuild build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
+#   - removed LOCKDEP to compile nvidia
+##  * You've enabled LOCKDEP -- lock tracking -- in the kernel.
+##  * Unfortunately, this option exports the symbol
+##   * 'lockdep_init_map' as GPL-only which will prevent
+##   * nvidia-drivers-285.05.09 from compiling.
+##   * Please make sure the following options have been unset:
+##   *
+##   *     Kernel hacking  --->
+##   *         [ ] Lock debugging: detect incorrect freeing of live locks
+##   *         [ ] Lock debugging: prove locking correctness
+##   *         [ ] Lock usage statistics
+##   * in 'menuconfig'
+##   * ERROR: x11-drivers/nvidia-drivers-285.05.09 failed (setup phase):
+##   *   LOCKDEP enabled
+#
 # 11/10/25
 #   - setup & build kernel 3.1.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CP
 #   - setup & build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
-    -
-    - git push origin v3.1.0-ths
+#   -
+#   - git push origin v3.1.0-ths
 #   - THS-RELEASE 3.1.0-mmxi-x-xxv
 #   - added ths patches
 #   - udated ADDONS 

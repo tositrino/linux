@@ -170,7 +170,7 @@ ifdef CONFIG_PPC64
 CPU_TYPE=-ppc64
 endif
 ## Playstation 3 special
-isPS3=$(shell ./checkps3 )
+isPS3=$(shell ./ADDONS?tools/checkps3 )
 ifeq ("$(isPS3)","PS3")
   SMPVERSION=-ps3
 endif

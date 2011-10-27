@@ -1,2 +1,0 @@
-#!/bin/sh
-/bin/cat /proc/cpuinfo | grep PS3 | awk '$1 == "platform" || $1 == "machine" { print $3 }' | tr -d [:space:]
