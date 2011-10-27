@@ -3,7 +3,7 @@
 
 SRCDIR="/usr/src"
 BASEVER="linux-git"
-THSVER="${BASEVER}-ths"
+THSVER="${BASEVER}"
 BASEDIR="${SRCDIR}/${BASEVER}"
 THSDIR="${SRCDIR}/${THSVER}"
 
