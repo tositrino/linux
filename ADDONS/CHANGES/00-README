@@ -30,6 +30,10 @@
 #   - THS-RELEASE 3.1.0-mmxi-x-xxvii
 #   - moved checkps3 from CHANGES to tools
 #   - updated makefile.addons
+#   - git commit -m "v3.1.0-ths-gentoo-2"
+#   - git add --all .
+#   - ./ADDONS/TOOLS/patch-kernel gentoo --patch
+#   - git checkout -b v3.1.0-ths-gentoo-2
 #   - added genpatches-3.1-2
 # 11/10/26
 #   - rebuild build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @

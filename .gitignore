@@ -82,7 +82,7 @@ GSYMS
 GTAGS
 
 # THS
-THS-KERNELRELEASE
+THS-*
 config-*
 *.log
 
