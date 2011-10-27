@@ -81,6 +81,10 @@ GRTAGS
 GSYMS
 GTAGS
 
+# THS
+THS-KERNELRELEASE
+config-*
+
 *.orig
 *~
 \#*#
