@@ -23,12 +23,15 @@
 #   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
 # 11/11/08
-#   - ./ADDONS/TOOLS/patch-kernel gentoo --patch
-#   - git checkout -b v3.1.0-ths-gentoo-3
-#   - merged changes,configs and patches
-#   - added genpatches-3.1-3
-#   - git checkout -b v3.1.0-ths
-#   - git branch -d v3.1.0-ths-gentoo-2
+#    - git push origin v3.1.0-ths-gentoo-3
+#    - ./ADDONS/TOOLS/patch-kernel gentoo --patch
+#    - git checkout -b v3.1.0-ths-gentoo-3
+#    - git push origin v3.1.0-ths
+#   -- THS-RELEASE 3.1.0-mmxi-x-xxvii
+#    - merged changes,configs and patches
+#    - added genpatches-3.1-3
+#    - git checkout -b v3.1.0-ths
+#    - git branch -d v3.1.0-ths-gentoo-2
 # 11/11/05
 #   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 # 11/10/28
