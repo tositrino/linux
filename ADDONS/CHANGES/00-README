@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.1.0-ths
 # created : 11/10/05
-# changed : 11/10/27
+# changed : 11/11/08
 #
 # TODO:
 #   * ubuntu
@@ -22,6 +22,17 @@
 #   * gentoo-x86_64 (amd)
 #   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
+# 11/11/08
+#   - ./ADDONS/TOOLS/patch-kernel gentoo --patch
+#   - git checkout -b v3.1.0-ths-gentoo-3
+#   - merged changes,configs and patches
+#   - added genpatches-3.1-3
+#   - git checkout -b v3.1.0-ths
+#   - git branch -d v3.1.0-ths-gentoo-2
+# 11/11/05
+#   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/10/28
+#   - setup & build kernel 3.1.0-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 # 11/10/27
 #   - setup & build kernel 3.1.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CP
 #   - setup & build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @

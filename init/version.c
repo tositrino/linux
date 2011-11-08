@@ -8,7 +8,7 @@
  *  THS changes
  *  -----------
  *
- *  - 11/10/25 kernel-3.1.0
+ *  - 11/11/08 kernel-3.1.0
  *
  *  - colored banner defines
  *    __CBANNER_DEFAULT__ : define default banner id
@@ -31,7 +31,7 @@
  * 
  */
  
-#define THS_RELEASE          "mmxi-x-xxv"
+#define THS_RELEASE          "mmxi-xi-viii"
 #define __CBANNER_DEFAULT__  0x00
 #define __CBANNER_LOGO__     0x08
 #define __CBANNER_TEXT__     0x09
