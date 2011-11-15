@@ -1,0 +1,149 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.1.1-ths
+# created : 11/10/05
+# changed : 11/11/15
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.1.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.1.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.1.1-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.1.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.1.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.1.1-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.1.1-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#
+# 11/11/15
+#
+#    - THS-RELEASE 3.1.0-mmxi-x-xxvii
+#    - merged changes,configs and patches
+#    - added genpatches-3.1-3
+#    - new branch v3.1.1-ths
+#      git checkout -b v3.1.1-ths
+#    - added stable tree
+#      git fetch stable
+#      git remote add stable git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+# 11/11/08
+#    - git push
+#    - git commit "master is v3.1.0-ths-gentoo-3"
+#    - git merge v3.1.0-ths-gentoo-3
+#    - git checkout master
+#    - git push origin v3.1.0-ths-gentoo-3
+#    - git commit -m "created v3.1.0-ths-gentoo-3"
+#    - git add -A .
+#    - ./ADDONS/TOOLS/patch-kernel gentoo --patch
+#    - git checkout -b v3.1.0-ths-gentoo-3
+#    - git push origin v3.1.0-ths
+#   -- THS-RELEASE 3.1.0-mmxi-x-xxvii
+#    - merged changes,configs and patches
+#    - added genpatches-3.1-3
+#    - git checkout -b v3.1.0-ths
+#    - git branch -d v3.1.0-ths-gentoo-2
+# 11/11/05
+#   - setup & build kernel 3.1.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/10/28
+#   - setup & build kernel 3.1.0-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+# 11/10/27
+#   - setup & build kernel 3.1.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CP
+#   - setup & build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
+#   -
+#   - git push origin v3.1.0-ths
+#   - THS-RELEASE 3.1.0-mmxi-x-xxvii
+#   - moved checkps3 from CHANGES to tools
+#   - updated makefile.addons
+#   - git commit -m "v3.1.0-ths-gentoo-2"
+#   - git add --all .
+#   - ./ADDONS/TOOLS/patch-kernel gentoo --patch
+#   - git checkout -b v3.1.0-ths-gentoo-2
+#   - added genpatches-3.1-2
+# 11/10/26
+#   - rebuild build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
+#   - removed LOCKDEP to compile nvidia
+##  * You've enabled LOCKDEP -- lock tracking -- in the kernel.
+##  * Unfortunately, this option exports the symbol
+##   * 'lockdep_init_map' as GPL-only which will prevent
+##   * nvidia-drivers-285.05.09 from compiling.
+##   * Please make sure the following options have been unset:
+##   *
+##   *     Kernel hacking  --->
+##   *         [ ] Lock debugging: detect incorrect freeing of live locks
+##   *         [ ] Lock debugging: prove locking correctness
+##   *         [ ] Lock usage statistics
+##   * in 'menuconfig'
+##   * ERROR: x11-drivers/nvidia-drivers-285.05.09 failed (setup phase):
+##   *   LOCKDEP enabled
+#
+# 11/10/25
+#   - setup & build kernel 3.1.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CP
+#   - setup & build kernel 3.1.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @
+#   -
+#   - git push origin v3.1.0-ths
+#   - THS-RELEASE 3.1.0-mmxi-x-xxv
+#   - added ths patches
+#   - udated ADDONS 
+#   - git checkout -b v3.1.0-ths
+#   - git checkout v3.1
+# 11/10/05
+#   - using git now
+#   - updated patches & tools
+#   - started with kernel 3.1.0-rc8-ths (git checkout -b v3.1.0-rc8-ths v3.1.0-rc8)
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.1-ths-init.patch
+#    applied linux-3.1-ths-quantis-v11.07.12.patch
+#  (final)
+#    linux-3.1-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.1-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.1-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v11.07.12 from idquantique
+#   -> linux-3.1-ths-quantis-v11.07.12.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.1-ths-init.patch 
+#
+
+
+
