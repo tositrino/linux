@@ -8,7 +8,7 @@
  *  THS changes
  *  -----------
  *
- *  - 11/11/08 kernel-3.1.0
+ *  - 11/11/15 kernel-3.1.1
  *
  *  - colored banner defines
  *    __CBANNER_DEFAULT__ : define default banner id
@@ -31,7 +31,7 @@
  * 
  */
  
-#define THS_RELEASE          "mmxi-xi-viii"
+#define THS_RELEASE          "mmxi-xi-xiv"
 #define __CBANNER_DEFAULT__  0x00
 #define __CBANNER_LOGO__     0x08
 #define __CBANNER_TEXT__     0x09
@@ -89,20 +89,20 @@ unsigned short cbanner_id     = __CBANNER_DEFAULT__;
 const char *cbanner_data[]  = {
 
                                //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-                                "88888 8   8 888888                              eeea    88      eeeea    \n"
-                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8     8      8   8    \n"
-                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8     8      8   8    \n"
-                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88     8      8  88    \n"
-                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8888    8  88    \n"
-                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 88888    \n"
+                                "88888 8   8 888888                              eeea    88      88       \n"
+                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8     8       8       \n"
+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8     8       8       \n"
+                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88     8       8       \n"
+                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8888    8888     \n"
+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888     \n"
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
-                                "e   e                                 eeea    88      eeeea  o8o  db  o8o \n"
-                                "8   8   eeee eeeee  eeeee eeee e         8     8      8   8  o8888db8888o \n"
-                                "8eee8e  8    8   8  8   8 8    8         8     8      8   8      odbo     \n"
-                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88     8      8  88  o88o db o88o \n"
-                                "88   8  88   88   8 88  8 88   88       88    8888    8  88  oo   db   oo \n"
-                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 88888       db      \n",
+                                "e   e                                 eeea    88      88     o8o  db  o8o \n"
+                                "8   8   eeee eeeee  eeeee eeee e         8     8       8     o8888db8888o \n"
+                                "8eee8e  8    8   8  8   8 8    8         8     8       8         odbo     \n"
+                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88     8       8     o88o db o88o \n"
+                                "88   8  88   88   8 88  8 88   88       88    8888    8888   oo   db   oo \n"
+                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8888        db      \n",
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
                                 "/-----------------------------------------\\\n"
