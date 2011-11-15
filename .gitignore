@@ -81,6 +81,11 @@ GRTAGS
 GSYMS
 GTAGS
 
+# THS
+THS-*
+config-*
+*.log
+
 *.orig
 *~
 \#*#
