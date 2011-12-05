@@ -26,12 +26,14 @@
 # 11/12/05
 #    - update master
 #      git branch -m master master-old
+#    - setup & build kernel 3.1.4-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #    - patch kernel
 #      git push origin v3.1.4-ths-gentoo-7
 #      git commit -m "created v3.1.4-ths-gentoo-7"
 #      git add -A .
+#      ADDONS/tools/patch-kernel --patch final
+#      ADDONS/tools/patch-kernel --patch ths
 #      ADDONS/tools/patch-kernel --patch gentoo
-#      ADDONS/tools/patch-kernel --patch gentoo THS FINAL
 #    - create new branch
 #      git checkout -b v3.1.4-ths-gentoo-7
 #    - commit and push new branch
