@@ -7,7 +7,45 @@
  *  Added initrd & change_root: Werner Almesberger & Hans Lermen, Feb '96
  *  Moan early if gcc is old, avoiding bogus kernels - Paul Gortmaker, May '96
  *  Simplified starting of init:  Michael A. Griffith <grif@acm.org> 
+ *
+ *  THS changes
+ *  -----------
+ *  - requires special includes : 
+ *    #ifdef __COLORED_BANNER__
+ *    #include <linux/kd.h> (kernel 2.6 only)
+ *    #include <linux/vt.h> (since 2.6.15 for vt_mode definition)
+ *    #include <linux/console_struct.h>
+ *    #endif
+ *    (added after asm/bugs.h)
+ *  - colored banner defines
+ *    __COLORED_BANNER__ : enable colored banner at compile time 
+ *  - added extern data
+ *    extern char  cbanner_wait;
+ *    extern char  cbanner_mode;
+ *    extern short cbanner_bcolor;
+ *    extern short cbanner_tcolor;
+ *    extern long  cbanner_delay;
+ *    extern short cbanner_count;
+ *    extern char *cbanner_data[];
+ *  - added functions and setup hook :
+ *    static int __init cbanner_setup(char *options)
+ *    function cbanner_display(void)
+ *    __setup("cbanner=", cbanner_setup);
+ *
+ *  - parameter syntax : 
+ *      cbanner=on,off,wait,delay:<val>,bid:<val>,bcol:<val>,tcol:<val>"
+ *      on|off      - enable/disable colored banner
+ *      wait        - enable delay after banner output
+ *      delay:<val> - set delay count (default is 200, range 1-9999)
+ *                    this is about half a second per "***" output so
+ *                    the full duration is about 5 seconds
+ *      bid:<val>   - banner id (1-3 currently), default is 1
+ *      bcol:<val>  - banner color (1-255), default 0xb (lightcyan)
+ *      tcol:<val>  - text color (1-255), default 0x9 (lightblue)
+ *
  */
+
+#define __COLORED_BANNER__
 
 #include <linux/types.h>
 #include <linux/module.h>
@@ -107,6 +145,23 @@ bool early_boot_irqs_disabled __read_mostly;
 
 enum system_states system_state __read_mostly;
 EXPORT_SYMBOL(system_state);
+
+#ifdef __COLORED_BANNER__
+
+#include <linux/kd.h>
+#include <linux/vt.h>
+#include <linux/console_struct.h>
+
+extern unsigned char   cbanner_wait;
+extern unsigned char   cbanner_mode;
+extern unsigned short  cbanner_bcolor;
+extern unsigned short  cbanner_tcolor;
+extern unsigned long   cbanner_delay;
+extern unsigned short  cbanner_count;
+extern unsigned short  cbanner_id;
+extern char           *cbanner_data[];
+
+#endif
 
 /*
  * Boot command-line arguments
@@ -328,6 +383,125 @@ static void __init smp_init(void)
 
 static inline void setup_nr_cpu_ids(void) { }
 static inline void smp_prepare_cpus(unsigned int maxcpus) { }
+#endif
+
+#ifdef __COLORED_BANNER__
+
+static int __init cbanner_setup(char *options)
+{
+  char *myopt;
+  long oval;
+
+  if (!options || !*options) return 0;
+  printk("cbanner: %s\n",options);
+
+  while ((myopt = strsep (&options, ",")) != NULL) 
+  {
+	if (!*myopt) continue;
+
+	if (!strncmp(myopt, "wait", 4)) 
+    {
+	  printk("cbanner: wait mode enabled\n");
+      cbanner_wait=1;
+      continue;
+    }
+	if (!strncmp(myopt, "delay:", 6)) 
+    {
+      oval=simple_strtoul((myopt+6), NULL, 0);
+      if ( (oval>0) && (oval<=10000) )
+	  {
+	    cbanner_delay=(unsigned long)(oval);
+	    printk("cbanner: delay value set to %lu\n",cbanner_delay);
+	  }
+      else printk("cbanner: invalid delay value (%s)\n",myopt);
+      continue;     
+    }
+
+    if (!strncmp(myopt, "off", 3)) 
+	{
+	  printk("cbanner: banner disabled\n");
+	  cbanner_mode=0;
+      continue;
+	}
+    if (!strncmp(myopt, "on", 2)) 
+	{
+	  printk("cbanner: banner enabled\n");
+	  cbanner_mode=1;
+	  continue;
+	}
+	if (!strncmp(myopt, "bid:", 4)) 
+    {
+      oval=simple_strtoul((myopt+4), NULL, 0);
+      if ( (oval>0) && (oval<=cbanner_count) )
+	  {
+	    cbanner_id=(unsigned short)(oval-1);
+	    printk("cbanner: banner id set to %d\n",cbanner_id);
+	  }
+      else printk("cbanner: invalid banner id value (%s)\n",myopt);
+      continue;
+    }
+	if (!strncmp(myopt, "bcol:", 5)) 
+    {
+      oval=simple_strtoul((myopt+5), NULL, 0);
+      if ( (oval>0) && (oval<=0xff) )
+	  {
+	    cbanner_bcolor=(unsigned short)(oval);
+	    printk("cbanner: banner color set to 0x%x\n",cbanner_bcolor);
+	  }
+      else printk("cbanner: invalid banner color value (%s)\n",myopt);
+      continue;
+    }
+	if (!strncmp(myopt, "tcol:", 5)) 
+    {
+      oval=simple_strtoul((myopt+5), NULL, 0);
+      if ( (oval>0) && (oval<=0xff) )
+	  {
+	    cbanner_tcolor=(unsigned short)(oval);
+	    printk("cbanner: text color set to 0x%x\n",cbanner_tcolor);
+	  }
+      else printk("cbanner: invalid text color value (%s)\n",myopt);
+      continue;
+	}
+    printk("cbanner: invalid parameter (%s)\n",myopt);
+  }
+  return 0;
+}
+
+__setup("cbanner=", cbanner_setup);
+
+static void cbanner_display( void )
+{
+  extern char *saved_command_line;
+  unsigned long jstart,jwait;
+  unsigned short cc,vc=vc_cons[0].d->vc_attr;
+  if (cbanner_mode != 0)
+  {
+    cc=(cbanner_id << 1);
+    if (cbanner_bcolor) vc_cons[0].d->vc_attr = cbanner_bcolor;
+    printk("\n%s\n",cbanner_data[cc]);
+    if (cbanner_tcolor) vc_cons[0].d->vc_attr = cbanner_tcolor;
+    printk("%s\n",cbanner_data[cc+1]);
+    printk("%s\n",linux_banner);
+    printk("Kernel command line%s\n\n", saved_command_line);
+    vc_cons[0].d->vc_attr = vc;
+  }
+	  
+  if (cbanner_wait>0) 
+  {
+    printk("wait:");
+    jwait=(cbanner_delay * HZ)/1000;
+    for (cc=0;cc<0x10;cc++)
+    {    
+      vc_cons[0].d->vc_attr = cc;
+	  printk(" *");
+      jstart=jiffies;
+	  while ( jiffies-jstart < jwait ) ;
+    }
+    printk("\n\n");
+    vc_cons[0].d->vc_attr = vc;
+  }
+}
+
 #endif
 
 /*
@@ -603,6 +777,11 @@ asmlinkage void __init start_kernel(void)
 		late_time_init();
 	sched_clock_init();
 	calibrate_delay();
+
+#ifdef __COLORED_BANNER__
+    cbanner_display();
+#endif
+
 	pidmap_init();
 	anon_vma_init();
 #ifdef CONFIG_X86

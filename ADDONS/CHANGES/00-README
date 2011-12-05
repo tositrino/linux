@@ -30,8 +30,9 @@
 #      git push origin v3.1.4-ths-gentoo-7
 #      git commit -m "created v3.1.4-ths-gentoo-7"
 #      git add -A .
+#      ADDONS/tools/patch-kernel --patch final
+#      ADDONS/tools/patch-kernel --patch ths
 #      ADDONS/tools/patch-kernel --patch gentoo
-#      ADDONS/tools/patch-kernel --patch gentoo THS FINAL
 #    - create new branch
 #      git checkout -b v3.1.4-ths-gentoo-7
 #    - commit and push new branch
