@@ -24,12 +24,27 @@
 #   - setup & build kernel 3.1.4-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
 #
 # 11/12/05
+#    - update master
+#      git branch -m master master-old
+#    - patch kernel
+#      git push origin v3.1.4-ths-gentoo-7
+#      git commit -m "created v3.1.4-ths-gentoo-7"
+#      git add -A .
+#      ADDONS/tools/patch-kernel --patch gentoo
+#      ADDONS/tools/patch-kernel --patch gentoo THS FINAL
+#    - create new branch
+#      git checkout -b v3.1.4-ths-gentoo-7
+#    - commit and push new branch
+#      git push origin v3.1.4-ths
+#      git commit -m "created v3.1.4-ths"
 #    - THS-RELEASE 3.1.4-mmxi-xii-v
-#    - added genpatches-3.1-4
+#    - added genpatches-3.1-7
 #    - create and add THS patches
-#    - checkout new version
-#      git checkout v3.1.4
 #    - reorganized tree
+#    - create new branch
+#      git checkout -b v3.1.4-ths
+#    - checkout latest version
+#      git checkout v3.1.4
 # 11/11/19
 #    - setup & build kernel 3.1.1-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 # 11/11/15
