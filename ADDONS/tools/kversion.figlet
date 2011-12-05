@@ -1,0 +1,12 @@
+#!/bin/sh
+
+usetext="THS kern 3.1.0"
+usefont="-w 90 -f computer" 
+
+#usefont="-c -w 80 -k -f colossal" 
+
+echo
+echo "figlet ${usefont} \"${usetext}\""
+echo
+figlet ${usefont} "${usetext}"
+echo
