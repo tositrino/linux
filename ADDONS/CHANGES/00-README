@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.1.4-ths
 # created : 11/10/05
-# changed : 11/12/05
+# changed : 11/12/09
 #
 # TODO:
 #   * ubuntu
@@ -20,9 +20,11 @@
 #   - setup & build kernel 3.1.4-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
 #   - setup & build kernel 3.1.4-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.1.4-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.1.4-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.1.4-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
 #
+# 11/12/09
+#   - setup & build kernel 3.1.4-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 # 11/12/05
 #    - update master
 #      git branch -m master master-old
