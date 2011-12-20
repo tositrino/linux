@@ -30,7 +30,7 @@
 #   - setup & build kernel 3.1.5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - patch kernel
 #     git push origin v3.1.5-ths-gentoo-8
-#     git commit -m "created v3.1.4-ths-gentoo-8"
+#     git commit -m "created v3.1.5-ths-gentoo-8"
 #     git add -A .
 #     ADDONS/tools/patch-kernel --patch final
 #     ADDONS/tools/patch-kernel --patch ths
