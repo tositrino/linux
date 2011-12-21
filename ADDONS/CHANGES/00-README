@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.1.5-ths
 # created : 11/10/05
-# changed : 11/12/20
+# changed : 11/12/21
 #
 # TODO:
 #   * ubuntu
@@ -23,9 +23,15 @@
 #   - setup & build kernel 3.1.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.1.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
 #
-# 11/12/20
-#   - update master
+# 11/12/21
+#   - cleanup & update master
+#     git checkout -b master
 #     git branch -m master master-old
+#     git push origin v3.1.5-ths-gentoo-8
+#     git commit -m "updated v3.1.5-ths-gentoo-8"
+#     git add -vf ADDONS/CHANGES/00-README
+#     git add -Avf ADDONS/CONFIGS/3.1 
+# 11/12/20
 #   - setup & build kernel 3.1.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.1.5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - patch kernel
