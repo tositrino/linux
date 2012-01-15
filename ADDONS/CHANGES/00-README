@@ -45,7 +45,7 @@
 #   - commit and push new branch
 #     git push origin v3.1.9-ths
 #     git commit -m "created v3.1.9-ths"
-#     git add -A -f ./ADDONS ./WORK ./APPLIED-PATCHES
+#     git add -A -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.1.9-mmxii-i-xv
 #   - added genpatches-3.1-10
 #   - update ADDONS and patches
