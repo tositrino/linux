@@ -50,8 +50,8 @@
 #     git push origin v3.2.2-ths
 #     git commit -m "created v3.2.2-ths"
 #     git add -A -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - THS-RELEASE 3.2.0-mmxii-i-xv
-#   - added genpatches-3.2-3
+#   - THS-RELEASE 3.2.2-mmxii-i-xxix
+#   - added genpatches-3.2-5
 #   - update ADDONS and patches
 #   - create new branch v3.2.2-ths
 #     git branch v3.2.2-ths
@@ -59,7 +59,7 @@
 #     git merge v3.2.1-ths 
 #   - checkout new stable branch v3.2.2
 #     git checkout v3.2.2-ths
-#   - update repositries
+#   - update repositories
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
@@ -91,7 +91,7 @@
 #     git push origin v3.2.1-ths
 #     git commit -m "created v3.2.1-ths"
 #     git add -A -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - THS-RELEASE 3.2.0-mmxii-i-xv
+#   - THS-RELEASE 3.2.1-mmxii-i-xv
 #   - added genpatches-3.2-3
 #   - update ADDONS and patches
 #   - merge with old tree
