@@ -1,0 +1,6 @@
+01/15/12-17:45:34: patch -p1 < /usr/src/linux-git/ADDONS/PATCHES/THS/linux-3.2-ths-git.patch
+patching file .gitignore
+Reversed (or previously applied) patch detected!  Assume -R? [n] 
+Apply anyway? [n] 
+Skipping patch.
+1 out of 1 hunk ignored -- saving rejects to file .gitignore.rej
