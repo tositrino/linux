@@ -50,6 +50,7 @@
 #     git push origin v3.2.2-ths
 #     git commit -m "created v3.2.2-ths"
 #     git add -A -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated tools to use /usr/src/linux instead of linux-git
 #   - THS-RELEASE 3.2.2-mmxii-i-xxix
 #   - added genpatches-3.2-5
 #   - update ADDONS and patches
