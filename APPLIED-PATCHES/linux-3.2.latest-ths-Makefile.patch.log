@@ -1,3 +1,0 @@
-01/15/12-17:45:40: patch -p1 < /usr/src/linux-git/ADDONS/PATCHES/FINAL/linux-3.2.latest-ths-Makefile.patch
-patching file Makefile
-patching file Makefile.addons

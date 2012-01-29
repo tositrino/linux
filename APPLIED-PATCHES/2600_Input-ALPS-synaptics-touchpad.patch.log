@@ -1,4 +1,0 @@
-01/15/12-17:45:20: patch -p1 < /usr/src/linux-git/ADDONS/PATCHES/GENTOO/2600_Input-ALPS-synaptics-touchpad.patch
-patching file drivers/input/mouse/alps.c
-patching file drivers/input/mouse/alps.h
-patching file drivers/input/mouse/psmouse.h
