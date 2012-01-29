@@ -133,15 +133,6 @@ config IBM_ASM
 	  for information on the specific driver level and support statement
 	  for your IBM server.
 
-config QUANTIS_PCI
-	tristate "New device driver for quantis true random generator"
-	depends on PCI && EXPERIMENTAL
-	---help---
-	  This option enables the new udev aware device driver support for 
-	  the idquantique quantis random generator. 
-	  This is a true random generator which uses quantum mechanical 
-	  processes to generate a true random bit sequence.
-
 config PHANTOM
 	tristate "Sensable PHANToM (PCI)"
 	depends on PCI
@@ -299,15 +290,6 @@ config HP_ILO
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called hpilo.
-
-config QUANTIS
-	tristate "Device driver for quantis true random generator"
-	depends on PCI && EXPERIMENTAL
-	---help---
-	  This option enables device driver support for the idquantique
-	  quantis random generator. This is a true random generator which
-	  uses quantum mechanical processes to generate a true random bit
-	  sequence.
 
 config SGI_GRU
 	tristate "SGI GRU driver"
