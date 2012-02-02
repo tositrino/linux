@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.2.1-ths
 # created : 11/10/05
-# changed : 12/02/01
+# changed : 12/02/02
 #
 # TODO:
 #   * ubuntu
@@ -23,7 +23,7 @@
 #   - setup & build kernel 3.2.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.2.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
 #
-#  12/02/01
+#  12/02/02
 #   - cleanup & update v3.2.2-ths branch
 #     git push origin v3.2.2-ths
 #     git commit -m "updated v3.2.2-ths"
@@ -34,7 +34,8 @@
 #     git push origin v3.2.2-ths-gentoo-5
 #     git commit -m "updated v3.2.2-ths-gentoo-5"
 #     git add -vf ADDONS/CHANGES/00-README
-#     git add -Avf ADDONS/CONFIGS/3.2
+#     git add -Avf ADDONS/CONFIGS/3.2/*
+#  12/02/01
 #   - setup & build kernel 3.2.2-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - updated branch
 #  12/01/29
