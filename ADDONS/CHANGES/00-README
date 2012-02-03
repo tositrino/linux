@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.2.1-ths
 # created : 11/10/05
-# changed : 12/02/02
+# changed : 12/02/03
 #
 # TODO:
 #   * ubuntu
@@ -23,6 +23,11 @@
 #   - setup & build kernel 3.2.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.2.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
 #
+#  12/02/03
+#     git push origin v3.2.2-ths
+#     git commit -m "updated v3.2.2-ths"
+#     git add -A -v -f ADDONS/CHANGES/00-README ADDONS/PATCHES/GENTOO ADDONS/PATCHES/KERNEL
+#   - added genpatches-3.2-6
 #  12/02/02
 #   - cleanup & update v3.2.2-ths branch
 #     git push origin v3.2.2-ths
