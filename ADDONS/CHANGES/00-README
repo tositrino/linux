@@ -21,10 +21,11 @@
 #   - setup & build kernel 3.2.5-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
 #   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive, AMD FX)
+#   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
 #  12/02/07
 #   - setup & build kernel 3.2.5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
 #     git push origin v3.2.5-ths-gentoo-6
 #     git commit -m "created v3.2.5-ths-gentoo-6"
@@ -56,6 +57,7 @@
 #     git add -A -v -f ADDONS/CHANGES/00-README ADDONS/PATCHES/GENTOO ADDONS/PATCHES/KERNEL
 #   - added genpatches-3.2-6
 #  12/02/02
+#   - setup & build kernel 3.2.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - cleanup & update v3.2.2-ths branch
 #     git push origin v3.2.2-ths
 #     git commit -m "updated v3.2.2-ths"
