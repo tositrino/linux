@@ -4,12 +4,13 @@
 # package : linux kernel
 # version : 3.2.5-ths
 # created : 11/10/05
-# changed : 12/02/07
+# changed : 12/02/09
 #
 # TODO:
 #   * ubuntu
 #   - setup & build kernel 3.2.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
 #   - setup & build kernel 3.2.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.2.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
@@ -23,6 +24,20 @@
 #   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
+#  12/02/09
+#   - setup & build kernel 3.2.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - updated v3.2.5-ths
+#     git push origin v3.2.5-ths
+#     git commit -m "updated v3.2.5-ths"
+#     git add -A -v -f ADDONS/CHANGES/00-README ADDONS/PATCHES/GENTOO ADDONS/PATCHES/KERNEL
+#   - added genpatches-3.2-8
+#   - git checkout v3.2.5-ths
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/02/08
+#   - setup & build kernel 3.2.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #  12/02/07
 #   - setup & build kernel 3.2.5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.2.5-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
