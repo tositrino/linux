@@ -34,7 +34,8 @@ FEATURES
 4100-4200	storage
 4200-4300	graphics
 4300-4400	filesystem
-4400-4500	other
+4400-4500	security enhancement
+4500-4600	other
 
 Individual Patch Descriptions:
 --------------------------------------------------------------------------
@@ -58,6 +59,10 @@ Desc:   Linux 3.2.4
 Patch:  1004_linux-3.2.5.patch
 From:   http://www.kernel.org
 Desc:   Linux 3.2.5
+
+Patch:  1005_linux-3.2.6.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.2.6
 
 Patch:  2400_kcopy-patch-for-infiniband-driver.patch
 From:   Alexey Shvetsov <alexxy@gentoo.org>
