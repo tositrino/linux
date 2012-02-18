@@ -25,6 +25,9 @@
 #   - setup & build kernel 3.2.6-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
 #  12/02/18
+#   - fix master
+#     git checkout -b master origin/v3.2.6-ths
+#     git branch -d master
 #   - added configs to v3.2.6-ths
 #     git push origin v3.2.6-ths
 #     git commit -m "created v3.2.6-ths"
