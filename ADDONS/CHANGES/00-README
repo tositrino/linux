@@ -2,28 +2,63 @@
 # README - source package change documentation
 #
 # package : linux kernel
-# version : 3.2.7-ths
+# version : 3.2.9-ths
 # created : 11/10/05
-# changed : 12/02/27
+# changed : 12/03/06
 #
 # TODO:
 #   * ubuntu
-#   - setup & build kernel 3.2.7-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
-#   - setup & build kernel 3.2.7-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
-#   - setup & build kernel 3.2.7-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - setup & build kernel 3.2.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.2.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.2.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
 #   * gentoo-x86_32
-#   - setup & build kernel 3.2.7-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.2.9-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.2.7-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
-#   - setup & build kernel 3.2.7-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
-#   - setup & build kernel 3.2.7-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   - setup & build kernel 3.2.9-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.2.9-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.2.9-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.2.7-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.2.7-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.2.9-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.2.9-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
+#  12/03/09
+#   - fix master
+#     git checkout -b master origin/v3.2.9-ths
+#     git branch -d master
+#   - added configs to v3.2.9-ths
+#     git push origin v3.2.9-ths
+#     git commit -m "updated v3.2.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - setup & build kernel 3.2.9-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - updated from patched tree : v3.2.9-ths
+#     git push origin v3.2.7-ths
+#     git commit -m "updated v3.2.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - patch kernel
+#     ADDONS/tools/patch-kernel --patch final
+#     ADDONS/tools/patch-kernel --patch ths
+#     ADDONS/tools/patch-kernel --patch gentoo
+#   - commit and push new branch
+#     git push origin v3.2.9-ths
+#     git branch v3.2.9-ths
+#     git commit -m "created v3.2.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.2.7-mmxii-iii-vi
+#   - added genpatches-3.2-10
+#   - update ADDONS and patches
+#   - merge with old tree
+#     git merge v3.2.7-ths 
+#   - create new branch from v3.2.9
+#     git branch -D master-old
+#     git checkout -b master v3.2.9
+#     git branch -m master master-old
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  12/02/27
 #   - fix master
 #     git checkout -b master origin/v3.2.7-ths
