@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.3.0-ths
 # created : 12/03/19
-# changed : 12/03/19
+# changed : 12/03/21
 #
 # TODO:
 #   * ubuntu
@@ -24,8 +24,15 @@
 #   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
-#   - added genpatches-3.3-1 (not yet)
 #
+#  12/03/21
+#   - updated v3.3.0-ths
+#     git push origin v3.3.0-ths
+#     git commit -m "updated v3.3.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - cleanup
+#   - added genpatches-3.3-1
+#   - added ADDON/tools/armmake and arm config(s)
 #  12/03/19
 #   - fix master
 #     git checkout -b master origin/v3.3.0-ths
@@ -34,6 +41,7 @@
 #     git push origin v3.3.0-ths
 #     git commit -m "updated v3.3.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.3.0-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - updated from patched tree : v3.3.0-ths
 #     git push origin v3.3.0-ths
