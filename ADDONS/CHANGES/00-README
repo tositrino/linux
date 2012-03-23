@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.3.0-ths
 # created : 12/03/19
-# changed : 12/03/21
+# changed : 12/03/23
 #
 # TODO:
 #   * ubuntu
@@ -23,8 +23,21 @@
 #   * gentoo-x86_64 (amd)
 #   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup and build kernel config-3.2.11-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup and build kernel config-3.3.0-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #
 #
+#  12/03/23
+#   - updated config/v3.3.0-ths
+#     git push origin v3.3.0-ths
+#     git commit -m "updated v3.3.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - setup and build kernel config-3.3.0-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup and build kernel config-3.2.11-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
+#   - updated patch-kernel and setup-kernel to accept SRCDIR environment variable
+#     [ -z "${SRCDIR}" ] && SRCDIR="/usr/src"
+#     [ -z "${BASEVER}" ] && BASEVER="linux"
 #  12/03/21
 #   - updated v3.3.0-ths
 #     git push origin v3.3.0-ths

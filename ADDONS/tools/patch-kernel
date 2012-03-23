@@ -1,8 +1,10 @@
 #! /bin/sh
 #
 
-SRCDIR="/usr/src"
-BASEVER="linux"
+[ -z "${SRCDIR}" ] && SRCDIR="/usr/src"
+[ -z "${BASEVER}" ] && BASEVER="linux"
+
+EXTVER=""
 THSVER="${BASEVER}"
 BASEDIR="${SRCDIR}/${BASEVER}"
 THSDIR="${SRCDIR}/${THSVER}"
