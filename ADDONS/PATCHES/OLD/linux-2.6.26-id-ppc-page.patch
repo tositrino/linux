@@ -1,0 +1,13 @@
+diff -Naur linux-2.6.26-org/include/asm-ppc/page.h linux-2.6.26-id/include/asm-ppc/page.h
+--- linux-2.6.26-org/include/asm-ppc/page.h	2008-07-13 23:51:29.000000000 +0200
++++ linux-2.6.26-id/include/asm-ppc/page.h	2008-07-14 14:40:15.378316244 +0200
+@@ -3,6 +3,8 @@
+ 
+ #include <asm/asm-compat.h>
+ 
++#include <linux/config.h>
++
+ /* PAGE_SHIFT determines the page size */
+ #define PAGE_SHIFT	12
+ #define PAGE_SIZE	(ASM_CONST(1) << PAGE_SHIFT)
+
