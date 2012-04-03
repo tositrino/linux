@@ -1,0 +1,211 @@
+###
+### extra version infomation addons
+###
+
+CPU_TYPE=
+SMPVERSION=
+HIGHMEMVERSION=
+
+# Test for SMP
+ifdef CONFIG_SMP
+SMPVERSION=-smp
+else
+SMPVERSION=
+endif
+
+# Test for cputype
+CPU_TYPE=
+
+# Intel and compatible
+######################
+
+ifdef CONFIG_M386
+CPU_TYPE=-386
+endif
+ifdef CONFIG_M486
+CPU_TYPE=-486
+endif
+ifdef CONFIG_M586
+CPU_TYPE=-586
+endif
+ifdef CONFIG_M586TSC
+CPU_TYPE=-586tsc
+endif
+ifdef CONFIG_M586MMX
+CPU_TYPE=-586mmx
+endif
+ifdef CONFIG_M686
+CPU_TYPE=-686
+endif
+ifdef CONFIG_MPENTIUMII
+CPU_TYPE=-p2
+endif
+ifdef CONFIG_MPENTIUMIII
+CPU_TYPE=-p3
+endif
+ifdef CONFIG_MPENTIUMM
+CPU_TYPE=-pm
+endif
+ifdef CONFIG_MPENTIUM4
+CPU_TYPE=-p4
+endif
+ifdef CONFIG_MK6
+CPU_TYPE=-k6
+endif
+ifdef CONFIG_MK7
+CPU_TYPE=-k7
+endif
+ifdef CONFIG_MK731
+CPU_TYPE=-k7
+endif
+ifdef CONFIG_MXP731
+CPU_TYPE=-mxp
+endif
+ifdef CONFIG_MMP731
+CPU_TYPE=-mmp
+endif
+ifdef CONFIG_MK8
+CPU_TYPE=-k8
+endif
+ifdef CONFIG_MCORE2
+CPU_TYPE=-core2
+endif
+ifdef CONFIG_MATOM
+CPU_TYPE=-atom
+endif
+ifdef CONFIG_MPSC
+CPU_TYPE=-mpsc
+endif
+ifdef CONFIG_MELAN
+CPU_TYPE=-elan
+endif
+ifdef CONFIG_MCRUSOE
+CPU_TYPE=-crusoe
+endif
+ifdef CONFIG_MEFFICEON
+CPU_TYPE=-efficeon
+endif
+ifdef CONFIG_MWINCHIPC6
+CPU_TYPE=-winchipc6
+endif
+ifdef CONFIG_MWINCHIP2
+CPU_TYPE=-winchip2
+endif
+ifdef CONFIG_MWINCHIP3D
+CPU_TYPE=-winchip3D
+endif
+ifdef CONFIG_MGEODE_LX
+CPU_TYPE=-geode
+endif
+ifdef CONFIG_MCYRIXIII
+CPU_TYPE=-cyrix3
+endif
+ifdef CONFIG_MVIAC3_2
+CPU_TYPE=-viac3_2
+endif
+ifdef CONFIG_MVIAC7
+CPU_TYPE=-viac7
+endif
+ifdef CONFIG_MATOM
+CPU_TYPE=-atom
+endif
+
+# powerpc
+##########
+
+ifdef CONFIG_PPC
+CPU_TYPE=-ppc
+endif
+ifdef CONFIG_PPC32
+CPU_TYPE=-ppc32
+endif
+ifdef CONFIG_PPC64
+CPU_TYPE=-ppc64
+endif
+ifdef CONFIG_40x
+CPU_TYPE=-40x
+endif
+ifdef CONFIG_44x
+CPU_TYPE=-44x
+endif
+ifdef CONFIG_4xx
+CPU_TYPE=-4xx
+endif
+ifdef CONFIG_6xx
+CPU_TYPE=-6xx
+endif
+#ifdef CONFIG_PPC_BOOK3S_32
+#CPU_TYPE=-ppc32
+#endif
+#ifdef CONFIG_PPC_BOOK3S
+#CPU_TYPE=-ppc64
+#endif
+ifdef CONFIG_8xx
+CPU_TYPE=-8xx
+endif
+ifdef CONFIG_8260
+CPU_TYPE=-8260
+endif
+ifdef CONFIG_PPC_85xx
+CPU_TYPE=-85xx
+endif
+ifdef CONFIG_E200
+CPU_TYPE=-e200
+endif
+ifdef CONFIG_POWER3
+CPU_TYPE=-power3
+endif
+ifdef CONFIG_POWER4
+CPU_TYPE=-power4
+endif
+ifdef CONFIG_CELLEB
+CPU_TYPE=-cell
+endif
+
+ifdef CONFIG_PPC_PS3
+CPU_TYPE=-ps3
+endif
+
+ifdef CONFIG_PMAC64
+CPU_TYPE=-g5
+endif
+ifdef CONFIG_PPC64
+CPU_TYPE=-ppc64
+endif
+## Playstation 3 special
+isPS3=$(shell ./ADDONS/tools/checkps3 )
+ifeq ("$(isPS3)","PS3")
+  SMPVERSION=-ps3
+endif
+
+ifdef CONFIG_GENERIC_CPU
+CPU_TYPE=-generic
+endif
+
+# Test for Highmem support
+ifdef CONFIG_HIGHMEM4G
+HIGHMEMVERSION=-4gb
+else
+ifdef CONFIG_HIGHMEM64G
+HIGHMEMVERSION=-64gb
+else
+HIGHMEMVERSION=
+endif
+endif
+
+# Test for paravirtualization
+ifdef CONFIG_PARAVIRT
+PARA="-para"
+else
+PARA=""
+endif
+
+NAME=Libellula de Tigre
+LOCALVERSION = -ths
+
+ADDON_RELEASE_STR=$(ARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
+FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(ARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CONFIG_LOCALVERSION)
+export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
+
+KERNELRELEASE=$(FULL_RELEASE_STR)
+export KERNELRELEASE
