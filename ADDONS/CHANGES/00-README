@@ -2,32 +2,62 @@
 # README - source package change documentation
 #
 # package : linux kernel
-# version : 3.3.0-ths
+# version : 3.3.1ths
 # created : 12/03/19
-# changed : 12/03/23
+# changed : 12/04/05
 #
 # TODO:
 #   * ubuntu
-#   - setup & build kernel 3.3.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
-#   - setup & build kernel 3.3.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
-#   - setup & build kernel 3.3.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - setup & build kernel 3.3.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.3.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.3.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
 #   * gentoo-x86_32
-#   - setup & build kernel 3.3.0-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.3.1-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.3.0-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
-#   - setup & build kernel 3.3.0-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
-#   - setup & build kernel 3.3.0-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   - setup & build kernel 3.3.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.3.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.3.1-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.3.1-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.3.1-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
-#   - setup and build kernel config-3.2.11-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
-#   - setup and build kernel config-3.3.0-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup and build kernel config-3.3.1-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup and build kernel config-3.3.1-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #
-#
+#  12/04/05
+#   - fix master & branch
+#     git checkout -b master origin/v3.3.1-ths
+#     git branch -d master
+#     git push origin v3.3.1-ths
+#     git commit -m "updated v3.3.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added configs to v3.3.1-ths
+#   - added genpatches-3.3-2
+#  12/04/03
+#   - setup & build kernel 3.3.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - updated from patched tree : v3.3.1-ths
+#     git push origin v3.3.1-ths
+#     git commit -m "updated v3.3.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - patch kernel
+#     BASEVER=linux-3.3.1-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.3.1-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.3.1-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - commit and push new branch
+#     git push origin v3.3.1-ths
+#     git branch v3.3.1-ths
+#     git commit -m "created v3.3.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.3.1-mmxii-iii-xix
+#   - create new branch from v3.3.1
+#     git checkout -b v3.3.1-ths v3.3.1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  12/03/23
 #   - updated config/v3.3.0-ths
 #     git push origin v3.3.0-ths
