@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.3.1ths
 # created : 12/03/19
-# changed : 12/04/05
+# changed : 12/04/09
 #
 # TODO:
 #   * ubuntu
@@ -27,6 +27,15 @@
 #   - setup and build kernel config-3.3.1-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #   - setup and build kernel config-3.3.1-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/04/09
+#   - fix master & branch
+#     git checkout -b master origin/v3.3.1-ths
+#     git branch -d master
+#     git push origin v3.3.1-ths
+#     git commit -m "updated v3.3.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added configs to v3.3.1-ths
+#   - setup & build kernel 3.3.1-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #  12/04/05
 #   - fix master & branch
 #     git checkout -b master origin/v3.3.1-ths
