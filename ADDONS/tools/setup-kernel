@@ -1,0 +1,184 @@
+#! /bin/sh
+#
+
+[ -z "${SRCDIR}" ] && SRCDIR="/usr/src"
+[ -z "${BASEVER}" ] && BASEVER="linux"
+
+EXTVER=""
+THSVER="${BASEVER}"
+BASEDIR="${SRCDIR}/${BASEVER}"
+THSDIR="${SRCDIR}/${THSVER}"
+
+KERNELARCHIVE="${THSDIR}/ORIGINAL/${BASEVER}${EXTVER}.tar.bz2"
+PATCHKERNEL="${THSDIR}/ADDONS/tools/patch-kernel"
+
+mode="test"
+opcode="setup"
+error=0
+errmsg=""
+
+for arg in $@ ; do
+  case "${arg}" in 
+    --force)    mode="force"   ;;
+    --help)     mode="help"    ;;
+    setup)      opcode="setup" ;;
+    clean)      opcode="clean" ;;
+    *)          
+      if [ -n "${arg}" ] ; then
+        errmsg="${errmsg}ERROR: invalid argument \"${arg}\"\n"
+        error=2
+      fi
+      ;;
+  esac
+done 
+
+echo
+echo "setup-kernel: setup ths kernel"
+echo "------------------------------"
+echo
+
+if [ ! -d "${THSDIR}" ] ; then
+  errmsg="${errmsg}ERROR: ths kernel directory not found\n  (${THSDIR})\n"
+  error=1
+fi
+if [ ! -f "${KERNELARCHIVE}" ] ; then
+  errmsg="${errmsg}ERROR: original kernel archive not found -> testmode\n  (${KERNELARCHIVE})\n"
+  mode="test"
+fi
+if [ ! -x "${PATCHKERNEL}" ] ; then
+  errmsg="${errmsg}ERROR: patch kernel tool not found -> testmode\n  (${PATCHKERNEL})\n"
+  mode="test"
+fi
+[ -n "${errmsg}" ] && echo -e "${errmsg}"
+if [ "${mode}" = "help" ] || [ ${error} -eq 2 ] ; then
+  echo -e "Usage : $0 [--force|--help] [setup|clean]\n"
+  error=2
+fi
+[ ${error} -ne 0 ] && exit ${error} 
+
+echo "  kernel version   : ${BASEVER}${EXTVER}"
+echo "  kernel directory : ${THSDIR}"
+echo "  run mode         : ${mode}"
+echo "  run opcode       : ${opcode}"
+
+echo
+echo -n "enter kernel source directory ${THSDIR} ... "
+cd "${THSDIR}" || exit 1
+echo "[done]"
+
+echo "removing old kernel stuff ..."
+for fx in * .* ; do
+  [ -z "${fx}" ] && continue
+  cmd="rm -f ${fx}"
+  [ -d "${fx}" ] && cmd="rm -rf ${fx}"
+  case "${fx}" in
+    .|..|ADDONS|ORIGINAL|BUILDS|WORK) 
+      echo "  skipping directory [${fx}]" 
+      continue
+      ;;
+  esac
+  echo -n "  removing ${fx} ... "
+  if [ "${mode}" != "force" ] ; then
+    echo "[test]"
+    continue
+  fi
+  eval ${cmd} 
+  if [ "$?" != "0" ] ; then
+    echo "ERROR: ${cmd} failed"
+    exit 1
+  fi
+  echo "[done]"
+done
+
+if [ "${opcode}" = "clean" ] ; then 
+  echo
+  exit 0
+fi
+
+echo -n "unpacking original kernel ... "
+if [ "${mode}" = "force" ] ; then
+  tar -jxf "${KERNELARCHIVE}" || exit 1
+  if [ ! -d "${BASEVER}${EXTVER}" ] ; then
+    echo "ERROR:something went wrong, directory ${BASEVER}${EXTVER} not found"
+    exit 1
+  fi
+  echo "[done]"
+  echo -n "setting up ownership ... "
+  chown -R root:root ${BASEVER}${EXTVER}  
+  echo "[done]"
+
+  echo -n "moving ${BASEDIR}${EXTVER} to ${THSDIR} ... "
+  dlist=`find ${BASEVER}${EXTVER} -maxdepth 1`
+  for dname in ${dlist} ; do
+    [ -z "${dname}" ] && continue
+    case "${dname}" in
+    .|..|${BASEVER}${EXTVER})
+      continue;;
+    esac
+    mv ${dname} . 
+    [ $? -eq 0 ] && continue
+    echo -e "[error]\nERROR: mv ${dname} ."
+    exit 1
+  done
+  echo "[done]"
+  echo -n "remove ${BASEDIR}${EXTVER} ... "
+  rmdir "${BASEVER}${EXTVER}" || exit 1
+  echo "[done]"
+else
+  echo "[test]"
+fi  
+
+if [ "${mode}" = "force" ] ; then
+  ${PATCHKERNEL} --patch all
+else
+  ${PATCHKERNEL} all
+fi  
+ 
+sfiles="00-INFO 00-README Makefile.addons checkps3" 
+
+case `uname` in
+  Linux) CP="cp -a"  ;;
+  *)     CP="cp -Rp" ;;
+esac
+
+echo
+echo "copy make and info files:"
+for sf in ${sfiles} ; do
+  [ -z "${sf}" ] && continue
+  if [ -d "${sf}" ] && [ ! -h "${sf}" ] ; then
+    echo  "  * rm -rf ${sf}"
+    [ "${mode}" != "test" ] && rm -rf ${sf}
+  else
+    echo  "  * rm -f ${sf}"
+    [ "${mode}" != "test" ] && rm -f ${sf}
+  fi  
+  echo  "  * ${CP} ./ADDONS/CHANGES/${sf} ${sf}"
+  [ "${mode}" != "test" ] && ${CP} ./ADDONS/CHANGES/${sf} ${sf}
+done
+
+## echo "setup Makefile"
+## echo  "  * rm -f Makefile"
+## [ "${mode}" != "test" ] && rm -f Makefile
+## echo  "  * cp ./ADDONS/CHANGES/Makefile.default Makefile"
+## [ "${mode}" = "force" ] && cp ./ADDONS/CHANGES/Makefile.default Makefile
+
+case "${BASEVER}" in
+  linux-2.6.*) ;;
+  linux-3.*) ;;
+  *) echo ; exit ;;
+esac
+
+echo "setup logo:"
+echo  "  * rm -rf ./drivers/video/logo"
+[ "${mode}" = "force" ] && rm -rf ./drivers/video/logo 
+echo  "  * ${CP} ./ADDONS/CHANGES/drivers/video/logo ./drivers/video/"
+[ "${mode}" = "force" ] && ${CP} ./ADDONS/CHANGES/drivers/video/logo ./drivers/video/
+echo 
+
+if [ "${mode}" = "force" ] ; then
+  echo "setup ownership & filemodes ..."
+  chown -R root:root ${THSDIR}
+  chmod -R g+w,o-w ${THSDIR}
+fi
+echo 
+ 
