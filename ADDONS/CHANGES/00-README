@@ -32,6 +32,8 @@
 #     git push origin v3.3.2-ths
 #     git commit -m "updated v3.3.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added config to v3.3.2-ths
+#   - setup & build kernel 3.3.2-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - patch kernel
 #     BASEVER=linux-3.3.2-ths ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.3.2-ths ADDONS/tools/patch-kernel --patch ths
