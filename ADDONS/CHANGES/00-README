@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.2.15-ths
 # created : 11/10/05
-# changed : 12/04/14
+# changed : 12/04/15
 #
 # TODO:
 #   * ubuntu
@@ -24,6 +24,14 @@
 #   - setup & build kernel 3.2.15-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.2.15-ths-x86_64-k8-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #
+#  12/04/15
+#   - update tree v3.2.15-ths
+#     git push origin v3.2.15-ths
+#     git commit -m "updated v3.2.15-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - add config tp v3.2.15-ths
+#   - removed 3.3 configs (no use here)
+#   - setup & build kernel 3.2.15-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #  12/04/14
 #   - update tree v3.2.15-ths
 #     git push origin v3.2.15-ths
