@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.3.2-ths
 # created : 12/03/19
-# changed : 12/04/15
+# changed : 12/04/18
 #
 # TODO:
 #   * ubuntu
@@ -27,6 +27,29 @@
 #   - setup and build kernel config-3.3.2-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #   - setup and build kernel config-3.3.2-ths-arm-smp using crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/04/18
+#   - updated v3.3.2-ths
+#     git push origin v3.3.2-ths
+#     git commit -m "updated v3.3.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added/updated arm patches
+#   - added/updated arm configs
+#   - setup for arm
+#     BASEVER=linux-3.3.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     onARM=yes BASEVER=linux-3.3.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.3.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.3.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.3.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#  12/04/17
+#   - working on arm patches
+#  12/04/16
+#   - added/updated arm patches
+#   - added/updated arm configs
+#   - THS-RELEASE 3.3.2-mmxii-iv-xvi
+#   - updated Makefile.addons for arm -> final patch
+#   - added arch linux patch tree (patch kernel, PATCHES)
+#   - updated configs for 3.2
+#   - added genpatches-3.3-2
 #  12/04/15
 #   - updated from patched tree : v3.3.2-ths
 #     git push origin v3.3.2-ths

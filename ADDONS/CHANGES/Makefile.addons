@@ -182,6 +182,27 @@ ifdef CONFIG_GENERIC_CPU
 CPU_TYPE=-generic
 endif
 
+# arch platforms
+ifdef ARCH_OMAP
+CPU_TYPE=-omap
+endif
+# arch platforms
+ifdef ARCH_OMAP1
+CPU_TYPE=-omap1
+endif
+ifdef ARCH_OMAP2PLUS
+CPU_TYPE=-omap2plus
+endif
+ifdef ARCH_OMAP2
+CPU_TYPE=-omap2
+endif
+ifdef ARCH_OMAP3
+CPU_TYPE=-omap3
+endif
+ifdef ARCH_OMAP4
+CPU_TYPE=-omap4
+endif
+
 # Test for Highmem support
 ifdef CONFIG_HIGHMEM4G
 HIGHMEMVERSION=-4gb
