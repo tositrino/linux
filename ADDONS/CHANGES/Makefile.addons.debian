@@ -16,6 +16,9 @@ endif
 # Test for cputype
 CPU_TYPE=
 
+# Intel and compatible
+######################
+
 ifdef CONFIG_M386
 CPU_TYPE=-386
 endif
@@ -170,13 +173,33 @@ ifdef CONFIG_PPC64
 CPU_TYPE=-ppc64
 endif
 ## Playstation 3 special
-isPS3=$(shell ./ADDONS?tools/checkps3 )
+isPS3=$(shell ./ADDONS/tools/checkps3 )
 ifeq ("$(isPS3)","PS3")
   SMPVERSION=-ps3
 endif
 
 ifdef CONFIG_GENERIC_CPU
 CPU_TYPE=-generic
+endif
+
+# arch platforms
+ifdef CONFIG_ARCH_OMAP
+CPU_TYPE=-omap
+endif
+ifdef CONFIG_ARCH_OMAP1
+CPU_TYPE=-omap1
+endif
+ifdef CONFIG_ARCH_OMAP2PLUS
+CPU_TYPE=-omap2plus
+endif
+ifdef CONFIG_ARCH_OMAP2
+CPU_TYPE=-omap2
+endif
+ifdef CONFIG_ARCH_OMAP3
+CPU_TYPE=-omap3
+endif
+ifdef CONFIG_ARCH_OMAP4
+CPU_TYPE=-omap4
 endif
 
 # Test for Highmem support

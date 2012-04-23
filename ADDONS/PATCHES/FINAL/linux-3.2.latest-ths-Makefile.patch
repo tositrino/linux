@@ -61,8 +61,8 @@ diff -Naur org/Makefile ths/Makefile
  # Directories & files removed with 'make mrproper'
 diff -Naur org/Makefile.addons ths/Makefile.addons
 --- org/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ ths/Makefile.addons	2011-12-27 17:14:50.000000000 +0100
-@@ -0,0 +1,211 @@
++++ ths/Makefile.addons	2012-04-19 17:14:50.000000000 +0100
+@@ -0,0 +1,232 @@
 +###
 +### extra version infomation addons
 +###
@@ -245,6 +245,27 @@ diff -Naur org/Makefile.addons ths/Makefile.addons
 +
 +ifdef CONFIG_GENERIC_CPU
 +CPU_TYPE=-generic
++endif
++
++# arch platforms
++ifdef CONFIG_ARCH_OMAP
++CPU_TYPE=-omap
++endif
++
++ifdef CONFIG_ARCH_OMAP1
++CPU_TYPE=-omap1
++endif
++ifdef CONFIG_ARCH_OMAP2PLUS
++CPU_TYPE=-omap2plus
++endif
++ifdef CONFIG_ARCH_OMAP2
++CPU_TYPE=-omap2
++endif
++ifdef CONFIG_ARCH_OMAP3
++CPU_TYPE=-omap3
++endif
++ifdef CONFIG_ARCH_OMAP4
++CPU_TYPE=-omap4
 +endif
 +
 +# Test for Highmem support
