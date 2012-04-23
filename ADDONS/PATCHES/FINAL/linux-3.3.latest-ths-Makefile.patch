@@ -248,23 +248,23 @@ diff -Naur linux-3.3.2-org/Makefile.addons linux-3.3.2-ths/Makefile.addons
 +endif
 +
 +# arch platforms
-+ifdef ARCH_OMAP
++ifdef CONFIG_ARCH_OMAP
 +CPU_TYPE=-omap
 +endif
-+# arch platforms
-+ifdef ARCH_OMAP1
++
++ifdef CONFIG_ARCH_OMAP1
 +CPU_TYPE=-omap1
 +endif
-+ifdef ARCH_OMAP2PLUS
++ifdef CONFIG_ARCH_OMAP2PLUS
 +CPU_TYPE=-omap2plus
 +endif
-+ifdef ARCH_OMAP2
++ifdef CONFIG_ARCH_OMAP2
 +CPU_TYPE=-omap2
 +endif
-+ifdef ARCH_OMAP3
++ifdef CONFIG_ARCH_OMAP3
 +CPU_TYPE=-omap3
 +endif
-+ifdef ARCH_OMAP4
++ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
 +endif
 +
