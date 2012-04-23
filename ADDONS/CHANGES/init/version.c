@@ -31,7 +31,7 @@
  * 
  */
  
-#define THS_RELEASE          "mmxii-iii-xxx"
+#define THS_RELEASE          "mmxii-iv-xxiii"
 #define __CBANNER_DEFAULT__  0x00
 #define __CBANNER_LOGO__     0x08
 #define __CBANNER_TEXT__     0x09
