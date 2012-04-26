@@ -33,6 +33,11 @@
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
 #   - setup & build kernel 3.3.3-ths-x86_64-core2-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#     BASEVER=linux-3.3.3-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.3.3-ths ADDONS/tools/patch-kernel --patch ths
+#     onARM=yes BASEVER=linux-3.3.3-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.3.3-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.3.3-ths ADDONS/tools/patch-kernel --patch gentoo
 #   - cleanup
 #   - rename ti-connectivity fw patch to linux-firmware-ti-connectivity.patch
 #   - added linux-firmware-libertas.patch
