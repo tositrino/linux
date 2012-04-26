@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.2.16-ths
 # created : 11/10/05
-# changed : 12/04/23
+# changed : 12/04/26
 #
 # TODO:
 #   * ubuntu
@@ -17,7 +17,7 @@
 #   * gentoo-x86_32
 #   - setup & build kernel 3.2.16-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.2.16-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.2.16-ths-x86_64-core2-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.2.16-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
 #   - setup & build kernel 3.2.16-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
@@ -27,6 +27,17 @@
 #   - setup & build kernel 3.2.16-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #   - setup & build kernel 3.2.16-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/04/26
+#   - updated branch v3.2.16-ths
+#     git push origin v3.2.16-ths
+#     git commit -m "updated v3.2.16-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.2.16-ths-x86_64-core2-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - cleanup
+#  12/04/24
+#   - rename ti-connectivity fw patch to linux-firmware-ti-connectivity.patch
+#   - added linux-firmware-libertas.patch
 #  12/04/23
 #   - commit and push new branch
 #     git push origin v3.2.16-ths

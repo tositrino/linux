@@ -186,6 +186,7 @@ endif
 ifdef CONFIG_ARCH_OMAP
 CPU_TYPE=-omap
 endif
+
 ifdef CONFIG_ARCH_OMAP1
 CPU_TYPE=-omap1
 endif
