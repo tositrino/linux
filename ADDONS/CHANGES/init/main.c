@@ -476,7 +476,7 @@ static void cbanner_display( void )
     if (cbanner_bcolor) vc_cons[0].d->vc_attr = cbanner_bcolor;
     printk("\n%s\n",cbanner_data[cc]);
     if (cbanner_tcolor) vc_cons[0].d->vc_attr = cbanner_tcolor;
-    printk("%s\n",cbanner_data[cc+1]);
+    //printk("%s\n",cbanner_data[cc+1]);
     printk("%s\n",linux_banner);
     printk("Kernel command line%s\n\n", saved_command_line);
     vc_cons[0].d->vc_attr = vc;
