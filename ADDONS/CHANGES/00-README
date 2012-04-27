@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.2.16-ths
 # created : 11/10/05
-# changed : 12/04/26
+# changed : 12/04/27
 #
 # TODO:
 #   * ubuntu
@@ -27,6 +27,13 @@
 #   - setup & build kernel 3.2.16-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #   - setup & build kernel 3.2.16-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/04/27
+#   - updated branch v3.2.16-ths
+#     git push origin v3.2.16-ths
+#     git commit -m "updated v3.2.16-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.2.16-ths-x86_64-k8-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #  12/04/26
 #   - updated branch v3.2.16-ths
 #     git push origin v3.2.16-ths
