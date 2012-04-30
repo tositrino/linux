@@ -31,6 +31,8 @@
 #     git push origin v3.3.4-ths
 #     git commit -m "updated v3.3.4-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added genpatches-3.3-4
+#   - updated init patch
 #   - updated configs
 #     BASEVER=linux-3.3.4-ths ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.3.4-ths ADDONS/tools/patch-kernel --patch ths
