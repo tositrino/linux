@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.0-rc5-ths
 # created : 12/04/30
-# changed : 12/04/30
+# changed : 12/05/07
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,19 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.0-rc5-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/05/07
+#   - updated branch v3.4.0-rc5-ths
+#     git push origin v3.4.0-rc5-ths
+#     git commit -m "updated v3.4.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  12/05/02
+#   - updated configs
+#     onARM=yes BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     onARM=yes BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     onARM=yes BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     onARM=yes BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     onARM=yes BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#   - setup & build kernel 3.4.0-rc5-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #  12/04/30
 #   - updated branch v3.4.0-rc5-ths
 #     git push origin v3.4.0-rc5-ths
@@ -36,7 +49,7 @@
 #     BASEVER=linux-3.4.0-rc5-ths ADDONS/tools/patch-kernel --patch ths
 #     onARM=yes BASEVER=linux-3.4.0-rc5-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.4.0-rc5-ths ADDONS/tools/patch-kernel --patch arch
-#     BASEVER=linux-3.4.0-rc5-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.4.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
 #   - setup & build kernel 3.4.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.4.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - commit and push new branch
@@ -47,7 +60,6 @@
 #   - THS-RELEASE 3.4.0-rc5-mmxii-iv-xxx
 #   - updated init patch
 #   - updated patches
-
 #   - updated tools
 #   - added ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - create new branch from v3.4.0-rc5
