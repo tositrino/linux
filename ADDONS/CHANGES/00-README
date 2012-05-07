@@ -31,7 +31,8 @@
 #     git push origin v3.4.0-rc6-ths
 #     git commit -m "updated v3.4.0-rc6-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs
+#   - updated files
+#   - tested patches
 #     BASEVER=linux-3.4.0-rc6-ths ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.4.0-rc6-ths ADDONS/tools/patch-kernel --patch ths
 #     onARM=yes BASEVER=linux-3.4.0-rc6-ths ADDONS/tools/patch-kernel --patch arm
