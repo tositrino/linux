@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.0-rc6-ths
 # created : 12/04/30
-# changed : 12/05/09
+# changed : 12/05/10
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,9 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.0-rc6-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/05/10
+#   - updated branch v3.4.0-rc6-ths
+#   - added 3.3.5 configs 
 #  12/05/09
 #   - updated branch v3.4.0-rc6-ths
 #     git push origin v3.4.0-rc6-ths
