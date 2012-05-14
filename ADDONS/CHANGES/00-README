@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.3.5-ths
 # created : 12/03/19
-# changed : 12/05/10
+# changed : 12/05/14
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,13 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.3.5-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/05/14
+#   - updated branch v3.3.5-ths
+#     git push origin v3.3.5-ths
+#     git commit -m "updated v3.3.5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added genpatches-3.3-6
+#   - added test config for overo 
 #  12/05/10
 #   - updated branch v3.3.5-ths
 #     git push origin v3.3.5-ths
