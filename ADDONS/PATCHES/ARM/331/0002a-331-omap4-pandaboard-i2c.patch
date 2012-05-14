@@ -1,0 +1,13 @@
+diff -Naur linux-3.3.1-org/arch/arm/mach-omap2/omap_hwmod_44xx_data.c linux-3.3.1-ths/arch/arm/mach-omap2/omap_hwmod_44xx_data.c
+--- linux-3.3.1-org/arch/arm/mach-omap2/omap_hwmod_44xx_data.c	2012-03-30 11:21:08.000000000 +0200
++++ linux-3.3.1-ths/arch/arm/mach-omap2/omap_hwmod_44xx_data.c	2012-04-12 12:05:00.000000000 +0200
+@@ -2262,7 +2262,8 @@
+ };
+ 
+ static struct omap_i2c_dev_attr i2c_dev_attr = {
+-	.flags	= OMAP_I2C_FLAG_BUS_SHIFT_NONE,
++	.flags	= OMAP_I2C_FLAG_BUS_SHIFT_NONE |
++			OMAP_I2C_FLAG_RESET_REGS_POSTIDLE,
+ };
+ 
+ /* i2c1 */
