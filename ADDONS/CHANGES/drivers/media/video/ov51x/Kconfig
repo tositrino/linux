@@ -1,0 +1,7 @@
+config VIDEO_OV51X
+	tristate "OV51X/Eyetoy sensor support"
+	depends on VIDEO_V4L2
+	---help---
+	  This is a Video4Linux2 sensor-level driver for ov51x / eyetoy 
+	  camera
+
