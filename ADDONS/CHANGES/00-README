@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.0-rc7-ths
 # created : 12/04/30
-# changed : 12/05/14
+# changed : 12/05/15
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,8 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.0-rc7-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/05/15
+#   - updated linux-3.4-firmware-ti-connectivity.patch (new firmware)
 #  12/05/14
 #   - updated branch v3.4.0-rc7-ths
 #     git push origin v3.4.0-rc7-ths
