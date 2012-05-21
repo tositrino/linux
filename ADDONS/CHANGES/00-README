@@ -36,8 +36,8 @@
 #   - setup & build kernel 3.4.0-rc7-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #   - patch kernel (arm)
 #     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
-#     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
 #     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
 #     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
 #     onARM=yes BASEVER=linux-3.2.18-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
 #   - updated branch v3.2.18-ths
@@ -49,8 +49,8 @@
 #   - setup & build kernel 3.2.18-ths-x86_64-k8-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel (standard)
 #     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch final
-#     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch arch
 #     BASEVER=linux-3.2.18-ths ADDONS/tools/patch-kernel --patch gentoo
 #   - commit and push new branch
