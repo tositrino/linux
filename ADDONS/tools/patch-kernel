@@ -13,7 +13,7 @@ PS3=`cat /proc/cpuinfo 2>&1 | grep PS3 | awk '$1 == "platform" || $1 == "machine
 ARM=`cat /proc/cpuinfo 2>&1 | grep ARM | awk '$1 == "Processor" { print $3 }' | tr -d [:space:]`
 
 [ -z "${onPS3}" ] && onPS3="${PS3}"
-[ -z "${onARM}" ] && onARM="${PS3}"
+[ -z "${onARM}" ] && onARM="${ARM}"
 
 p_arch=""
 p_arm=""
@@ -50,11 +50,12 @@ for arg in $@ ; do
               p_kernel="enabled"
               p_arch="enabled"
               p_final="enabled"
-              [ -n "${onARM}" ] && p_arm="enabled"
+              ##[ -n "${onARM}" ] && p_arm="enabled"
+              p_arm="enabled"
               [ -n "${onPS3}" ] && p_ps3="enabled"
               ;;
-    arch)     p_arch="enabled"                                     ;;
-    arm)      [ -n "${onARM}" ] && p_arm="enabled"                   ;;
+    arch)     p_arch="enabled"                                       ;;
+    arm)      p_arm="enabled"                                        ;;
     final)    p_final="enabled"                                      ;;
     gentoo)   p_gentoo="enabled"                                     ;;
     kernel)   p_kernel="enabled"                                     ;;
