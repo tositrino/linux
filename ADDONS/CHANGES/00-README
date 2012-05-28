@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.0-ths
 # created : 12/04/30
-# changed : 12/05/21
+# changed : 12/05/28
 #
 # TODO:
 #   * ubuntu
@@ -26,12 +26,22 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.0-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/05/28
+#   - cleanup
+#   - updated branch v3.4.0-ths
+#     git push origin v3.4.0-ths
+#     git commit -m "updated v3.4.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added genpatches-3.4-1
+#   - updated configs
+#  12/05/25
+#   - setup & build kernel 3.4.0-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
+#   - added arm patches
 #  12/05/21
 #   - updated branch v3.4.0-ths
 #     git push origin v3.4.0-ths
 #     git commit -m "updated v3.4.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - added genpatches-3.3-5
 #   - updated init patch
 #   - updated configs
 #   - updated 3.3.6 configs
