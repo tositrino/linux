@@ -54,8 +54,8 @@ for arg in $@ ; do
               p_arm="enabled"
               [ -n "${onPS3}" ] && p_ps3="enabled"
               ;;
-    arch)     p_arch="enabled"                                     ;;
-    arm)      [ -n "${onARM}" ] && p_arm="enabled"                   ;;
+    arch)     p_arch="enabled"                                       ;;
+    arm)      p_arm="enabled"                                        ;;
     final)    p_final="enabled"                                      ;;
     gentoo)   p_gentoo="enabled"                                     ;;
     kernel)   p_kernel="enabled"                                     ;;
