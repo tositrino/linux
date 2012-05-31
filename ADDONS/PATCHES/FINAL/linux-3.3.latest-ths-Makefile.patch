@@ -3,7 +3,7 @@ diff -Naur linux-3.3.2-org/Makefile linux-3.3.2-ths/Makefile
 +++ linux-3.3.2-ths/Makefile	2012-04-15 09:41:24.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 3
- SUBLEVEL = 6
+ SUBLEVEL = 7
  EXTRAVERSION =
 -NAME = Saber-toothed Squirrel
 +NAME = Odonata Draconis
