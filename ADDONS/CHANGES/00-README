@@ -32,7 +32,7 @@
 #     git commit -m "updated v3.3.8-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated init patch
-#   - updated configs
+#   - updated configs (3.2/3.3)
 #   - setup & build kernel 3.3.8-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #   - setup & build kernel 3.3.8-ths-x86_64-core2-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.3.8-ths-x86_64-k8-smp-desktop using gcc-4.7.0 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
