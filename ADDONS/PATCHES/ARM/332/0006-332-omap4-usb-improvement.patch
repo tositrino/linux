@@ -1,0 +1,62 @@
+diff -Naur linux-3.3.2-org/drivers/usb/host/ehci.h linux-3.3.2-ths/drivers/usb/host/ehci.h
+--- linux-3.3.2-org/drivers/usb/host/ehci.h	2012-01-15 15:52:30.000000000 +0100
++++ linux-3.3.2-ths/drivers/usb/host/ehci.h	2012-04-16 12:10:23.000000000 +0200
+@@ -762,6 +762,23 @@
+ 
+ #endif
+ 
++/*
++ * Writing to dma coherent memory on ARM may be delayed via L2
++ * writing buffer, so introduce the helper which can flush L2 writing
++ * buffer into memory immediately, especially used to flush ehci
++ * descriptor to memory.
++ */
++#ifdef	CONFIG_ARM_DMA_MEM_BUFFERABLE
++static inline void ehci_sync_mem()
++{
++	mb();
++}
++#else
++static inline void ehci_sync_mem()
++{
++}
++#endif
++
+ /*-------------------------------------------------------------------------*/
+ 
+ #ifndef DEBUG
+diff -Naur linux-3.3.2-org/drivers/usb/host/ehci-q.c linux-3.3.2-ths/drivers/usb/host/ehci-q.c
+--- linux-3.3.2-org/drivers/usb/host/ehci-q.c	2012-04-15 10:38:11.000000000 +0200
++++ linux-3.3.2-ths/drivers/usb/host/ehci-q.c	2012-04-16 12:10:23.000000000 +0200
+@@ -1004,6 +1004,12 @@
+ 	head->qh_next.qh = qh;
+ 	head->hw->hw_next = dma;
+ 
++	/*
++	 * flush qh descriptor into memory immediately,
++	 * see comments in qh_append_tds.
++	 */
++	ehci_sync_mem();
++
+ 	qh_get(qh);
+ 	qh->xacterrs = 0;
+ 	qh->qh_state = QH_STATE_LINKED;
+@@ -1091,6 +1097,18 @@
+ 			wmb ();
+ 			dummy->hw_token = token;
+ 
++			/*
++			 * Writing to dma coherent buffer on ARM may
++			 * be delayed to reach memory, so HC may not see
++			 * hw_token of dummy qtd in time, which can cause
++			 * the qtd transaction to be executed very late,
++			 * and degrade performance a lot. ehci_sync_mem
++			 * is added to flush 'token' immediatelly into
++			 * memory, so that ehci can execute the transaction
++			 * ASAP.
++			 */
++			ehci_sync_mem();
++
+ 			urb->hcpriv = qh_get (qh);
+ 		}
+ 	}
