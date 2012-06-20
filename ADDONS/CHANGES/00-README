@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.2-ths
 # created : 12/04/30
-# changed : 12/06/15
+# changed : 12/06/20
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,19 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/06/20
+#   - updated master branch
+#     git push -f origin master
+#     git checkout -b master v3.4.2-ths
+#     git branch -D master
+#   - updated branch v3.4.2-ths
+#     git push origin v3.4.2-ths
+#     git commit -m "updated v3.4.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated init patch
+#   - updated configs
+#   - setup & build kernel 3.4.2-ths-arm-smp using gcc-4.6.2/crossdev target armv7a-softfloat-linux-gnueabi
+#   - removed x32 support from the-hive kernel config -> needed for amd/ati driver support
 #  12/06/15
 #   - updated master branch
 #     git push -f origin master
