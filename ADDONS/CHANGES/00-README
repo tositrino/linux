@@ -41,6 +41,8 @@
 #     BASEVER=linux-3.2.21-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.2.21-ths ADDONS/tools/patch-kernel --patch arch
 #     BASEVER=linux-3.2.21-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - created / added e-con com32 patch for overo boards
+#     linux-3.2-ecam32-overo.patch
 #   - commit and push new branch
 #     git push origin v3.2.21-ths
 #     git commit -m "created v3.2.21-ths"
