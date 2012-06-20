@@ -1,0 +1,2 @@
+#!/bin/sh
+./ADDONS/tools/armmake && ./ADDONS/tools/armmake modules_install && ./ADDONS/tools/armmake firmware_install && ./ADDONS/tools/armmake uImage

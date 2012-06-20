@@ -1,0 +1,13 @@
+# notes
+
+arm:
+
+  modules that don't compile:
+
+    drivers/net/ethernet - faraday devices
+    drivers/net/ethernet - STMicroelectronics devices
+    drivers/net/ethernet - TI devices (need davinci arch)
+
+    cpufreq/arm/*
+
+  modules that need to be compiled in
