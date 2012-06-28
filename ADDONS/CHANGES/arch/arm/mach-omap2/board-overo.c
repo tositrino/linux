@@ -46,7 +46,7 @@
 #include "common.h"
 #include <video/omapdss.h>
 #include <video/omap-panel-generic-dpi.h>
-#include <video/omap-panel-dvi.h>
+#include <video/omap-panel-tfp410.h>
 #include <plat/gpmc.h>
 #include <mach/hardware.h>
 #include <plat/nand.h>
@@ -167,32 +167,15 @@ static void __init overo_display_init(void)
 	gpio_export(OVERO_GPIO_LCD_BL, 0);
 }
 
-static int overo_panel_enable_dvi(struct omap_dss_device *dssdev)
-{
-	if (lcd_enabled) {
-		printk(KERN_ERR "cannot enable DVI, LCD is enabled\n");
-		return -EINVAL;
-	}
-	dvi_enabled = 1;
-
-	return 0;
-}
-
-static void overo_panel_disable_dvi(struct omap_dss_device *dssdev)
-{
-	dvi_enabled = 0;
-}
-
-static struct panel_dvi_platform_data dvi_panel = {
-	.platform_enable	= overo_panel_enable_dvi,
-	.platform_disable	= overo_panel_disable_dvi,
+static struct tfp410_platform_data dvi_panel = {
 	.i2c_bus_num		= 3,
+	.power_down_gpio	= -1,
 };
 
 static struct omap_dss_device overo_dvi_device = {
 	.name			= "dvi",
 	.type			= OMAP_DISPLAY_TYPE_DPI,
-	.driver_name		= "dvi",
+	.driver_name		= "tfp410",
 	.data			= &dvi_panel,
 	.phy.dpi.data_lines	= 24,
 };
@@ -442,22 +425,6 @@ static struct twl4030_platform_data overo_twldata = {
 	.vmmc1		= &overo_vmmc1,
 };
 
-#define LM3553_SLAVE_ADDRESS   0x53
-#define OV3640_I2C_ADDR        (0x78 >> 1)
-int omap3evm_ov3640_platform_data;
-int lm3553_platform_data;
-
-static struct i2c_board_info __initdata omap3_i2c_boardinfo_3[] = {
-  {
-    I2C_BOARD_INFO("ov3640", OV3640_I2C_ADDR),
-    .platform_data = &omap3evm_ov3640_platform_data,
-  },
-  {
-    I2C_BOARD_INFO("lm3553",LM3553_SLAVE_ADDRESS),
-    .platform_data = &lm3553_platform_data,
-  },
-};
-
 static int __init overo_i2c_init(void)
 {
 	omap3_pmic_get_config(&overo_twldata,
@@ -469,7 +436,6 @@ static int __init overo_i2c_init(void)
 	omap3_pmic_init("tps65950", &overo_twldata);
 	/* i2c2 pins are used for gpio */
 	omap_register_i2c_bus(3, 400, NULL, 0);
-	omap_register_i2c_bus(3, 400, omap3_i2c_boardinfo_3, ARRAY_SIZE(omap3_i2c_boardinfo_3));
 	return 0;
 }
 
@@ -588,6 +554,7 @@ MACHINE_START(OVERO, "Gumstix Overo")
 	.init_irq	= omap3_init_irq,
 	.handle_irq	= omap3_intc_handle_irq,
 	.init_machine	= overo_init,
+	.init_late	= omap35xx_init_late,
 	.timer		= &omap3_timer,
 	.restart	= omap_prcm_restart,
 MACHINE_END
