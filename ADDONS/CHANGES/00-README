@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.5.0-rc6-ths
 # created : 12/06/24
-# changed : 12/07/09
+# changed : 12/07/10
 #
 # TODO:
 #   * ubuntu
@@ -26,12 +26,13 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.5.0-rc6-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/07/09
+#  12/07/10
 #   - updated branch v3.5.0-rc6-ths
 #     git push origin v3.5.0-rc6-ths
 #     git commit -m "updated v3.5.0-rc6-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
+#  12/07/09
 #   - setup & build kernel 3.5.0-rc6-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch ths
