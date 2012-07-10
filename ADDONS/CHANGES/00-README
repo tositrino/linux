@@ -48,6 +48,8 @@
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.4.4-mmxii-vii-x
 #   - updated version (init patch)
+#   - created/added patch
+#     ARM/linux-3.4-ecam32-v4l.patch
 #   - udated/enabled patches:
 #     ARM/linux-3.4-ecam32-overo.patch
 #     ARMlinux-3.4-firmware-ti-connectivity.patch
