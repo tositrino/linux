@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.4-ths
 # created : 12/04/30
-# changed : 12/07/10
+# changed : 12/07/13
 #
 # TODO:
 #   * ubuntu
@@ -26,6 +26,26 @@
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.4.4-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/07/13
+#   - updated master branch
+#     git push -f origin master
+#     git checkout -b master v3.4.4-ths
+#     git branch -D master
+#   - updated branch v3.4.4-ths
+#     git push origin v3.4.4-ths
+#     git commit -m "updated v3.4.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#  12/07/12
+#   - setup & build kernel 3.4.4-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - updated patch
+#     linux-3.4-ecam32-v4l.patch (linux version request for gpio_set/get should be 3.2,not 3.4)
+#  12/07/11
+#   - created/added patch for otg on overo
+#     linux-3.4-overo-musb.patch
+#   - renamed patch
+#     linux-3.4-ecam32-overo.patch -> linux-3.4-overo-ecam32.patch
+#   - changed config (modular omap3isp to avoid conflict with ecm32 driver)
 #  12/07/10
 #   - updated master branch
 #     git push -f origin master

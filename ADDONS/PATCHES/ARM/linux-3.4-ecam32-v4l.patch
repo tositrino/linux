@@ -746,7 +746,7 @@ diff -Naur linux-org/drivers/media/video/ecam32/inc_header.h linux-ths/drivers/m
 +#include <media/v4l2-dev.h>
 +#include <mach/gpio.h>
 +
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
 +
 +#ifndef gpio_get_value
 +#define gpio_get_value    __gpio_get_value
