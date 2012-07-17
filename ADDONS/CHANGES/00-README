@@ -1,0 +1,174 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 2.6.34.12-ths
+# created : 10/05/17
+# changed : 12/07/17
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 2.6.34.12-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 2.6.34.12-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 2.6.34.12-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 2.6.34.12--ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  12/07/17
+#   - updated branch v2.6.34.12-ths
+#     git push origin v2.6.34.12-ths
+#     git commit -m "updated v2.6.34.12-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 2.6.34.12-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#  12/07/16
+#     BASEVER=linux-2.6.34-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-2.6.34-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-2.6.34-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-2.6.34-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-2.6.34-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#  12/07/13
+#   - commit and push new branch
+#     git push origin v2.6.34.12-ths
+#     git commit -m "created v2.6.34.12-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 2.6.34.12-mmxii-vii-xvii
+#   - udated/enabled patches:
+#     linux-3.4-ecam32-v4l.patch
+#     linux-3.4-firmware-libertas.patch
+#     linux-3.4-firmware-ti-connectivity.patch
+#     linux-3.4-overo-ecam32.patch
+#     linux-3.4-overo-musb.patch
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     merged v3.4.4-ths (manually)
+#   - create new branch from v2.6.34.12
+#     git checkout -b v2.6.34.12-ths v2.6.34.12
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#   - switched to git
+#
+#
+# 10/09/19
+#   - THS-RELEASE 2.6.34.7 mmx-ix-xix
+#   - added genpatches-2.6.34-12
+#   - update to kernel 2.6.34.7
+# 10/08/28
+#   - THS-RELEASE 2.6.34.6 mmx-viii-xxviii
+#   - added genpatches-2.6.34-9
+#   - update to kernel 2.6.34.6
+# 10/08/25
+#   - setup & build kernel 2.6.34.5-id-x86_64-k8-smp-desktop using gcc-4.4.4 on gentoo-x86_64 (borgravia, AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
+#   - added genpatches-2.6.34-8
+#   - THS-RELEASE 2.6.34.5 mmx-viii-xxv
+#   - update to kernel 2.6.34.5
+# 10/08/17
+#   - added genpatches-2.6.34-7
+#   - THS-RELEASE 2.6.34.4 mmx-viii-xvii
+#   - update to kernel 2.6.34.4
+# 10/07/15
+#   - finished setup & build kernel 2.6.34.1-id-powerpc-6xx-desktop using gcc-4.4.4 on gentoo-ppc (idpbsys01, PowerBook 5.4 / G4 (7447A) 1.5GHz
+# 10/07/14
+#   - continued setup & build kernel 2.6.34.1-id-powerpc-6xx-desktop using gcc-4.4.4 on gentoo-ppc (idpbsys01, PowerBook 5.4 / G4 (7447A) 1.5GHz
+#   - added genpatches-2.6.34-3
+# 10/07/13
+#   - started setup & build kernel 2.6.34.1-id-powerpc-6xx-desktop using gcc-4.4.4 on gentoo-ppc (idpbsys01, PowerBook 5.4 / G4 (7447A) 1.5GHz
+#   - updated Makefile.addons for changed/new powerpc types
+# 10/07/07
+#   - setup & build kernel 2.6.34.1-id-i386-p4-4gb-smp using gcc-4.4.4 on gentoo-x86_32 (vb-gentoo-x32, on Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 2.6.34.1-id-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (idinstall02, Dual Quad-Core AMD Opteron(tm) Processor 2384)
+#   - setup & build kernel 2.6.34.1-id-x86_64-k8-smp using gcc-4.4.4 on gentoo-x86_64 (idgentoo01, AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
+#   - setup & build kernel 2.6.34.1-id-x86_64-core2-smp-desktop using gcc-4.4.4 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 2.6.34.1-id-x86_64-k8-smp-desktop using gcc-4.4.4 on gentoo-x86_64 (borgravia, AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
+#   - THS-RELEASE 2.6.34.1 mmx-vii-vii
+#   - update to kernel 2.6.34.1
+# 10/06/18
+#   - added genpatches-2.6.34-3
+# 10/05/20
+#   - added genpatches-2.6.34-2
+# 10/05/17
+#   - setup & build kernel 2.6.34.0-id-i386-p4-4gb-smp using gcc-4.4.3 on gentoo-x86_32 (vb-gentoo-x32, on Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 2.6.34.0-id-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (idolatc19, Dual Quad-Core AMD Opteron(tm) Processor 2384)
+#   - setup & build kernel 2.6.34.0-id-x86_64-k8-smp using gcc-4.4.3 on gentoo-x86_64 (idgentoo01, AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
+#   - setup & build kernel 2.6.34.0-id-x86_64-core2-smp-desktop using gcc-4.4.3 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 2.6.34.0-id-x86_64-k8-smp-desktop using gcc-4.4.3 on gentoo-x86_64 (borgravia, AMD Athlon(tm) 64 X2 Dual Core Processor 4200+)
+#   - THS-RELEASE 2.6.34.0 mmx-v-xvii
+#   - added MATOM handling in Makefile.addon
+#   - updated patches & tools
+#   - started with kernel 2.6.34.0
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   i386            i486           single       4GB        ny
+#   i386            P3             single       4GB        ny
+#   i386            P3             smp         64GB        ny
+#   i386            P4             single       4GB        ny
+#   i386            P4             smp         64GB        ny
+#   i386            K7             single       4GB        ny
+#   x86_64          K8             single        -         ok
+#   x86_64          K8             smp           -         ok
+#
+#   powerpc/32      6xx            single        -         ok
+#   powerpc/32      6xx            smp           -         ok
+#   powerpc/64      G5             single        -         ny
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    linux-2.6.34-id-init.patch
+#    linux-2.6.34-id-quantis-R333.patch
+#  (final)
+#    linux-2.6.34.6-id-Makefile.patch
+#  (PS3 only)
+#    linux-2.6.34-id-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-2.6.34-12 (without kernel patches, not yet)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver from idquantique
+#   -> linux-2.6.34-id-quantis-RXXX.patch 
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-2.6.34-id-init.patch 
+#
+
+
+
