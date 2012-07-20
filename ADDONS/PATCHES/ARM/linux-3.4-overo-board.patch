@@ -1,6 +1,6 @@
 diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-omap2/board-overo.c
 --- linux-org/arch/arm/mach-omap2/board-overo.c	2012-07-18 18:03:51.000000000 +0200
-+++ linux-ths/arch/arm/mach-omap2/board-overo.c	2012-07-20 10:05:07.952574417 +0200
++++ linux-ths/arch/arm/mach-omap2/board-overo.c	2012-07-20 11:53:20.000000000 +0200
 @@ -19,6 +19,7 @@
   *
   */
@@ -17,7 +17,7 @@ diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-o
  #include <linux/platform_device.h>
  #include <linux/i2c/twl.h>
  #include <linux/regulator/machine.h>
-@@ -442,20 +444,135 @@
+@@ -442,20 +444,134 @@
  	.vmmc1		= &overo_vmmc1,
  };
  
@@ -109,7 +109,6 @@ diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-o
 +
 +
 +// econ ecam32 support
-+#if ( defined(CONFIG_VIDEO_ECAM32_INIT) )
 +
 +#define LM3553_SLAVE_ADDRESS   0x53
 +#define OV3640_I2C_ADDR        (0x78 >> 1)
@@ -163,7 +162,7 @@ diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-o
  static struct spi_board_info overo_spi_board_info[] __initdata = {
  #if defined(CONFIG_PANEL_LGPHILIPS_LB035Q02) || \
  	defined(CONFIG_PANEL_LGPHILIPS_LB035Q02_MODULE)
-@@ -505,6 +622,12 @@
+@@ -505,6 +621,12 @@
  	REGULATOR_SUPPLY("vdd33a", "smsc911x.1"),
  };
  
@@ -176,7 +175,7 @@ diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-o
  static void __init overo_init(void)
  {
  	int ret;
-@@ -519,7 +642,15 @@
+@@ -519,7 +641,15 @@
  				  mt46h32m32lf6_sdrc_params);
  	omap_nand_flash_init(0, overo_nand_partitions,
  			     ARRAY_SIZE(overo_nand_partitions));

@@ -19318,7 +19318,7 @@ diff -Naur linux-org/drivers/media/video/Kconfig linux-ths/drivers/media/video/K
  
 +config VIDEO_MT9V032_INIT
 +	bool "MT9V032 Camera board init"
-+	depends on VIDEO_MT9V032 && CONFIG_BOARD_OVERO && EXPERIMENTAL
++	depends on VIDEO_MT9V032 && MACH_OVERO && EXPERIMENTAL
 +	help
 +	  Enable MT9V032 camera init with board initialization (overo).
 +
