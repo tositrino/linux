@@ -1,10 +1,10 @@
-diff -Naur linux-org/Makefile linux-ths/Makefile
---- linux-org/Makefile	2012-06-25 12:29:47.000000000 +0200
-+++ linux-ths/Makefile	2012-06-25 14:12:29.628120334 +0200
+diff -Nau linux-x/Makefile linux-y/Makefile
+--- linux-x/Makefile	2012-07-23 08:40:59.000000000 +0200
++++ linux-y/Makefile	2012-07-23 08:53:01.506251488 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 5
  SUBLEVEL = 0
- EXTRAVERSION = -rc6
+ EXTRAVERSION =
 -NAME = Saber-toothed Squirrel
 +NAME = Odonata Draconis
  
@@ -58,10 +58,10 @@ diff -Naur linux-org/Makefile linux-ths/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
---- linux-org/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/Makefile.addons	2012-06-25 14:06:43.632120370 +0200
-@@ -0,0 +1,232 @@
+diff -Nau linux-x/Makefile.addons linux-y/Makefile.addons
+--- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons	2012-07-20 10:48:04.000000000 +0200
+@@ -0,0 +1,233 @@
 +###
 +### extra version infomation addons
 +###
@@ -69,6 +69,7 @@ diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
 +CPU_TYPE=
 +SMPVERSION=
 +HIGHMEMVERSION=
++THISARCH=$(ARCH)
 +
 +# Test for SMP
 +ifdef CONFIG_SMP
@@ -288,8 +289,8 @@ diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
 +NAME=Libellula de Tigre
 +LOCALVERSION = -ths
 +
-+ADDON_RELEASE_STR=$(ARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
-+FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(ARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CONFIG_LOCALVERSION)
++ADDON_RELEASE_STR=$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
++FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CONFIG_LOCALVERSION)
 +export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
