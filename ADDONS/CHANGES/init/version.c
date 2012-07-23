@@ -8,7 +8,7 @@
  *  THS changes
  *  -----------
  *
- *  - 12/06/24 kernel-3.5.0-rc4
+ *  - 12/07/23 kernel-3.5.0
  *
  *  - colored banner defines
  *    __CBANNER_DEFAULT__ : define default banner id
@@ -31,7 +31,7 @@
  * 
  */
  
-#define THS_RELEASE          "mmxii-vi-xxiv"
+#define THS_RELEASE          "mmxii-vii-xxiii"
 #define __CBANNER_DEFAULT__  0x00
 #define __CBANNER_LOGO__     0x08
 #define __CBANNER_TEXT__     0x09
@@ -94,7 +94,7 @@ const char *cbanner_data[]  = {
                                 "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8    8       8  8     \n"
                                 "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88    8eea    8 e8     \n"
                                 "  88  88  8 e   88   88   8 88   88   8 88  8     88      88    8 e8     \n"
-                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888 rc4 \n",
+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888     \n",
 
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
@@ -103,7 +103,7 @@ const char *cbanner_data[]  = {
                                 "8eee8e  8    8   8  8   8 8    8         8    8       8  8      odbo     \n"
                                 "88   8  8eee 8eee8e 8e  8 8eee 8e      e88    8eea    8 e8  o88o db o88o \n"
                                 "88   8  88   88   8 88  8 88   88       88      88    8 e8  oo   db   oo \n"
-                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8eee  rc4  db      \n",
+                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8eee       db      \n",
 
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
