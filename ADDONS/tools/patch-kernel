@@ -18,11 +18,13 @@ ARM=`cat /proc/cpuinfo 2>&1 | grep ARM | awk '$1 == "Processor" { print $3 }' | 
 p_arch=""
 p_arm=""
 p_final=""
+p_firmware=""
 p_gentoo=""
 p_last=""
 p_lustre=""
 p_kernel=""
 p_others=""
+p_runtime=""
 p_ps3=""
 p_qlogic=""
 p_ths=""
@@ -40,30 +42,33 @@ errmsg=""
 
 for arg in $@ ; do
   case "${arg}" in 
-    --mode)   mode="help"                                            ;;
-    --patch)  mode="patch"                                           ;;
-    --list)   mode="list"                                            ;;
-    --clean)  cleanup=="enabled"                                     ;;
-    all)      p_ths="enabled" 
-              p_gentoo="enabled"  
-              p_others="enabled"
-              p_kernel="enabled"
-              p_arch="enabled"
-              p_final="enabled"
-              ##[ -n "${onARM}" ] && p_arm="enabled"
-              p_arm="enabled"
-              [ -n "${onPS3}" ] && p_ps3="enabled"
-              ;;
-    arch)     p_arch="enabled"                                       ;;
-    arm)      p_arm="enabled"                                        ;;
-    final)    p_final="enabled"                                      ;;
-    gentoo)   p_gentoo="enabled"                                     ;;
-    kernel)   p_kernel="enabled"                                     ;;
-    lustre)   p_lustre="enabled"                                     ;;
-    others)   p_others="enabled"                                     ;;
-    ps3)      [ -n "${onPS3}" ] && p_ps3="enabled"                   ;;
-    qlogic)   p_qlogic="enabled"                                     ;;
-    ths)      p_ths="enabled"                                        ;;
+    --mode)      mode="help"                                            ;;
+    --patch)     mode="patch"                                           ;;
+    --list)      mode="list"                                            ;;
+    --clean)     cleanup=="enabled"                                     ;;
+    all)         p_ths="enabled" 
+                 p_firmware="enabled"
+                 p_gentoo="enabled"  
+                 p_others="enabled"
+                 p_kernel="enabled"
+                 p_arch="enabled"
+                 p_final="enabled"
+                 ##[ -n "${onARM}" ] && p_arm="enabled"
+                 p_arm="enabled"
+                 [ -n "${onPS3}" ] && p_ps3="enabled"
+                 ;;
+    arch)        p_arch="enabled"                                       ;;
+    arm)         p_arm="enabled"                                        ;;
+    runtime)     p_runtime="enabled"                                   ;;
+    firmware)    p_firmware="enabled"                                   ;;
+    final)       p_final="enabled"                                      ;;
+    gentoo)      p_gentoo="enabled"                                     ;;
+    kernel)      p_kernel="enabled"                                     ;;
+    lustre)      p_lustre="enabled"                                     ;;
+    others)      p_others="enabled"                                     ;;
+    ps3)         [ -n "${onPS3}" ] && p_ps3="enabled"                   ;;
+    qlogic)      p_qlogic="enabled"                                     ;;
+    ths)         p_ths="enabled"                                        ;;
     *)  if [ -n "${arg}" ] ; then
           errmsg="${errmsg}ERROR: invalid argument \"${arg}\"\n"
           error=2 
@@ -77,15 +82,17 @@ echo "patch-kernel: apply THS and gentoo-patches"
 echo "------------------------------------------"
 echo
 
-[ "${p_ps3}"    = "enabled" ] && patchsets="${patchsets}PS3 "
-[ "${p_arm}"    = "enabled" ] && patchsets="${patchsets}ARM "
-[ "${p_ths}"    = "enabled" ] && patchsets="${patchsets}THS "
-[ "${p_kernel}" = "enabled" ] && patchsets="${patchsets}KERNEL "
-[ "${p_gentoo}" = "enabled" ] && patchsets="${patchsets}GENTOO "
-[ "${p_arch}"   = "enabled" ] && patchsets="${patchsets}ARCH "
-[ "${p_others}" = "enabled" ] && patchsets="${patchsets}OTHER "
-[ "${p_lustre}" = "enabled" ] && patchsets="${patchsets}LUSTRE "
-[ "${p_final}"  = "enabled" ] && patchsets="${patchsets}FINAL "
+[ "${p_ps3}"       = "enabled" ] && patchsets="${patchsets}PS3 "
+[ "${p_arm}"       = "enabled" ] && patchsets="${patchsets}ARM "
+[ "${p_ths}"       = "enabled" ] && patchsets="${patchsets}THS "
+[ "${p_kernel}"    = "enabled" ] && patchsets="${patchsets}KERNEL "
+[ "${p_gentoo}"    = "enabled" ] && patchsets="${patchsets}GENTOO "
+[ "${p_arch}"      = "enabled" ] && patchsets="${patchsets}ARCH "
+[ "${p_others}"    = "enabled" ] && patchsets="${patchsets}OTHER "
+[ "${p_lustre}"    = "enabled" ] && patchsets="${patchsets}LUSTRE "
+[ "${p_firmware}"  = "enabled" ] && patchsets="${patchsets}FIRMWARE "
+[ "${p_runtime}"   = "enabled" ] && patchsets="${patchsets}RUNTIME "
+[ "${p_final}"     = "enabled" ] && patchsets="${patchsets}FINAL "
 
 if [ "${p_qlogic}"  = "enabled" ] ; then 
   patchsets="${patchsets}QLOGIC"

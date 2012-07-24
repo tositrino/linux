@@ -221,7 +221,7 @@ diff -Naur linux-3.4.0-rc5-org/init/version.c linux-3.4.0-rc5-ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 12/07/20 kernel-3.4.6
++ *  - 12/07/24 kernel-3.4.6
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-3.4.0-rc5-org/init/version.c linux-3.4.0-rc5-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxii-vii-xx"
++#define THS_RELEASE          "mmxii-vii-xxiv"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
