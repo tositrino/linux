@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.6-ths
 # created : 12/04/30
-# changed : 12/07/24
+# changed : 12/07/26
 #
 # TODO:
 #   * ubuntu
@@ -27,6 +27,27 @@
 #   - setup & build kernel 3.4.6-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.4.6-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/07/26
+#   - updated branch v3.4.6-ths
+#     git push origin v3.4.6-ths
+#     git commit -m "updated v3.4.6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.4.6-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - enabled testing patches
+#     v6: omapdss-hdmi-dc-01-rem-asoc-codec.patch
+#     v6: omapdss-hdmi-dc-02-omap4-re~cea861-iec60958-enums.patch
+#     v6: omapdss-hdmi-dc-03-omap4-i2S-typo.patch
+#     v6: omapdss-hdmi-dc-04-omap4-decouple-wrapper.patch
+#     v6: omapdss-hdmi-dc-05-decouple-hdmi-asoc.patch
+#     v6: omapdss-hdmi-dc-06-omap4-iec60658-config.patch
+#     v6: omapdss-hdmi-dc-07-relocate-ncts-calc.patch
+#     v6: omapdss-hdmi-dc-08-add-sample-rates.patch
+#     v6: omapdss-hdmi-dc-09-omap4-audiocfg.patch
+#     v6: omapdss-hdmi-dc-10-dss-audio-driver-interface.patch
+#   - created/added patch(es)
+#     v6: linux-3.4-ths-setlocalversion.patch
+#     v5: linux-3.4-tcm_usb_gadget.patch
 #  12/07/24
 #   - updated branch v3.4.6-ths
 #     git push origin v3.4.6-ths
@@ -543,11 +564,9 @@
 #   - hacked in special kernel logos
 #   - symlinked to favourite logo 
 #
-# ./driver/media/ov51x
-# ./drivers/misc/Kconfig
-# ./drivers/misc/Makefile
-#   -  added ov51x-jpeg v1.5.9 driver for eyetoy camera support
-#   -> THS/linux-3.4-ths-ov51x.patch
+# ./scripts/setlocalversion
+#   - changes LOCALVERSION/CONFIG_LOCALVERSION order for kernelversion
+#   -> THS/linux-3.4-ths-setlocalversion.patch
 #
 # ./drivers/misc/quantis_pci
 # ./drivers/misc/Kconfig
