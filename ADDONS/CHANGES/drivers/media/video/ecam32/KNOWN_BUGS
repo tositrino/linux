@@ -1,0 +1,68 @@
+					BUGS AVAILABLE
+					##############
+
+# - completed, * - Not completed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+BUGS:
+^^^^^
+#1.  I2C arbitation lost is happening when bulk amount of registers are being dumped into the sensor.
+*1-1 Fixed by adding 100 micro second delay between each write in the i2c code.
+
+Implementation : 
+^^^^^^^^^^^^^^^^
+#1. Driver cleanup functions in the module exit code are currently not implemented.
+*2. Available IOCTLS enumerate in the driver currently not implemented.
+#3. IOCTL - CTRL not implemented
+#4. CAPTURE routine using (QBUF - DQBUF) not implemented
+#4-1. Need to test capture routine
+
+#5. Getting memory from __get_free pages producing Low memory warinig from the kernel 
+#	Need to implement e-con specific memory implementation 
+
+#6. Memory hard coded in inc_header.h which is used in phy_mem.c (This should be double checked by performing 
+#	parse the kernel boot args and get the memory free information and feed into driver).
+*6-1. Need to test work done on point 6.
+	
+#7. G_CTRL - ioctl should expose the ctrl limit to the user
+#	VIDIOC_QUERYCTRL
+#	example :
+#		Brightness means
+#		min		- -2
+#		max		- +2
+#		step size	- +1
+
+*8. poll function need to implement
+*8-1. select function need to implement
+#8-2. mmap function need to implement
+
+*9. Proper return value represents the error state must be sent from the driver.
+
+#10. Current driver will send colour format as YUYV. Need to make it as UYVY
+
+#11. Validation is needed in performing the supported colour formats available in the sensor.
+
+#12 Negotiate with the available dimention with the sensor and tell the format dimension supported by camera to user. S_FMT /G_FMT
+
+*13 Implementation of
+	crop			-	VIDIOC_CROPCAP,VIDIOC_G_CROP, VIDIOC_S_CROP
+	VIDIOC_ENUM_FMT		-	VIDIOC_ENUM_FMT,VIDIOC_ENUM_FRAMESIZES,VIDIOC_ENUM_FRAMEINTERVALS
+
+*14 Need to handle signal CTRL+C in the driver and break the capture accordingly.
+
+*15 Image Dimensions should be rounding off to nearest supported size of byte aglinment of (4) 
+
+*16 From sensor uxga frame corruoption is happening, So we fixed in the driver to exclude the problemmatic dimension.
+
+NOTE:
+Minimum ioctls needed to procced by mplayer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Needed ioctl is 23		- VIDIOC_G_STD
+Needed ioctl is 21		- VIDIOC_G_PARM
+Needed ioctl is 25		- VIDIOC_ENUMSTD
+#Needed ioctl is 26		- VIDIOC_ENUMINPUT
+#Needed ioctl is 38		- VIDIOC_G_INPUT
+#Needed ioctl is 2		- VIDIOC_ENUM_FMT
+
+IMPLEMENTATION
+^^^^^^^^^^^^^^
+*1. Current driver is implemented in old style of v4l2 driver.

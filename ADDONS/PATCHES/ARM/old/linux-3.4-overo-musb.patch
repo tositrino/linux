@@ -1,0 +1,28 @@
+--- linux-org/arch/arm/mach-omap2/board-overo.c	2012-06-25 09:10:38.000000000 +0200
++++ linux-ths/arch/arm/mach-omap2/board-overo.c	2012-07-11 13:17:27.212733855 +0200
+@@ -295,6 +295,15 @@
+ 	},
+ };
+ 
++static struct omap_musb_board_data musb_board_data = {
++       .interface_type         = MUSB_INTERFACE_ULPI,
++       .mode                   = MUSB_HOST, /* change to MUSB_OTG when
++working */
++       .power                  = 100,
++};
++
++
++
+ static struct omap2_hsmmc_info mmc[] = {
+ 	{
+ 		.mmc		= 1,
+@@ -519,7 +528,8 @@
+ 				  mt46h32m32lf6_sdrc_params);
+ 	omap_nand_flash_init(0, overo_nand_partitions,
+ 			     ARRAY_SIZE(overo_nand_partitions));
+-	usb_musb_init(NULL);
++	usb_musb_init(&musb_board_data);
++	//usb_musb_init(NULL);
+ 	usbhs_init(&usbhs_bdata);
+ 	overo_spi_init();
+ 	overo_init_smsc911x();
