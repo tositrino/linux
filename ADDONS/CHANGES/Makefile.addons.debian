@@ -224,6 +224,8 @@ endif
 
 NAME=Libellula de Tigre
 
+CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
+
 VARCH := $(shell uname -m | sed -e s/i.86/x86/ \
                   -e s/x86_64/x64/ \
                   -e s/sun4u/sparc64/ \
@@ -233,7 +235,7 @@ VARCH := $(shell uname -m | sed -e s/i.86/x86/ \
                   -e s/sh.*/sh/ )
 
 ADDON_RELEASE_STR = $(VARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
-FULL_RELEASE_STR  = $(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)-ths-$(VARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CONFIG_LOCALVERSION)
+FULL_RELEASE_STR  = $(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)-ths-$(VARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
 
 export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
 

@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.5.0-ths
 # created : 12/06/24
-# changed : 12/07/24
+# changed : 12/08/03
 #
 # TODO:
 #   * ubuntu
@@ -25,8 +25,23 @@
 #   - setup & build kernel 3.5.0-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
-#   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/08/03
+#   - updated branch v3.5.0-ths
+#     git push origin v3.5.0-ths
+#     git commit -m "updated v3.5.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - THS-RELEASE 3.5.0-mmxii-viii-iii
+#   - bugfixed patchkernel (runtime->realtime)
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#   - updated patches
+#     linux-3.5.latest-ths-Makefile.patch (see also setlocalversion patch)
+#   - created/added patch(es)
+#     v1: linux-3.5-ths-setlocalversion.patch
 #  12/07/24
 #   - updated branch v3.5.0-ths
 #     git push origin v3.5.0-ths

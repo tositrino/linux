@@ -1,6 +1,6 @@
-diff -Nau linux-x/Makefile linux-y/Makefile
---- linux-x/Makefile	2012-07-23 08:40:59.000000000 +0200
-+++ linux-y/Makefile	2012-07-23 08:53:01.506251488 +0200
+diff -Naur linux-x/Makefile linux-y/Makefile
+--- linux-x/Makefile	2012-08-03 08:47:34.000000000 +0200
++++ linux-y/Makefile	2012-07-23 09:49:15.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 5
  SUBLEVEL = 0
@@ -58,10 +58,10 @@ diff -Nau linux-x/Makefile linux-y/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Nau linux-x/Makefile.addons linux-y/Makefile.addons
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 --- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2012-07-20 10:48:04.000000000 +0200
-@@ -0,0 +1,233 @@
++++ linux-y/Makefile.addons	2012-07-26 13:54:08.000000000 +0200
+@@ -0,0 +1,234 @@
 +###
 +### extra version infomation addons
 +###
@@ -288,9 +288,10 @@ diff -Nau linux-x/Makefile.addons linux-y/Makefile.addons
 +
 +NAME=Libellula de Tigre
 +LOCALVERSION = -ths
++CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
 +
 +ADDON_RELEASE_STR=$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
-+FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CONFIG_LOCALVERSION)
++FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
 +export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
