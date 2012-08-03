@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.4-rt14-ths
 # created : 12/07/31
-# changed : 12/07/31
+# changed : 12/08/03
 #
 # TODO:
 #   * ubuntu
@@ -27,16 +27,13 @@
 #   - setup & build kernel 3.4.4-rt14-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.4.4-rt14-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/07/31
-#   - updated master branch
-#     git push -f origin master
-#     git checkout -b master v3.4.4-rt14-ths
-#     git branch -D master
+#  12/08/03
 #   - updated branch v3.4.4-rt14-ths
 #     git push origin v3.4.4-rt14-ths
 #     git commit -m "updated v3.4.4-rt14-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
+#  12/07/31
 #   - setup & build kernel 3.4.4-rt14-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #     BASEVER=linux-3.4.4-rt14-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.4.4-rt14-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
