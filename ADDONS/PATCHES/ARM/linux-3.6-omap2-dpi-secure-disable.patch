@@ -1,0 +1,13 @@
+diff -Naur linux-org/drivers/video/omap2/dss/dpi.c linux-ths/drivers/video/omap2/dss/dpi.c
+--- linux-org/drivers/video/omap2/dss/dpi.c	2012-08-03 15:56:46.000000000 +0200
++++ linux-ths/drivers/video/omap2/dss/dpi.c	2012-08-03 16:38:40.761760068 +0200
+@@ -240,6 +240,9 @@
+ 
+ void omapdss_dpi_display_disable(struct omap_dss_device *dssdev)
+ {
++
++    if (dssdev->state == OMAP_DSS_DISPLAY_DISABLED) return;
++
+ 	dss_mgr_disable(dssdev->manager);
+ 
+ 	if (dpi_use_dsi_pll(dssdev)) {
