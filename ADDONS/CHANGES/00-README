@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.6.0-rc1-ths
 # created : 12/08/03
-# changed : 12/08/03
+# changed : 12/08/06
 #
 # TODO:
 #   * ubuntu
@@ -27,10 +27,12 @@
 #   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/08/06
 #   - updated branch v3.6.0-rc1-ths
 #     git push origin v3.6.0-rc1-ths
 #     git commit -m "updated v3.6.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated notes
 #   - updated configs
 #   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
@@ -47,12 +49,15 @@
 #     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch arch
 #     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - THS-RELEASE 3.6.0-rc1-mmxii-viii-vi
+#   - updated tools
 #  12/08/03
 #   - commit and push new branch
 #     git push origin v3.6.0-rc1-ths
 #     git commit -m "created v3.6.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.6.0-rc1-mmxii-viii-iii
+#   - updated tools
 #   - updated kversion.figlet testversion.c
 #   - obsolete patches
 #     linux-3.6-smp-shutdown.patch -> old

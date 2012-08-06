@@ -6,6 +6,8 @@ arm:
 
     arm/mach-omap2/board-n8x0  - Nokia N800/N810
 
+    cpufreq/arm/*
+
     drivers/input/eeti_ts      - EETI touchscreen panel support
     drivers/input/egalax_ts    - ETI eGalax multi-touch panel support
 
@@ -26,9 +28,14 @@ arm:
 
     drivers/usb/host/ehci-platform/ohci-platform  - dont configure and use
 
-    cpufreq/arm/*
+    drivers/vfio               - doesn't compile on arm
+
+
 
     drivers/staging/iio/accel/lis3l02dq*    - ST Microelectronics LIS3L02DQ Accelerometer Driver
 
 
   modules that need to be compiled in
+
+    drivers/dma/omap_dma      - fixed refrences
+    sound/*                   - fixed references from omap hdmi
