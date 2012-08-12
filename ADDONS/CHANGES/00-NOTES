@@ -8,10 +8,14 @@ arm:
 
     cpufreq/arm/*
 
+    crypto/tcrypt              - Testing module (read_current_timer undefined)
+
     drivers/input/eeti_ts      - EETI touchscreen panel support
     drivers/input/egalax_ts    - ETI eGalax multi-touch panel support
 
     drivers/spi/xilinx         - Xilinx SPI controller common module
+
+    drivers/media/radio/radio-shark - Griffin radioSHARK USB radio receiver (snd_tea575x_init,exit undefined)
 
     drivers/mfd/pcap           - PCAP Support
 
@@ -30,10 +34,11 @@ arm:
 
     drivers/vfio               - doesn't compile on arm
 
-
-
     drivers/staging/iio/accel/lis3l02dq*    - ST Microelectronics LIS3L02DQ Accelerometer Driver
 
+    drivers/video/udlfb.ko     - DISPLAYLINK support ("read_current_timer" undefined!)
+
+    drivers/staging/bcm/bcm_wima   - Beceem BCS200/BCS220-3 and BCSM250 wimax support ("__bad_udelay" undefined)
 
   modules that need to be compiled in
 

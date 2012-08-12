@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.6.0-rc1-ths
 # created : 12/08/03
-# changed : 12/08/06
+# changed : 12/08/11
 #
 # TODO:
 #   * ubuntu
@@ -27,6 +27,13 @@
 #   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/08/11
+#   - updated branch v3.6.0-rc1-ths
+#     git push origin v3.6.0-rc1-ths
+#     git commit -m "updated v3.6.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated notes
+#   - updated configs
 #  12/08/06
 #   - updated branch v3.6.0-rc1-ths
 #     git push origin v3.6.0-rc1-ths
