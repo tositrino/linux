@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.8-ths
 # created : 12/04/30
-# changed : 12/08/11
+# changed : 12/08/12
 #
 # TODO:
 #   * ubuntu
@@ -27,7 +27,7 @@
 #   - setup & build kernel 3.4.8-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.4.8-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/08/11
+#  12/08/12
 #   - updated master branch
 #     git push -f origin master
 #     git checkout -b master v3.4.8-ths
@@ -58,7 +58,7 @@
 #     git push origin v3.4.8-ths
 #     git commit -m "created v3.4.8-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - THS-RELEASE 3.4.8-mmxii-viii-xi
+#   - THS-RELEASE 3.4.8-mmxii-viii-xii
 #   - using genpatches-3.4-8
 #   - updated configs
 #   - updated kversion.figlet testversion.c
