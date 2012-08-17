@@ -4,7 +4,7 @@ diff -Nau linux-x/Makefile linux-y/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 6
  SUBLEVEL = 0
- EXTRAVERSION = -rc1
+ EXTRAVERSION = -rc2
 -NAME = Saber-toothed Squirrel
 +NAME = Odonata Draconis
  
