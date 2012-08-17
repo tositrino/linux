@@ -32,14 +32,17 @@
 #     git push origin v3.6.0-rc2-ths
 #     git commit -m "updated v3.6.0-rc2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated Makefile.addons for exynos arch ->
+#     linux-3.6.latest-ths-Makefile.patch
 #   - updated configs
-#   - setup & build kernel 3.6.0-rc2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
-#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#   - setup & build kernel 3.6.0-rc2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
 #   - setup & build kernel 3.6.0-rc2-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.6.0-rc2-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch final
@@ -48,6 +51,10 @@
 #     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch arm
 #     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch arch
 #     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch firmware
+#   - fixed runtime/realtime patch set naming mismatch
+#     ADDONS/tool/patch-kernel
 #   - commit and push new branch
 #     git push origin v3.6.0-rc2-ths
 #     git commit -m "created v3.6.0-rc2-ths"

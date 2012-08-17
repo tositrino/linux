@@ -24,7 +24,7 @@ p_last=""
 p_lustre=""
 p_kernel=""
 p_others=""
-p_runtime=""
+p_realtime=""
 p_ps3=""
 p_qlogic=""
 p_ths=""
@@ -59,7 +59,7 @@ for arg in $@ ; do
                  ;;
     arch)        p_arch="enabled"                                       ;;
     arm)         p_arm="enabled"                                        ;;
-    runtime)     p_runtime="enabled"                                   ;;
+    realtime)    p_realtime="enabled"                                   ;;
     firmware)    p_firmware="enabled"                                   ;;
     final)       p_final="enabled"                                      ;;
     gentoo)      p_gentoo="enabled"                                     ;;
@@ -91,7 +91,7 @@ echo
 [ "${p_others}"    = "enabled" ] && patchsets="${patchsets}OTHER "
 [ "${p_lustre}"    = "enabled" ] && patchsets="${patchsets}LUSTRE "
 [ "${p_firmware}"  = "enabled" ] && patchsets="${patchsets}FIRMWARE "
-[ "${p_runtime}"   = "enabled" ] && patchsets="${patchsets}RUNTIME "
+[ "${p_realtime}"  = "enabled" ] && patchsets="${patchsets}REALTIME "
 [ "${p_final}"     = "enabled" ] && patchsets="${patchsets}FINAL "
 
 if [ "${p_qlogic}"  = "enabled" ] ; then 

@@ -1,11 +1,13 @@
-diff -Nau linux-x/Makefile linux-y/Makefile
+diff -Naur linux-x/Makefile linux-y/Makefile
 --- linux-x/Makefile	2012-08-03 15:56:41.000000000 +0200
-+++ linux-y/Makefile	2012-08-03 16:33:23.641755305 +0200
-@@ -2,7 +2,7 @@
++++ linux-y/Makefile	2012-08-17 10:53:52.000000000 +0200
+@@ -1,8 +1,8 @@
+ VERSION = 3
  PATCHLEVEL = 6
  SUBLEVEL = 0
- EXTRAVERSION = -rc2
+-EXTRAVERSION = -rc1
 -NAME = Saber-toothed Squirrel
++EXTRAVERSION = -rc2
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
@@ -58,10 +60,10 @@ diff -Nau linux-x/Makefile linux-y/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Nau linux-x/Makefile.addons linux-y/Makefile.addons
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 --- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2012-08-03 16:32:59.005754933 +0200
-@@ -0,0 +1,234 @@
++++ linux-y/Makefile.addons	2012-08-17 16:05:12.000000000 +0200
+@@ -0,0 +1,244 @@
 +###
 +### extra version infomation addons
 +###
@@ -266,6 +268,16 @@ diff -Nau linux-x/Makefile.addons linux-y/Makefile.addons
 +endif
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
++endif
++
++ifdef CONFIG_ARCH_EXYNOS
++CPU_TYPE=-exynos
++endif
++ifdef CONFIG_ARCH_EXYNOS4
++CPU_TYPE=-exynos4
++endif
++ifdef CONFIG_ARCH_EXYNOS5
++CPU_TYPE=-exynos5
 +endif
 +
 +# Test for Highmem support
