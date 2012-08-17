@@ -1,0 +1,292 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.5.1-ths
+# created : 12/06/24
+# changed : 12/08/13
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.5.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.5.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.5.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.5.1-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.5.1-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.5.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.5.1-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.5.1-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.5.1-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.5.1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
+#   - setup & build kernel 3.5.1-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  12/08/13
+#   - updated branch v3.5.1-ths
+#     git push origin v3.5.1-ths
+#     git commit -m "updated v3.5.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.5.1-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.5.1-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.5.1-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - bugfixed patches:
+#     linux-3.5.latest-ths-Makefile.patch
+#   - fixed runtime/realtime patch set naming mismatch
+#     ADDONS/tool/patch-kernel
+#  12/08/12
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.5.1-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.5.1-ths
+#     git commit -m "created v3.5.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.5.1-mmxii-viii-xii
+#   - using genpatches-3.5-2
+#   - updated patches
+#   - updated tools
+#   - merge old ths branch
+#     git merge v3.5.0-ths
+#   - create new branch from v3.5.1
+#     git checkout -b v3.5.1-ths v3.5.1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/08/03
+#   - updated branch v3.5.0-ths
+#     git push origin v3.5.0-ths
+#     git commit -m "updated v3.5.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - THS-RELEASE 3.5.0-mmxii-viii-iii
+#   - bugfixed patchkernel (runtime->realtime)
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#   - updated patches
+#     linux-3.5.latest-ths-Makefile.patch (see also setlocalversion patch)
+#   - created/added patch(es)
+#     v1: linux-3.5-ths-setlocalversion.patch
+#  12/07/24
+#   - updated branch v3.5.0-ths
+#     git push origin v3.5.0-ths
+#     git commit -m "updated v3.5.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - THS-RELEASE 3.4.6-mmxii-vii-xxiv
+#   - applied genpatches-3.5-1
+#   - created/added patch(es)
+#     v4: linux-3.5-smp-shutdown.patch
+#     v3: linux-3.5-omap2-dpi-secure-disable.patch
+#   - added new patch category firmware for firmware patches
+#   - updated configs
+#   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#  12/07/23
+#   - updated branch v3.5.0-ths
+#     git push origin v3.5.0-ths
+#     git commit -m "updated v3.5.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.5.0-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.0-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#   - setup & build kernel 3.5.0-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.5.0-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch firmware
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.0-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - commit and push new branch
+#     git push origin v3.5.0-ths
+#     git commit -m "created v3.5.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.5.0-mmxii-vii-xxiii
+#   - updated configs (2.x-3.4)
+#   - updated tools
+#     armmake/armmakeall -> armsmake,armsmakeall and armhmake,armhmakeall
+#     for targets armv7a-softfloat-linux-gnueabi and armv7a-hardfloat-linux-gnueabi
+#   - added new patch category firmware for firmware patches
+#   - disabled patches :
+#     linux-3.5-ecam32-v4l.patch
+#     linux-3.5-overo-board.patch
+#   - udated/enabled/added patches:
+#     linux-3.5-firmware-ti-connectivity.patch
+#     linux-3.5-firmware-libertas.patch
+#     linux-3.5-firmware-rtl_nic.patch
+#     linux-3.5-firmware-rtlwifi.patch
+#     linux-3.5-firmware-ti-connectivity.patch
+#     linux-3.5.latest-ths-Makefile.patch
+#   - updated kversion.figlet testversion.c
+#   - merge old ths branch
+#     git merge v3.5.0-rc6-ths
+#   - create new branch from v3.5.0
+#     git checkout -b v3.5.0-ths v3.5
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/07/10
+#   - updated branch v3.5.0-rc6-ths
+#     git push origin v3.5.0-rc6-ths
+#     git commit -m "updated v3.5.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#  12/07/09
+#   - setup & build kernel 3.5.0-rc6-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.0-rc6-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - commit and push new branch
+#     git push origin v3.5.0-rc6-ths
+#     git commit -m "created v3.5.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.5.0-rc6-mmxii-vii-ix
+#   - udated/enabled patches:
+#     linux-3.5-ecam32-overo.patch
+#     linux-3.5-firmware-ti-connectivity.patch
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.5.0-rc5-ths
+#   - create new branch from v3.5.0-rc6
+#     git checkout -b v3.5.0-rc6-ths v3.5-rc6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/07/02
+#   - updated branch v3.5.0-rc5-ths
+#     git push origin v3.5.0-rc5-ths
+#     git commit -m "updated v3.5.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.5.0-rc5-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.5.0-rc5-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.0-rc5-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.0-rc5-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.0-rc5-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.0-rc5-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - commit and push new branch
+#     git push origin v3.5.0-rc5-ths
+#     git commit -m "created v3.5.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.5.0-rc5-mmxii-vii-ii
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.5.0-rc4-ths
+#   - create new branch from v3.5.0-rc5
+#     git checkout -b v3.5.0-rc5-ths v3.5-rc5
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/06/28
+#   - updated branch v3.5.0-rc4-ths
+#     git push origin v3.5.0-rc4-ths
+#     git commit -m "updated v3.5.0-rc4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.5.0-rc4-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup & build kernel 3.5.0-rc4-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.5.0-rc4-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.5.0-rc4-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.0-rc4-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.0-rc4-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.0-rc4-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.0-rc4-ths ADDONS/tools/patch-kernel --patch gentoo
+#  12/06/24
+#   - commit and push new branch
+#     git push origin v3.5.0-rc4-ths
+#     git commit -m "created v3.5.0-rc4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.5.0-rc4-mmxii-vi-xxiv
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     added addons from 3.4.4-ths (don't merge)
+#   - create new branch from v3.5.0-rc4
+#     git checkout -b v3.5.0-rc4-ths v3.5-rc4
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.5-ths-init.patch
+#    applied linux-3.5-ths-quantis-v11.07.12.patch
+#  (final)
+#    linux-3.5-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.5-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.5-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v11.07.12 from idquantique
+#   -> linux-3.5-ths-quantis-v11.07.12.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.5-ths-init.patch 
+#
+
+
+
