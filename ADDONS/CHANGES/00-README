@@ -32,6 +32,8 @@
 #     git push origin v3.5.2-ths
 #     git commit -m "updated v3.5.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated Makefile.addons for exynos arch ->
+#     linux-3.6.latest-ths-Makefile.patch
 #   - updated configs
 #   - setup & build kernel 3.5.2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
 #     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final

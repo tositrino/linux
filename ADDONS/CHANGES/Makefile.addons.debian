@@ -204,6 +204,16 @@ ifdef CONFIG_ARCH_OMAP4
 CPU_TYPE=-omap4
 endif
 
+ifdef CONFIG_ARCH_EXYNOS
+CPU_TYPE=-exynos
+endif
+ifdef CONFIG_ARCH_EXYNOS4
+CPU_TYPE=-exynos4
+endif
+ifdef CONFIG_ARCH_EXYNOS5
+CPU_TYPE=-exynos5
+endif
+
 # Test for Highmem support
 ifdef CONFIG_HIGHMEM4G
 HIGHMEMVERSION=-4gb

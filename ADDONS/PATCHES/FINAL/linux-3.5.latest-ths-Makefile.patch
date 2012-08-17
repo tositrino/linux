@@ -60,8 +60,8 @@ diff -Naur linux-x/Makefile linux-y/Makefile
                    arch/*/include/generated
 diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 --- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2012-07-26 13:54:08.000000000 +0200
-@@ -0,0 +1,234 @@
++++ linux-y/Makefile.addons	2012-08-17 16:05:12.000000000 +0200
+@@ -0,0 +1,244 @@
 +###
 +### extra version infomation addons
 +###
@@ -266,6 +266,16 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +endif
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
++endif
++
++ifdef CONFIG_ARCH_EXYNOS
++CPU_TYPE=-exynos
++endif
++ifdef CONFIG_ARCH_EXYNOS4
++CPU_TYPE=-exynos4
++endif
++ifdef CONFIG_ARCH_EXYNOS5
++CPU_TYPE=-exynos5
 +endif
 +
 +# Test for Highmem support
