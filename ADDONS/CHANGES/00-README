@@ -33,14 +33,14 @@
 #     git commit -m "updated v3.5.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
-#   - setup & build kernel 3.5.2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
-#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.5.2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.5.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
 #   - setup & build kernel 3.5.2-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.5.2-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #     BASEVER=linux-3.5.2-ths ADDONS/tools/patch-kernel --patch final
@@ -72,14 +72,14 @@
 #     git commit -m "updated v3.5.1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
-#   - setup & build kernel 3.5.1-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
-#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.5.1-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.5.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
 #   - setup & build kernel 3.5.1-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.5.1-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - bugfixed patches:
