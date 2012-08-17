@@ -2,31 +2,75 @@
 # README - source package change documentation
 #
 # package : linux kernel
-# version : 3.4.8-ths
+# version : 3.4.9-ths
 # created : 12/04/30
-# changed : 12/08/12
+# changed : 12/08/17
 #
 # TODO:
 #   * ubuntu
-#   - setup & build kernel 3.4.8-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
-#   - setup & build kernel 3.4.8-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
-#   - setup & build kernel 3.4.8-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
 #   * gentoo-x86_32
-#   - setup & build kernel 3.4.8-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.4.9-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.4.8-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
-#   - setup & build kernel 3.4.8-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
-#   - setup & build kernel 3.4.8-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   - setup & build kernel 3.4.9-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.4.8-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.4.8-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.4.9-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.4.9-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
-#   - setup & build kernel 3.4.8-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
-#   - setup & build kernel 3.4.8-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
+#   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  12/08/17
+#   - updated master branch
+#     git push -f origin master
+#     git checkout -b master v3.4.9-ths
+#     git branch -D master
+#   - updated branch v3.4.9-ths
+#     git push origin v3.4.9-ths
+#     git commit -m "updated v3.4.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.4.9-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.4.9-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.4.9-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.4.9-ths
+#     git commit -m "created v3.4.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.4.9-mmxii-viii-xvii
+#   - using genpatches-3.4-8
+#   - updated configs
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.4.7-ths
+#   - create new branch from v3.4.9
+#     git checkout -b v3.4.9-ths v3.4.9
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  12/08/12
 #   - updated master branch
 #     git push -f origin master
@@ -59,7 +103,7 @@
 #     git commit -m "created v3.4.8-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.4.8-mmxii-viii-xii
-#   - using genpatches-3.4-8
+#   - using genpatches-3.4-9
 #   - updated configs
 #   - updated kversion.figlet testversion.c
 #   - updated patches
