@@ -1,0 +1,194 @@
+diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-omap2/board-overo.c
+--- linux-org/arch/arm/mach-omap2/board-overo.c	2012-07-18 18:03:51.000000000 +0200
++++ linux-ths/arch/arm/mach-omap2/board-overo.c	2012-07-20 11:53:20.000000000 +0200
+@@ -19,6 +19,7 @@
+  *
+  */
+ 
++#include <generated/autoconf.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/err.h>
+@@ -26,6 +27,7 @@
+ #include <linux/io.h>
+ #include <linux/gpio.h>
+ #include <linux/kernel.h>
++#include <linux/version.h>
+ #include <linux/platform_device.h>
+ #include <linux/i2c/twl.h>
+ #include <linux/regulator/machine.h>
+@@ -442,20 +444,134 @@
+ 	.vmmc1		= &overo_vmmc1,
+ };
+ 
+-static int __init overo_i2c_init(void)
++// mt9v032 support
++
++#if ( defined(CONFIG_VIDEO_MT9V032_INIT) )
++#if ( LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36) )
++
++/* Include V4L2 ISP-Camera driver related header file */
++
++#include <../../../drivers/media/video/omap34xxcam.h>
++#include <../../../drivers/media/video/mt9v032.h>
++
++#define MT9V032_I2C_ADDR		(0x5C)
++
++static struct isp_interface_config mt9v032_interface_config = {
++	.ccdc_par_ser			= ISP_PARLL,
++	.dataline_shift			= 0x0,
++	.hsvs_syncdetect		= ISPCTRL_SYNC_DETECT_VSRISE,
++	.strobe				= 0x0,
++	.prestrobe			= 0x0,
++	.shutter			= 0x0,
++	.prev_sph			= 2,
++	.prev_slv			= 9,
++	.wenlog				= ISPCCDC_CFG_WENLOG_OR,
++	.wait_hs_vs			= 2,
++	.u.par.par_bridge		= 0x0,
++	.u.par.par_clk_pol		= 0x0,					/* non inverted */
++};
++
++static int mt9v032_sensor_set_power(struct v4l2_int_device *s, enum v4l2_power power)
++{
++	struct omap34xxcam_videodev *vdev = s->u.slave->master->priv;
++
++	switch (power)
++	{
++		case V4L2_POWER_ON:
++			isp_configure_interface(vdev->cam->isp, &mt9v032_interface_config);
++			break;
++		case V4L2_POWER_OFF:
++			break;
++		case V4L2_POWER_STANDBY:
++			break;
++	}
++	return 0;
++}
++
++static u32 mt9v032_sensor_set_xclk(struct v4l2_int_device *s, u32 xclkfreq)
++{
++	struct omap34xxcam_videodev *vdev = s->u.slave->master->priv;
++	return isp_set_xclk(vdev->cam->isp, xclkfreq, OMAP34XXCAM_XCLK_A);
++}
++
++static int mt9v032_sensor_set_priv_data(void *priv)
+ {
+-	omap3_pmic_get_config(&overo_twldata,
+-			TWL_COMMON_PDATA_USB | TWL_COMMON_PDATA_AUDIO,
+-			TWL_COMMON_REGULATOR_VDAC | TWL_COMMON_REGULATOR_VPLL2);
+-
+-	overo_twldata.vpll2->constraints.name = "VDVI";
+-
+-	omap3_pmic_init("tps65950", &overo_twldata);
+-	/* i2c2 pins are used for gpio */
+-	omap_register_i2c_bus(3, 400, NULL, 0);
++	struct omap34xxcam_hw_config *hwc = priv;
++
++	hwc->u.sensor.sensor_isp		= 0;
++	hwc->u.sensor.capture_mem		= PAGE_ALIGN(752 * 480 * 2) * 16;
++	hwc->dev_index				= 0;
++	hwc->dev_minor				= 0;
++	hwc->dev_type				= OMAP34XXCAM_SLAVE_SENSOR;
++
+ 	return 0;
+ }
+ 
++/*
++ * structure containing pointers to i2c camera functions
++ */
++static struct mt9v032_platform_data mt9v032_platform_data = {
++	.set_power		= mt9v032_sensor_set_power,
++	.set_xclk		= mt9v032_sensor_set_xclk,
++	.set_priv_data		= mt9v032_sensor_set_priv_data,
++};
++#endif  
++/* LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36) */
++#endif
++/* defined(CONFIG_VIDEO_MT9V032_INIT) ) */
++
++
++// econ ecam32 support
++
++#define LM3553_SLAVE_ADDRESS   0x53
++#define OV3640_I2C_ADDR        (0x78 >> 1)
++int omap3evm_ov3640_platform_data;
++int lm3553_platform_data;
++
++static struct i2c_board_info __initdata omap3_i2c_boardinfo_3[] = {
++  {
++    I2C_BOARD_INFO("ov3640", OV3640_I2C_ADDR),
++    .platform_data = &omap3evm_ov3640_platform_data,
++  },
++  {
++    I2C_BOARD_INFO("lm3553",LM3553_SLAVE_ADDRESS),
++    .platform_data = &lm3553_platform_data,
++  },
++#if ( defined(CONFIG_VIDEO_MT9V032_INIT) )
++#if ( LINUX_VERSION_CODE < KERNEL_VERSION(2,6,36) )
++  {
++    I2C_BOARD_INFO("mt9v032", MT9V032_I2C_ADDR),
++    .platform_data	= &mt9v032_platform_data,
++  },
++#endif
++#endif
++};
++
++static int __init overo_i2c_init(void)
++{
++  omap3_pmic_get_config(&overo_twldata,
++    TWL_COMMON_PDATA_USB | TWL_COMMON_PDATA_AUDIO,
++    TWL_COMMON_REGULATOR_VDAC | TWL_COMMON_REGULATOR_VPLL2);
++
++  overo_twldata.vpll2->constraints.name = "VDVI";
++
++  omap3_pmic_init("tps65950", &overo_twldata);
++  /* i2c2 pins are used for gpio */
++
++#if ( defined(CONFIG_VIDEO_MT9V032_INIT) || defined(CONFIG_VIDEO_ECAM32_INIT) )
++
++#warning "INFO: CONFIG_VIDEO_MT9V032_INIT/CONFIG_VIDEO_ECAM32_INIT have been set"
++  omap_register_i2c_bus(3, 400, omap3_i2c_boardinfo_3, ARRAY_SIZE(omap3_i2c_boardinfo_3));
++#else
++
++#warning "INFO: CONFIG_VIDEO_MT9V032_INIT/CONFIG_VIDEO_ECAM32_INIT have not been set"
++  omap_register_i2c_bus(3, 400, NULL, 0);
++
++#endif
++
++  return 0;
++}
++
+ static struct spi_board_info overo_spi_board_info[] __initdata = {
+ #if defined(CONFIG_PANEL_LGPHILIPS_LB035Q02) || \
+ 	defined(CONFIG_PANEL_LGPHILIPS_LB035Q02_MODULE)
+@@ -505,6 +621,12 @@
+ 	REGULATOR_SUPPLY("vdd33a", "smsc911x.1"),
+ };
+ 
++static struct omap_musb_board_data musb_board_data = {
++       .interface_type         = MUSB_INTERFACE_ULPI,
++       .mode                   = MUSB_HOST, /* change to MUSB_OTG when working */
++       .power                  = 100,
++};
++
+ static void __init overo_init(void)
+ {
+ 	int ret;
+@@ -519,7 +641,15 @@
+ 				  mt46h32m32lf6_sdrc_params);
+ 	omap_nand_flash_init(0, overo_nand_partitions,
+ 			     ARRAY_SIZE(overo_nand_partitions));
+-	usb_musb_init(NULL);
++
++#if defined (CONFIG_USB_MUSB_INIT_HOST)
++#warning "INFO: CONFIG_USB_MUSB_INIT_HOST has been set"
++  usb_musb_init(&musb_board_data);
++#else
++#warning "INFO: CONFIG_USB_MUSB_INIT_HOST has not been set"
++  usb_musb_init(NULL);
++#endif
++
+ 	usbhs_init(&usbhs_bdata);
+ 	overo_spi_init();
+ 	overo_init_smsc911x();
