@@ -99,8 +99,8 @@
 #     BASEVER=linux-3.4.8-ths ADDONS/tools/patch-kernel --patch realtime
 #     BASEVER=linux-3.4.8-ths ADDONS/tools/patch-kernel --patch firmware
 #   - commit and push new branch
-#     git push origin v3.4.8-ths
-#     git commit -m "created v3.4.8-ths"
+#     git push origin v3.4.9-ths
+#     git commit -m "created v3.4.9-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.4.8-mmxii-viii-xii
 #   - using genpatches-3.4-9
