@@ -28,15 +28,14 @@
 #   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
 #  12/08/17
-#   - updated master branch
-#     git push -f origin master
-#     git checkout -b master v3.4.9-ths
-#     git branch -D master
 #   - updated branch v3.4.9-ths
 #     git push origin v3.4.9-ths
 #     git commit -m "updated v3.4.9-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated Makefile.addons for exynos arch ->
+#     linux-3.4.latest-ths-Makefile.patch
 #   - updated configs
+#   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
 #   - setup & build kernel 3.4.9-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
 #     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.4.9-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
