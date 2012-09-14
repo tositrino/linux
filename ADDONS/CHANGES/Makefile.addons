@@ -236,7 +236,7 @@ NAME=Libellula de Tigre
 LOCALVERSION = -ths
 CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
 
-XV=$(shell test -r localversion-rt && cat localversion-rt)
+XV=$(shell test -r localversion.extra && cat localversion.extra | tr -d [:space:] )
 
 ADDON_RELEASE_STR=$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
 FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(XV)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)

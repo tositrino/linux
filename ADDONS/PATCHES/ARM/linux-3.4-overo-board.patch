@@ -148,7 +148,7 @@ diff -Naur linux-org/arch/arm/mach-omap2/board-overo.c linux-ths/arch/arm/mach-o
 +#if ( defined(CONFIG_VIDEO_MT9V032_INIT) || defined(CONFIG_VIDEO_ECAM32_INIT) )
 +
 +#warning "INFO: CONFIG_VIDEO_MT9V032_INIT/CONFIG_VIDEO_ECAM32_INIT have been set"
-+  omap_register_i2c_bus(3, 400, omap3_i2c_boardinfo_3, ARRAY_SIZE(omap3_i2c_boardinfo_3));
++  omap_register_i2c_bus(3, 100, omap3_i2c_boardinfo_3, ARRAY_SIZE(omap3_i2c_boardinfo_3));
 +#else
 +
 +#warning "INFO: CONFIG_VIDEO_MT9V032_INIT/CONFIG_VIDEO_ECAM32_INIT have not been set"

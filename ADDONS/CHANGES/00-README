@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.10-ths
 # created : 12/04/30
-# changed : 12/09/12
+# changed : 12/09/14
 #
 # TODO:
 #   * ubuntu
@@ -24,19 +24,23 @@
 #   - setup & build kernel 3.4.10-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.4.10-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
-#   - setup & build kernel 3.4.10-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi
+#   - setup & build kernel 3.4.10-ths-arm-exynos5-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.4.10-ths-arm-omap4-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.4.10-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/09/12
+#  12/09/14
 #   - updated branch v3.4.10-ths
 #     git push origin v3.4.10-ths
 #     git commit -m "updated v3.4.10-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated Makefile.addons for exynos arch ->
-#     linux-3.4.latest-ths-Makefile.patch
 #   - updated configs
-#   - setup & build kernel 3.4.10-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
-#   - setup & build kernel 3.4.10-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
+#   - setup & build kernel 3.4.10-ths-arm-exynos5-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - updated/added patches
+#     linux-3.4-samsung.patch
+#  12/09/13
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  12/09/12
+#   - setup & build kernel 3.4.10-ths-arm-omap4-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #     BASEVER=linux-3.4.10-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.4.10-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
 #     BASEVER=linux-3.4.10-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
@@ -53,6 +57,17 @@
 #     BASEVER=linux-3.4.10-ths ADDONS/tools/patch-kernel --patch gentoo
 #     BASEVER=linux-3.4.10-ths ADDONS/tools/patch-kernel --patch realtime
 #     BASEVER=linux-3.4.10-ths ADDONS/tools/patch-kernel --patch firmware
+#   - obsolete/removed patches
+#     linux-3.4-smp-shutdown.patch
+#   - updated/added patches
+#     linux-3.4-firmware-ath6k.patch
+#     linux-3.4-firmware-libertas.patch
+#     linux-3.4-firmware-rtl_nic.patch
+#     linux-3.4-firmware-rtlwifi.patch
+#     linux-3.4-firmware-ti-connectivity.patch
+#     linux-3.4-overo-board.patch
+#     linux-3.4-overo-camera.patch
+#     linux-3.4.latest~-Makefile.patch
 #   - commit and push new branch
 #     git push origin v3.4.10-ths
 #     git commit -m "created v3.4.10-ths"
