@@ -57,6 +57,8 @@
 #     git commit -m "created v3.5.3-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.5.3-mmxii-ix-xiv
+#   - obsolete/removed patches
+#     linux-3.5-smp-shutdown.patch
 #   - updated/added patches
 #     linux-3.5-firmware-ath6k.patch
 #     linux-3.5-firmware-libertas.patch
