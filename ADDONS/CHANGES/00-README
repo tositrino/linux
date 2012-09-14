@@ -58,6 +58,11 @@
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.5.3-mmxii-ix-xiv
 #   - updated/added patches
+#     linux-3.5-firmware-ath6k.patch
+#     linux-3.5-firmware-libertas.patch
+#     linux-3.5-firmware-rtl_nic.patch
+#     linux-3.5-firmware-rtlwifi.patch
+#     linux-3.5-firmware-ti-connectivity.patch
 #     linux-3.5-samsung.patch
 #   - updated makefile.addons for rt localversion in
 #     linux-3.5.latest-ths-Makefile.patch
