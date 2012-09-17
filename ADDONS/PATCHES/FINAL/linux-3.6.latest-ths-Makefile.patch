@@ -5,9 +5,9 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  VERSION = 3
  PATCHLEVEL = 6
  SUBLEVEL = 0
--EXTRAVERSION = -rc1
+-EXTRAVERSION = -rc6
 -NAME = Saber-toothed Squirrel
-+EXTRAVERSION = -rc2
++EXTRAVERSION = -rc6
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
@@ -61,9 +61,9 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
 diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
---- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2012-08-17 16:05:12.000000000 +0200
-@@ -0,0 +1,244 @@
+--- linux-a/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-b/Makefile.addons	2012-09-12 09:58:38.000000000 +0200
+@@ -0,0 +1,246 @@
 +###
 +### extra version infomation addons
 +###
@@ -302,8 +302,10 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +LOCALVERSION = -ths
 +CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
 +
++XV=$(shell test -r localversion.extra && cat localversion.extra | tr -d [:space:] )
++
 +ADDON_RELEASE_STR=$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
-+FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
++FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(XV)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
 +export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
