@@ -1,0 +1,50 @@
+diff -Naur linux-a/arch/arm/plat-samsung/include/plat/dma-pl330.h linux-b/arch/arm/plat-samsung/include/plat/dma-pl330.h
+--- linux-a/arch/arm/plat-samsung/include/plat/dma-pl330.h	2012-09-14 16:27:53.000000000 +0200
++++ linux-b/arch/arm/plat-samsung/include/plat/dma-pl330.h	2012-09-14 17:13:56.000000000 +0200
+@@ -103,9 +103,10 @@
+ 	DMACH_MAX,
+ };
+ 
+-struct s3c2410_dma_client {
+-	char	*name;
+-};
++//already defined in arch/arm/plat-samsung/include/plat/dma.h
++//struct s3c2410_dma_client {
++//  char  *name;
++//};
+ 
+ static inline bool samsung_dma_has_circular(void)
+ {
+diff -Naur linux-a/drivers/spi/spi-s3c64xx.c linux-b/drivers/spi/spi-s3c64xx.c
+--- linux-a/drivers/spi/spi-s3c64xx.c	2012-08-17 16:30:40.000000000 +0200
++++ linux-b/drivers/spi/spi-s3c64xx.c	2012-09-17 13:54:55.000000000 +0200
+@@ -29,6 +29,7 @@
+ #include <linux/spi/spi.h>
+ 
+ #include <mach/dma.h>
++#include <plat/dma.h>
+ #include <plat/s3c64xx-spi.h>
+ 
+ /* Registers and bit-fields */
+diff -Naur linux-a/sound/soc/samsung/ac97.c linux-b/sound/soc/samsung/ac97.c
+--- linux-a/sound/soc/samsung/ac97.c	2012-07-24 16:12:45.000000000 +0200
++++ linux-b/sound/soc/samsung/ac97.c	2012-09-14 17:13:56.000000000 +0200
+@@ -22,6 +22,7 @@
+ #include <mach/dma.h>
+ #include <plat/regs-ac97.h>
+ #include <plat/audio.h>
++#include <plat/dma.h>
+ 
+ #include "dma.h"
+ 
+diff -Naur linux-a/sound/soc/samsung/spdif.c linux-b/sound/soc/samsung/spdif.c
+--- linux-a/sound/soc/samsung/spdif.c	2012-07-24 16:12:45.000000000 +0200
++++ linux-b/sound/soc/samsung/spdif.c	2012-09-14 17:13:56.000000000 +0200
+@@ -19,6 +19,7 @@
+ 
+ #include <plat/audio.h>
+ #include <mach/dma.h>
++#include <plat/dma.h>
+ 
+ #include "dma.h"
+ #include "spdif.h"
