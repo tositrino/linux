@@ -28,6 +28,7 @@
 #   - setup & build kernel 3.5.4-ths-arm-omap4-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.5.4-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#   - setup & build kernel 3.5.4-ths-arm-exynos5-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #  12/09/17
 #   - updated branch v3.5.4-ths
 #     git push origin v3.5.4-ths
