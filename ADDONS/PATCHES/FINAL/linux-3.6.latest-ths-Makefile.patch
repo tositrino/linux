@@ -1,11 +1,11 @@
 diff -Naur linux-x/Makefile linux-y/Makefile
---- linux-x/Makefile	2012-08-03 15:56:41.000000000 +0200
-+++ linux-y/Makefile	2012-08-17 10:53:52.000000000 +0200
+--- linux-x/Makefile	2012-10-01 08:23:35.000000000 +0200
++++ linux-y/Makefile	2012-10-01 15:39:06.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 6
  SUBLEVEL = 0
  EXTRAVERSION =
--NAME = Saber-toothed Squirrel
+-NAME = Terrified Chipmunk
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
@@ -59,8 +59,8 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
 diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
---- linux-a/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-b/Makefile.addons	2012-09-12 09:58:38.000000000 +0200
+--- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons	2012-10-01 15:37:54.000000000 +0200
 @@ -0,0 +1,246 @@
 +###
 +### extra version infomation addons
