@@ -1,13 +1,11 @@
 diff -Naur linux-x/Makefile linux-y/Makefile
 --- linux-x/Makefile	2012-08-03 15:56:41.000000000 +0200
 +++ linux-y/Makefile	2012-08-17 10:53:52.000000000 +0200
-@@ -1,8 +1,8 @@
- VERSION = 3
+@@ -2,7 +2,7 @@
  PATCHLEVEL = 6
  SUBLEVEL = 0
--EXTRAVERSION = -rc6
+ EXTRAVERSION =
 -NAME = Saber-toothed Squirrel
-+EXTRAVERSION = -rc6
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
