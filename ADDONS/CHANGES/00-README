@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.6.0-ths
 # created : 12/08/03
-# changed : 12/10/01
+# changed : 12/10/06
 #
 # TODO:
 #   * ubuntu
@@ -29,6 +29,22 @@
 #   - setup & build kernel 3.6.0-ths-arm-smp using gcc-4.7.1/crossdev target armv7a-softfloat-linux-gnueabi
 #
 #   - setup & build kernel 3.6.0-ths-arm-exynos5-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  12/10/06
+#   - updated branch v3.6.0-ths
+#     git push origin v3.6.0-ths
+#     git commit -m "updated v3.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.6.0-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch firmware
+#   - THS-RELEASE 3.6.0-mmxii-x-vi
+#   - added genpatches-3.6-2
 #  12/10/01
 #   - updated branch v3.6.0-ths
 #     git push origin v3.6.0-ths
