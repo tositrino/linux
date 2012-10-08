@@ -1,0 +1,42 @@
+diff -Naur linux-2.6.15-org/drivers/scsi/qla2xxx/qla_32ioctl.c linux-2.6.15-id/drivers/scsi/qla2xxx/qla_32ioctl.c
+--- linux-2.6.15-org/drivers/scsi/qla2xxx/qla_32ioctl.c	2005-11-16 09:28:14.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/qla_32ioctl.c	2005-11-17 10:56:36.000000000 +0100
+@@ -19,7 +19,7 @@
+ 
+ #include <linux/config.h>
+ 
+-#if defined(CONFIG_COMPAT) && !defined(CONFIG_IA64)
++#if defined(CONFIG_COMPAT) && defined(CONFIG_OLDIOCTL32)
+ 
+ #include <linux/file.h>
+ 
+diff -Naur linux-2.6.15-org/drivers/scsi/qla2xxx/qla_xioct.c linux-2.6.15-id/drivers/scsi/qla2xxx/qla_xioct.c
+--- linux-2.6.15-org/drivers/scsi/qla2xxx/qla_xioct.c	2005-11-16 09:28:14.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/qla_xioct.c	2005-11-17 13:00:09.000000000 +0100
+@@ -27,7 +27,7 @@
+ #include "qlfoln.h"
+ #include "inioct.h"
+ 
+-#if defined(CONFIG_COMPAT) && !defined(CONFIG_IA64)
++#if defined(CONFIG_COMPAT) && defined(CONFIG_OLDIOCTL32)
+ #include "qla_32ioctl.h"
+ #endif
+ 
+@@ -193,7 +193,7 @@
+ 	class_device_create(apidev_class, MKDEV(apidev_major, 0), NULL,
+ 	    "qla2xxx");
+ 
+-#if defined(CONFIG_COMPAT) && !defined(CONFIG_IA64)
++#if defined(CONFIG_COMPAT) && defined(CONFIG_OLDIOCTL32)
+ 	apidev_init_32ioctl_reg();
+ #endif
+ 
+@@ -206,7 +206,7 @@
+ 	if (!apidev_class)
+ 		return 1;
+ 
+-#if defined(CONFIG_COMPAT) && !defined(CONFIG_IA64)
++#if defined(CONFIG_COMPAT) && defined(CONFIG_OLDIOCTL32)
+ 	apidev_cleanup_32ioctl_unreg();
+ #endif
+ 

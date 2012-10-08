@@ -1,0 +1,85 @@
+diff -Naur ths3/drivers/video/omap2/dss/dss_features.c ths4/drivers/video/omap2/dss/dss_features.c
+--- ths3/drivers/video/omap2/dss/dss_features.c	2012-05-23 09:33:08.000000000 +0200
++++ ths4/drivers/video/omap2/dss/dss_features.c	2012-05-23 09:37:32.000000000 +0200
+@@ -566,8 +566,7 @@
+ 	.dump_core		=	ti_hdmi_4xxx_core_dump,
+ 	.dump_pll		=	ti_hdmi_4xxx_pll_dump,
+ 	.dump_phy		=	ti_hdmi_4xxx_phy_dump,
+-#if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+-	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
++#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+ 	.audio_enable		=       ti_hdmi_4xxx_wp_audio_enable,
+ 	.audio_start		=       ti_hdmi_4xxx_audio_start,
+ #endif
+diff -Naur ths3/drivers/video/omap2/dss/Kconfig ths4/drivers/video/omap2/dss/Kconfig
+--- ths3/drivers/video/omap2/dss/Kconfig	2012-01-15 15:52:30.000000000 +0100
++++ ths4/drivers/video/omap2/dss/Kconfig	2012-05-23 09:37:32.000000000 +0200
+@@ -68,6 +68,10 @@
+ 	  HDMI Interface. This adds the High Definition Multimedia Interface.
+ 	  See http://www.hdmi.org/ for HDMI specification.
+ 
++config OMAP4_DSS_HDMI_AUDIO
++	bool
++	depends on OMAP4_DSS_HDMI
++
+ config OMAP2_DSS_SDI
+ 	bool "SDI support"
+ 	depends on ARCH_OMAP3
+diff -Naur ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c ths4/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+--- ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:33:08.000000000 +0200
++++ ths4/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:37:32.000000000 +0200
+@@ -1015,8 +1015,7 @@
+ 	DUMPPHY(HDMI_TXPHY_PAD_CFG_CTRL);
+ }
+ 
+-#if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+-	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
++#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+ void hdmi_wp_audio_config_format(struct hdmi_ip_data *ip_data,
+ 					struct hdmi_audio_format *aud_fmt)
+ {
+diff -Naur ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h ths4/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
+--- ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:32:55.000000000 +0200
++++ ths4/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:37:32.000000000 +0200
+@@ -26,8 +26,6 @@
+ #include "ti_hdmi.h"
+ #if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+ 	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
+-#include <sound/soc.h>
+-#include <sound/pcm_params.h>
+ #include <sound/asound.h>
+ #include <sound/asoundef.h>
+ #endif
+@@ -454,8 +452,7 @@
+ 	bool					en_spdif;
+ };
+ 
+-#if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+-	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
++#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+ int hdmi_config_audio_acr(struct hdmi_ip_data *ip_data,
+ 				u32 sample_freq, u32 *n, u32 *cts);
+ void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
+diff -Naur ths3/drivers/video/omap2/dss/ti_hdmi.h ths4/drivers/video/omap2/dss/ti_hdmi.h
+--- ths3/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:33:08.000000000 +0200
++++ ths4/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:37:32.000000000 +0200
+@@ -106,8 +106,7 @@
+ 
+ 	void (*dump_phy)(struct hdmi_ip_data *ip_data, struct seq_file *s);
+ 
+-#if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+-	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
++#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+ 	void (*audio_enable)(struct hdmi_ip_data *ip_data, bool start);
+ 
+ 	void (*audio_start)(struct hdmi_ip_data *ip_data, bool start);
+@@ -183,8 +182,7 @@
+ void ti_hdmi_4xxx_pll_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
+ void ti_hdmi_4xxx_core_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
+ void ti_hdmi_4xxx_phy_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
+-#if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+-	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
++#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+ void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
+ void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
+ #endif
