@@ -1,0 +1,4 @@
+10/13/12-09:30:26: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/THS/linux-3.6-ths-init.patch
+patching file init/main.c
+Hunk #4 succeeded at 774 with fuzz 1 (offset -4 lines).
+patching file init/version.c

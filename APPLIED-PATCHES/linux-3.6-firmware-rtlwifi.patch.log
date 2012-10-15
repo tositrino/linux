@@ -1,0 +1,10 @@
+10/13/12-09:30:01: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/FIRMWARE/linux-3.6-firmware-rtlwifi.patch
+patching file firmware/rtlwifi/rtl8192cfw.bin
+patching file firmware/rtlwifi/rtl8192cfwU_B.bin
+patching file firmware/rtlwifi/rtl8192cfwU.bin
+patching file firmware/rtlwifi/rtl8192cufw.bin
+patching file firmware/rtlwifi/rtl8192defw.bin
+patching file firmware/rtlwifi/rtl8192sefw.bin
+patching file firmware/rtlwifi/rtl8712u.bin
+patching file firmware/rtlwifi/rtl8723fw_B.bin
+patching file firmware/rtlwifi/rtl8723fw.bin
