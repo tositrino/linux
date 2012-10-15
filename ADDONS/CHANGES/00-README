@@ -45,6 +45,8 @@
 #     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
 #     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
 #   - setup & build kernel 3.7.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#  12/10/15
+#   - updated configs
 #   - setup & build kernel 3.7.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch final
 #     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch ths
