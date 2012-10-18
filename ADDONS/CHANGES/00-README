@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.14-ths
 # created : 12/04/30
-# changed : 12/10/13
+# changed : 12/10/18
 #
 # TODO:
 #   * ubuntu
@@ -28,12 +28,15 @@
 #   - setup & build kernel 3.4.14-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.4.14-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/10/13
+#  12/10/18
 #   - updated branch v3.4.14-ths
 #     git push origin v3.4.14-ths
 #     git commit -m "updated v3.4.14-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  12/10/16
 #   - updated configs
+#   - reorganized WORK directory
+#  12/10/15
 #   - setup & build kernel 3.4.14-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.4.14-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #     BASEVER=linux-3.4.14-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
