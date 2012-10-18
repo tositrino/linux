@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.6.2-ths
 # created : 12/08/03
-# changed : 12/10/13
+# changed : 12/10/18
 #
 # TODO:
 #   * ubuntu
@@ -28,12 +28,15 @@
 #   - setup & build kernel 3.6.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.6.2-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/10/13
+#  12/10/18
 #   - updated branch v3.6.2-ths
 #     git push origin v3.6.2-ths
 #     git commit -m "updated v3.6.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  12/10/16
 #   - updated configs (3.4,5,6)
+#   - reorganized WORK directory
+#  12/10/15
 #   - setup & build kernel 3.6.2-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.6.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
@@ -44,7 +47,6 @@
 #     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
 #     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
 #  12/10/13
-#   - updated configs
 #   - setup & build kernel 3.6.2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.6.2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch final
