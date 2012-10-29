@@ -1,5 +1,5 @@
 Product:                   kernel
-Version:                   3.6.2
+Version:                   3.6.4
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
 Kurzbeschreibung:          linux kernel
