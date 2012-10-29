@@ -1,0 +1,2 @@
+10/13/12-09:30:27: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/THS/linux-3.6-ths-setlocalversion.patch
+patching file scripts/setlocalversion
