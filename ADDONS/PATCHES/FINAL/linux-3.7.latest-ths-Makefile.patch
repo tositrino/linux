@@ -4,7 +4,7 @@ diff -Naur xxx/Makefile yyy/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 7
  SUBLEVEL = 0
- EXTRAVERSION = -rc1
+ EXTRAVERSION = -rc3
 -NAME = Terrified Chipmunk
 +NAME = Odonata Draconis
  
