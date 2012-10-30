@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.7.0-rc3-ths
 # created : 12/10/15
-# changed : 12/10/29
+# changed : 12/10/30
 #
 # TODO:
 #   * ubuntu
@@ -28,12 +28,13 @@
 #   - setup & build kernel 3.7.0-rc3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.7.0-rc3-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/10/29
+#  12/10/30
 #   - updated branch v3.7.0-rc3-ths
 #     git push origin v3.7.0-rc3-ths
 #     git commit -m "updated v3.7.0-rc3-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs
+#   - updated configs (3.4,3.6,3.7)
+#  12/10/29
 #   - setup & build kernel 3.7.0-rc3-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.7.0-rc3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
