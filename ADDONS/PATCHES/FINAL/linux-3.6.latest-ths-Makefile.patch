@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2012-10-01 15:39:06.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 6
- SUBLEVEL = 5
+ SUBLEVEL = 6
  EXTRAVERSION =
 -NAME = Terrified Chipmunk
 +NAME = Odonata Draconis
