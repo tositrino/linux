@@ -1,0 +1,461 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.6.5-ths
+# created : 12/08/03
+# changed : 12/11/02
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.6.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.6.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.6.5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.6.5-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.6.5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.6.5-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.6.5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.6.5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.6.5-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.6.5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.6.5-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  12/11/02
+#   - updated branch v3.6.5-ths
+#     git push origin v3.6.5-ths
+#     git commit -m "updated v3.6.5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.4,3.6)
+#   - setup & build kernel 3.6.5-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.6.5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.5-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.5-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.6.5-ths
+#     git commit -m "created v3.6.5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.5-mmxii-xi-ii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#   - using genpatches-3.6-6
+#   - merge old ths branch
+#     git merge v3.6.4-ths
+#   - create new branch from v3.6.5
+#     git checkout -b v3.6.5-ths v3.6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/30
+#   - updated config
+#   - setup & build kernel 3.6.4-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - THS-RELEASE 3.6.4-mmxii-x-xxx
+#   - updated/added patches
+#     ARM/linux-3.6-read_current_timer.patch
+#   - updated branch v3.6.4-ths
+#     git push origin v3.6.4-ths
+#     git commit -m "updated v3.6.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.4,3.6)
+#  12/10/29
+#   - setup & build kernel 3.6.4-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.6.4-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.4-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.4-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.4-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.4-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.6.4-ths
+#     git commit -m "created v3.6.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.4-mmxii-x-xxix
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#   - using genpatches-3.6-4
+#   - merge old ths branch
+#     git merge v3.6.2-ths
+#   - create new branch from v3.6.4
+#     git checkout -b v3.6.4-ths v3.6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/18
+#   - updated branch v3.6.2-ths
+#     git push origin v3.6.2-ths
+#     git commit -m "updated v3.6.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  12/10/16
+#   - updated configs (3.4,5,6)
+#   - reorganized WORK directory
+#  12/10/15
+#   - setup & build kernel 3.6.2-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.6.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#  12/10/13
+#   - setup & build kernel 3.6.2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.2-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.6.2-ths
+#     git commit -m "created v3.6.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.2-mmxii-x-xiii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#   - using genpatches-3.6-4
+#   - merge old ths branch
+#     git merge v3.6.1-ths
+#   - create new branch from v3.6.2
+#     git checkout -b v3.6.2-ths v3.6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/09
+#   - updated branch v3.6.1-ths
+#     git push origin v3.6.1-ths
+#     git commit -m "updated v3.6.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.4,5,6)
+#   - setup & build kernel 3.6.1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.6.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.1-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.1-ths ADDONS/tools/patch-kernel --patch firmware
+#  12/10/08
+#   - commit and push new branch
+#     git push origin v3.6.1-ths
+#     git commit -m "created v3.6.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.1-mmxii-x-viii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#   - using genpatches-3.6-3
+#   - merge old ths branch
+#     git merge v3.6.0-ths
+#   - create new branch from v3.6.1
+#     git checkout -b v3.6.1-ths v3.6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/06
+#   - updated branch v3.6.0-ths
+#     git push origin v3.6.0-ths
+#     git commit -m "updated v3.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.6.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch firmware
+#   - THS-RELEASE 3.6.0-mmxii-x-vi
+#   - added genpatches-3.6-2
+#  12/10/01
+#   - updated branch v3.6.0-ths
+#     git push origin v3.6.0-ths
+#     git commit -m "updated v3.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.6.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.0-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.6.0-ths
+#     git commit -m "created v3.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.0-mmxii-x-i
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#   - merge old ths branch
+#     git merge v3.6.0-rc6-ths
+#   - create new branch from v3.6.0
+#     git checkout -b v3.6.0-ths v3.6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/09/18
+#   - updated branch v3.6.0-rc6-ths
+#     git push origin v3.6.0-rc6-ths
+#     git commit -m "updated v3.6.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.6.0-rc6-ths-arm-omap4-smp using gcc-4.7.1/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc6-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.0-rc6-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.0-rc6-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc6-ths ADDONS/tools/patch-kernel --patch firmware
+#   - updated configs(3.4,3.5)
+#  12/09/17
+#   - commit and push new branch
+#     git push origin v3.6.0-rc6-ths
+#     git commit -m "created v3.6.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.0-rc6-mmxii-ix-xvii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated/added patches
+#     linux-3.6-ths-init.patch
+#     linux-3.6.latest-ths-Makefile.patch
+#     linux-3.6-samsung.patch
+#   - updated Makefile.addons for exynos arch ->
+#     linux-3.6.latest-ths-Makefile.patch
+#   - merge old ths branch
+#     git merge v3.6.0-rc2-ths
+#   - create new branch from v3.6.0-rc6
+#     git checkout -b v3.6.0-rc6-ths v3.6-rc6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/08/17
+#   - updated branch v3.6.0-rc2-ths
+#     git push origin v3.6.0-rc2-ths
+#     git commit -m "updated v3.6.0-rc2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated Makefile.addons for exynos arch ->
+#     linux-3.6.latest-ths-Makefile.patch
+#   - updated configs
+#   - setup & build kernel 3.6.0-rc2-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-hardfloat-linux-gnueabi
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc2-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.6.0-rc2-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.0-rc2-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch firmware
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.6.0-rc2-ths ADDONS/tools/patch-kernel --patch firmware
+#   - fixed runtime/realtime patch set naming mismatch
+#     ADDONS/tool/patch-kernel
+#   - commit and push new branch
+#     git push origin v3.6.0-rc2-ths
+#     git commit -m "created v3.6.0-rc2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.0-rc2-mmxii-viii-xvii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.6.0-rc1-ths
+#   - create new branch from v3.6.0-rc2
+#     git checkout -b v3.6.0-rc2-ths v3.6-rc2
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/08/11
+#   - updated branch v3.6.0-rc1-ths
+#     git push origin v3.6.0-rc1-ths
+#     git commit -m "updated v3.6.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated notes
+#   - updated configs
+#  12/08/06
+#   - updated branch v3.6.0-rc1-ths
+#     git push origin v3.6.0-rc1-ths
+#     git commit -m "updated v3.6.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated notes
+#   - updated configs
+#   - setup & build kernel 3.6.0-rc1-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#   - setup & build kernel 3.6.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.6.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch firmware
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.6.0-rc1-ths ADDONS/tools/patch-kernel --patch gentoo
+#   - THS-RELEASE 3.6.0-rc1-mmxii-viii-vi
+#   - updated tools
+#  12/08/03
+#   - commit and push new branch
+#     git push origin v3.6.0-rc1-ths
+#     git commit -m "created v3.6.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.6.0-rc1-mmxii-viii-iii
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#     linux-3.6-smp-shutdown.patch -> old
+#   - updated patches
+#   - merge old ths branch
+#     added addons from 3.4.4-ths (don't merge)
+#   - create new branch from v3.6.0-rc1
+#     git checkout -b v3.6.0-rc1-ths v3.6-rc1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.6-ths-init.patch
+#    applied linux-3.6-ths-quantis-v11.07.12.patch
+#  (final)
+#    linux-3.6-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.6-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.6-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v11.07.12 from idquantique
+#   -> linux-3.6-ths-quantis-v11.07.12.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.6-ths-init.patch 
+#
+
+
+
