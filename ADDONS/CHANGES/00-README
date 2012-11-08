@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.4.18-ths
 # created : 12/04/30
-# changed : 12/11/07
+# changed : 12/11/08
 #
 # TODO:
 #   * ubuntu
@@ -34,6 +34,7 @@
 #     git commit -m "updated v3.4.18-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs
+#  12/11/08
 #   - setup & build kernel 3.4.18-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.4.18-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #     BASEVER=linux-3.4.18-ths SRCDIR=/usr/armv7a-hardfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
