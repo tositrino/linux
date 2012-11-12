@@ -28,7 +28,7 @@
 #   - setup & build kernel 3.7.0-rc5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.7.0-rc5-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/10/30
+#  12/11/12
 #   - updated branch v3.7.0-rc5-ths
 #     git push origin v3.7.0-rc5-ths
 #     git commit -m "updated v3.7.0-rc5-ths"
