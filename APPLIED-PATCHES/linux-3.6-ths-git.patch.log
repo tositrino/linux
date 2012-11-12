@@ -1,0 +1,2 @@
+10/13/12-09:30:26: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/THS/linux-3.6-ths-git.patch
+patching file .gitignore

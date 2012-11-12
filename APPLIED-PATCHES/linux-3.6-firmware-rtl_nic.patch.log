@@ -1,0 +1,13 @@
+10/13/12-09:30:01: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/FIRMWARE/linux-3.6-firmware-rtl_nic.patch
+patching file firmware/rtl_nic/rtl8105e-1.fw
+patching file firmware/rtl_nic/rtl8106e-1.fw
+patching file firmware/rtl_nic/rtl8168d-1.fw
+patching file firmware/rtl_nic/rtl8168d-2.fw
+patching file firmware/rtl_nic/rtl8168e-1.fw
+patching file firmware/rtl_nic/rtl8168e-2.fw
+patching file firmware/rtl_nic/rtl8168e-3.fw
+patching file firmware/rtl_nic/rtl8168f-1.fw
+patching file firmware/rtl_nic/rtl8168f-2.fw
+patching file firmware/rtl_nic/rtl8168g-1.fw
+patching file firmware/rtl_nic/rtl8402-1.fw
+patching file firmware/rtl_nic/rtl8411-1.fw

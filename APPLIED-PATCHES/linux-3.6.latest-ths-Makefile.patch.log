@@ -1,0 +1,3 @@
+10/13/12-09:30:29: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/FINAL/linux-3.6.latest-ths-Makefile.patch
+patching file Makefile
+patching file Makefile.addons
