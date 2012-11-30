@@ -1,0 +1,40 @@
+diff -Naur linux-2.6.26-org/include/asm-powerpc/segment.h linux-2.6.26-id/include/asm-powerpc/segment.h
+--- linux-2.6.26-org/include/asm-powerpc/segment.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.6.26-id/include/asm-powerpc/segment.h	2008-07-14 14:40:04.425315084 +0200
+@@ -0,0 +1,6 @@
++#ifndef _ASM_SEGMENT_H
++#define _ASM_SEGMENT_H
++
++#include <asm/cache.h>
++
++#endif
+diff -Naur linux-2.6.26-org/include/asm-ppc/segment.h linux-2.6.26-id/include/asm-ppc/segment.h
+--- linux-2.6.26-org/include/asm-ppc/segment.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.6.26-id/include/asm-ppc/segment.h	2008-07-14 14:40:04.437315617 +0200
+@@ -0,0 +1,6 @@
++#ifndef _ASM_SEGMENT_H
++#define _ASM_SEGMENT_H
++
++#include <asm/cache.h>
++
++#endif
+diff -Naur linux-2.6.26-org/include/asm-sparc/segment.h linux-2.6.26-id/include/asm-sparc/segment.h
+--- linux-2.6.26-org/include/asm-sparc/segment.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.6.26-id/include/asm-sparc/segment.h	2008-07-14 14:40:04.493315974 +0200
+@@ -0,0 +1,6 @@
++#ifndef _ASM_SEGMENT_H
++#define _ASM_SEGMENT_H
++
++#include <asm/cache.h>
++
++#endif
+diff -Naur linux-2.6.26-org/include/asm-sparc64/segment.h linux-2.6.26-id/include/asm-sparc64/segment.h
+--- linux-2.6.26-org/include/asm-sparc64/segment.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.6.26-id/include/asm-sparc64/segment.h	2008-07-14 14:40:04.569314726 +0200
+@@ -0,0 +1,6 @@
++#ifndef _ASM_SEGMENT_H
++#define _ASM_SEGMENT_H
++
++#include <asm/cache.h>
++
++#endif

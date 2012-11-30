@@ -1,0 +1,15 @@
+--- linux-3.4.0-rc5-org/.gitignore	2012-04-30 18:40:09.263496610 +0200
++++ linux-3.4.0-rc5-ths/.gitignore	2012-04-30 18:51:00.787944175 +0200
+@@ -81,6 +81,12 @@
+ GSYMS
+ GTAGS
+ 
++# THS
++THS-*
++config-*
++*.log
++samples/hidraw/hid-example
++
+ *.orig
+ *~
+ \#*#
