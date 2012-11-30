@@ -1,0 +1,7 @@
+10/13/12-09:30:12: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/GENTOO/2400_kcopy-patch-for-infiniband-driver.patch
+patching file drivers/char/Kconfig
+patching file drivers/char/Makefile
+Hunk #1 succeeded at 63 (offset -1 lines).
+patching file drivers/char/kcopy/Kconfig
+patching file drivers/char/kcopy/Makefile
+patching file drivers/char/kcopy/kcopy.c

@@ -1,0 +1,2 @@
+10/13/12-09:30:24: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/ARM/linux-3.6-omap2-dpi-secure-disable.patch
+patching file drivers/video/omap2/dss/dpi.c

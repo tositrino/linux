@@ -1,0 +1,6 @@
+10/13/12-09:30:24: patch -p1 < /usr/src/linux-3.6.2-ths/ADDONS/PATCHES/ARM/linux-3.6-samsung.patch
+patching file arch/arm/plat-samsung/include/plat/dma-pl330.h
+patching file drivers/spi/spi-s3c64xx.c
+Hunk #1 succeeded at 32 with fuzz 1 (offset 3 lines).
+patching file sound/soc/samsung/ac97.c
+patching file sound/soc/samsung/spdif.c
