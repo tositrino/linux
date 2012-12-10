@@ -1,0 +1,57 @@
+diff -Naur linux-a/arch/arm/mach-omap2/devices.c linux-b/arch/arm/mach-omap2/devices.c
+--- linux-a/arch/arm/mach-omap2/devices.c	2012-09-11 10:37:53.000000000 +0200
++++ linux-b/arch/arm/mach-omap2/devices.c	2012-09-12 09:18:06.571863706 +0200
+@@ -704,6 +704,7 @@
+ 	omap_init_mcpdm();
+ 	omap_init_dmic();
+ 	omap_init_camera();
++	omap3_init_camera(NULL);
+ 	omap_init_mbox();
+ 	omap_init_mcspi();
+ 	omap_init_pmu();
+diff -Naur linux-a/drivers/media/video/Kconfig linux-b/drivers/media/video/Kconfig
+--- linux-a/drivers/media/video/Kconfig	2012-09-11 10:37:58.000000000 +0200
++++ linux-b/drivers/media/video/Kconfig	2012-09-12 09:46:23.639863504 +0200
+@@ -524,10 +524,17 @@
+ config VIDEO_MT9V032
+ 	tristate "Micron MT9V032 sensor support"
+ 	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
++	selectVIDEO_MT9V032_INIT
+ 	---help---
+ 	  This is a Video4Linux2 sensor-level driver for the Micron
+ 	  MT9V032 752x480 CMOS sensor.
+ 
++config VIDEO_MT9V032_INIT
++	bool "MT9V032 Camera board init"
++	depends on VIDEO_MT9V032 && MACH_OVERO && EXPERIMENTAL
++	help
++	  Enable MT9V032 camera init with board initialization (overo).
++
+ config VIDEO_TCM825X
+ 	tristate "TCM825x camera sensor support"
+ 	depends on I2C && VIDEO_V4L2
+@@ -1160,6 +1167,12 @@
+ 
+ source "drivers/media/video/s5p-tv/Kconfig"
+ 
++config VIDEO_ECAM32_INIT
++	bool "ECAM32 Camera board init"
++	depends on VIDEO_OMAP3_ISP
++	help
++	  Enable ECAM32 camera init with board initialization (overo).
++
+ endif # V4L_PLATFORM_DRIVERS
+ endif # VIDEO_CAPTURE_DRIVERS
+ 
+diff -Naur linux-a/drivers/media/video/omap/omap_vout.c linux-b/drivers/media/video/omap/omap_vout.c
+--- linux-a/drivers/media/video/omap/omap_vout.c	2012-07-24 16:12:41.000000000 +0200
++++ linux-b/drivers/media/video/omap/omap_vout.c	2012-09-12 09:18:06.571863706 +0200
+@@ -2237,7 +2237,7 @@
+ 	if (ret)
+ 		goto probe_err2;
+ 
+-	for (i = 0; i < vid_dev->num_displays; i++) {
++	for (i = 0; i < vid_dev->num_displays-1; i++) {
+ 		struct omap_dss_device *display = vid_dev->displays[i];
+ 
+ 		if (display->driver->update)
