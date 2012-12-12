@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.6.10-ths
 # created : 12/08/03
-# changed : 12/12/11
+# changed : 12/12/12
 #
 # TODO:
 #   * ubuntu
@@ -28,13 +28,14 @@
 #   - setup & build kernel 3.6.10-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.6.10-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/12/11
+#  12/12/12
 #   - updated branch v3.6.10-ths
 #     git push origin v3.6.10-ths
 #     git commit -m "updated v3.6.10-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.6)
 #   - setup & build kernel 3.6.10-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  12/12/11
 #   - setup & build kernel 3.6.10-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.6.10-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.6.10-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
