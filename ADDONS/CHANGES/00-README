@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.8.0-rc1
 # created : 12/12/22
-# changed : 12/12/22
+# changed : 12/12/23
 #
 # TODO:
 #   * ubuntu
@@ -29,16 +29,18 @@
 #   - setup & build kernel 3.8.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  12/12/22
-#   - updated branch v3.8.0-rc1-ths
-#     git push origin v3.8.0-rc1-ths
-#     git commit -m "updated v3.8.0-rc1-ths"
-#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.7,3.6,3.4)
 #   - setup & build kernel 3.8.0-rc1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.8.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.8.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#  12/12/23
+#   - updated branch v3.8.0-rc1-ths
+#     git push origin v3.8.0-rc1-ths
+#     git commit -m "updated v3.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs 
+#  12/12/22
+#   - setup & build kernel 3.8.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - patch kernel
 #     kv=3.8.0-rc1
 #     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
