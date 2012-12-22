@@ -1,0 +1,22 @@
+diff -Naur linux-2.6.13-org/drivers/md/dm-snap.c linux-2.6.13-id/drivers/md/dm-snap.c
+--- linux-2.6.13-org/drivers/md/dm-snap.c	2005-08-29 01:41:01.000000000 +0200
++++ linux-2.6.13-id/drivers/md/dm-snap.c	2005-08-29 13:57:23.375671032 +0200
+@@ -19,6 +19,7 @@
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
++#include "dm.h"
+ #include "dm-snap.h"
+ #include "dm-bio-list.h"
+ #include "kcopyd.h"
+diff -Naur linux-2.6.13-org/drivers/md/dm-table.c linux-2.6.13-id/drivers/md/dm-table.c
+--- linux-2.6.13-org/drivers/md/dm-table.c	2005-08-29 01:41:01.000000000 +0200
++++ linux-2.6.13-id/drivers/md/dm-table.c	2005-08-29 13:57:23.376670880 +0200
+@@ -951,6 +951,7 @@
+ EXPORT_SYMBOL(dm_table_event);
+ EXPORT_SYMBOL(dm_table_get_size);
+ EXPORT_SYMBOL(dm_table_get_mode);
++EXPORT_SYMBOL(dm_table_get_size);
+ EXPORT_SYMBOL(dm_table_put);
+ EXPORT_SYMBOL(dm_table_get);
+ EXPORT_SYMBOL(dm_table_unplug_all);
