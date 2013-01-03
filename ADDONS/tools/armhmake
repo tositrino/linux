@@ -1,0 +1,6 @@
+#!/bin/sh
+c_arch="arm"
+c_platform="armv7a-hardfloat-linux-gnueabi"
+c_sysroot="/usr/armv7a-hardfloat-linux-gnueabi"
+export SYSROOT=${c_sysroot}
+exec make ARCH="${c_arch}" CROSS_COMPILE="${c_platform}-" INSTALL_MOD_PATH="${SYSROOT}" "$@"
