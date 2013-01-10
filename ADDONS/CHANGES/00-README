@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.7.1-ths
 # created : 12/10/15
-# changed : 12/12/22
+# changed : 13/01/10
 #
 # TODO:
 #   * ubuntu
@@ -28,6 +28,23 @@
 #   - setup & build kernel 3.7.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.7.1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/01/10
+#   - updated branch v3.7.1-ths
+#     git push origin v3.7.1-ths
+#     git commit -m "updated v3.7.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - THS-RELEASE 3.7.1-mmxii-xii-xix
+#   - updated patches
+#     linux-3.7-ths-init.patch
+#   - using genpatches-3.7-3
+#   - added new firmware
+#     linux-3.7-firmware-mrvl.patch
+#     linux-3.7-firmware-s5p-mfc.patch
+#     linux-3.7-firmware-tegra3.patch
+#     linux-3.7-firmware-maudio.patch
+#     linux-3.7-firmware-xilinx.patch
+#  13/01/09
 #   - setup & build kernel 3.7.1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #  12/12/22
 #   - branch cleanup
@@ -62,6 +79,7 @@
 #   - updated kversion.figlet testversion.c
 #   - obsolete patches
 #   - updated patches
+#     
 #   - using genpatches-3.7-2
 #   - merge old ths branch
 #     git merge v3.7.0-ths

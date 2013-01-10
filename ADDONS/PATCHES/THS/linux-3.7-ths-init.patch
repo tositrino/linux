@@ -221,7 +221,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 12/12/19 kernel-3.7.1
++ *  - 13/01/10 kernel-3.7.1
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxii-xii-xix"
++#define THS_RELEASE          "mmxiii-i-x"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
