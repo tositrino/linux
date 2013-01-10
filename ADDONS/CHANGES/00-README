@@ -54,6 +54,7 @@
 #     kversion.figlet testversion.c
 #   - using genpatches-3.7-3
 #   - added new firmware
+#     linux-3.8-firmware-device-tree.patch
 #     linux-3.8-firmware-mrvl.patch
 #     linux-3.8-firmware-s5p-mfc.patch
 #     linux-3.8-firmware-tegra3.patch
