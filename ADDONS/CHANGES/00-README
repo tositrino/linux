@@ -39,6 +39,7 @@
 #     linux-3.7-ths-init.patch
 #   - using genpatches-3.7-3
 #   - added new firmware
+#     linux-3.8-firmware-device-tree.patch
 #     linux-3.7-firmware-mrvl.patch
 #     linux-3.7-firmware-s5p-mfc.patch
 #     linux-3.7-firmware-tegra3.patch
