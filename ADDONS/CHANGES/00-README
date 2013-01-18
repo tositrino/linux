@@ -37,6 +37,7 @@
 #   - updated configs
 #   - setup & build kernel 3.8.0-rc4-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.8.0-rc4-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+
 #   - setup & build kernel 3.8.0-rc4-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.8.0-rc4-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
@@ -54,6 +55,8 @@
 #     kversion.figlet testversion.c
 #   - using genpatches-3.7-5
 #   - updated patches
+#     linux-3.8-ths-quantis-v1.patch (remove __dev* macros)
+#     linux-3.8-ths-quantis-v2.patch (remove __dev* macros)
 #     linux-3.8.latest-ths-Makefile.patch
 #     linux-3.8-ths-init.patch
 #   - merge old ths branch
