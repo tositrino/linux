@@ -1,0 +1,12 @@
+diff -Naur linux-org/drivers/video/omap2/dss/dpi.c linux-ths/drivers/video/omap2/dss/dpi.c
+--- linux-org/drivers/video/omap2/dss/dpi.c	2012-10-15 10:04:54.000000000 +0200
++++ linux-ths/drivers/video/omap2/dss/dpi.c	2012-10-15 12:48:17.693910668 +0200
+@@ -267,6 +267,8 @@
+ {
+ 	struct omap_overlay_manager *mgr = dssdev->output->manager;
+ 
++    if (dssdev->state == OMAP_DSS_DISPLAY_DISABLED) return;
++
+ 	mutex_lock(&dpi.lock);
+ 
+ 	dss_mgr_disable(mgr);
