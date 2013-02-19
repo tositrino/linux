@@ -1,16 +1,39 @@
-diff -Naur linux-org/Makefile linux-ths/Makefile
---- linux-org/Makefile	2012-12-22 10:15:12.000000000 +0100
-+++ linux-ths/Makefile	2012-12-19 09:14:53.000000000 +0100
-@@ -2,7 +2,7 @@
+diff -Naur linux-a/Makefile linux-b/Makefile
+--- linux-a/Makefile	2012-12-19 09:04:52.000000000 +0100
++++ linux-b/Makefile	2013-02-19 17:00:09.000000000 +0100
+@@ -1,8 +1,8 @@
+ VERSION = 3
  PATCHLEVEL = 7
- SUBLEVEL = 8
- EXTRAVERSION =
+-SUBLEVEL = 0
+-EXTRAVERSION = -rc1
 -NAME = Terrified Chipmunk
++SUBLEVEL = 9
++EXTRAVERSION =
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
  # To see a list of typical targets execute "make help"
-@@ -680,6 +680,12 @@
+@@ -169,7 +169,7 @@
+ 				  -e s/arm.*/arm/ -e s/sa110/arm/ \
+ 				  -e s/s390x/s390/ -e s/parisc64/parisc/ \
+ 				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
+-				  -e s/sh[234].*/sh/ )
++				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ )
+ 
+ # Cross compiling and selecting different set of gcc/bin-utils
+ # ---------------------------------------------------------------------------
+@@ -437,7 +437,9 @@
+ PHONY += asm-generic
+ asm-generic:
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
+-	            obj=arch/$(SRCARCH)/include/generated/asm
++	            src=asm obj=arch/$(SRCARCH)/include/generated/asm
++	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
++	            src=uapi/asm obj=arch/$(SRCARCH)/include/generated/uapi/asm
+ 
+ # To make sure we do not include .config for any of the *config targets
+ # catch them early, and hand them over to scripts/kconfig/Makefile
+@@ -678,6 +680,12 @@
  LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
@@ -23,7 +46,25 @@ diff -Naur linux-org/Makefile linux-ths/Makefile
  # Default kernel image to build when no specific target is given.
  # KBUILD_IMAGE may be overruled on the command line or
  # set in the environment
-@@ -854,10 +860,17 @@
+@@ -717,6 +725,17 @@
+ export mod_strip_cmd
+ 
+ 
++ifeq ($(CONFIG_MODULE_SIG),y)
++MODSECKEY = ./signing_key.priv
++MODPUBKEY = ./signing_key.x509
++export MODPUBKEY
++mod_sign_cmd = perl $(srctree)/scripts/sign-file $(MODSECKEY) $(MODPUBKEY)
++else
++mod_sign_cmd = true
++endif
++export mod_sign_cmd
++
++
+ ifeq ($(KBUILD_EXTMOD),)
+ core-y		+= kernel/ mm/ fs/ ipc/ security/ crypto/ block/
+ 
+@@ -841,10 +860,17 @@
  	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
  endef
  
@@ -43,7 +84,7 @@ diff -Naur linux-org/Makefile linux-ths/Makefile
  	$(call filechk,utsrelease.h)
  
  PHONY += headerdep
-@@ -1006,6 +1019,10 @@
+@@ -993,6 +1019,10 @@
  # Directories & files removed with 'make clean'
  CLEAN_DIRS  += $(MODVERDIR)
  
@@ -54,10 +95,50 @@ diff -Naur linux-org/Makefile linux-ths/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
---- linux-org/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/Makefile.addons	2012-12-21 15:00:52.000000000 +0100
-@@ -0,0 +1,256 @@
+@@ -1008,11 +1038,14 @@
+ clean: rm-files := $(CLEAN_FILES)
+ clean-dirs      := $(addprefix _clean_, . $(vmlinux-alldirs) Documentation samples)
+ 
+-PHONY += $(clean-dirs) clean archclean
++PHONY += $(clean-dirs) clean archclean vmlinuxclean
+ $(clean-dirs):
+ 	$(Q)$(MAKE) $(clean)=$(patsubst _clean_%,%,$@)
+ 
+-clean: archclean
++vmlinuxclean:
++	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/link-vmlinux.sh clean
++
++clean: archclean vmlinuxclean
+ 
+ # mrproper - Delete all generated files, including .config
+ #
+@@ -1239,7 +1272,6 @@
+ endif # KBUILD_EXTMOD
+ 
+ clean: $(clean-dirs)
+-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/link-vmlinux.sh clean
+ 	$(call cmd,rmdirs)
+ 	$(call cmd,rmfiles)
+ 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+@@ -1308,10 +1340,12 @@
+ 
+ # Clear a bunch of variables before executing the submake
+ tools/: FORCE
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS= -C $(src)/tools/
++	$(Q)mkdir -p $(objtree)/tools
++	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS= O=$(objtree) subdir=tools -C $(src)/tools/
+ 
+ tools/%: FORCE
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS= -C $(src)/tools/ $*
++	$(Q)mkdir -p $(objtree)/tools
++	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS= O=$(objtree) subdir=tools -C $(src)/tools/ $*
+ 
+ # Single targets
+ # ---------------------------------------------------------------------------
+diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
+--- linux-a/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-b/Makefile.addons	2013-02-19 17:21:07.000000000 +0100
+@@ -0,0 +1,262 @@
 +###
 +### extra version infomation addons
 +###
@@ -263,6 +344,9 @@ diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
 +endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
 +
 +ifdef CONFIG_ARCH_EXYNOS
 +CPU_TYPE=-exynos
@@ -282,6 +366,9 @@ diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
 +endif
 +ifdef CONFIG_ARCH_TEGRA_3x_SOC
 +  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
 +endif
 +
 +# Test for Highmem support
@@ -314,10 +401,10 @@ diff -Naur linux-org/Makefile.addons linux-ths/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur linux-org/Makefile.addons.debian linux-ths/Makefile.addons.debian
---- linux-org/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/Makefile.addons.debian	2012-12-22 10:26:36.131523516 +0100
-@@ -0,0 +1,266 @@
+diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
+--- linux-a/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ linux-b/Makefile.addons.debian	2013-02-19 17:21:25.000000000 +0100
+@@ -0,0 +1,272 @@
 +###
 +### extra version infomation addons
 +###
@@ -523,6 +610,9 @@ diff -Naur linux-org/Makefile.addons.debian linux-ths/Makefile.addons.debian
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
 +endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
 +
 +ifdef CONFIG_ARCH_EXYNOS
 +CPU_TYPE=-exynos
@@ -542,6 +632,9 @@ diff -Naur linux-org/Makefile.addons.debian linux-ths/Makefile.addons.debian
 +endif
 +ifdef CONFIG_ARCH_TEGRA_3x_SOC
 +  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
 +endif
 +
 +# Test for Highmem support

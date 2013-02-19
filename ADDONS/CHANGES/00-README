@@ -51,12 +51,20 @@
 #   - THS-RELEASE 3.7.9-mmxiii-ii-xix
 #   - updated tools:
 #     kversion.figlet testversion.c
+#   - obsolete patches:
+#     linux-3.7-omapdss-overlay.patch
+#   - added patches:
+#     linux-3.7-firmware-carl9170.patch
+#     linux-3.7-firmware-mwl8k.patch
 #   - updated patches:
+#     linux-3.7-firmware-libertas.patch
+#     linux-3.7-firmware-mrvl.patch
+#     linux-3.7-firmware-rtl_nic.patch
+#     linux-3.7-firmware-rtlwifi.patch
 #     linux-3.7-ths-init.patch
 #     linux-3.7.latest-ths-Makefile.patch
+#   - updated Makefile.addons to support omap5/tegra4
 #   - using genpatches-3.7-11
-#   - obsolete patches:
-#     none
 #   - merge old ths branch
 #     git merge v3.7.5-ths
 #   - create new branch from v3.7.9
