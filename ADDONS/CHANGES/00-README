@@ -1,0 +1,292 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.8.0-rc5
+# created : 12/12/22
+# changed : 13/01/29
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.8.0-rc5-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  13/01/28
+#   - updated branch v3.8.0-rc5-ths
+#     git push origin v3.8.0-rc5-ths
+#     git commit -m "updated v3.8.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7,3.8)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.8.0-rc5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.8.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.8.0-rc5
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.8.0-rc5-ths
+#     git commit -m "created v3.8.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.8.0-rc5-mmxiii-i-xxix
+#   - updated configs (rc4)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - using genpatches-3.7-5
+#   - updated patches
+#     linux-3.8.latest-ths-Makefile.patch
+#     linux-3.8-ths-init.patch
+#   - merge old ths branch
+#     git merge v3.8.0-rc4-ths
+#   - create new branch from v3.8.0-rc5
+#     git checkout -b v3.8.0-rc5-ths v3.8-rc5
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/18
+#   - updated branch v3.8.0-rc4-ths
+#     git push origin v3.8.0-rc4-ths
+#     git commit -m "updated v3.8.0-rc4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.8.0-rc4-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.8.0-rc4-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc4-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.8.0-rc4-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.8.0-rc4
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.8.0-rc4-ths
+#     git commit -m "created v3.8.0-rc4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.8.0-rc4-mmxiii-i-xviii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - using genpatches-3.7-5
+#   - added patches
+#     linux-3.8-ths-quantis-v1.patch (remove __dev* macros)
+#     linux-3.8-ths-quantis-v2.patch (remove __dev* macros)
+#   - updated patches
+#     linux-3.8.latest-ths-Makefile.patch
+#     linux-3.8-ths-init.patch
+#   - merge old ths branch
+#     git merge v3.8.0-rc3-ths
+#   - create new branch from v3.8.0-rc4
+#     git checkout -b v3.8.0-rc4-ths v3.8-rc4
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/10
+#   - updated branch v3.8.0-rc3-ths
+#     git push origin v3.8.0-rc3-ths
+#     git commit -m "updated v3.8.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.8.0-rc3-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - added patches
+#     linux-3.8-ths-drm_vm.patch
+#   - setup & build kernel 3.8.0-rc3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc3-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.8.0-rc3-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.8.0-rc3
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.8.0-rc3-ths
+#     git commit -m "created v3.8.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - THS-RELEASE 3.8.0-rc3-mmxiii-i-x
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - using genpatches-3.7-3
+#   - added new firmware
+#     linux-3.8-firmware-device-tree.patch
+#     linux-3.8-firmware-mrvl.patch
+#     linux-3.8-firmware-s5p-mfc.patch
+#     linux-3.8-firmware-tegra3.patch
+#   - updated patches
+#     linux-3.8.latest-ths-Makefile.patch
+#     linux-3.8-ths-init.patch
+#   - merge old ths branch
+#     git merge v3.8.0-rc2-ths
+#   - create new branch from v3.8.0-rc3
+#     git checkout -b v3.8.0-rc3-ths v3.8-rc3
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/03
+#   - updated branch v3.8.0-rc2-ths
+#     git push origin v3.8.0-rc2-ths
+#     git commit -m "updated v3.8.0-rc2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.8.0-rc2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.8.0-rc2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.8.0-rc2
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.8.0-rc2-ths
+#     git commit -m "created v3.8.0-rc2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.8.0-rc2-mmxiii-i-iii
+#   - using genpatches-3.7-2
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - updated patches
+#     linux-3.8.latest-ths-Makefile.patch
+#     linux-3.8-ths-init.patch
+#   - merge old ths branch
+#     git merge v3.8.0-rc1-ths 
+#   - create new branch from v3.8.0-rc2
+#     git checkout -b v3.8.0-rc2-ths v3.8-rc2
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/12/28
+#   - updated branch v3.8.0-rc1-ths
+#     git push origin v3.8.0-rc1-ths
+#     git commit -m "updated v3.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added new firmware
+#     linux-3.8-firmware-maudio.patch 
+#     linux-3.8-firmware-xilinx.patch
+#   - updated configs
+#  12/12/26
+#   - setup & build kernel 3.8.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#  12/12/23
+#   - updated branch v3.8.0-rc1-ths
+#     git push origin v3.8.0-rc1-ths
+#     git commit -m "updated v3.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs 
+#  12/12/22
+#   - setup & build kernel 3.8.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - patch kernel
+#     kv=3.8.0-rc1
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.8.0-rc1-ths
+#     git commit -m "created v3.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.8.0-rc1-mmxii-xii-xix
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete/ignored patches
+#     linux-3.7-omapdss-overlay.patch
+#   - updated patches
+#     linux-3.8-firmware-ath6k.patch
+#     linux-3.8-firmware-libertas.patch
+#     linux-3.8-firmware-rtl_nic.patch
+#     linux-3.8-firmware-rtlwifi.patch
+#     linux-3.8-firmware-ti-connectivity.patch
+#     linux-3.8.latest-ths-Makefile.patch
+#     linux-3.8-omap2-dpi-secure-disable.patch
+#     linux-3.8-ths-git.patch
+#     linux-3.8-ths-init.patch
+#     linux-3.8-ths-logo.patch
+#     linux-3.8-ths-quantis-v1.patch
+#     linux-3.8-ths-quantis-v2.patch
+#     linux-3.8-ths-setlocalversion.patch
+#   - using genpatches-3.7-2
+#   - merge old ths branch
+#     added addons from 3.7.1-ths (don't merge)
+#   - create new branch from v3.8.0-rc1
+#     git checkout -b v3.8.0-rc1-ths v3.8-rc1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.8-ths-init.patch
+#    applied linux-3.8-ths-quantis-v11.07.12.patch
+#  (final)
+#    linux-3.8-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.8-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.8-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v11.07.12 from idquantique
+#   -> linux-3.8-ths-quantis-v11.07.12.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.8-ths-init.patch 
+#
+
+
+
