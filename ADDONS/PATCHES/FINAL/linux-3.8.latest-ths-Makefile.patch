@@ -1,11 +1,11 @@
-diff -Naur linux-x/Makefile linux-y/Makefile
---- linux-x/Makefile	2012-12-22 16:38:19.000000000 +0100
-+++ linux-y/Makefile	2012-12-22 16:54:11.000000000 +0100
+diff -Naur linux-a/Makefile linux-b/Makefile
+--- linux-a/Makefile	2013-02-19 17:04:38.000000000 +0100
++++ linux-b/Makefile	2013-02-19 17:20:18.167164788 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 8
  SUBLEVEL = 0
  EXTRAVERSION =
--NAME = Terrified Chipmunk
+-NAME = Unicycling Gorilla
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
@@ -54,10 +54,10 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
---- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2012-12-22 16:53:41.000000000 +0100
-@@ -0,0 +1,256 @@
+diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
+--- linux-a/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-b/Makefile.addons	2013-02-19 17:21:07.823164782 +0100
+@@ -0,0 +1,262 @@
 +###
 +### extra version infomation addons
 +###
@@ -263,6 +263,9 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
 +endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
 +
 +ifdef CONFIG_ARCH_EXYNOS
 +CPU_TYPE=-exynos
@@ -282,6 +285,9 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +endif
 +ifdef CONFIG_ARCH_TEGRA_3x_SOC
 +  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
 +endif
 +
 +# Test for Highmem support
@@ -314,10 +320,10 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
---- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons.debian	2012-12-22 16:53:41.000000000 +0100
-@@ -0,0 +1,266 @@
+diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
+--- linux-a/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ linux-b/Makefile.addons.debian	2013-02-19 17:21:25.775164780 +0100
+@@ -0,0 +1,272 @@
 +###
 +### extra version infomation addons
 +###
@@ -523,6 +529,9 @@ diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
 +ifdef CONFIG_ARCH_OMAP4
 +CPU_TYPE=-omap4
 +endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
 +
 +ifdef CONFIG_ARCH_EXYNOS
 +CPU_TYPE=-exynos
@@ -542,6 +551,9 @@ diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
 +endif
 +ifdef CONFIG_ARCH_TEGRA_3x_SOC
 +  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
 +endif
 +
 +# Test for Highmem support

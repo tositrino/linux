@@ -53,9 +53,17 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - using genpatches-3.8-1
-#   - updated patches
-#     linux-3.8.latest-ths-Makefile.patch
+#   - added patches:
+#     linux-3.8-firmware-carl9170.patch
+#     linux-3.8-firmware-mwl8k.patch
+#   - updated patches:
+#     linux-3.8-firmware-libertas.patch
+#     linux-3.8-firmware-mrvl.patch
+#     linux-3.8-firmware-rtl_nic.patch
+#     linux-3.8-firmware-rtlwifi.patch
 #     linux-3.8-ths-init.patch
+#     linux-3.8.latest-ths-Makefile.patch
+#   - updated Makefile.addons to support omap5/tegra4
 #   - merge old ths branch
 #     git merge v3.8.0-rc5-ths
 #   - create new branch from v3.8.0
