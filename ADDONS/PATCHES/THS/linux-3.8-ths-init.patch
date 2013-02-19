@@ -221,7 +221,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 13/01/29 kernel-3.8.0-rc5
++ *  - 13/02/19 kernel-3.8.0
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxiii-i-xxix"
++#define THS_RELEASE          "mmxiii-ii-xix"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
@@ -273,7 +273,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 +                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8    8ee8    8  8     \n"
 +                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88    8  8    8  8     \n"
 +                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8ee8    8ee8     \n"
-+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888 rc5 \n",
++                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888     \n",
 +
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
@@ -282,7 +282,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 +                                "8eee8e  8    8   8  8   8 8    8         8    8ee8    8  8      odbo     \n"
 +                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88    8  8    8  8  o88o db o88o \n"
 +                                "88   8  88   88   8 88  8 88   88       88    8888    8ee8  oo   db   oo \n"
-+                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8888       db rc5  \n",
++                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8888       db      \n",
 +
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
