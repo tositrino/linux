@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.8.0
 # created : 12/12/22
-# changed : 13/02/19
+# changed : 13/02/23
 #
 # TODO:
 #   * ubuntu
@@ -29,14 +29,16 @@
 #   - setup & build kernel 3.8.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/02/19
+#  13/02/23
 #   - updated branch v3.8.0-ths
 #     git push origin v3.8.0-ths
 #     git commit -m "updated v3.8.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.7,3.8)
+#  13/02/20
 #   - setup & build kernel 3.8.0-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.8.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#  13/02/19
 #   - setup & build kernel 3.8.0-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.8.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
