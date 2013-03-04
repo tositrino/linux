@@ -1,0 +1,644 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.7.9-ths
+# created : 12/10/15
+# changed : 13/02/23
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.7.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.7.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.7.9-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.7.9-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.7.9-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.9-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.7.9-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.7.9-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.7.9-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.7.9-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.7.9-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.9-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.9-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  13/02/23
+#   - updated branch v3.7.9-ths
+#     git push origin v3.7.9-ths
+#     git commit -m "updated v3.7.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  13/02/20
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.9-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/02/19
+#   - setup & build kernel 3.7.9-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.9-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.9-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.9
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.9-ths
+#     git commit -m "created v3.7.9-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.9-mmxiii-ii-xix
+#   - updated tools:
+#     kversion.figlet testversion.c
+#   - obsolete patches:
+#     linux-3.7-omapdss-overlay.patch
+#   - added patches:
+#     linux-3.7-firmware-carl9170.patch
+#     linux-3.7-firmware-mwl8k.patch
+#   - updated patches:
+#     linux-3.7-firmware-libertas.patch
+#     linux-3.7-firmware-mrvl.patch
+#     linux-3.7-firmware-rtl_nic.patch
+#     linux-3.7-firmware-rtlwifi.patch
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - updated Makefile.addons to support omap5/tegra4
+#   - using genpatches-3.7-11
+#   - merge old ths branch
+#     git merge v3.7.5-ths
+#   - create new branch from v3.7.9
+#     git checkout -b v3.7.9-ths v3.7.9
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/29
+#   - updated branch v3.7.5-ths
+#     git push origin v3.7.5-ths
+#     git commit -m "updated v3.7.5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.5
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.5-ths
+#     git commit -m "created v3.7.5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.5-mmxiii-i-xix
+#   - updated tools:
+#     kversion.figlet testversion.c
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - using genpatches-3.7-7
+#   - obsolete patches:
+#     none
+#   - merge old ths branch
+#     git merge v3.7.4-ths
+#   - create new branch from v3.7.5
+#     git checkout -b v3.7.5-ths v3.7.5
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/29
+#   - updated branch v3.7.4-ths
+#     git push origin v3.7.4-ths
+#     git commit -m "updated v3.7.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#   - THS-RELEASE 3.7.4-mmxiii-i-xix
+#   - using genpatches-3.7-7
+#   - updated configs (3.7)
+#  13/01/23
+#   - setup & build kernel 3.7.4-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.7.4
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.4-ths
+#     git commit -m "created v3.7.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.4-mmxiii-i-xxiii
+#   - updated tools:
+#     kversion.figlet testversion.c
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - using genpatches-3.7-5
+#   - obsolete patches:
+#     none
+#   - merge old ths branch
+#     git merge v3.7.3-ths
+#   - create new branch from v3.7.4
+#     git checkout -b v3.7.4-ths v3.7.4
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/18
+#   - updated branch v3.7.3-ths
+#     git push origin v3.7.3-ths
+#     git commit -m "updated v3.7.3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.3-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.3-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.3-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.3
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.3-ths
+#     git commit -m "created v3.7.3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.3-mmxiii-i-xviii
+#   - updated tools:
+#     kversion.figlet testversion.c
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - using genpatches-3.7-5
+#   - obsolete patches:
+#     none
+#   - merge old ths branch
+#     git merge v3.7.2-ths
+#   - create new branch from v3.7.3
+#     git checkout -b v3.7.3-ths v3.7.3
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/18
+#   - updated branch v3.7.2-ths
+#     git push origin v3.7.2-ths
+#     git commit -m "updated v3.7.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#  13/01/16
+#   - setup & build kernel 3.7.2-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/01/14
+#   - updated branch v3.7.2-ths
+#     git push origin v3.7.2-ths
+#     git commit -m "updated v3.7.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.2-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.7.2-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.2
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.2-ths
+#     git commit -m "created v3.7.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.2-mmxiii-i-xiv
+#   - updated tools:
+#     kversion.figlet testversion.c
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - using genpatches-3.7-4
+#   - obsolete patches:
+#     none
+#   - merge old ths branch
+#     git merge v3.7.1-ths
+#   - create new branch from v3.7.2
+#     git checkout -b v3.7.2-ths v3.7.2
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/01/10
+#   - updated branch v3.7.1-ths
+#     git push origin v3.7.1-ths
+#     git commit -m "updated v3.7.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - THS-RELEASE 3.7.1-mmxii-xii-xix
+#   - updated patches
+#     linux-3.7-ths-init.patch
+#   - using genpatches-3.7-3
+#   - added new firmware
+#     linux-3.8-firmware-device-tree.patch
+#     linux-3.7-firmware-mrvl.patch
+#     linux-3.7-firmware-s5p-mfc.patch
+#     linux-3.7-firmware-tegra3.patch
+#     linux-3.7-firmware-maudio.patch
+#     linux-3.7-firmware-xilinx.patch
+#  13/01/09
+#   - setup & build kernel 3.7.1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  12/12/22
+#   - branch cleanup
+#   - updated configs
+#   - updated patches
+#  12/12/21
+#   - setup & build kernel 3.7.1-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - changed Makefile.addons to recognize tegra cpu types
+#  12/12/19
+#   - updated branch v3.7.1-ths
+#     git push origin v3.7.1-ths
+#     git commit -m "updated v3.7.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7,3.6,3.4)
+#   - setup & build kernel 3.7.1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.1
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.1-ths
+#     git commit -m "created v3.7.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.1-mmxii-xii-xix
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - using genpatches-3.7-2
+#   - merge old ths branch
+#     git merge v3.7.0-ths
+#   - create new branch from v3.7.1
+#     git checkout -b v3.7.1-ths v3.7.1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/12/12
+#   - updated branch v3.7.0-ths
+#     git push origin v3.7.0-ths
+#     git commit -m "updated v3.7.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.6)
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.0-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.7.0-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.7.0
+#     ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.7.0-ths
+#     git commit -m "created v3.7.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-mmxii-xii-xii
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - using genpatches-3.7-1
+#   - merge old ths branch
+#     git merge v3.7.0-rc8-ths
+#   - create new branch from v3.7.0
+#     git checkout -b v3.7.0-ths v3.7
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/12/05
+#   - updated branch v3.7.0-rc8-ths
+#     git push origin v3.7.0-rc8-ths
+#     git commit -m "updated v3.7.0-rc8-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.0-rc8-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  12/12/04
+#   - setup & build kernel 3.7.0-rc8-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc8-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc8-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-rc8-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc8-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc8-ths
+#     git commit -m "created v3.7.0-rc8-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc8-mmxii-xii-iv
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.7.0-rc7-ths
+#   - create new branch from v3.7.0-rc8
+#     git checkout -b v3.7.0-rc8-ths v3.7-rc8
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/12/01
+#   - updated branch v3.7.0-rc7-ths
+#     git push origin v3.7.0-rc7-ths
+#     git commit -m "updated v3.7.0-rc7-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.0-rc7-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  12/11/30
+#   - setup & build kernel 3.7.0-rc7-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc7-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc7-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-rc7-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc7-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc7-ths
+#     git commit -m "created v3.7.0-rc7-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc7-mmxii-xi-xxx
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.7.0-rc6-ths
+#   - create new branch from v3.7.0-rc7
+#     git checkout -b v3.7.0-rc7-ths v3.7-rc7
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/11/19
+#   - updated branch v3.7.0-rc6-ths
+#     git push origin v3.7.0-rc6-ths
+#     git commit -m "updated v3.7.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - updated configs (3.4,3.6,3.7)
+#   - setup & build kernel 3.7.0-rc6-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.0-rc6-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc6-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc6-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-rc6-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc6-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc6-ths
+#     git commit -m "created v3.7.0-rc6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc6-mmxii-xi-xix
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.7.0-rc5-ths
+#   - create new branch from v3.7.0-rc6
+#     git checkout -b v3.7.0-rc6-ths v3.7-rc6
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/11/12
+#   - updated branch v3.7.0-rc5-ths
+#     git push origin v3.7.0-rc5-ths
+#     git commit -m "updated v3.7.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.7)
+#   - setup & build kernel 3.7.0-rc5-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.0-rc5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc5-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc5-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc5-ths
+#     git commit -m "created v3.7.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc5-mmxii-xi-xii
+#   - updated configs (3.4,3.6)
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.7.0-rc3-ths
+#   - create new branch from v3.7.0-rc5
+#     git checkout -b v3.7.0-rc5-ths v3.7-rc5
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/30
+#   - updated branch v3.7.0-rc3-ths
+#     git push origin v3.7.0-rc3-ths
+#     git commit -m "updated v3.7.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.4,3.6,3.7)
+#  12/10/29
+#   - setup & build kernel 3.7.0-rc3-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.7.0-rc3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc3-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc3-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.7.0-rc3-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc3-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc3-ths
+#     git commit -m "created v3.7.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc3-mmxii-x-xxix
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.7.0-rc1-ths
+#   - create new branch from v3.7.0-rc3
+#     git checkout -b v3.7.0-rc3-ths v3.7-rc3
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/10/18
+#   - updated branch v3.7.0-rc1-ths
+#     git push origin v3.7.0-rc1-ths
+#     git commit -m "updated v3.7.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.7.0-rc1-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - obsolete patches
+#     linux-3.7-samsung.patch
+#  12/10/16
+#   - updated configs (3.5/3.4/3.6)
+#   - reorganized WORK directory
+#   - setup & build kernel 3.7.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc1-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch firmware
+#   - setup & build kernel 3.7.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#  12/10/15
+#   - updated configs
+#   - setup & build kernel 3.7.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch gentoo
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch realtime
+#     BASEVER=linux-3.7.0-rc1-ths ADDONS/tools/patch-kernel --patch firmware
+#   - commit and push new branch
+#     git push origin v3.7.0-rc1-ths
+#     git commit -m "created v3.7.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.7.0-rc1-mmxii-x-xv
+#   - updated tools
+#   - updated kversion.figlet testversion.c
+#   - obsolete patches
+#   - updated patches
+#   - merge old ths branch
+#     added addons from 3.6.2-ths (don't merge)
+#   - create new branch from v3.7.0-rc1
+#     git checkout -b v3.7.0-rc1-ths v3.7-rc1
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.7-ths-init.patch
+#    applied linux-3.7-ths-quantis-v11.07.12.patch
+#  (final)
+#    linux-3.7-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.7-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.7-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v11.07.12 from idquantique
+#   -> linux-3.7-ths-quantis-v11.07.12.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.7-ths-init.patch 
+#
+
+
+
