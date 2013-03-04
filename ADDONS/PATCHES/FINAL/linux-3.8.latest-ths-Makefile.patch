@@ -3,7 +3,7 @@ diff -Naur linux-a/Makefile linux-b/Makefile
 +++ linux-b/Makefile	2013-02-19 17:20:18.167164788 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 8
- SUBLEVEL = 0
+ SUBLEVEL = 2
  EXTRAVERSION =
 -NAME = Unicycling Gorilla
 +NAME = Odonata Draconis
