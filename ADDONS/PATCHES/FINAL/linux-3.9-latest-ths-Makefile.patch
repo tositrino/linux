@@ -1,6 +1,6 @@
-diff -Naur linux-a/Makefile linux-b/Makefile
---- linux-a/Makefile	2013-03-04 13:02:38.000000000 +0100
-+++ linux-b/Makefile	2013-03-04 14:03:50.433134209 +0100
+diff -Naur linux-x/Makefile linux-y/Makefile
+--- linux-x/Makefile	2013-03-04 13:02:38.000000000 +0100
++++ linux-y/Makefile	2013-03-04 16:18:55.000000000 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 9
  SUBLEVEL = 0
@@ -54,10 +54,10 @@ diff -Naur linux-a/Makefile linux-b/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
---- linux-a/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-b/Makefile.addons	2013-03-04 14:03:15.229134213 +0100
-@@ -0,0 +1,262 @@
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
+--- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons	2013-03-05 16:44:09.000000000 +0100
+@@ -0,0 +1,272 @@
 +###
 +### extra version infomation addons
 +###
@@ -169,6 +169,16 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +endif
 +ifdef CONFIG_MATOM
 +CPU_TYPE=-atom
++endif
++
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
 +endif
 +
 +# powerpc
@@ -320,10 +330,10 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
---- linux-a/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-b/Makefile.addons.debian	2013-03-04 14:03:15.229134213 +0100
-@@ -0,0 +1,272 @@
+diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
+--- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons.debian	2013-03-05 16:44:20.000000000 +0100
+@@ -0,0 +1,282 @@
 +###
 +### extra version infomation addons
 +###
@@ -435,6 +445,16 @@ diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
 +endif
 +ifdef CONFIG_MATOM
 +CPU_TYPE=-atom
++endif
++
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
 +endif
 +
 +# powerpc

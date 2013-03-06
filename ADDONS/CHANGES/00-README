@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.9.0-rc1
 # created : 13/03/04
-# changed : 13/03/04
+# changed : 13/03/06
 #
 # TODO:
 #   * ubuntu
@@ -29,13 +29,20 @@
 #   - setup & build kernel 3.9.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.9.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/03/04
+#  13/03/06
 #   - updated branch v3.9.0-rc1-ths
 #     git push origin v3.9.0-rc1-ths
 #     git commit -m "updated v3.9.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.8)
+#   - updated configs (3.9)
 #   - setup & build kernel 3.9.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#  13/03/05
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9.latest-ths-Makefile.patch updated and renamed to linux-3.9-latest-ths-Makefile.patch
+#   - updated Makefile.addons and Makefile.addons.debian for new x86 architecture handling
+#  13/03/04
 #   - setup & build kernel 3.9.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.9.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
@@ -49,6 +56,7 @@
 #     git commit -m "created v3.9.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.9.0-rc1-mmxiii-ii-xix
+#   - updated configs (3.8)
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
