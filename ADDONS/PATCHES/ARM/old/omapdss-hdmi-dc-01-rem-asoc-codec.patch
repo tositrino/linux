@@ -1,16 +1,6 @@
-Instead of having an ASoC codec embedded into DSS code, use the generic DSS
-device driverinterface for audio support. This allows to any potential user,
-including an ASoC driver, take advantage of the HDMI audio functionality.
-
-Signed-off-by: Ricardo Neri <ricardo.neri@xxxxxx>
----
- drivers/video/omap2/dss/hdmi.c |  236 ----------------------------------------
- 1 files changed, 0 insertions(+), 236 deletions(-)
-
-diff --git a/drivers/video/omap2/dss/hdmi.c b/drivers/video/omap2/dss/hdmi.c
-index 9c12337..27d4fba 100644
---- a/drivers/video/omap2/dss/hdmi.c
-+++ b/drivers/video/omap2/dss/hdmi.c
+diff -Naur org/drivers/video/omap2/dss/hdmi.c ths0/drivers/video/omap2/dss/hdmi.c
+--- org/drivers/video/omap2/dss/hdmi.c	2012-05-21 09:34:43.000000000 +0200
++++ ths0/drivers/video/omap2/dss/hdmi.c	2012-05-23 09:23:17.000000000 +0200
 @@ -33,12 +33,6 @@
  #include <linux/pm_runtime.h>
  #include <linux/clk.h>
@@ -24,7 +14,7 @@ index 9c12337..27d4fba 100644
  
  #include "ti_hdmi.h"
  #include "dss.h"
-@@ -583,220 +577,6 @@ void omapdss_hdmi_display_disable(struct omap_dss_device *dssdev)
+@@ -555,219 +549,6 @@
  	mutex_unlock(&hdmi.lock);
  }
  
@@ -203,7 +193,7 @@ index 9c12337..27d4fba 100644
 -static int hdmi_audio_startup(struct snd_pcm_substream *substream,
 -				  struct snd_soc_dai *dai)
 -{
--	if (hdmi.mode != HDMI_HDMI) {
+-	if (!hdmi.ip_data.cfg.cm.mode) {
 -		pr_err("Current video settings do not support audio.\n");
 -		return -EIO;
 -	}
@@ -241,11 +231,10 @@ index 9c12337..27d4fba 100644
 -		.ops = &hdmi_audio_codec_ops,
 -};
 -#endif
--
+ 
  static int hdmi_get_clocks(struct platform_device *pdev)
  {
- 	struct clk *clk;
-@@ -858,17 +638,6 @@ static int omapdss_hdmihw_probe(struct platform_device *pdev)
+@@ -830,17 +611,6 @@
  
  	hdmi_panel_init();
  
@@ -263,7 +252,7 @@ index 9c12337..27d4fba 100644
  	return 0;
  }
  
-@@ -876,11 +645,6 @@ static int omapdss_hdmihw_remove(struct platform_device *pdev)
+@@ -848,11 +618,6 @@
  {
  	hdmi_panel_exit();
  
@@ -275,12 +264,3 @@ index 9c12337..27d4fba 100644
  	pm_runtime_disable(&pdev->dev);
  
  	hdmi_put_clocks();
--- 
-1.7.0.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-omap" in
-the body of a message to majordomo@xxxxxxxxxxxxxxx
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-

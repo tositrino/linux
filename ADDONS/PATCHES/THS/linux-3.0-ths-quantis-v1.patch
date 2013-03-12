@@ -1,7 +1,7 @@
-diff -Naur linux-org/drivers/misc/Kconfig linux-ths/drivers/misc/Kconfig
---- linux-org/drivers/misc/Kconfig	2012-06-25 12:30:04.000000000 +0200
-+++ linux-ths/drivers/misc/Kconfig	2012-06-25 14:02:50.256120398 +0200
-@@ -281,6 +281,15 @@
+diff -Naur linux-x/drivers/misc/Kconfig linux-y/drivers/misc/Kconfig
+--- linux-x/drivers/misc/Kconfig	2013-03-12 08:46:12.000000000 +0100
++++ linux-y/drivers/misc/Kconfig	2013-03-12 11:32:10.340442766 +0100
+@@ -290,6 +290,15 @@
  	  To compile this driver as a module, choose M here: the
  	  module will be called hpilo.
  
@@ -17,10 +17,10 @@ diff -Naur linux-org/drivers/misc/Kconfig linux-ths/drivers/misc/Kconfig
  config SGI_GRU
  	tristate "SGI GRU driver"
  	depends on X86_UV && SMP
-diff -Naur linux-org/drivers/misc/Makefile linux-ths/drivers/misc/Makefile
---- linux-org/drivers/misc/Makefile	2012-06-25 12:30:04.000000000 +0200
-+++ linux-ths/drivers/misc/Makefile	2012-06-25 14:02:50.256120398 +0200
-@@ -28,6 +28,7 @@
+diff -Naur linux-x/drivers/misc/Makefile linux-y/drivers/misc/Makefile
+--- linux-x/drivers/misc/Makefile	2013-03-12 08:46:12.000000000 +0100
++++ linux-y/drivers/misc/Makefile	2013-03-12 11:32:10.340442766 +0100
+@@ -26,6 +26,7 @@
  obj-$(CONFIG_SGI_GRU)		+= sgi-gru/
  obj-$(CONFIG_CS5535_MFGPT)	+= cs5535-mfgpt.o
  obj-$(CONFIG_HP_ILO)		+= hpilo.o
@@ -28,18 +28,18 @@ diff -Naur linux-org/drivers/misc/Makefile linux-ths/drivers/misc/Makefile
  obj-$(CONFIG_APDS9802ALS)	+= apds9802als.o
  obj-$(CONFIG_ISL29003)		+= isl29003.o
  obj-$(CONFIG_ISL29020)		+= isl29020.o
-diff -Naur linux-org/drivers/misc/quantis/Makefile linux-ths/drivers/misc/quantis/Makefile
---- linux-org/drivers/misc/quantis/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/Makefile	2012-06-25 14:02:50.256120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/Makefile linux-y/drivers/misc/quantis/Makefile
+--- linux-x/drivers/misc/quantis/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/Makefile	2013-03-12 11:32:10.340442766 +0100
 @@ -0,0 +1,4 @@
 +#EXTRA_CFLAGS += -DDEBUG
 +
 +obj-$(CONFIG_QUANTIS) := quantis.o
 +
-diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quantis/quantis.c
---- linux-org/drivers/misc/quantis/quantis.c	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/quantis.c	2012-06-25 14:02:50.256120398 +0200
-@@ -0,0 +1,674 @@
+diff -Naur linux-x/drivers/misc/quantis/quantis.c linux-y/drivers/misc/quantis/quantis.c
+--- linux-x/drivers/misc/quantis/quantis.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/quantis.c	2013-03-12 11:32:10.340442766 +0100
+@@ -0,0 +1,692 @@
 +/*
 + * Copyright (c) 2004, 2005, 2006 id Quantique SA, Switzerland
 + * All rights reserved.
@@ -225,10 +225,15 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quant
 +};
 +
 +/**# Kernel PCI interface routines **/
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 +__devinitdata static struct pci_device_id pci_ids[] = {
++#else
++static struct pci_device_id pci_ids[] = {
++#endif
 +  { QUANTIS_VENDOR_ID, PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
 +  { 0, }
 +};
++
 +MODULE_DEVICE_TABLE(pci, pci_ids);
 +
 +/**## Power management **/
@@ -448,8 +453,13 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quant
 +}
 +#endif
 +
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 +static int __devinit quantis_probe(struct pci_dev *pdev,
 +                                   const struct pci_device_id *ent) {
++#else
++static int quantis_probe(struct pci_dev *pdev,
++                         const struct pci_device_id *ent) {
++#endif
 +  int status;
 +  quantis_card_t *device;
 +
@@ -514,7 +524,11 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quant
 +  return status;
 +}
 +
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 +static void __devexit quantis_remove_one(struct pci_dev *pdev) {
++#else
++static void quantis_remove_one(struct pci_dev *pdev) {
++#endif
 +  int i;
 +
 +  iounmap(quantisCards[quantisCardCount].regs);
@@ -594,7 +608,11 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quant
 +  .name      = DRIVER_NAME,
 +  .id_table  = pci_ids,
 +  .probe     = quantis_probe,
++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0))
 +  .remove    = __devexit_p(quantis_remove_one),
++#else
++  .remove    = quantis_remove_one,
++#endif
 +#ifdef CONFIG_PM
 +  .suspend   = quantis_suspend,
 +  .resume    = quantis_resume,
@@ -714,9 +732,9 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quant
 +EXPORT_NO_SYMBOLS;
 +#endif
 +
-diff -Naur linux-org/drivers/misc/quantis/quantis-common.c linux-ths/drivers/misc/quantis/quantis-common.c
---- linux-org/drivers/misc/quantis/quantis-common.c	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/quantis-common.c	2012-06-25 14:02:50.256120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/quantis-common.c linux-y/drivers/misc/quantis/quantis-common.c
+--- linux-x/drivers/misc/quantis/quantis-common.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/quantis-common.c	2013-03-12 11:32:10.344442766 +0100
 @@ -0,0 +1,311 @@
 +/*
 + * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
@@ -1029,9 +1047,9 @@ diff -Naur linux-org/drivers/misc/quantis/quantis-common.c linux-ths/drivers/mis
 +#undef MX_ER
 +#undef MX_DR
 +#undef MX_SR
-diff -Naur linux-org/drivers/misc/quantis/quantis-common.h linux-ths/drivers/misc/quantis/quantis-common.h
---- linux-org/drivers/misc/quantis/quantis-common.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/quantis-common.h	2012-06-25 14:02:50.280120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/quantis-common.h linux-y/drivers/misc/quantis/quantis-common.h
+--- linux-x/drivers/misc/quantis/quantis-common.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/quantis-common.h	2013-03-12 11:32:10.344442766 +0100
 @@ -0,0 +1,57 @@
 +/*
 + * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
@@ -1090,9 +1108,9 @@ diff -Naur linux-org/drivers/misc/quantis/quantis-common.h linux-ths/drivers/mis
 +static int quantis_rng_read(QUANTIS_SOFT_T *scp, unsigned char *buffer, int length);
 +
 +#endif /* QUANTIS_COMMON_H__ */
-diff -Naur linux-org/drivers/misc/quantis/QuantisCpp.h linux-ths/drivers/misc/quantis/QuantisCpp.h
---- linux-org/drivers/misc/quantis/QuantisCpp.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/QuantisCpp.h	2012-06-25 14:02:50.280120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/QuantisCpp.h linux-y/drivers/misc/quantis/QuantisCpp.h
+--- linux-x/drivers/misc/quantis/QuantisCpp.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/QuantisCpp.h	2013-03-12 11:32:10.344442766 +0100
 @@ -0,0 +1,163 @@
 +/*
 + * C++ wrapper for quantis driver
@@ -1257,9 +1275,9 @@ diff -Naur linux-org/drivers/misc/quantis/QuantisCpp.h linux-ths/drivers/misc/qu
 +    void readBlocking(unsigned char *buffer, unsigned int length);
 +  };
 +}
-diff -Naur linux-org/drivers/misc/quantis/quantis.h linux-ths/drivers/misc/quantis/quantis.h
---- linux-org/drivers/misc/quantis/quantis.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/quantis.h	2012-06-25 14:02:50.280120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/quantis.h linux-y/drivers/misc/quantis/quantis.h
+--- linux-x/drivers/misc/quantis/quantis.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/quantis.h	2013-03-12 11:32:10.344442766 +0100
 @@ -0,0 +1,241 @@
 +/*
 + * Copyright (c) 2004, 2005, 2006, id Quantique SA, Switzerland
@@ -1502,9 +1520,9 @@ diff -Naur linux-org/drivers/misc/quantis/quantis.h linux-ths/drivers/misc/quant
 +
 +#endif // QUANTIS_H
 +
-diff -Naur linux-org/drivers/misc/quantis/quantisio.h linux-ths/drivers/misc/quantis/quantisio.h
---- linux-org/drivers/misc/quantis/quantisio.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-ths/drivers/misc/quantis/quantisio.h	2012-06-25 14:02:50.280120398 +0200
+diff -Naur linux-x/drivers/misc/quantis/quantisio.h linux-y/drivers/misc/quantis/quantisio.h
+--- linux-x/drivers/misc/quantis/quantisio.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/quantis/quantisio.h	2013-03-12 11:32:10.344442766 +0100
 @@ -0,0 +1,92 @@
 +/*
 + * Copyright (c) 2004, 2005, id Quantique SA, Switzerland

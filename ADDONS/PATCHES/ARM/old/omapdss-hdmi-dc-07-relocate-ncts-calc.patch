@@ -1,24 +1,7 @@
-The N and CTS parameters are relevant to all HDMI implmentations and
-not specific to a given IP. Hence, the calculation is relocated
-into the generic HDMI driver.
-
-Also, deep color is not queried but it is still considered in the
-calculation of N. This is to be changed when deep color functionality is
-implemented in the driver.
-
-Signed-off-by: Ricardo Neri <ricardo.neri@xxxxxx>
----
- drivers/video/omap2/dss/hdmi.c            |   42 +++++++++++++++++++++
- drivers/video/omap2/dss/ti_hdmi.h         |    1 +
- drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c |   57 -----------------------------
- drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h |    2 -
- 4 files changed, 43 insertions(+), 59 deletions(-)
-
-diff --git a/drivers/video/omap2/dss/hdmi.c b/drivers/video/omap2/dss/hdmi.c
-index 27d4fba..7fcc22f 100644
---- a/drivers/video/omap2/dss/hdmi.c
-+++ b/drivers/video/omap2/dss/hdmi.c
-@@ -598,6 +598,48 @@ static void hdmi_put_clocks(void)
+diff -Naur ths5/drivers/video/omap2/dss/hdmi.c ths6/drivers/video/omap2/dss/hdmi.c
+--- ths5/drivers/video/omap2/dss/hdmi.c	2012-05-23 09:23:17.000000000 +0200
++++ ths6/drivers/video/omap2/dss/hdmi.c	2012-05-23 09:40:44.000000000 +0200
+@@ -571,6 +571,48 @@
  		clk_put(hdmi.sys_clk);
  }
  
@@ -67,23 +50,10 @@ index 27d4fba..7fcc22f 100644
  /* HDMI HW IP initialisation */
  static int omapdss_hdmihw_probe(struct platform_device *pdev)
  {
-diff --git a/drivers/video/omap2/dss/ti_hdmi.h b/drivers/video/omap2/dss/ti_hdmi.h
-index 211da6f..db22a02 100644
---- a/drivers/video/omap2/dss/ti_hdmi.h
-+++ b/drivers/video/omap2/dss/ti_hdmi.h
-@@ -145,6 +145,7 @@ void ti_hdmi_4xxx_pll_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
- void ti_hdmi_4xxx_core_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
- void ti_hdmi_4xxx_phy_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
- #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
-+int hdmi_compute_acr(u32 sample_freq, u32 *n, u32 *cts);
- void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
- void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
- #endif
-diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
-index da2806c..d587b20 100644
---- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
-+++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
-@@ -1226,63 +1226,6 @@ void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
+diff -Naur ths5/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c ths6/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+--- ths5/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:39:31.000000000 +0200
++++ ths6/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:43:14.000000000 +0200
+@@ -1211,63 +1211,6 @@
  	 */
  }
  
@@ -92,7 +62,7 @@ index da2806c..d587b20 100644
 -{
 -	u32 r;
 -	u32 deep_color = 0;
--	u32 pclk = ip_data->cfg.timings.timings.pixel_clock;
+-	u32 pclk = ip_data->cfg.timings.pixel_clock;
 -
 -	if (n == NULL || cts == NULL)
 -		return -EINVAL;
@@ -147,11 +117,10 @@ index da2806c..d587b20 100644
  void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable)
  {
  	REG_FLD_MOD(hdmi_wp_base(ip_data),
-diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-index 4359001..e4f973f 100644
---- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-+++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-@@ -516,8 +516,6 @@ struct hdmi_core_audio_config {
+diff -Naur ths5/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h ths6/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
+--- ths5/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:39:31.000000000 +0200
++++ ths6/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:41:06.000000000 +0200
+@@ -468,8 +468,6 @@
  };
  
  #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
@@ -160,11 +129,14 @@ index 4359001..e4f973f 100644
  void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
  		struct snd_cea_861_aud_if *info_aud);
  void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
--- 
-1.7.0.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-omap" in
-the body of a message to majordomo@xxxxxxxxxxxxxxx
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
+diff -Naur ths5/drivers/video/omap2/dss/ti_hdmi.h ths6/drivers/video/omap2/dss/ti_hdmi.h
+--- ths5/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:37:32.000000000 +0200
++++ ths6/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:40:44.000000000 +0200
+@@ -183,6 +183,7 @@
+ void ti_hdmi_4xxx_core_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
+ void ti_hdmi_4xxx_phy_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
+ #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
++int hdmi_compute_acr(u32 sample_freq, u32 *n, u32 *cts);
+ void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
+ void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
+ #endif

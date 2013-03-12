@@ -1,6 +1,6 @@
-diff -Naur linux-3.0-rc3-org/init/main.c linux-3.0-rc3-ths/init/main.c
---- linux-3.0-rc3-org/init/main.c	2011-06-14 00:29:59.000000000 +0200
-+++ linux-3.0-rc3-ths/init/main.c	2011-06-14 14:49:39.983805433 +0200
+diff -Naur linux-org/init/main.c linux-ths/init/main.c
+--- linux-org/init/main.c	2013-03-12 08:46:19.000000000 +0100
++++ linux-ths/init/main.c	2013-03-12 11:29:01.316442789 +0100
 @@ -7,8 +7,46 @@
   *  Added initrd & change_root: Werner Almesberger & Hans Lermen, Feb '96
   *  Moan early if gcc is old, avoiding bogus kernels - Paul Gortmaker, May '96
@@ -198,7 +198,7 @@ diff -Naur linux-3.0-rc3-org/init/main.c linux-3.0-rc3-ths/init/main.c
  /*
   * We need to store the untouched command line for future reference.
   * We also need to store the touched command line since the parameter
-@@ -591,6 +765,11 @@
+@@ -589,6 +763,11 @@
  		late_time_init();
  	sched_clock_init();
  	calibrate_delay();
@@ -210,9 +210,9 @@ diff -Naur linux-3.0-rc3-org/init/main.c linux-3.0-rc3-ths/init/main.c
  	pidmap_init();
  	anon_vma_init();
  #ifdef CONFIG_X86
-diff -Naur linux-3.0-rc3-org/init/version.c linux-3.0-rc3-ths/init/version.c
---- linux-3.0-rc3-org/init/version.c	2011-06-14 00:29:59.000000000 +0200
-+++ linux-3.0-rc3-ths/init/version.c	2011-06-14 14:56:00.387805217 +0200
+diff -Naur linux-org/init/version.c linux-ths/init/version.c
+--- linux-org/init/version.c	2013-03-11 13:57:14.000000000 +0100
++++ linux-ths/init/version.c	2013-03-12 11:29:01.316442789 +0100
 @@ -4,7 +4,38 @@
   *  Copyright (C) 1992  Theodore Ts'o
   *
@@ -221,7 +221,7 @@ diff -Naur linux-3.0-rc3-org/init/version.c linux-3.0-rc3-ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 12/07/13 kernel-3.0.36
++ *  - 13/03/12 kernel-3.0.68
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-3.0-rc3-org/init/version.c linux-3.0-rc3-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxii-vii-xiii"
++#define THS_RELEASE          "mmxiii-iii-xii"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
@@ -268,20 +268,20 @@ diff -Naur linux-3.0-rc3-org/init/version.c linux-3.0-rc3-ths/init/version.c
 +const char *cbanner_data[]  = {
 +
 +                               //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-+                                "88888 8   8 888888                              eeea    eeeea    eeea eeee \n"
-+                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8    8   8       8 8    \n"
-+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8    8   8       8 8eea \n"
-+                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88    8  88     e88 8  e \n"
-+                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8  88      88 8e e \n"
-+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 88888 88 8e88 8888 \n",
++                                "88888 8   8 888888                              eeea    eeeea    eeee eeea\n"
++                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8    8   8    8    8  8\n"
++                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8    8   8    8    8  8\n"
++                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88    8  88    8eea 8ee8\n"
++                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8  88    8e 8 8  8\n"
++                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 88888 88 8888 8888\n",
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
-+                                "e   e                                 eeea    eeeea    eeea eeee  o8o  db  o8o\n"
-+                                "8   8   eeee eeeee  eeeee eeee e         8    8   8       8 8     o8888db8888o\n"
-+                                "8eee8e  8    8   8  8   8 8    8         8    8   8       8 8eea      odbo    \n"
-+                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88    8  88     e88 8  e  o88o db o88o\n"
-+                                "88   8  88   88   8 88  8 88   88       88    8  88      88 8e e  oo   db   oo\n"
-+                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 88888 88 8e88 8888       db     \n",
++                                "e   e                                 eeea    eeeea    eeee eeea o8o  db  o8o\n"
++                                "8   8   eeee eeeee  eeeee eeee e         8    8   8    8    8  8 o8888db8888o\n"
++                                "8eee8e  8    8   8  8   8 8    8         8    8   8    8    8  8     odbo    \n"
++                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88    8  88    8eea 8ee8 o88o db o88o\n"
++                                "88   8  88   88   8 88  8 88   88       88    8  88    8e 8 8  8 oo   db   oo\n"
++                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 88888 88 8888 8888      db     \n",
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
 +                                "/-----------------------------------------\\\n"

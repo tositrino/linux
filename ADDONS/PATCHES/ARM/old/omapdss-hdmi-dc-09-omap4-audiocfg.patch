@@ -1,69 +1,17 @@
-The generic HDMI driver does not need to know about the specific
-settings of a given IP. Hence, it just passes the audio configuration
-and the IP library parses such configuration and sets the IP
-accordingly. This patch introduces an IP-specific audio configuration
-function. Also the DMA, format and core config functions are no longer
-exposed to the generic HDMI driver as they are IP-specific.
-
-The audio configuration functions caters for 16-bit through 24-bit
-audio samples with sample rates from 32kHz and up to 192kHz as well
-as up to 8 audio channels.
-
-Signed-off-by: Ricardo Neri <ricardo.neri@xxxxxx>
----
- drivers/video/omap2/dss/dss_features.c    |    1 +
- drivers/video/omap2/dss/ti_hdmi.h         |    7 +
- drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c |  226 ++++++++++++++++++++++++++++-
- drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h |   10 --
- 4 files changed, 230 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/video/omap2/dss/dss_features.c b/drivers/video/omap2/dss/dss_features.c
-index 399a28a..9ed112a 100644
---- a/drivers/video/omap2/dss/dss_features.c
-+++ b/drivers/video/omap2/dss/dss_features.c
-@@ -500,6 +500,7 @@ static const struct ti_hdmi_ip_ops omap4_hdmi_functions = {
+diff -Naur ths7/drivers/video/omap2/dss/dss_features.c ths8/drivers/video/omap2/dss/dss_features.c
+--- ths7/drivers/video/omap2/dss/dss_features.c	2012-05-23 09:37:32.000000000 +0200
++++ ths8/drivers/video/omap2/dss/dss_features.c	2012-05-23 09:49:07.000000000 +0200
+@@ -569,6 +569,7 @@
  #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
- .audio_enable=       ti_hdmi_4xxx_wp_audio_enable,
- .audio_start=       ti_hdmi_4xxx_audio_start,
-+.audio_config=ti_hdmi_4xxx_audio_config,
+ 	.audio_enable		=       ti_hdmi_4xxx_wp_audio_enable,
+ 	.audio_start		=       ti_hdmi_4xxx_audio_start,
++	.audio_config=ti_hdmi_4xxx_audio_config,
  #endif
  
  };
-diff --git a/drivers/video/omap2/dss/ti_hdmi.h b/drivers/video/omap2/dss/ti_hdmi.h
-index db22a02..9864484 100644
---- a/drivers/video/omap2/dss/ti_hdmi.h
-+++ b/drivers/video/omap2/dss/ti_hdmi.h
-@@ -22,6 +22,8 @@
- #define _TI_HDMI_H
- 
- struct hdmi_ip_data;
-+struct snd_aes_iec958;
-+struct snd_cea_861_aud_if;
- 
- enum hdmi_pll_pwr {
- HDMI_PLLPWRCMD_ALLOFF = 0,
-@@ -114,6 +116,9 @@ struct ti_hdmi_ip_ops {
- void (*audio_enable)(struct hdmi_ip_data *ip_data, bool start);
- 
- void (*audio_start)(struct hdmi_ip_data *ip_data, bool start);
-+
-+int (*audio_config)(struct hdmi_ip_data *ip_data,
-+struct snd_aes_iec958 *iec, struct snd_cea_861_aud_if *aud_if);
- #endif
- 
- };
-@@ -148,5 +153,7 @@ void ti_hdmi_4xxx_phy_dump(struct hdmi_ip_data *ip_data, struct seq_file *s);
- int hdmi_compute_acr(u32 sample_freq, u32 *n, u32 *cts);
- void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
- void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
-+int ti_hdmi_4xxx_audio_config(struct hdmi_ip_data *ip_data,
-+struct snd_aes_iec958 *iec, struct snd_cea_861_aud_if *aud_if);
- #endif
- #endif
-diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
-index d587b20..ef96524 100644
---- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
-+++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+diff -Naur ths7/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c ths8/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+--- ths7/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:43:14.000000000 +0200
++++ ths8/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:54:49.000000000 +0200
 @@ -31,6 +31,7 @@
  #include <linux/gpio.h>
  #include "ti_hdmi_4xxx_ip.h"
@@ -71,45 +19,47 @@ index d587b20..ef96524 100644
 +#include "dss_features.h"
  
  static inline void hdmi_write_reg(void __iomem *base_addr,
- const u16 idx, u32 val)
-@@ -1031,7 +1032,7 @@ void ti_hdmi_4xxx_phy_dump(struct hdmi_ip_data *ip_data, struct seq_file *s)
+ 				const u16 idx, u32 val)
+@@ -1016,8 +1017,8 @@
  }
  
  #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
 -void hdmi_wp_audio_config_format(struct hdmi_ip_data *ip_data,
+-					struct hdmi_audio_format *aud_fmt)
 +static void ti_hdmi_4xxx_wp_audio_config_format(struct hdmi_ip_data *ip_data,
- struct hdmi_audio_format *aud_fmt)
++										struct hdmi_audio_format *aud_fmt)
  {
- u32 r;
-@@ -1050,7 +1051,7 @@ void hdmi_wp_audio_config_format(struct hdmi_ip_data *ip_data,
- hdmi_write_reg(hdmi_wp_base(ip_data), HDMI_WP_AUDIO_CFG, r);
+ 	u32 r;
+ 
+@@ -1035,7 +1036,7 @@
+ 	hdmi_write_reg(hdmi_wp_base(ip_data), HDMI_WP_AUDIO_CFG, r);
  }
  
 -void hdmi_wp_audio_config_dma(struct hdmi_ip_data *ip_data,
 +static void ti_hdmi_4xxx_wp_audio_config_dma(struct hdmi_ip_data *ip_data,
- struct hdmi_audio_dma *aud_dma)
+ 					struct hdmi_audio_dma *aud_dma)
  {
- u32 r;
-@@ -1068,7 +1069,7 @@ void hdmi_wp_audio_config_dma(struct hdmi_ip_data *ip_data,
- hdmi_write_reg(hdmi_wp_base(ip_data), HDMI_WP_AUDIO_CTRL, r);
+ 	u32 r;
+@@ -1053,7 +1054,7 @@
+ 	hdmi_write_reg(hdmi_wp_base(ip_data), HDMI_WP_AUDIO_CTRL, r);
  }
  
 -void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
 +static void ti_hdmi_4xxx_core_audio_config(struct hdmi_ip_data *ip_data,
- struct hdmi_core_audio_config *cfg)
+ 					struct hdmi_core_audio_config *cfg)
  {
- u32 r;
-@@ -1172,7 +1173,7 @@ void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
- hdmi_write_reg(av_base, HDMI_CORE_AV_AUD_MODE, r);
+ 	u32 r;
+@@ -1157,7 +1158,7 @@
+ 	hdmi_write_reg(av_base, HDMI_CORE_AV_AUD_MODE, r);
  }
  
 -void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
 +static void ti_hdmi_4xxx_core_audio_infoframe_cfg(struct hdmi_ip_data *ip_data,
- struct snd_cea_861_aud_if *info_aud)
+ 		struct snd_cea_861_aud_if *info_aud)
  {
- u8 val;
-@@ -1226,6 +1227,223 @@ void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
-  */
+ 	u8 val;
+@@ -1211,6 +1212,223 @@
+ 	 */
  }
  
 +int ti_hdmi_4xxx_audio_config(struct hdmi_ip_data *ip_data,
@@ -331,31 +281,54 @@ index d587b20..ef96524 100644
 +
  void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable)
  {
- REG_FLD_MOD(hdmi_wp_base(ip_data),
-diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-index e4f973f..b3454c0 100644
---- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-+++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
-@@ -515,14 +515,4 @@ struct hdmi_core_audio_config {
- boolen_high_bitrate_aud;
+ 	REG_FLD_MOD(hdmi_wp_base(ip_data),
+diff -Naur ths7/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h ths8/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
+--- ths7/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:41:06.000000000 +0200
++++ ths8/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h	2012-05-23 09:56:31.000000000 +0200
+@@ -467,14 +467,4 @@
+ 	bool					en_high_bitrate_aud;
  };
  
 -#if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
 -void hdmi_core_audio_infoframe_config(struct hdmi_ip_data *ip_data,
--struct snd_cea_861_aud_if *info_aud);
+-		struct snd_cea_861_aud_if *info_aud);
 -void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
--struct hdmi_core_audio_config *cfg);
+-					struct hdmi_core_audio_config *cfg);
 -void hdmi_wp_audio_config_dma(struct hdmi_ip_data *ip_data,
--struct hdmi_audio_dma *aud_dma);
+-					struct hdmi_audio_dma *aud_dma);
 -void hdmi_wp_audio_config_format(struct hdmi_ip_data *ip_data,
--struct hdmi_audio_format *aud_fmt);
+-					struct hdmi_audio_format *aud_fmt);
 -#endif
  #endif
--- 
-1.7.0.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-omap" in
-the body of a message to majordomo@xxxxxxxxxxxxxxx
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
+diff -Naur ths7/drivers/video/omap2/dss/ti_hdmi.h ths8/drivers/video/omap2/dss/ti_hdmi.h
+--- ths7/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:40:44.000000000 +0200
++++ ths8/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:50:31.000000000 +0200
+@@ -22,6 +22,8 @@
+ #define _TI_HDMI_H
+ 
+ struct hdmi_ip_data;
++struct snd_aes_iec958;
++struct snd_cea_861_aud_if;
+ 
+ enum hdmi_pll_pwr {
+ 	HDMI_PLLPWRCMD_ALLOFF = 0,
+@@ -110,6 +112,11 @@
+ 	void (*audio_enable)(struct hdmi_ip_data *ip_data, bool start);
+ 
+ 	void (*audio_start)(struct hdmi_ip_data *ip_data, bool start);
++
++	int (*audio_config)(struct hdmi_ip_data *ip_data,
++
++	struct snd_aes_iec958 *iec, struct snd_cea_861_aud_if *aud_if);
++
+ #endif
+ 
+ };
+@@ -186,5 +193,7 @@
+ int hdmi_compute_acr(u32 sample_freq, u32 *n, u32 *cts);
+ void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
+ void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
++int ti_hdmi_4xxx_audio_config(struct hdmi_ip_data *ip_data,
++struct snd_aes_iec958 *iec, struct snd_cea_861_aud_if *aud_if);
+ #endif
+ #endif

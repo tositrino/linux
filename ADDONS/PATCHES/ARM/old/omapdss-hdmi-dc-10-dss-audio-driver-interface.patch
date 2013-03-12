@@ -1,24 +1,7 @@
-Implement the DSS device driver audio support interface in the HDMI
-panel driver and generic driver. The implementation relies on the
-IP-specific functions that are defined at DSS probe time.
-
-A HW-safe spinlock is used to protect the audio functions. This is because
-the audio functions may be called while holding a lock; in such case,
-the panel's driver mutex is not suitable. Functions should be used
-to set registers and should not wait for any other event.
-
-Signed-off-by: Ricardo Neri <ricardo.neri@xxxxxx>
----
- drivers/video/omap2/dss/dss.h        |    7 +++
- drivers/video/omap2/dss/hdmi.c       |   33 +++++++++++++++
- drivers/video/omap2/dss/hdmi_panel.c |   76 ++++++++++++++++++++++++++++++++++
- 3 files changed, 116 insertions(+), 0 deletions(-)
-
-diff --git a/drivers/video/omap2/dss/dss.h b/drivers/video/omap2/dss/dss.h
-index 32ff69f..fca4490 100644
---- a/drivers/video/omap2/dss/dss.h
-+++ b/drivers/video/omap2/dss/dss.h
-@@ -520,6 +520,13 @@ int omapdss_hdmi_read_edid(u8 *buf, int len);
+diff -Naur ths8/drivers/video/omap2/dss/dss.h ths9/drivers/video/omap2/dss/dss.h
+--- ths8/drivers/video/omap2/dss/dss.h	2012-05-21 09:34:43.000000000 +0200
++++ ths9/drivers/video/omap2/dss/dss.h	2012-05-23 09:58:44.000000000 +0200
+@@ -514,6 +514,13 @@
  bool omapdss_hdmi_detect(void);
  int hdmi_panel_init(void);
  void hdmi_panel_exit(void);
@@ -32,11 +15,10 @@ index 32ff69f..fca4490 100644
  
  /* RFBI */
  #ifdef CONFIG_OMAP2_DSS_RFBI
-diff --git a/drivers/video/omap2/dss/hdmi.c b/drivers/video/omap2/dss/hdmi.c
-index bd44891..880509d 100644
---- a/drivers/video/omap2/dss/hdmi.c
-+++ b/drivers/video/omap2/dss/hdmi.c
-@@ -698,6 +698,39 @@ int hdmi_compute_acr(u32 sample_freq, u32 *n, u32 *cts)
+diff -Naur ths8/drivers/video/omap2/dss/hdmi.c ths9/drivers/video/omap2/dss/hdmi.c
+--- ths8/drivers/video/omap2/dss/hdmi.c	2012-05-23 09:44:51.000000000 +0200
++++ ths9/drivers/video/omap2/dss/hdmi.c	2012-05-23 09:58:44.000000000 +0200
+@@ -671,6 +671,39 @@
  
  	return 0;
  }
@@ -76,10 +58,9 @@ index bd44891..880509d 100644
  #endif
  
  /* HDMI HW IP initialisation */
-diff --git a/drivers/video/omap2/dss/hdmi_panel.c b/drivers/video/omap2/dss/hdmi_panel.c
-index 533d5dc..dac1ac2 100644
---- a/drivers/video/omap2/dss/hdmi_panel.c
-+++ b/drivers/video/omap2/dss/hdmi_panel.c
+diff -Naur ths8/drivers/video/omap2/dss/hdmi_panel.c ths9/drivers/video/omap2/dss/hdmi_panel.c
+--- ths8/drivers/video/omap2/dss/hdmi_panel.c	2012-01-15 15:52:30.000000000 +0100
++++ ths9/drivers/video/omap2/dss/hdmi_panel.c	2012-05-23 09:58:44.000000000 +0200
 @@ -31,6 +31,10 @@
  
  static struct {
@@ -91,7 +72,7 @@ index 533d5dc..dac1ac2 100644
  } hdmi;
  
  
-@@ -222,6 +226,68 @@ err:
+@@ -222,6 +226,68 @@
  	return r;
  }
  
@@ -160,7 +141,7 @@ index 533d5dc..dac1ac2 100644
  static struct omap_dss_driver hdmi_driver = {
  	.probe		= hdmi_panel_probe,
  	.remove		= hdmi_panel_remove,
-@@ -234,6 +300,12 @@ static struct omap_dss_driver hdmi_driver = {
+@@ -234,6 +300,12 @@
  	.check_timings	= hdmi_check_timings,
  	.read_edid	= hdmi_read_edid,
  	.detect		= hdmi_detect,
@@ -173,7 +154,7 @@ index 533d5dc..dac1ac2 100644
  	.driver			= {
  		.name   = "hdmi_panel",
  		.owner  = THIS_MODULE,
-@@ -244,6 +316,10 @@ int hdmi_panel_init(void)
+@@ -244,6 +316,10 @@
  {
  	mutex_init(&hdmi.hdmi_lock);
  
@@ -184,11 +165,3 @@ index 533d5dc..dac1ac2 100644
  	omap_dss_register_driver(&hdmi_driver);
  
  	return 0;
--- 
-1.7.0.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-omap" in
-the body of a message to majordomo@xxxxxxxxxxxxxxx
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
