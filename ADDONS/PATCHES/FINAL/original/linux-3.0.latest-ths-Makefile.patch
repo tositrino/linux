@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2013-03-12 11:08:22.720442937 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 0
- SUBLEVEL = 68
+ SUBLEVEL = 71
  EXTRAVERSION =
 -NAME = Sneaky Weasel
 +NAME = Odonata Draconis
