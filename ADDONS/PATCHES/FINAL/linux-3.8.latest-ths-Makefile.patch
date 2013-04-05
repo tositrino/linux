@@ -5,7 +5,7 @@ diff -Naur linux-a/Makefile linux-b/Makefile
  PATCHLEVEL = 8
  SUBLEVEL = 5
  EXTRAVERSION =
--NAME = Unicycling Gorilla
+-NAME = Displaced Humerus Anterior
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
