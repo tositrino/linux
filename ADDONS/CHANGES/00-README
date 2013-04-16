@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.0.73-ths
 # created : 11/06/14
-# changed : 13/04/15
+# changed : 13/04/16
 #
 # TODO:
 #   * ubuntu
@@ -29,12 +29,13 @@
 #   - setup & build kernel 3.0.73-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.73-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/04/15
+#  13/04/16
 #   - updated branch v3.0.73-ths
 #     git push origin v3.0.73-ths
 #     git commit -m "updated v3.0.73-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.0)
+#  13/04/15
 #   - setup & build kernel 3.0.73-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - patch kernel
 #     kv=3.0.73
@@ -66,6 +67,12 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
+#  13/04/05
+#   - updated branch v3.0.71-ths
+#     git push origin v3.0.71-ths
+#     git commit -m "updated v3.0.71-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
 #  13/04/04
 #   - updated branch v3.0.71-ths
 #     git push origin v3.0.71-ths
@@ -96,7 +103,7 @@
 #     linux-3.0.latest-ths-Makefile.patch
 #   - obsolete/disabled patches
 #   - merge old ths branch
-#     git merge v3.0.68-ths
+#     git merge v3.0.70-ths
 #   - create new branch from v3.0.71
 #     git checkout -b v3.0.71-ths v3.0.71
 #   - update repositries
