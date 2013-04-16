@@ -1,0 +1,11 @@
+diff -Naur linux-x/drivers/gpu/drm/drm_vm.c linux-y/drivers/gpu/drm/drm_vm.c
+--- linux-x/drivers/gpu/drm/drm_vm.c	2012-12-19 08:29:17.000000000 +0100
++++ linux-y/drivers/gpu/drm/drm_vm.c	2013-03-04 13:50:19.353134306 +0100
+@@ -422,6 +422,7 @@
+ 		list_add(&vma_entry->head, &dev->vmalist);
+ 	}
+ }
++EXPORT_SYMBOL(drm_vm_open_locked);
+ 
+ static void drm_vm_open(struct vm_area_struct *vma)
+ {
