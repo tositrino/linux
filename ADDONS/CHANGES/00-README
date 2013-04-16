@@ -34,7 +34,8 @@
 #     git push origin v3.9.0-rc7-ths
 #     git commit -m "updated v3.9.0-rc7-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.9)
+#   - updated configs (3.8,3.9)
+#   - setup & build kernel 3.9.0-rc7-ths-arm-exynos4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - setup & build kernel 3.9.0-rc7-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.9.0-rc7-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - updated patches:
