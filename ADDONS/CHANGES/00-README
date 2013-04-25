@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.0.74-ths
 # created : 11/06/14
-# changed : 13/04/22
+# changed : 13/04/25
 #
 # TODO:
 #   * ubuntu
@@ -29,6 +29,13 @@
 #   - setup & build kernel 3.0.74-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.74-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/04/25
+#   - updated branch v3.0.74-ths
+#     git push origin v3.0.74-ths
+#     git commit -m "updated v3.0.74-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - cleanup
 #  13/04/22
 #   - updated branch v3.0.74-ths
 #     git push origin v3.0.74-ths
@@ -49,12 +56,12 @@
 #   - THS-RELEASE 3.0.74-mmxiii-iv-xxii
 #   - updated tools
 #     kversion.figlet testversion.c
-#   - added genpatches-3.0-44
+#   - added genpatches-3.0-45
 #   - (*) had to use Makefile after linux-3.0.74-hardkernel.patch to get
 #         this working. renamed it to make sure we don't forget is
 #   - added patches:
 #   - updated patches:
-#     linux-3.0.74-hardkernel.patch
+#     linux-3.0.74-hardkernel.patch (created new from latest hardkernel tree)
 #     linux-3.0-ths-init.patch
 #     linux-3.0.latest-ths-Makefile.patch
 #   - obsolete/disabled patches
