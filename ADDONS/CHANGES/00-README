@@ -29,17 +29,13 @@
 #   - setup & build kernel 3.0.75-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.75-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/04/27
+#   - updated branch v3.0.75-ths
+#     git push origin v3.0.75-ths
+#     git commit -m "updated v3.0.75-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
 #  13/04/26
-#   - updated branch v3.0.75-ths
-#     git push origin v3.0.75-ths
-#     git commit -m "updated v3.0.75-ths"
-#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.0)
-#   - updated branch v3.0.75-ths
-#     git push origin v3.0.75-ths
-#     git commit -m "updated v3.0.75-ths"
-#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.0)
 #   - setup & build kernel 3.0.75-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - patch kernel
 #     kv=3.0.75
