@@ -1,6 +1,6 @@
 diff -Naur linux-x/Makefile linux-y/Makefile
---- linux-x/Makefile	2013-03-04 13:02:38.000000000 +0100
-+++ linux-y/Makefile	2013-03-04 16:18:55.000000000 +0100
+--- linux-x/Makefile	2013-05-10 10:08:32.000000000 +0200
++++ linux-y/Makefile	2013-05-10 13:06:33.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 9
  SUBLEVEL = 1
@@ -10,7 +10,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  
  # *DOCUMENTATION*
  # To see a list of typical targets execute "make help"
-@@ -681,6 +681,12 @@
+@@ -682,6 +682,12 @@
  LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
@@ -23,7 +23,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  # Default kernel image to build when no specific target is given.
  # KBUILD_IMAGE may be overruled on the command line or
  # set in the environment
-@@ -855,10 +861,17 @@
+@@ -856,10 +862,17 @@
  	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
  endef
  
@@ -43,7 +43,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  	$(call filechk,utsrelease.h)
  
  PHONY += headerdep
-@@ -1013,6 +1026,10 @@
+@@ -1014,6 +1027,10 @@
  # Directories & files removed with 'make clean'
  CLEAN_DIRS  += $(MODVERDIR)
  
@@ -54,16 +54,15 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 --- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2013-04-30 16:07:50.000000000 +0200
-@@ -0,0 +1,284 @@
++++ linux-y/Makefile.addons	2013-05-10 14:59:15.336568585 +0200
+@@ -0,0 +1,292 @@
 +###
 +### extra version infomation addons
 +###
 +
 +CPU_TYPE=
-+BOARD_TYPE=
 +SMPVERSION=
 +HIGHMEMVERSION=
 +THISARCH=$(ARCH)
@@ -172,6 +171,16 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +CPU_TYPE=-atom
 +endif
 +
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
++endif
++
 +# powerpc
 +##########
 +
@@ -277,7 +286,6 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +ifdef CONFIG_ARCH_EXYNOS5
 +CPU_TYPE=-exynos5
 +endif
-+
 +
 +ifdef CONFIG_ARCH_TEGRA
 +  CPU_TYPE=-tegra
@@ -342,16 +350,15 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
+diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
 --- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons.debian	2013-04-30 14:16:19.000000000 +0200
-@@ -0,0 +1,293 @@
++++ linux-y/Makefile.addons.debian	2013-05-10 14:59:30.480568272 +0200
+@@ -0,0 +1,302 @@
 +###
 +### extra version infomation addons
 +###
 +
 +CPU_TYPE=
-+BOARD_TYPE=
 +SMPVERSION=
 +HIGHMEMVERSION=
 +THISARCH=$(ARCH)
@@ -458,6 +465,16 @@ diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
 +endif
 +ifdef CONFIG_MATOM
 +CPU_TYPE=-atom
++endif
++
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
 +endif
 +
 +# powerpc
@@ -595,7 +612,7 @@ diff -Naur linux-a/Makefile.addons.debian linux-b/Makefile.addons.debian
 +ifdef CONFIG_BOARD_ODROID_U
 +  BOARD_TYPE=-odroidu
 +endif
-+ifdef CONFIG_BOARD_ODROID_Q
++ifdef CONFIG_BOARD_ODROID_U2
 +  BOARD_TYPE=-odroidu2
 +endif
 +
