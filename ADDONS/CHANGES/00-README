@@ -61,10 +61,9 @@
 #     linux-3.9-latest-ths-Makefile.patch
 #     linux-3.9-ths-init.patch
 #   - linux-3.9-ths-init.patch: 
-#     updated Makefile.addon/Makefile.addon.debian to handle odroid board types
 #   - obsolete patches
 #     none
-#   - using genpatches-3.9-4
+#   - using genpatches-3.9-5
 #   - merge old ths branch
 #     git merge v3.9.1-ths
 #   - create new branch from v3.9.2
