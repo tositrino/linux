@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.7.10-ths
 # created : 12/10/15
-# changed : 13/03/04
+# changed : 13/05/13
 #
 # TODO:
 #   * ubuntu
@@ -29,6 +29,18 @@
 #   - setup & build kernel 3.7.10-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.7.10-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/05/13
+#   - updated branch v3.7.10-ths
+#     git push origin v3.7.10-ths
+#     git commit -m "updated v3.7.10-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - THS-RELEASE 3.7.10-mmxiii-v-xiii
+#   - updated patches:
+#     linux-3.7-ths-init.patch
+#     linux-3.7.latest-ths-Makefile.patch
+#   - updated Makefile.addon/Makefile.addon.debian to handle odroid board types
+#   - using genpatches-3.7-14
 #  13/03/04
 #   - updated branch v3.7.10-ths
 #     git push origin v3.7.10-ths
