@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.10.0-rc1
 # created : 13/05/13
-# changed : 13/05/13
+# changed : 13/05/14
 #
 # TODO:
 #   * ubuntu
@@ -31,7 +31,7 @@
 #   - setup & build kernel 3.10.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.10.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/05/13
+#  13/05/14
 #   - updated branch v3.10.0-rc1-ths
 #     git push origin v3.10.0-rc1-ths
 #     git commit -m "updated v3.10.0-rc1-ths"
@@ -47,6 +47,11 @@
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
+#   - obsolete patches
+#     ARM/linux-3.10-ths-drm_vm.patch
+#   - disabled patches
+#     2710_radeon-uvd-patchset.patch from gentoo patch set 
+#  13/05/13
 #   - commit and push new branch
 #     git push origin v3.10.0-rc1-ths
 #     git commit -m "created v3.10.0-rc1-ths"
