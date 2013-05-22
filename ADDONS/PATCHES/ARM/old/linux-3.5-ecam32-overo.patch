@@ -1,0 +1,35 @@
+--- linux-org/arch/arm/mach-omap2/board-overo.c	2012-06-25 09:10:38.000000000 +0200
++++ linux-ths/arch/arm/mach-omap2/board-overo.c	2012-07-06 15:23:09.098711521 +0200
+@@ -442,6 +442,22 @@
+ 	.vmmc1		= &overo_vmmc1,
+ };
+ 
++#define LM3553_SLAVE_ADDRESS   0x53
++#define OV3640_I2C_ADDR        (0x78 >> 1)
++int omap3evm_ov3640_platform_data;
++int lm3553_platform_data;
++
++static struct i2c_board_info __initdata omap3_i2c_boardinfo_3[] = {
++  {
++    I2C_BOARD_INFO("ov3640", OV3640_I2C_ADDR),
++    .platform_data = &omap3evm_ov3640_platform_data,
++  },
++  {
++    I2C_BOARD_INFO("lm3553",LM3553_SLAVE_ADDRESS),
++    .platform_data = &lm3553_platform_data,
++  },
++};
++
+ static int __init overo_i2c_init(void)
+ {
+ 	omap3_pmic_get_config(&overo_twldata,
+@@ -452,7 +468,8 @@
+ 
+ 	omap3_pmic_init("tps65950", &overo_twldata);
+ 	/* i2c2 pins are used for gpio */
+-	omap_register_i2c_bus(3, 400, NULL, 0);
++	// omap_register_i2c_bus(3, 400, NULL, 0);
++	omap_register_i2c_bus(3, 400, omap3_i2c_boardinfo_3, ARRAY_SIZE(omap3_i2c_boardinfo_3));
+ 	return 0;
+ }
+ 
