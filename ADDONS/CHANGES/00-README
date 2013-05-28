@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.0.80-ths
 # created : 11/06/14
-# changed : 13/05/27
+# changed : 13/05/28
 #
 # TODO:
 #   * ubuntu
@@ -31,14 +31,16 @@
 #   - setup & build kernel 3.0.80-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.80-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/05/27
+#  13/05/28
 #   - updated branch v3.0.80-ths
 #     git push origin v3.0.80-ths
 #     git commit -m "updated v3.0.80-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.0)
+#  13/05/27
 #   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - recreated linux-3.0.80-hardkernel.patch from newes hardkernel sources (v3.0.80)
 #   - patch kernel
 #     kv=3.0.80
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
@@ -57,7 +59,7 @@
 #         this working. renamed it to make sure we don't forget is
 #   - added patches:
 #   - updated patches:
-#     linux-3.0.80-hardkernel.patch 
+#     linux-3.0.80-hardkernel.patch
 #     linux-3.0-ths-init.patch
 #     linux-3.0.latest-ths-Makefile.patch
 #   - obsolete/disabled patches
