@@ -31,6 +31,18 @@
 #   - setup & build kernel 3.0.80-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.80-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/05/30
+#   - updated branch v3.0.80-ths
+#     git push origin v3.0.80-ths
+#     git commit -m "updated v3.0.80-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/29
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#  13/05/28
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - reverted to linux-3.0.75-hardkernel.patch
 #  13/05/28
 #   - updated branch v3.0.80-ths
 #     git push origin v3.0.80-ths
