@@ -1,0 +1,12 @@
+diff -Naur linux-org/scripts/setlocalversion linux-ths/scripts/setlocalversion
+--- linux-org/scripts/setlocalversion	2013-03-12 08:46:23.000000000 +0100
++++ linux-ths/scripts/setlocalversion	2013-03-12 11:19:13.600442859 +0100
+@@ -157,7 +157,7 @@
+ fi
+ 
+ # CONFIG_LOCALVERSION and LOCALVERSION (if set)
+-res="${res}${CONFIG_LOCALVERSION}${LOCALVERSION}"
++res="${res}${LOCALVERSION}${CONFIG_LOCALVERSION}"
+ 
+ # scm version string if not at a tagged commit
+ if test "$CONFIG_LOCALVERSION_AUTO" = "y"; then
