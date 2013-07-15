@@ -5540,7 +5540,7 @@ diff -Naur org/drivers/media/video/ar0832_is.c ths/drivers/media/video/ar0832_is
 -MODULE_LICENSE("GPL");
 diff -Naur org/drivers/media/video/dohofpga.c ths/drivers/media/video/dohofpga.c
 --- org/drivers/media/video/dohofpga.c	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga.c	2013-07-12 18:15:37.000000000 +0200
++++ ths/drivers/media/video/dohofpga.c	2013-07-15 16:12:31.000000000 +0200
 @@ -0,0 +1,615 @@
 +/* linux/drivers/media/video/dohofpga.c
 + *
@@ -6144,9 +6144,9 @@ diff -Naur org/drivers/media/video/dohofpga.c ths/drivers/media/video/dohofpga.c
 +
 +static void __exit dohofpga_mod_exit(void)
 +{
-+  int err=i2c_del_driver(&dohofpga_i2c_driver);
-+  printk("dohofpga_mod_exit() - i2c_del_driver() returned %d\n", err) ;
-+  return err;
++  i2c_del_driver(&dohofpga_i2c_driver);
++  printk("dohofpga_mod_exit() - i2c_del_driver() called\n") ;
++  return ;
 +}
 +
 +module_init(dohofpga_mod_init);
