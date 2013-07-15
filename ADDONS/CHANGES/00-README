@@ -56,10 +56,12 @@
 #   - (*) had to use Makefile after linux-3.0.82-hardkernel.patch to get
 #         this working. renamed it to make sure we don't forget is
 #   - added patches:
-#     none
+#     linux-3.0-ths-i2c-debug.patch
 #   - updated patches:
 #     linux-3.0-ths-init.patch
 #     linux-3.0.latest-ths-Makefile.patch
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
 #   - renamed and updated firmware patches
 #   - obsolete/disabled patches
 #     none
@@ -84,7 +86,7 @@
 #   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidu2-smp-v5 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - note patches not tested in this kernel version (see 3.0.86)
 #   - added patches:
-#     linux-3.0-ths~version.patch (hello device test driver)
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
 #     linux-3.0.85-dohofpga.patch
 #   - added driver development stuff to
 #     drivers/dohofpga.tar.bz2

@@ -1449,60 +1449,36 @@ diff -Naur org/arch/arm/mach-exynos/mach-smdkv310.c ths/arch/arm/mach-exynos/mac
  #ifdef CONFIG_VIDEO_FIMC_MIPI
  	s3c_csis0_set_platdata(NULL);
  	s3c_csis1_set_platdata(NULL);
-diff -Naur org/arch/arm/plat_s5p/dev-fimc-s5p.c ths/arch/arm/plat_s5p/dev-fimc-s5p.c
---- org/arch/arm/plat_s5p/dev-fimc-s5p.c	1970-01-01 01:00:00.000000000 +0100
-+++ ths/arch/arm/plat_s5p/dev-fimc-s5p.c	2013-07-12 17:22:40.000000000 +0200
-@@ -0,0 +1,232 @@
-+/* linux/arch/arm/plat-s5p/dev-fimc-s5p.c
-+ *
-+ * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
-+ *
-+ * Device definition for FIMC device
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+*/
-+
-+#include <linux/kernel.h>
-+#include <linux/string.h>
-+#include <linux/platform_device.h>
-+#include <mach/map.h>
-+#include <asm/irq.h>
-+#include <plat/devs.h>
-+#include <plat/cpu.h>
-+#include <plat/fimc.h>
-+
-+static struct resource s3c_fimc0_resource[] = {
-+	[0] = {
-+		.start	= S5P_PA_FIMC0,
-+		.end	= S5P_PA_FIMC0 + SZ_4K - 1,
-+		.flags	= IORESOURCE_MEM,
-+	},
-+	[1] = {
-+		.start	= IRQ_FIMC0,
-+		.end	= IRQ_FIMC0,
-+		.flags	= IORESOURCE_IRQ,
-+	},
-+};
-+
-+struct platform_device s3c_device_fimc0 = {
-+	.name		= "s3c-fimc",
-+	.id		= 0,
-+	.num_resources	= ARRAY_SIZE(s3c_fimc0_resource),
-+	.resource	= s3c_fimc0_resource,
-+};
-+
-+static struct s3c_platform_fimc default_fimc0_data __initdata = {
-+	.default_cam	= CAMERA_PAR_A,
-+	.hw_ver = 0x51,
-+};
-+
-+void __init s3c_fimc0_set_platdata(struct s3c_platform_fimc *pd)
-+{
+diff -Naur org/arch/arm/plat-s5p/dev-fimc-s5p.c ths/arch/arm/plat-s5p/dev-fimc-s5p.c
+--- org/arch/arm/plat-s5p/dev-fimc-s5p.c	2013-07-05 08:28:14.000000000 +0200
++++ ths/arch/arm/plat-s5p/dev-fimc-s5p.c	2013-07-12 17:22:40.000000000 +0200
+@@ -46,28 +46,36 @@
+ 
+ void __init s3c_fimc0_set_platdata(struct s3c_platform_fimc *pd)
+ {
+-	struct s3c_platform_fimc *npd;
 +  struct s3c_platform_fimc *npd;
-+
+ 
+-	if (!pd)
+-		pd = &default_fimc0_data;
+-
+-	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
+-	if (!npd)
+-		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
+-	else {
+-		if (!npd->cfg_gpio)
+-			npd->cfg_gpio = s3c_fimc0_cfg_gpio;
+-
+-		if (!npd->clk_on)
+-			npd->clk_on = s3c_fimc_clk_on;
+-
+-		if (!npd->clk_off)
+-			npd->clk_off = s3c_fimc_clk_off;
+-
+-		npd->hw_ver = 0x51;
+-		npd->use_cam = true;
+-		s3c_device_fimc0.dev.platform_data = npd;
+-	}
 +  if (!pd)
 +  {
 +    printk(KERN_INFO "%s: empty data, using default", __func__);
@@ -1531,693 +1507,30 @@ diff -Naur org/arch/arm/plat_s5p/dev-fimc-s5p.c ths/arch/arm/plat_s5p/dev-fimc-s
 +  npd->hw_ver = 0x51;
 +  npd->use_cam = true;
 +  s3c_device_fimc0.dev.platform_data = npd;
-+}
-+
-+static struct resource s3c_fimc1_resource[] = {
-+	[0] = {
-+		.start	= S5P_PA_FIMC1,
-+		.end	= S5P_PA_FIMC1 + SZ_4K - 1,
-+		.flags	= IORESOURCE_MEM,
-+	},
-+	[1] = {
-+		.start	= IRQ_FIMC1,
-+		.end	= IRQ_FIMC1,
-+		.flags	= IORESOURCE_IRQ,
-+	},
-+};
-+
-+struct platform_device s3c_device_fimc1 = {
-+	.name		= "s3c-fimc",
-+	.id		= 1,
-+	.num_resources	= ARRAY_SIZE(s3c_fimc1_resource),
-+	.resource	= s3c_fimc1_resource,
-+};
-+
-+static struct s3c_platform_fimc default_fimc1_data __initdata = {
-+	.default_cam	= CAMERA_PAR_A,
-+	.hw_ver = 0x51,
-+};
-+
-+void __init s3c_fimc1_set_platdata(struct s3c_platform_fimc *pd)
-+{
-+	struct s3c_platform_fimc *npd;
-+
-+	if (!pd)
-+		pd = &default_fimc1_data;
-+
-+	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
-+	if (!npd)
-+		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
-+	else {
-+		if (!npd->cfg_gpio)
-+			npd->cfg_gpio = s3c_fimc1_cfg_gpio;
-+
-+		if (!npd->clk_on)
-+			npd->clk_on = s3c_fimc_clk_on;
-+
-+		if (!npd->clk_off)
-+			npd->clk_off = s3c_fimc_clk_off;
-+
-+		npd->hw_ver = 0x51;
-+		npd->use_cam = false;
-+		s3c_device_fimc1.dev.platform_data = npd;
-+	}
-+}
-+
-+static struct resource s3c_fimc2_resource[] = {
-+	[0] = {
-+		.start	= S5P_PA_FIMC2,
-+		.end	= S5P_PA_FIMC2 + SZ_4K - 1,
-+		.flags	= IORESOURCE_MEM,
-+	},
-+	[1] = {
-+		.start	= IRQ_FIMC2,
-+		.end	= IRQ_FIMC2,
-+		.flags	= IORESOURCE_IRQ,
-+	},
-+};
-+
-+struct platform_device s3c_device_fimc2 = {
-+	.name		= "s3c-fimc",
-+	.id		= 2,
-+	.num_resources	= ARRAY_SIZE(s3c_fimc2_resource),
-+	.resource	= s3c_fimc2_resource,
-+};
-+
-+static struct s3c_platform_fimc default_fimc2_data __initdata = {
-+	.default_cam	= CAMERA_PAR_A,
-+	.hw_ver	= 0x51,
-+};
-+
-+void __init s3c_fimc2_set_platdata(struct s3c_platform_fimc *pd)
-+{
-+	struct s3c_platform_fimc *npd;
-+
-+	if (!pd)
-+		pd = &default_fimc2_data;
-+
-+	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
-+	if (!npd)
-+		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
-+	else {
-+		if (!npd->cfg_gpio)
-+			npd->cfg_gpio = s3c_fimc2_cfg_gpio;
-+
-+		if (!npd->clk_on)
-+			npd->clk_on = s3c_fimc_clk_on;
-+
-+		if (!npd->clk_off)
-+			npd->clk_off = s3c_fimc_clk_off;
-+
-+		npd->hw_ver = 0x51;
-+		npd->use_cam = false;
-+		s3c_device_fimc2.dev.platform_data = npd;
-+	}
-+}
-+
-+static struct resource s3c_fimc3_resource[] = {
-+	[0] = {
-+		.start	= S5P_PA_FIMC3,
-+		.end	= S5P_PA_FIMC3 + SZ_4K - 1,
-+		.flags	= IORESOURCE_MEM,
-+	},
-+	[1] = {
-+		.start	= IRQ_FIMC3,
-+		.end	= IRQ_FIMC3,
-+		.flags	= IORESOURCE_IRQ,
-+	},
-+};
-+
-+struct platform_device s3c_device_fimc3 = {
-+	.name		= "s3c-fimc",
-+	.id		= 3,
-+	.num_resources	= ARRAY_SIZE(s3c_fimc3_resource),
-+	.resource	= s3c_fimc3_resource,
-+};
-+
-+static struct s3c_platform_fimc default_fimc3_data __initdata = {
-+	.default_cam	= CAMERA_PAR_A,
-+	.hw_ver	= 0x51,
-+};
-+
-+void __init s3c_fimc3_set_platdata(struct s3c_platform_fimc *pd)
-+{
-+	struct s3c_platform_fimc *npd;
-+
-+	if (!pd)
-+		pd = &default_fimc3_data;
-+
-+	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
-+	if (!npd)
-+		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
-+	else {
-+		if (!npd->cfg_gpio)
-+			npd->cfg_gpio = s3c_fimc3_cfg_gpio;
-+
-+		if (!npd->clk_on)
-+			npd->clk_on = s3c_fimc_clk_on;
-+
-+		if (!npd->clk_off)
-+			npd->clk_off = s3c_fimc_clk_off;
-+
-+		npd->hw_ver = 0x51;
-+		s3c_device_fimc3.dev.platform_data = npd;
-+	}
-+}
-+
-diff -Naur org/arch/arm/plat_s5p/include/plat/fimc.h ths/arch/arm/plat_s5p/include/plat/fimc.h
---- org/arch/arm/plat_s5p/include/plat/fimc.h	1970-01-01 01:00:00.000000000 +0100
-+++ ths/arch/arm/plat_s5p/include/plat/fimc.h	2013-07-08 16:03:24.000000000 +0200
-@@ -0,0 +1,149 @@
-+/* linux/arch/arm/plat-s5p/include/plat/fimc.h
-+ *
-+ * Copyright 2010 Samsung Electronics Co., Ltd.
-+ *		http://www.samsung.com/
-+ *
-+ * Platform header file for Samsung Camera Interface (FIMC) driver
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+*/
-+#ifndef __ASM_PLAT_FIMC_H
-+#define __ASM_PLAT_FIMC_H __FILE__
-+
-+#include <linux/videodev2.h>
-+
-+#define FIMC_SRC_MAX_W		4224
-+#define FIMC_SRC_MAX_H		4224
-+#define FLITE_MAX_NUM		2
-+
-+struct platform_device;
-+
-+/* For exnternal camera device */
-+enum fimc_cam_type {
-+	CAM_TYPE_ITU	= 0,
-+	CAM_TYPE_MIPI	= 1,
-+};
-+
-+enum fimc_cam_format {
-+	ITU_601_YCBCR422_8BIT	= (1 << 31),
-+	ITU_656_YCBCR422_8BIT	= (0 << 31),
-+	ITU_601_YCBCR422_16BIT	= (1 << 29),
-+	MIPI_CSI_YCBCR422_8BIT	= 0x1e,
-+	MIPI_CSI_RAW8		= 0x2a,
-+	MIPI_CSI_RAW10		= 0x2b,
-+	MIPI_CSI_RAW12		= 0x2c,
-+	MIPI_USER_DEF_PACKET_1	= 0x30,	/* User defined Byte-based packet 1 */
-+};
-+
-+enum fimc_cam_order422 {
-+	CAM_ORDER422_8BIT_YCBYCR	= (0 << 14),
-+	CAM_ORDER422_8BIT_YCRYCB	= (1 << 14),
-+	CAM_ORDER422_8BIT_CBYCRY	= (2 << 14),
-+	CAM_ORDER422_8BIT_CRYCBY	= (3 << 14),
-+	CAM_ORDER422_16BIT_Y4CBCRCBCR	= (0 << 14),
-+	CAM_ORDER422_16BIT_Y4CRCBCRCB	= (1 << 14),
-+};
-+
-+enum fimc_cam_index {
-+	CAMERA_PAR_A	= 0,
-+	CAMERA_PAR_B	= 1,
-+	CAMERA_CSI_C	= 2,
-+	CAMERA_CSI_D	= 3,
-+	CAMERA_WB 	= 4,
-+	CAMERA_WB_B 	= 5,
-+	CAMERA_PATTERN	= 6,
-+};
-+
+ }
+ 
+ static struct resource s3c_fimc1_resource[] = {
+diff -Naur org/arch/arm/plat-s5p/include/plat/fimc.h ths/arch/arm/plat-s5p/include/plat/fimc.h
+--- org/arch/arm/plat-s5p/include/plat/fimc.h	2013-07-03 11:10:45.000000000 +0200
++++ ths/arch/arm/plat-s5p/include/plat/fimc.h	2013-07-08 16:03:24.000000000 +0200
+@@ -56,10 +56,14 @@
+ 	CAMERA_PATTERN	= 6,
+ };
+ 
 +#if defined(CONFIG_VIDEO_FIMC)
 +#include <media/s5p_fimc.h>
 +#else
-+enum flite_index {
-+	FLITE_IDX_A = 0,
-+	FLITE_IDX_B = 1,
-+};
+ enum flite_index {
+ 	FLITE_IDX_A = 0,
+ 	FLITE_IDX_B = 1,
+ };
 +#endif
-+
-+/* struct s3c_platform_camera: abstraction for input camera */
-+struct s3c_platform_camera {
-+	/*
-+	 * ITU cam A,B: 0,1
-+	 * CSI-2 cam C: 2
-+	 */
-+	enum fimc_cam_index		id;
-+
-+	enum fimc_cam_type		type;		/* ITU or MIPI */
-+	enum fimc_cam_format		fmt;		/* input format */
-+	enum fimc_cam_order422		order422;	/* YCBCR422 order for ITU */
-+	u32				pixelformat;	/* default fourcc */
-+
-+	int				i2c_busnum;
-+	struct i2c_board_info		*info;
-+	struct v4l2_subdev		*sd;
-+
-+	const char			srclk_name[16];	/* source of mclk name */
-+	const char			clk_name[16];	/* mclk name */
-+	u32				clk_rate;	/* mclk ratio */
-+	struct clk			*clk;		/* mclk */
-+	int				line_length;	/* max length */
-+	int				width;		/* default resol */
-+	int				height;		/* default resol */
-+	struct v4l2_rect		window;		/* real cut region from source */
-+
-+	int				mipi_lanes;	/* MIPI data lanes */
-+	int				mipi_settle;	/* MIPI settle */
-+	int				mipi_align;	/* MIPI data align: 24/32 */
-+
-+	/* Polarity: 1 if inverted polarity used */
-+	int				inv_pclk;
-+	int				inv_vsync;
-+	int				inv_href;
-+	int				inv_hsync;
-+
-+	int				initialized;
-+	/* The cam needs reset before start streaming   */
-+	int				reset_camera;
-+
-+	/* Board specific power pin control */
-+	int				(*cam_power)(int onoff);
-+	enum flite_index		flite_id;
-+	bool				use_isp;
-+	int				sensor_index;
-+};
-+
-+/* For camera interface driver */
-+struct s3c_platform_fimc {
-+	enum fimc_cam_index		default_cam;		/* index of default cam */
-+#ifdef CONFIG_ARCH_EXYNOS4
-+	struct s3c_platform_camera	*camera[7];		/* FIXME */
-+#else
-+	struct s3c_platform_camera	*camera[5];		/* FIXME */
-+#endif
-+	int				hw_ver;
-+	bool				use_cam;
-+
-+	void				(*cfg_gpio)(struct platform_device *pdev);
-+	int				(*clk_on)(struct platform_device *pdev, struct clk **clk);
-+	int				(*clk_off)(struct platform_device *pdev, struct clk **clk);
-+};
-+
-+extern void s3c_fimc0_set_platdata(struct s3c_platform_fimc *fimc);
-+extern void s3c_fimc1_set_platdata(struct s3c_platform_fimc *fimc);
-+extern void s3c_fimc2_set_platdata(struct s3c_platform_fimc *fimc);
-+#ifdef CONFIG_ARCH_EXYNOS4
-+extern void s3c_fimc3_set_platdata(struct s3c_platform_fimc *fimc);
-+#endif
-+
-+/* defined by architecture to configure gpio */
-+extern void s3c_fimc0_cfg_gpio(struct platform_device *pdev);
-+extern void s3c_fimc1_cfg_gpio(struct platform_device *pdev);
-+extern void s3c_fimc2_cfg_gpio(struct platform_device *pdev);
-+#ifdef CONFIG_ARCH_EXYNOS4
-+extern void s3c_fimc3_cfg_gpio(struct platform_device *pdev);
-+#endif
-+/* platform specific clock functions */
-+extern int s3c_fimc_clk_on(struct platform_device *pdev, struct clk **clk);
-+extern int s3c_fimc_clk_off(struct platform_device *pdev, struct clk **clk);
-+
-+#endif /*__ASM_PLAT_FIMC_H */
-diff -Naur org/arch/arm/plat-s5p/dev-fimc-s5p.c ths/arch/arm/plat-s5p/dev-fimc-s5p.c
---- org/arch/arm/plat-s5p/dev-fimc-s5p.c	2013-07-05 08:28:14.000000000 +0200
-+++ ths/arch/arm/plat-s5p/dev-fimc-s5p.c	1970-01-01 01:00:00.000000000 +0100
-@@ -1,224 +0,0 @@
--/* linux/arch/arm/plat-s5p/dev-fimc-s5p.c
-- *
-- * Copyright (c) 2011 Samsung Electronics Co., Ltd.
-- *		http://www.samsung.com/
-- *
-- * Device definition for FIMC device
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
--*/
--
--#include <linux/kernel.h>
--#include <linux/string.h>
--#include <linux/platform_device.h>
--#include <mach/map.h>
--#include <asm/irq.h>
--#include <plat/devs.h>
--#include <plat/cpu.h>
--#include <plat/fimc.h>
--
--static struct resource s3c_fimc0_resource[] = {
--	[0] = {
--		.start	= S5P_PA_FIMC0,
--		.end	= S5P_PA_FIMC0 + SZ_4K - 1,
--		.flags	= IORESOURCE_MEM,
--	},
--	[1] = {
--		.start	= IRQ_FIMC0,
--		.end	= IRQ_FIMC0,
--		.flags	= IORESOURCE_IRQ,
--	},
--};
--
--struct platform_device s3c_device_fimc0 = {
--	.name		= "s3c-fimc",
--	.id		= 0,
--	.num_resources	= ARRAY_SIZE(s3c_fimc0_resource),
--	.resource	= s3c_fimc0_resource,
--};
--
--static struct s3c_platform_fimc default_fimc0_data __initdata = {
--	.default_cam	= CAMERA_PAR_A,
--	.hw_ver = 0x51,
--};
--
--void __init s3c_fimc0_set_platdata(struct s3c_platform_fimc *pd)
--{
--	struct s3c_platform_fimc *npd;
--
--	if (!pd)
--		pd = &default_fimc0_data;
--
--	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
--	if (!npd)
--		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
--	else {
--		if (!npd->cfg_gpio)
--			npd->cfg_gpio = s3c_fimc0_cfg_gpio;
--
--		if (!npd->clk_on)
--			npd->clk_on = s3c_fimc_clk_on;
--
--		if (!npd->clk_off)
--			npd->clk_off = s3c_fimc_clk_off;
--
--		npd->hw_ver = 0x51;
--		npd->use_cam = true;
--		s3c_device_fimc0.dev.platform_data = npd;
--	}
--}
--
--static struct resource s3c_fimc1_resource[] = {
--	[0] = {
--		.start	= S5P_PA_FIMC1,
--		.end	= S5P_PA_FIMC1 + SZ_4K - 1,
--		.flags	= IORESOURCE_MEM,
--	},
--	[1] = {
--		.start	= IRQ_FIMC1,
--		.end	= IRQ_FIMC1,
--		.flags	= IORESOURCE_IRQ,
--	},
--};
--
--struct platform_device s3c_device_fimc1 = {
--	.name		= "s3c-fimc",
--	.id		= 1,
--	.num_resources	= ARRAY_SIZE(s3c_fimc1_resource),
--	.resource	= s3c_fimc1_resource,
--};
--
--static struct s3c_platform_fimc default_fimc1_data __initdata = {
--	.default_cam	= CAMERA_PAR_A,
--	.hw_ver = 0x51,
--};
--
--void __init s3c_fimc1_set_platdata(struct s3c_platform_fimc *pd)
--{
--	struct s3c_platform_fimc *npd;
--
--	if (!pd)
--		pd = &default_fimc1_data;
--
--	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
--	if (!npd)
--		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
--	else {
--		if (!npd->cfg_gpio)
--			npd->cfg_gpio = s3c_fimc1_cfg_gpio;
--
--		if (!npd->clk_on)
--			npd->clk_on = s3c_fimc_clk_on;
--
--		if (!npd->clk_off)
--			npd->clk_off = s3c_fimc_clk_off;
--
--		npd->hw_ver = 0x51;
--		npd->use_cam = false;
--		s3c_device_fimc1.dev.platform_data = npd;
--	}
--}
--
--static struct resource s3c_fimc2_resource[] = {
--	[0] = {
--		.start	= S5P_PA_FIMC2,
--		.end	= S5P_PA_FIMC2 + SZ_4K - 1,
--		.flags	= IORESOURCE_MEM,
--	},
--	[1] = {
--		.start	= IRQ_FIMC2,
--		.end	= IRQ_FIMC2,
--		.flags	= IORESOURCE_IRQ,
--	},
--};
--
--struct platform_device s3c_device_fimc2 = {
--	.name		= "s3c-fimc",
--	.id		= 2,
--	.num_resources	= ARRAY_SIZE(s3c_fimc2_resource),
--	.resource	= s3c_fimc2_resource,
--};
--
--static struct s3c_platform_fimc default_fimc2_data __initdata = {
--	.default_cam	= CAMERA_PAR_A,
--	.hw_ver	= 0x51,
--};
--
--void __init s3c_fimc2_set_platdata(struct s3c_platform_fimc *pd)
--{
--	struct s3c_platform_fimc *npd;
--
--	if (!pd)
--		pd = &default_fimc2_data;
--
--	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
--	if (!npd)
--		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
--	else {
--		if (!npd->cfg_gpio)
--			npd->cfg_gpio = s3c_fimc2_cfg_gpio;
--
--		if (!npd->clk_on)
--			npd->clk_on = s3c_fimc_clk_on;
--
--		if (!npd->clk_off)
--			npd->clk_off = s3c_fimc_clk_off;
--
--		npd->hw_ver = 0x51;
--		npd->use_cam = false;
--		s3c_device_fimc2.dev.platform_data = npd;
--	}
--}
--
--static struct resource s3c_fimc3_resource[] = {
--	[0] = {
--		.start	= S5P_PA_FIMC3,
--		.end	= S5P_PA_FIMC3 + SZ_4K - 1,
--		.flags	= IORESOURCE_MEM,
--	},
--	[1] = {
--		.start	= IRQ_FIMC3,
--		.end	= IRQ_FIMC3,
--		.flags	= IORESOURCE_IRQ,
--	},
--};
--
--struct platform_device s3c_device_fimc3 = {
--	.name		= "s3c-fimc",
--	.id		= 3,
--	.num_resources	= ARRAY_SIZE(s3c_fimc3_resource),
--	.resource	= s3c_fimc3_resource,
--};
--
--static struct s3c_platform_fimc default_fimc3_data __initdata = {
--	.default_cam	= CAMERA_PAR_A,
--	.hw_ver	= 0x51,
--};
--
--void __init s3c_fimc3_set_platdata(struct s3c_platform_fimc *pd)
--{
--	struct s3c_platform_fimc *npd;
--
--	if (!pd)
--		pd = &default_fimc3_data;
--
--	npd = kmemdup(pd, sizeof(struct s3c_platform_fimc), GFP_KERNEL);
--	if (!npd)
--		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
--	else {
--		if (!npd->cfg_gpio)
--			npd->cfg_gpio = s3c_fimc3_cfg_gpio;
--
--		if (!npd->clk_on)
--			npd->clk_on = s3c_fimc_clk_on;
--
--		if (!npd->clk_off)
--			npd->clk_off = s3c_fimc_clk_off;
--
--		npd->hw_ver = 0x51;
--		s3c_device_fimc3.dev.platform_data = npd;
--	}
--}
--
-diff -Naur org/arch/arm/plat-s5p/include/plat/fimc.h ths/arch/arm/plat-s5p/include/plat/fimc.h
---- org/arch/arm/plat-s5p/include/plat/fimc.h	2013-07-03 11:10:45.000000000 +0200
-+++ ths/arch/arm/plat-s5p/include/plat/fimc.h	1970-01-01 01:00:00.000000000 +0100
-@@ -1,145 +0,0 @@
--/* linux/arch/arm/plat-s5p/include/plat/fimc.h
-- *
-- * Copyright 2010 Samsung Electronics Co., Ltd.
-- *		http://www.samsung.com/
-- *
-- * Platform header file for Samsung Camera Interface (FIMC) driver
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
--*/
--#ifndef __ASM_PLAT_FIMC_H
--#define __ASM_PLAT_FIMC_H __FILE__
--
--#include <linux/videodev2.h>
--
--#define FIMC_SRC_MAX_W		4224
--#define FIMC_SRC_MAX_H		4224
--#define FLITE_MAX_NUM		2
--
--struct platform_device;
--
--/* For exnternal camera device */
--enum fimc_cam_type {
--	CAM_TYPE_ITU	= 0,
--	CAM_TYPE_MIPI	= 1,
--};
--
--enum fimc_cam_format {
--	ITU_601_YCBCR422_8BIT	= (1 << 31),
--	ITU_656_YCBCR422_8BIT	= (0 << 31),
--	ITU_601_YCBCR422_16BIT	= (1 << 29),
--	MIPI_CSI_YCBCR422_8BIT	= 0x1e,
--	MIPI_CSI_RAW8		= 0x2a,
--	MIPI_CSI_RAW10		= 0x2b,
--	MIPI_CSI_RAW12		= 0x2c,
--	MIPI_USER_DEF_PACKET_1	= 0x30,	/* User defined Byte-based packet 1 */
--};
--
--enum fimc_cam_order422 {
--	CAM_ORDER422_8BIT_YCBYCR	= (0 << 14),
--	CAM_ORDER422_8BIT_YCRYCB	= (1 << 14),
--	CAM_ORDER422_8BIT_CBYCRY	= (2 << 14),
--	CAM_ORDER422_8BIT_CRYCBY	= (3 << 14),
--	CAM_ORDER422_16BIT_Y4CBCRCBCR	= (0 << 14),
--	CAM_ORDER422_16BIT_Y4CRCBCRCB	= (1 << 14),
--};
--
--enum fimc_cam_index {
--	CAMERA_PAR_A	= 0,
--	CAMERA_PAR_B	= 1,
--	CAMERA_CSI_C	= 2,
--	CAMERA_CSI_D	= 3,
--	CAMERA_WB 	= 4,
--	CAMERA_WB_B 	= 5,
--	CAMERA_PATTERN	= 6,
--};
--
--enum flite_index {
--	FLITE_IDX_A = 0,
--	FLITE_IDX_B = 1,
--};
--
--/* struct s3c_platform_camera: abstraction for input camera */
--struct s3c_platform_camera {
--	/*
--	 * ITU cam A,B: 0,1
--	 * CSI-2 cam C: 2
--	 */
--	enum fimc_cam_index		id;
--
--	enum fimc_cam_type		type;		/* ITU or MIPI */
--	enum fimc_cam_format		fmt;		/* input format */
--	enum fimc_cam_order422		order422;	/* YCBCR422 order for ITU */
--	u32				pixelformat;	/* default fourcc */
--
--	int				i2c_busnum;
--	struct i2c_board_info		*info;
--	struct v4l2_subdev		*sd;
--
--	const char			srclk_name[16];	/* source of mclk name */
--	const char			clk_name[16];	/* mclk name */
--	u32				clk_rate;	/* mclk ratio */
--	struct clk			*clk;		/* mclk */
--	int				line_length;	/* max length */
--	int				width;		/* default resol */
--	int				height;		/* default resol */
--	struct v4l2_rect		window;		/* real cut region from source */
--
--	int				mipi_lanes;	/* MIPI data lanes */
--	int				mipi_settle;	/* MIPI settle */
--	int				mipi_align;	/* MIPI data align: 24/32 */
--
--	/* Polarity: 1 if inverted polarity used */
--	int				inv_pclk;
--	int				inv_vsync;
--	int				inv_href;
--	int				inv_hsync;
--
--	int				initialized;
--	/* The cam needs reset before start streaming   */
--	int				reset_camera;
--
--	/* Board specific power pin control */
--	int				(*cam_power)(int onoff);
--	enum flite_index		flite_id;
--	bool				use_isp;
--	int				sensor_index;
--};
--
--/* For camera interface driver */
--struct s3c_platform_fimc {
--	enum fimc_cam_index		default_cam;		/* index of default cam */
--#ifdef CONFIG_ARCH_EXYNOS4
--	struct s3c_platform_camera	*camera[7];		/* FIXME */
--#else
--	struct s3c_platform_camera	*camera[5];		/* FIXME */
--#endif
--	int				hw_ver;
--	bool				use_cam;
--
--	void				(*cfg_gpio)(struct platform_device *pdev);
--	int				(*clk_on)(struct platform_device *pdev, struct clk **clk);
--	int				(*clk_off)(struct platform_device *pdev, struct clk **clk);
--};
--
--extern void s3c_fimc0_set_platdata(struct s3c_platform_fimc *fimc);
--extern void s3c_fimc1_set_platdata(struct s3c_platform_fimc *fimc);
--extern void s3c_fimc2_set_platdata(struct s3c_platform_fimc *fimc);
--#ifdef CONFIG_ARCH_EXYNOS4
--extern void s3c_fimc3_set_platdata(struct s3c_platform_fimc *fimc);
--#endif
--
--/* defined by architecture to configure gpio */
--extern void s3c_fimc0_cfg_gpio(struct platform_device *pdev);
--extern void s3c_fimc1_cfg_gpio(struct platform_device *pdev);
--extern void s3c_fimc2_cfg_gpio(struct platform_device *pdev);
--#ifdef CONFIG_ARCH_EXYNOS4
--extern void s3c_fimc3_cfg_gpio(struct platform_device *pdev);
--#endif
--/* platform specific clock functions */
--extern int s3c_fimc_clk_on(struct platform_device *pdev, struct clk **clk);
--extern int s3c_fimc_clk_off(struct platform_device *pdev, struct clk **clk);
--
--#endif /*__ASM_PLAT_FIMC_H */
-diff -Naur org/arch/arm/plat_samsung/include/plat/cpu.h ths/arch/arm/plat_samsung/include/plat/cpu.h
---- org/arch/arm/plat_samsung/include/plat/cpu.h	2013-07-05 08:28:14.000000000 +0200
-+++ ths/arch/arm/plat_samsung/include/plat/cpu.h	2013-07-09 17:51:08.000000000 +0200
+ 
+ /* struct s3c_platform_camera: abstraction for input camera */
+ struct s3c_platform_camera {
+diff -Naur org/arch/arm/plat-samsung/include/plat/cpu.h ths/arch/arm/plat-samsung/include/plat/cpu.h
+--- org/arch/arm/plat-samsung/include/plat/cpu.h	2013-07-05 08:28:14.000000000 +0200
++++ ths/arch/arm/plat-samsung/include/plat/cpu.h	2013-07-09 17:51:08.000000000 +0200
 @@ -18,8 +18,16 @@
  #ifndef __SAMSUNG_PLAT_CPU_H
  #define __SAMSUNG_PLAT_CPU_H
@@ -2235,9 +1548,9 @@ diff -Naur org/arch/arm/plat_samsung/include/plat/cpu.h ths/arch/arm/plat_samsun
  #define S3C24XX_CPU_ID		0x32400000
  #define S3C24XX_CPU_MASK	0xFFF00000
  
-diff -Naur org/arch/arm/plat_samsung/include/plat/devs.h ths/arch/arm/plat_samsung/include/plat/devs.h
---- org/arch/arm/plat_samsung/include/plat/devs.h	2013-07-05 08:28:14.000000000 +0200
-+++ ths/arch/arm/plat_samsung/include/plat/devs.h	2013-07-08 15:14:57.000000000 +0200
+diff -Naur org/arch/arm/plat-samsung/include/plat/devs.h ths/arch/arm/plat-samsung/include/plat/devs.h
+--- org/arch/arm/plat-samsung/include/plat/devs.h	2013-07-05 08:28:14.000000000 +0200
++++ ths/arch/arm/plat-samsung/include/plat/devs.h	2013-07-08 15:14:57.000000000 +0200
 @@ -169,17 +169,19 @@
  extern struct platform_device s5pc100_device_spdif;
  
@@ -2262,7 +1575,7 @@ diff -Naur org/arch/arm/plat_samsung/include/plat/devs.h ths/arch/arm/plat_samsu
  extern struct platform_device s5p_device_mipi_csis1;
 diff -Naur org/drivers/dma/Kconfig ths/drivers/dma/Kconfig
 --- org/drivers/dma/Kconfig	2013-07-03 09:28:57.000000000 +0200
-+++ ths/drivers/dma/Kconfig	2013-07-09 11:31:28.911898352 +0200
++++ ths/drivers/dma/Kconfig	2013-07-09 11:31:28.000000000 +0200
 @@ -193,7 +193,7 @@
  config PL330_DMA
  	tristate "DMA API Driver for PL330"
@@ -9460,7 +8773,7 @@ diff -Naur org/drivers/media/video/dohofpga.h ths/drivers/media/video/dohofpga.h
 +
 +#endif
 diff -Naur org/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c ths/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c
---- org/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c	2013-07-08 07:55:58.946005870 +0200
+--- org/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c	2013-07-08 07:55:58.000000000 +0200
 +++ ths/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c	2013-07-08 12:25:36.000000000 +0200
 @@ -41,6 +41,15 @@
  #include <linux/dma-mapping.h>
@@ -9479,7 +8792,7 @@ diff -Naur org/drivers/media/video/exynos/fimc-is/fimc-is-v4l2.c ths/drivers/med
  #include "fimc-is-regs.h"
  #include "fimc-is-param.h"
 diff -Naur org/drivers/media/video/exynos/fimc-lite/fimc-lite-core.h ths/drivers/media/video/exynos/fimc-lite/fimc-lite-core.h
---- org/drivers/media/video/exynos/fimc-lite/fimc-lite-core.h	2013-07-08 08:09:18.050021095 +0200
+--- org/drivers/media/video/exynos/fimc-lite/fimc-lite-core.h	2013-07-08 08:09:18.000000000 +0200
 +++ ths/drivers/media/video/exynos/fimc-lite/fimc-lite-core.h	2013-07-08 08:08:08.000000000 +0200
 @@ -288,7 +288,7 @@
  	ctrl->cur.val = ctrl->val = value;
