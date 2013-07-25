@@ -1,0 +1,50 @@
+Hi,
+
+On a freshly booted machine with LSISAS1068 controller attached to
+SATA disks, the ioerr_cnt in /sys/block/<disk>/device/ is 0x1.
+
+The machine also has 2 other SATA disks attached directly to the on-board
+ServerWorks controller and the ioerr_cnt for those disks is 0x0; which
+is what is expected.
+
+There does not seem to be any problem with the machine and I think this
+is just a false alarm. I am able to reproduce this on any other machine
+with the same SAS controller.
+
+I have not tested with any SAS controller other than LSISAS1068.
+
+I just want to emphasise that the hardware is not broken.
+
+I have pasted the relevant parts from dmesg which has some debug logs.
+
+My question is: Is this a known problem?
+
+While this is not egregious, it does confuse the users/applications that
+monitor that counter.
+
+Thanks!
+Abhijit
+
+> Signed-off-by: Abhijit Paithankar <apaithan@akamai.com>
+> 
+> Index: linux-2.6.27/drivers/message/fusion/mptsas.c
+> ===================================================================
+> --- linux-2.6.27.orig/drivers/message/fusion/mptsas.c2008-10-13 17:31:57.000000000 -0700
+> +++ linux-2.6.27/drivers/message/fusion/mptsas.c2008-10-14 11:36:36.000000000 -0700
+> @@ -839,11 +839,15 @@ mptsas_sas_enclosure_pg0(MPT_ADAPTER *io
+>  static int
+>  mptsas_slave_configure(struct scsi_device *sdev)
+>  {
+> +struct sas_rphy *rphy;
+>  
+>  if (sdev->channel == MPTSAS_RAID_CHANNEL)
+>  goto out;
+>  
+> -sas_read_port_mode_page(sdev);
+> +rphy = dev_to_rphy(sdev->sdev_target->dev.parent);
+> +if (rphy->identify.device_type == SAS_END_DEVICE &&
+> +   (rphy->identify.target_port_protocols & SAS_PROTOCOL_SSP))
+> +sas_read_port_mode_page(sdev);
+>  
+>   out:
+>  return mptscsih_slave_configure(sdev);
