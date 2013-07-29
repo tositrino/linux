@@ -37,7 +37,9 @@
 #     git commit -m "updated v3.0.88-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.0)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx1-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
 #   - patch kernel
 #     kv=3.0.88
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
@@ -49,11 +51,16 @@
 #     git commit -m "created v3.0.88-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.0.88-mmxiii-vii-xxix
+#   - updated path-kernel to force sorrect patch order
+#   - renamed arch id odroidx/u/q to odroidx1/u1/q1 in Makefile.addon
 #   - updated tools
 #     kversion.figlet testversion.c
-#   - (**) pulled latest linux firmware and updated added patches
-#   - (*) had to use files after linux-3.0.86-hardkernel.patch to get
-#         this working. renamed it to make sure we don't forget is
+#   - (****) created new hardkernel patch linux-3.0.88-1-hk.patch from
+#            3.0.88 vanilla sources and 3.0.66 hardkernel sources
+#   - (***)  renamed to have a defined patch order
+#   - (**)   pulled latest linux firmware and updated added patches
+#   - (*)    had to use files after linux-3.0.86-hardkernel.patch to get
+#            this working. renamed it to make sure we don't forget is
 #   - added patches:
 #     linux-firmware-amducode.patch (**)
 #     linux-firmware-iwlwifi.patch  (**)
@@ -61,15 +68,17 @@
 #     linux-3.0-ths-init-hk.patch (*)
 #     linux-3.0.latest-ths-Makefile-hk.patch (*)
 #     linux-3.0-ths-hdrv.patch (hello device test driver)
-#     linux-3.0.85-dohofpga.patch
-#     ./linux-firmware-ar3k.patch    (**)
-#     ./linux-firmware-radeon.patch  (**)
-#     ./linux-firmware-rtl_nic.patch (**)
-#   - renamed and updated firmware patches
+#     00-linux-3.0-ths-drm_vm.patch   (***)
+#     80-linux-3.0.88-hk.patch        (****)
+#     90-linux-3.0.88-hk-dohfpga.patch(***)
+#     linux-firmware-ar3k.patch     (**)
+#     linux-firmware-radeon.patch   (**)
+#     linux-firmware-rtl_nic.patch  (**)
 #   - obsolete/disabled patches
 #     none
-#   - using linux-3.0.86-hardkernel.patch
 #   - using genpatches-3.0-58
+#     - disabled(obsolet) 1510_af_key-fix-info-leaks-in-notify-messages.patch
+#     - disabled(obsolet) 1511_ipv6-ip6_sk_dst_check-must-not-assume-ipv6-dst.patch
 #   - merge old ths branch
 #     git merge v3.0.86-ths
 #   - create new branch from v3.0.88
