@@ -53,6 +53,7 @@
 #   - THS-RELEASE 3.0.88-mmxiii-vii-xxix
 #   - updated path-kernel to force sorrect patch order
 #   - renamed arch id odroidx/u/q to odroidx1/u1/q1 in Makefile.addon
+#     updated : linux-3.0.latest-ths-Makefile-hk.patch ()
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - (****) created new hardkernel patch linux-3.0.88-1-hk.patch from

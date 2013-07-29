@@ -305,19 +305,19 @@ diff -Naur linux-a/Makefile.addons linux-b/Makefile.addons
 +
 +# board type
 +ifdef CONFIG_BOARD_ODROID_Q
-+  BOARD_TYPE=-odroidq
++  BOARD_TYPE=-odroidq1
 +endif
 +ifdef CONFIG_BOARD_ODROID_Q2
 +  BOARD_TYPE=-odroidq2
 +endif
 +ifdef CONFIG_BOARD_ODROID_X
-+  BOARD_TYPE=-odroidx
++  BOARD_TYPE=-odroidx1
 +endif
 +ifdef CONFIG_BOARD_ODROID_X2
 +  BOARD_TYPE=-odroidx2
 +endif
 +ifdef CONFIG_BOARD_ODROID_U
-+  BOARD_TYPE=-odroidu
++  BOARD_TYPE=-odroidu1
 +endif
 +ifdef CONFIG_BOARD_ODROID_U2
 +  BOARD_TYPE=-odroidu2
