@@ -2,35 +2,82 @@
 # README - source package change documentation
 #
 # package : linux kernel
-# version : 3.0.87-ths
+# version : 3.0.88-ths
 # created : 11/06/14
-# changed : 13/07/25
+# changed : 13/07/29
 #
 # TODO:
 #   * ubuntu
-#   - setup & build kernel 3.0.87-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
-#   - setup & build kernel 3.0.87-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
-#   - setup & build kernel 3.0.87-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - setup & build kernel 3.0.88-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.0.88-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0.88-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
 #   * gentoo-x86_32
-#   - setup & build kernel 3.0.87-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.0.88-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.0.87-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
-#   - setup & build kernel 3.0.87-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
-#   - setup & build kernel 3.0.87-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   - setup & build kernel 3.0.88-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
+#   - setup & build kernel 3.0.88-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.0.88-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.0.87-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.0.87-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.0.88-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.0.88-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
-#   - setup & build kernel 3.0.87-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
-#   - setup & build kernel 3.0.87-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
-#   - setup & build kernel 3.0.87-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
-#   - setup & build kernel 3.0.87-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
-#   - setup & build kernel 3.0.87-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
-#   - setup & build kernel 3.0.87-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup & build kernel 3.0.88-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.88-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.0.88-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/07/29
+#   - updated branch v3.0.88-ths
+#     git push origin v3.0.88-ths
+#     git commit -m "updated v3.0.88-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.88
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.88-ths
+#     git commit -m "created v3.0.88-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.88-mmxiii-vii-xxix
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - (**) pulled latest linux firmware and updated added patches
+#   - (*) had to use files after linux-3.0.86-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     linux-firmware-amducode.patch (**)
+#     linux-firmware-iwlwifi.patch  (**)
+#   - updated patches:
+#     linux-3.0-ths-init-hk.patch (*)
+#     linux-3.0.latest-ths-Makefile-hk.patch (*)
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
+#     ./linux-firmware-ar3k.patch    (**)
+#     ./linux-firmware-radeon.patch  (**)
+#     ./linux-firmware-rtl_nic.patch (**)
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - using linux-3.0.86-hardkernel.patch
+#   - using genpatches-3.0-58
+#   - merge old ths branch
+#     git merge v3.0.86-ths
+#   - create new branch from v3.0.88
+#     git checkout -b v3.0.88-ths v3.0.88
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  13/07/29
 #   - updated branch v3.0.87-ths
 #     git push origin v3.0.87-ths
@@ -60,7 +107,7 @@
 #     linux-3.0-ths-init-hk.patch (*)
 #     linux-3.0.latest-ths-Makefile-hk.patch (*)
 #     linux-3.0-ths-hdrv.patch (hello device test driver)
-#     linux-3.0.87-dohofpga.patch
+#     linux-3.0.85-dohofpga.patch
 #   - renamed and updated firmware patches
 #   - obsolete/disabled patches
 #     none
