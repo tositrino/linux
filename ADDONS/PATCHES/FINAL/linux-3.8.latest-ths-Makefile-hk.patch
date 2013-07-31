@@ -1,16 +1,16 @@
-diff -Naur linux-a/Makefile linux-b/Makefile
---- linux-a/Makefile	2013-02-19 17:04:38.000000000 +0100
-+++ linux-b/Makefile	2013-02-19 17:20:18.167164788 +0100
+diff -Naur hk/Makefile ths/Makefile
+--- hk/Makefile	2013-07-31 08:22:43.000000000 +0200
++++ ths/Makefile	2013-07-31 09:30:38.367251052 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 8
  SUBLEVEL = 13
- EXTRAVERSION =
--NAME = Displaced Humerus Anterior
+ EXTRAVERSION = .5
+-NAME = Remoralised Urchins Update
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
  # To see a list of typical targets execute "make help"
-@@ -680,6 +680,12 @@
+@@ -690,6 +690,12 @@
  LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
@@ -23,7 +23,7 @@ diff -Naur linux-a/Makefile linux-b/Makefile
  # Default kernel image to build when no specific target is given.
  # KBUILD_IMAGE may be overruled on the command line or
  # set in the environment
-@@ -854,10 +860,17 @@
+@@ -865,10 +871,17 @@
  	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
  endef
  
@@ -43,7 +43,7 @@ diff -Naur linux-a/Makefile linux-b/Makefile
  	$(call filechk,utsrelease.h)
  
  PHONY += headerdep
-@@ -1012,6 +1025,10 @@
+@@ -1025,6 +1038,10 @@
  # Directories & files removed with 'make clean'
  CLEAN_DIRS  += $(MODVERDIR)
  
@@ -54,9 +54,9 @@ diff -Naur linux-a/Makefile linux-b/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
---- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2013-04-30 16:07:50.000000000 +0200
+diff -Naur hk/Makefile.addons ths/Makefile.addons
+--- hk/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ ths/Makefile.addons	2013-07-29 13:11:04.000000000 +0200
 @@ -0,0 +1,284 @@
 +###
 +### extra version infomation addons
@@ -294,19 +294,19 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +
 +# board type
 +ifdef CONFIG_BOARD_ODROID_Q
-+  BOARD_TYPE=-odroidq
++  BOARD_TYPE=-odroidq1
 +endif
 +ifdef CONFIG_BOARD_ODROID_Q2
 +  BOARD_TYPE=-odroidq2
 +endif
 +ifdef CONFIG_BOARD_ODROID_X
-+  BOARD_TYPE=-odroidx
++  BOARD_TYPE=-odroidx1
 +endif
 +ifdef CONFIG_BOARD_ODROID_X2
 +  BOARD_TYPE=-odroidx2
 +endif
 +ifdef CONFIG_BOARD_ODROID_U
-+  BOARD_TYPE=-odroidu
++  BOARD_TYPE=-odroidu1
 +endif
 +ifdef CONFIG_BOARD_ODROID_U2
 +  BOARD_TYPE=-odroidu2
@@ -342,9 +342,9 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
---- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons.debian	2013-04-30 14:16:19.000000000 +0200
+diff -Naur hk/Makefile.addons.debian ths/Makefile.addons.debian
+--- hk/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ ths/Makefile.addons.debian	2013-07-31 09:31:34.000000000 +0200
 @@ -0,0 +1,293 @@
 +###
 +### extra version infomation addons
@@ -581,19 +581,19 @@ diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
 +
 +# board type
 +ifdef CONFIG_BOARD_ODROID_Q
-+  BOARD_TYPE=-odroidq
++  BOARD_TYPE=-odroidq1
 +endif
 +ifdef CONFIG_BOARD_ODROID_Q2
 +  BOARD_TYPE=-odroidq2
 +endif
 +ifdef CONFIG_BOARD_ODROID_X
-+  BOARD_TYPE=-odroidx
++  BOARD_TYPE=-odroidx1
 +endif
 +ifdef CONFIG_BOARD_ODROID_X2
 +  BOARD_TYPE=-odroidx2
 +endif
 +ifdef CONFIG_BOARD_ODROID_U
-+  BOARD_TYPE=-odroidu
++  BOARD_TYPE=-odroidu1
 +endif
 +ifdef CONFIG_BOARD_ODROID_Q
 +  BOARD_TYPE=-odroidu2

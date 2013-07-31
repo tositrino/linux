@@ -1,0 +1,29 @@
+diff -Naur org/drivers/i2c/i2c-core.c ths/drivers/i2c/i2c-core.c
+--- org/drivers/i2c/i2c-core.c	2013-07-31 08:09:36.000000000 +0200
++++ ths/drivers/i2c/i2c-core.c	2013-07-31 08:30:28.815325845 +0200
+@@ -1174,9 +1174,15 @@
+ {
+ 	int res;
+ 
++    pr_info("i2c-core: register driver [%s] \n", driver->driver.name);
++
+ 	/* Can't register until after driver model init */
+ 	if (unlikely(WARN_ON(!i2c_bus_type.p)))
+-		return -EAGAIN;
++	{
++      pr_warn("i2c-core: driver[%s]-cant register until after driver model init\n", 
++               driver->driver.name);
++      return -EAGAIN;
++    }
+ 
+ 	/* add the driver to the list of i2c drivers in the driver core */
+ 	driver->driver.owner = owner;
+@@ -1197,7 +1203,7 @@
+ 		pr_warn("i2c-core: driver [%s] using legacy resume method\n",
+ 			driver->driver.name);
+ 
+-	pr_debug("i2c-core: driver [%s] registered\n", driver->driver.name);
++	pr_info("i2c-core: driver [%s] registered\n", driver->driver.name);
+ 
+ 	INIT_LIST_HEAD(&driver->clients);
+ 	/* Walk the adapters that are already present */

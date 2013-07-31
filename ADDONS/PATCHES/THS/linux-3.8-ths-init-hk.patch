@@ -1,6 +1,6 @@
-diff -Naur linux-org/init/main.c linux-ths/init/main.c
---- linux-org/init/main.c	2013-03-12 08:46:19.000000000 +0100
-+++ linux-ths/init/main.c	2013-03-12 11:29:01.316442789 +0100
+diff -Naur hk/init/main.c ths/init/main.c
+--- hk/init/main.c	2013-07-31 08:22:43.000000000 +0200
++++ ths/init/main.c	2013-07-31 08:33:07.299322561 +0200
 @@ -7,8 +7,46 @@
   *  Added initrd & change_root: Werner Almesberger & Hans Lermen, Feb '96
   *  Moan early if gcc is old, avoiding bogus kernels - Paul Gortmaker, May '96
@@ -72,7 +72,7 @@ diff -Naur linux-org/init/main.c linux-ths/init/main.c
  /*
   * Boot command-line arguments
   */
-@@ -319,6 +374,125 @@
+@@ -348,6 +403,125 @@
  static inline void smp_prepare_cpus(unsigned int maxcpus) { }
  #endif
  
@@ -198,7 +198,7 @@ diff -Naur linux-org/init/main.c linux-ths/init/main.c
  /*
   * We need to store the untouched command line for future reference.
   * We also need to store the touched command line since the parameter
-@@ -589,6 +763,11 @@
+@@ -621,6 +795,11 @@
  		late_time_init();
  	sched_clock_init();
  	calibrate_delay();
@@ -210,9 +210,9 @@ diff -Naur linux-org/init/main.c linux-ths/init/main.c
  	pidmap_init();
  	anon_vma_init();
  #ifdef CONFIG_X86
-diff -Naur linux-org/init/version.c linux-ths/init/version.c
---- linux-org/init/version.c	2013-03-11 13:57:14.000000000 +0100
-+++ linux-ths/init/version.c	2013-03-12 11:29:01.316442789 +0100
+diff -Naur hk/init/version.c ths/init/version.c
+--- hk/init/version.c	2013-07-31 08:22:43.000000000 +0200
++++ ths/init/version.c	2013-07-31 08:34:24.503320961 +0200
 @@ -4,7 +4,38 @@
   *  Copyright (C) 1992  Theodore Ts'o
   *
@@ -221,7 +221,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 13/07/25 kernel-3.0.87
++ *  - 13/07/31 kernel-3.8.13
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxiii-vii-xxv"
++#define THS_RELEASE          "mmxiii-vii-xxxi"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
@@ -252,10 +252,10 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
  
  #include <generated/compile.h>
  #include <linux/module.h>
-@@ -46,3 +77,62 @@
- 	"%s version %s"
- 	" (" LINUX_COMPILE_BY "@" LINUX_COMPILE_HOST ")"
- 	" (" LINUX_COMPILER ") %s\n";
+@@ -55,3 +86,61 @@
+ 
+ const char linux_scm_version_banner [] =
+ 	"Kernel was built at commit id '" KERNEL_GIT_ID "'\n";
 +
 +unsigned char  cbanner_wait   = 0;
 +unsigned char  cbanner_mode   = 1;
@@ -268,20 +268,22 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 +const char *cbanner_data[]  = {
 +
 +                               //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-+                                "88888 8   8 888888                              eeea    eeeea    eeea eeea\n"
-+                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8    8   8    8  8    8\n"
-+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8      8    8   8    8ee8    8\n"
-+                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8    e88    8  88    8  8   e8\n"
-+                                "  88  88  8 e   88   88   8 88   88   8 88  8     88    8  88    8888   88\n"
-+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 88888 88 8888   8e\n",
++                                "88888 8   8 888888                              eeea    eeea     ea  eeea\n"
++                                "  8   8   8 8        e   e  eeee eeeee  eeeee      8    8  8    ee8     8\n"
++                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8    ee8    8ee8      8   ee8\n"
++                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     e8    8  8      8    e8\n"
++                                "  88  88  8 e   88   88   8 88   88   8 88  8   8e88    8ee8    8888 8e88\n"
++                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8e88 88 8888 88 8888 8888\n",
++
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
-+                                "e   e                                 eeea    eeeea    eeea eeea  o8o  db  o8o\n"
-+                                "8   8   eeee eeeee  eeeee eeee e         8    8   8    8  8    8  o8888db8888o\n"
-+                                "8eee8e  8    8   8  8   8 8    8         8    8   8    8ee8    8      odbo    \n"
-+                                "88   8  8eee 8eee8e 8e  8 8eee 8e      e88    8  e8    8  8   e8  o88o db o88o\n"
-+                                "88   8  88   88   8 88  8 88   88       88    8  88    8888   88  oo   db   oo\n"
-+                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 88888 88 8888   88       db     \n",
++                                "e   e                                 eeea    eeea     ea   eeea  o8o  db  o8o\n"
++                                "8   8   eeee eeeee  eeeee eeee e         8    8  8    ee8      8  o8888db8888o\n"
++                                "8eee8e  8    8   8  8   8 8    8       ee8    8ee8      8    ee8      odbo    \n"
++                                "88   8  8eee 8eee8e 8e  8 8eee 8e       e8    8  8      8     e8  o88o db o88o\n"
++                                "88   8  88   88   8 88  8 88   88     8e88    8888    8888  8e88  oo   db   oo\n"
++                                "88   8  88ee 88   8 88  8 88ee 88eee  8e88 88 8888 88 8888  8888       db     \n",
++
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
 +                                "/-----------------------------------------\\\n"
@@ -306,12 +308,9 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 +                                "|                   oo                    |\n"
 +                                "|                   oo                    |\n"
 +                                "\\-----------------------------------------/\n",
++
 +                                "odonata kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n" 
 +
 +                             };
-+
-+
-+
-+
 +
 +

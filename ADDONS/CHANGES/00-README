@@ -25,28 +25,38 @@
 #   - setup & build kernel 3.8.13-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
 #   - setup & build kernel 3.8.13-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
-#   - setup & build kernel 3.8.13-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.8.13-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.8.13-ths-arm-exynos4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
 #   - setup & build kernel 3.8.13-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.13-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/07/31
-#   - updated branch v3.8.13-ths
+# 13/07/31
 #     git push origin v3.8.13-ths
 #     git commit -m "updated v3.8.13-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#  13/07/30
 #   - updated configs (3.0)
+#   - setup & build kernel 3.8.13-ths-arm-exynos4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - updated branch v3.8.13-ths
+#     kv=3.8.13
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
 #   - (**) renamed to ensure patch order
 #   - (*)  had to use files after hardkernel patch to get
 #          this working. renamed it to make sure we don't forget is
+#   - added patches
+#     1000-linux-3.8-ths-s5p_csis_phy_enable.patch(*)
 #   - updated/renamed patches:
 #     1000-linux-3.8-omap2-dpi-secure-disable.patch (*)
-#     1000-linux-3.8-ths-drm_vm.patch               (*)
 #     9000-linux-3.8.13.5-hardkernel.patch          (*)
-#     linux-3.0-ths-init-hk.patch (*)
-#     linux-3.0.latest-ths-Makefile-hk.patch (*)
-#     linux-3.0-ths-hdrv.patch (hello device test driver)
-#     linux-3.0.85-dohofpga.patch
+#     linux-3.8-ths-init-hk.patch                   (*)
+#     linux-3.8.latest-ths-Makefile-hk.patch        (*)
+#     linux-3.8-ths-hdrv.patch 
+#   - obsolete patches
+#     1000-linux-3.8-ths-drm_vm.patch               (*)
+# 13/07/30
+#   - updated configs (3.0)
 #   - created linux-3.8.13.5-hk.patch from 3.8.13 vanilla sources and
 #     latest hardkernel sources (3.8.13.5)
 #   - updated/rename firmware patches:
@@ -71,7 +81,7 @@
 #     linux-firmware-ti-connectivity.patch
 #     linux-firmware-tigon.patch
 #     linux-firmware-xilinx.patch
-#   - updated path-kernel to force sorrect patch order
+#   - updated path-kernel to force correct patch order
 #   - updated tools
 #     testversion.c
 #   - using genpatches-3.8-16
@@ -79,7 +89,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/05/13
+# 13/05/13
 #   - updated branch v3.8.13-ths
 #     git push origin v3.8.13-ths
 #     git commit -m "updated v3.8.13-ths"
@@ -112,13 +122,13 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/04/29
+# 13/04/29
 #   - updated branch v3.8.10-ths
 #     git push origin v3.8.10-ths
 #     git commit -m "updated v3.8.10-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.8)
-#  13/04/27
+# 13/04/27
 #   - updated branch v3.8.10-ths
 #     git push origin v3.8.10-ths
 #     git commit -m "updated v3.8.10-ths"
@@ -154,13 +164,13 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/04/16
+# 13/04/16
 #   - updated branch v3.8.7-ths
 #     git push origin v3.8.7-ths
 #     git commit -m "updated v3.8.7-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.8,3.0)
-#  13/04/15
+# 13/04/15
 #   - setup & build kernel 3.8.10-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
 #   - setup & build kernel 3.8.7-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.8.7-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
@@ -191,13 +201,13 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/04/07
+# 13/04/07
 #   - updated branch v3.8.6-ths
 #     git push origin v3.8.6-ths
 #     git commit -m "updated v3.8.6-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.8,3.0)
-#  13/04/06
+# 13/04/06
 #   - setup & build kernel 3.8.6-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.8.6-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - setup & build kernel 3.8.6-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
@@ -228,7 +238,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/04/05
+# 13/04/05
 #   - updated branch v3.8.5-ths
 #     git push origin v3.8.5-ths
 #     git commit -m "updated v3.8.5-ths"
@@ -245,7 +255,7 @@
 #     done
 #   - updated patches:
 #     linux-3.8.latest-ths-Makefile.patch
-#  13/04/04
+# 13/04/04
 #   - commit and push new branch
 #     git push origin v3.8.5-ths
 #     git commit -m "created v3.8.5-ths"
@@ -267,7 +277,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/03/17
+# 13/03/17
 #   - updated branch v3.8.3-ths
 #     git push origin v3.8.3-ths
 #     git commit -m "updated v3.8.3-ths"
@@ -303,14 +313,14 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/03/06
+# 13/03/06
 #   - updated branch v3.8.2-ths
 #     git push origin v3.8.2-ths
 #     git commit -m "updated v3.8.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#  13/03/05
+# 13/03/05
 #   - updated configs (3.8)
-#  13/03/04
+# 13/03/04
 #   - setup & build kernel 3.8.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.8.2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
@@ -342,28 +352,28 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/03/04
+# 13/03/04
 #   - updated branch v3.8.0-ths
 #     git push origin v3.8.0-ths
 #     git commit -m "updated v3.8.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - cleanup
-#  13/02/26
+# 13/02/26
 #   - updated branch v3.8.0-ths
 #     git push origin v3.8.0-ths
 #     git commit -m "updated v3.8.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.8)
 #   - setup & build kernel 3.8.0-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
-#  13/02/23
+# 13/02/23
 #   - updated branch v3.8.0-ths
 #     git push origin v3.8.0-ths
 #     git commit -m "updated v3.8.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.7,3.8)
-#  13/02/20
+# 13/02/20
 #   - setup & build kernel 3.8.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
-#  13/02/19
+# 13/02/19
 #   - setup & build kernel 3.8.0-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
 #   - setup & build kernel 3.8.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
@@ -399,7 +409,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/01/28
+# 13/01/28
 #   - updated branch v3.8.0-rc5-ths
 #     git push origin v3.8.0-rc5-ths
 #     git commit -m "updated v3.8.0-rc5-ths"
@@ -435,7 +445,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/01/18
+# 13/01/18
 #   - updated branch v3.8.0-rc4-ths
 #     git push origin v3.8.0-rc4-ths
 #     git commit -m "updated v3.8.0-rc4-ths"
@@ -473,7 +483,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/01/10
+# 13/01/10
 #   - updated branch v3.8.0-rc3-ths
 #     git push origin v3.8.0-rc3-ths
 #     git commit -m "updated v3.8.0-rc3-ths"
@@ -516,7 +526,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/01/03
+# 13/01/03
 #   - updated branch v3.8.0-rc2-ths
 #     git push origin v3.8.0-rc2-ths
 #     git commit -m "updated v3.8.0-rc2-ths"
@@ -550,7 +560,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  12/12/28
+# 12/12/28
 #   - updated branch v3.8.0-rc1-ths
 #     git push origin v3.8.0-rc1-ths
 #     git commit -m "updated v3.8.0-rc1-ths"
@@ -559,16 +569,16 @@
 #     linux-3.8-firmware-maudio.patch 
 #     linux-3.8-firmware-xilinx.patch
 #   - updated configs
-#  12/12/26
+# 12/12/26
 #   - setup & build kernel 3.8.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
-#  12/12/23
+# 12/12/23
 #   - updated branch v3.8.0-rc1-ths
 #     git push origin v3.8.0-rc1-ths
 #     git commit -m "updated v3.8.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs 
-#  12/12/22
+# 12/12/22
 #   - setup & build kernel 3.8.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - patch kernel
 #     kv=3.8.0-rc1

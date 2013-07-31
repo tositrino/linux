@@ -1,0 +1,68 @@
+diff -Naur org/arch/arm/plat-samsung/include/plat/s5p-mipiphy.h ths/arch/arm/plat-samsung/include/plat/s5p-mipiphy.h
+--- org/arch/arm/plat-samsung/include/plat/s5p-mipiphy.h	1970-01-01 01:00:00.000000000 +0100
++++ ths/arch/arm/plat-samsung/include/plat/s5p-mipiphy.h	2013-07-31 09:12:38.000000000 +0200
+@@ -0,0 +1,19 @@
++/* linux/arch/arm/plat-samsung/include/plat/s5p-time.h
++ *
++ * Copyright 2011 Samsung Electronics Co., Ltd.
++ *		http://www.samsung.com/
++ *
++ * Header file for s5p time support
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++*/
++
++#ifndef __ASM_PLAT_S5P_MIPIPHY_H
++#define __ASM_PLAT_S5P_MIPIPHY_H __FILE__
++
++extern int s5p_csis_phy_enable(int , bool) ;
++extern int s5p_dsim_phy_enable(struct platform_device *, bool ) ;
++
++#endif /* __ASM_PLAT_S5P_MIPIPHY_H */
+diff -Naur org/arch/arm/plat-samsung/setup-mipiphy.c ths/arch/arm/plat-samsung/setup-mipiphy.c
+--- org/arch/arm/plat-samsung/setup-mipiphy.c	2013-07-05 08:11:25.000000000 +0200
++++ ths/arch/arm/plat-samsung/setup-mipiphy.c	2013-07-31 09:22:30.000000000 +0200
+@@ -8,11 +8,14 @@
+  * published by the Free Software Foundation.
+  */
+ 
++#include <linux/init.h>
++#include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
+ #include <linux/io.h>
+ #include <linux/spinlock.h>
+ #include <mach/regs-clock.h>
++#include <plat/s5p-mipiphy.h>
+ 
+ static int __s5p_mipi_phy_control(int id, bool on, u32 reset)
+ {
+@@ -46,11 +49,15 @@
+ 	return 0;
+ }
+ 
++EXPORT_SYMBOL(s5p_csis_phy_enable) ;
++
+ int s5p_csis_phy_enable(int id, bool on)
+ {
+ 	return __s5p_mipi_phy_control(id, on, S5P_MIPI_DPHY_SRESETN);
+ }
+ 
++EXPORT_SYMBOL(s5p_dsim_phy_enable) ;
++
+ int s5p_dsim_phy_enable(struct platform_device *pdev, bool on)
+ {
+ 	return __s5p_mipi_phy_control(pdev->id, on, S5P_MIPI_DPHY_MRESETN);
+diff -Naur org/arch/drivers/media/platform/mipi-csis.c ths/arch/drivers/media/platform/mipi-csis.c
+--- org/arch/drivers/media/platform/mipi-csis.c	2013-07-31 08:09:38.000000000 +0200
++++ ths/arch/drivers/media/platform/mipi-csis.c	2013-07-31 09:13:28.000000000 +0200
+@@ -27,6 +27,7 @@
+ #include <linux/videodev2.h>
+ #include <media/v4l2-subdev.h>
+ #include <linux/platform_data/mipi-csis.h>
++#include <plat/s5p-mipiphy.h>
+ #include "mipi-csis.h"
+ 
+ static int debug;
