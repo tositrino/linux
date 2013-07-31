@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.8.13
 # created : 12/12/22
-# changed : 13/05/13
+# changed : 13/07/31
 #
 # TODO:
 #   * ubuntu
@@ -29,6 +29,56 @@
 #   - setup & build kernel 3.8.13-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.8.13-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/07/31
+#   - updated branch v3.8.13-ths
+#     git push origin v3.8.13-ths
+#     git commit -m "updated v3.8.13-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  13/07/30
+#   - updated configs (3.0)
+#   - (**) renamed to ensure patch order
+#   - (*)  had to use files after hardkernel patch to get
+#          this working. renamed it to make sure we don't forget is
+#   - updated/renamed patches:
+#     1000-linux-3.8-omap2-dpi-secure-disable.patch (*)
+#     1000-linux-3.8-ths-drm_vm.patch               (*)
+#     9000-linux-3.8.13.5-hardkernel.patch          (*)
+#     linux-3.0-ths-init-hk.patch (*)
+#     linux-3.0.latest-ths-Makefile-hk.patch (*)
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
+#   - created linux-3.8.13.5-hk.patch from 3.8.13 vanilla sources and
+#     latest hardkernel sources (3.8.13.5)
+#   - updated/rename firmware patches:
+#     linux-firmware-amducode.patch
+#     linux-firmware-ar3k.patch
+#     linux-firmware-ath6k.patch
+#     linux-firmware-carl9170.patch
+#     linux-firmware-creative.patch
+#     linux-firmware-device-tree.patch
+#     linux-firmware-go7007.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-libertas.patch
+#     linux-firmware-maudio.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-mwl8k.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-tegra3.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-tigon.patch
+#     linux-firmware-xilinx.patch
+#   - updated path-kernel to force sorrect patch order
+#   - updated tools
+#     testversion.c
+#   - using genpatches-3.8-16
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  13/05/13
 #   - updated branch v3.8.13-ths
 #     git push origin v3.8.13-ths
