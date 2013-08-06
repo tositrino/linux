@@ -1,0 +1,151 @@
+diff -Naur linux-2.6.15-qla/drivers/scsi/qla2xxx/Makefile linux-2.6.15-id/drivers/scsi/qla2xxx/Makefile
+--- linux-2.6.15-qla/drivers/scsi/qla2xxx/Makefile	2005-03-18 02:21:13.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/Makefile	2005-08-30 15:01:42.040961248 +0200
+@@ -19,7 +19,7 @@
+ qla2322-y := ql2322.o ql2322_fw.o
+ qla6312-y := ql6312.o ql6312_fw.o
+ 
+-host-progs := extras/qla_nvr extras/qla_opts
++hostprogs-y := extras/qla_nvr extras/qla_opts
+ always := $(host-progs)
+ 
+ obj-$(CONFIG_SCSI_QLA21XX) += qla2xxx.o qla2100.o
+diff -Naur linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_dbg.c linux-2.6.15-id/drivers/scsi/qla2xxx/qla_dbg.c
+--- linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_dbg.c	2005-03-18 02:21:13.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/qla_dbg.c	2005-08-30 10:42:00.061896735 +0200
+@@ -1062,14 +1062,14 @@
+ 		printk("0x%02x ", cmd->cmnd[i]);
+ 	}
+ 	printk("\n  seg_cnt=%d, allowed=%d, retries=%d, "
+-	    "serial_number_at_timeout=0x%lx\n",
++	    "serial_number(pid)=0x%lx\n",
+ 	    cmd->use_sg, cmd->allowed, cmd->retries,
+-	    cmd->serial_number_at_timeout);
++	    cmd->pid);
+ 	printk("  request buffer=0x%p, request buffer len=0x%x\n",
+ 	    cmd->request_buffer, cmd->request_bufflen);
+ 	printk("  tag=%d, transfersize=0x%x\n",
+ 	    cmd->tag, cmd->transfersize);
+-	printk("  serial_number=%lx, SP=%p\n", cmd->serial_number, sp); 
++	printk("  serial_number/pid=%lx, SP=%p\n", cmd->pid, sp); 
+ 	printk("  data direction=%d\n", cmd->sc_data_direction);
+ 
+ 	if (!sp)
+diff -Naur linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_os.c linux-2.6.15-id/drivers/scsi/qla2xxx/qla_os.c
+--- linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_os.c	2005-03-18 02:21:13.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/qla_os.c	2005-08-30 15:02:42.183405259 +0200
+@@ -1535,11 +1535,13 @@
+ 	qla_printk(KERN_INFO, ha,
+ 	    "scsi(%ld:%d:%d:%d): DEVICE RESET ISSUED.\n", ha->host_no, b, t, l);
+ 
++    // struct scsi-cmd changed again in 2.6.15: state and owner have been removed
++    // replaced with 0xffff
+ 	DEBUG2(printk(KERN_INFO
+ 	    "scsi(%ld): DEVICE_RESET cmd=%p jiffies = 0x%lx, timeout=%x, "
+ 	    "dpc_flags=%lx, status=%x allowed=%d cmd.state=%x\n",
+ 	    ha->host_no, cmd, jiffies, cmd->timeout_per_command / HZ,
+-	    ha->dpc_flags, cmd->result, cmd->allowed, cmd->state));
++	    ha->dpc_flags, cmd->result, cmd->allowed, 0xffff ));
+ 
+  	/* Clear commands from the retry queue. */
+  	spin_lock(&ha->list_lock);
+@@ -2018,13 +2020,13 @@
+ 		if (pio_len < MIN_IOBASE_LEN) {
+ 			qla_printk(KERN_WARNING, ha,
+ 			    "Invalid PCI I/O region size (%s)...\n",
+-			    ha->pdev->slot_name);
++			    pci_name(ha->pdev));
+ 			pio = 0;
+ 		}
+ 	} else {
+ 		qla_printk(KERN_WARNING, ha,
+ 		    "region #0 not a PIO resource (%s)...\n",
+-		    ha->pdev->slot_name);
++		    pci_name(ha->pdev));
+ 		pio = 0;
+ 	}
+ 
+@@ -2036,20 +2038,20 @@
+ 	if (!(mmio_flags & IORESOURCE_MEM)) {
+ 		qla_printk(KERN_ERR, ha,
+ 		    "region #0 not an MMIO resource (%s), aborting\n",
+-		    ha->pdev->slot_name);
++		    pci_name(ha->pdev));
+ 		goto iospace_error_exit;
+ 	}
+ 	if (mmio_len < MIN_IOBASE_LEN) {
+ 		qla_printk(KERN_ERR, ha,
+ 		    "Invalid PCI mem region size (%s), aborting\n",
+-		    ha->pdev->slot_name);
++		    pci_name(ha->pdev));
+ 		goto iospace_error_exit;
+ 	}
+ 
+ 	if (pci_request_regions(ha->pdev, ha->brd_info->drv_name)) {
+ 		qla_printk(KERN_WARNING, ha,
+ 		    "Failed to reserve PIO/MMIO regions (%s)\n", 
+-		    ha->pdev->slot_name);
++		    pci_name(ha->pdev));
+ 
+ 		goto iospace_error_exit;
+ 	}
+@@ -2059,7 +2061,7 @@
+ 	ha->iobase = ioremap(mmio, MIN_IOBASE_LEN);
+ 	if (!ha->iobase) {
+ 		qla_printk(KERN_ERR, ha,
+-		    "cannot remap MMIO (%s), aborting\n", ha->pdev->slot_name);
++		    "cannot remap MMIO (%s), aborting\n", pci_name(ha->pdev));
+ 
+ 		goto iospace_error_exit;
+ 	}
+diff -Naur linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_xioct.c linux-2.6.15-id/drivers/scsi/qla2xxx/qla_xioct.c
+--- linux-2.6.15-qla/drivers/scsi/qla2xxx/qla_xioct.c	2005-03-18 02:21:13.000000000 +0100
++++ linux-2.6.15-id/drivers/scsi/qla2xxx/qla_xioct.c	2005-09-02 14:27:15.634138488 +0200
+@@ -151,7 +151,7 @@
+ 
+ /* Init/Exit routines */
+ 
+-static struct class_simple *apidev_class;
++static struct class *apidev_class;
+ static int apidev_major;
+ 
+ static int 
+@@ -169,7 +169,7 @@
+ int 
+ qla2x00_ioctl_init(void)
+ {
+-	apidev_class = class_simple_create(THIS_MODULE, "qla2xxx");
++	apidev_class = class_create(THIS_MODULE, "qla2xxx");
+ 	if (IS_ERR(apidev_class)) {
+ 		DEBUG(printk("%s(): Unable to sysfs class for qla2xxx.\n",
+ 		    __func__));
+@@ -184,13 +184,13 @@
+ 		DEBUG(printk("%s(): Unable to register CHAR device (%d)\n",
+ 		    __func__, apidev_major));
+ 
+-		class_simple_destroy(apidev_class);
++		class_destroy(apidev_class);
+ 		apidev_class = NULL;
+ 
+ 		return apidev_major;
+ 	}
+ 
+-	class_simple_device_add(apidev_class, MKDEV(apidev_major, 0), NULL,
++	class_device_create(apidev_class, MKDEV(apidev_major, 0), NULL,
+ 	    "qla2xxx");
+ 
+ #if defined(CONFIG_COMPAT) && !defined(CONFIG_IA64)
+@@ -210,11 +210,11 @@
+ 	apidev_cleanup_32ioctl_unreg();
+ #endif
+ 
+-	class_simple_device_remove(MKDEV(apidev_major, 0));
++	class_device_destroy(apidev_major, MKDEV(apidev_major, 0));
+ 
+ 	unregister_chrdev(apidev_major, "qla2xxx");
+ 
+-	class_simple_destroy(apidev_class);
++	class_destroy(apidev_class);
+ 
+ 	apidev_class = NULL;
+ 
