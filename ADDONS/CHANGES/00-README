@@ -1,0 +1,1086 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.0.89-ths
+# created : 11/06/14
+# changed : 13/08/09
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.0.89-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.0.89-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0.89-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.0.89-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.0.89-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
+#   - setup & build kernel 3.0.89-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.0.89-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.0.89-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.0.89-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.0.89-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.89-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.0.89-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  13/08/09
+#   - updated branch v3.0.89-ths
+#     git push origin v3.0.89-ths
+#     git commit -m "updated v3.0.89-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidu2-smp-v2-5 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx1-smp-v2-5 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
+#  13/08/08
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx2-smp-v2-5 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/08/07
+#   - updated branch v3.0.89-ths
+#     git push origin v3.0.89-ths
+#     git commit -m "updated v3.0.89-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - reapplied patches
+#   - updated patches:
+#     linux-3.0-ths-init-hk.patch -> correct version info
+#                                 -> removed xt_rateest patch (sucks)
+#  13/08/06
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.89-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
+#   - patch kernel
+#     kv=3.0.89
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.89-ths
+#     git commit -m "created v3.0.89-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.89-mmxiii-viii-vi
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.0-ths-init-hk.patch
+#     linux-3.0.latest-ths-Makefile-hk.patch
+#   - obsolete/disabled patches
+#     none
+#   - using genpatches-3.0-59
+#   - merge old ths branch
+#     git merge v3.0.88-ths
+#   - create new branch from v3.0.89
+#     git checkout -b v3.0.89-ths v3.0.89
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/29
+#   - updated branch v3.0.88-ths
+#     git push origin v3.0.88-ths
+#     git commit -m "updated v3.0.88-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.88-ths-arm-exynos4-odroidx1-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
+#   - patch kernel
+#     kv=3.0.88
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.88-ths
+#     git commit -m "created v3.0.88-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.88-mmxiii-vii-xxix
+#   - updated patch-kernel to force correct patch order
+#   - renamed arch id odroidx/u/q to odroidx1/u1/q1 in Makefile.addon
+#     updated : linux-3.0.latest-ths-Makefile-hk.patch ()
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - (****) created new hardkernel patch linux-3.0.88-1-hk.patch from
+#            3.0.88 vanilla sources and 3.0.66 hardkernel sources
+#   - (***)  renamed to have a defined patch order
+#   - (**)   pulled latest linux firmware and updated added patches
+#   - (*)    had to use files after linux-3.0.86-hardkernel.patch to get
+#            this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     linux-firmware-amducode.patch (**)
+#     linux-firmware-iwlwifi.patch  (**)
+#   - updated patches:
+#     linux-3.0-ths-init-hk.patch (*)
+#     linux-3.0.latest-ths-Makefile-hk.patch (*)
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     00-linux-3.0-ths-drm_vm.patch   (***)
+#     80-linux-3.0.88-hk.patch        (****)
+#     90-linux-3.0.88-hk-dohfpga.patch(***)
+#     linux-firmware-ar3k.patch     (**)
+#     linux-firmware-radeon.patch   (**)
+#     linux-firmware-rtl_nic.patch  (**)
+#   - obsolete/disabled patches
+#     none
+#   - using genpatches-3.0-58
+#     - disabled(obsolet) 1510_af_key-fix-info-leaks-in-notify-messages.patch
+#     - disabled(obsolet) 1511_ipv6-ip6_sk_dst_check-must-not-assume-ipv6-dst.patch
+#   - merge old ths branch
+#     git merge v3.0.86-ths
+#   - create new branch from v3.0.88
+#     git checkout -b v3.0.88-ths v3.0.88
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/29
+#   - updated branch v3.0.87-ths
+#     git push origin v3.0.87-ths
+#     git commit -m "updated v3.0.87-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/07/25
+#   - setup & build kernel 3.0.87-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.87
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.87-ths
+#     git commit -m "created v3.0.87-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.87-mmxiii-vii-xxv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - (*) had to use files after linux-3.0.86-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - updated patches:
+#     linux-3.0-ths-init-hk.patch (*)
+#     linux-3.0.latest-ths-Makefile-hk.patch (*)
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - using linux-3.0.86-hardkernel.patch
+#   - added genpatches-3.0-58
+#   - merge old ths branch
+#     git merge v3.0.86-ths
+#   - create new branch from v3.0.87
+#     git checkout -b v3.0.87-ths v3.0.87
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/25
+#   - updated branch v3.0.86-ths
+#     git push origin v3.0.86-ths
+#     git commit -m "updated v3.0.86-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - updated patches:
+#     linux-3.0.85-dohofpga.patch
+#     linux-3.0.86-hardkernel.patch (created from current hardkernel patches)
+#  13/07/22
+#   - setup & build kernel 3.0.86-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/07/17
+#   - setup & build kernel 3.0.86-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#  13/07/15
+#   - updated branch v3.0.86-ths
+#     git push origin v3.0.86-ths
+#     git commit -m "updated v3.0.86-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.86-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.86-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.86-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - patch kernel
+#     kv=3.0.86
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.86-ths
+#     git commit -m "created v3.0.86-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.86-mmxiii-vii-xv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - (*) had to use Makefile after linux-3.0.82-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     linux-3.0-ths-i2c-debug.patch
+#   - updated patches:
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - applied new hdrv/dohofpga patches
+#   - updated linux-3.0.84-hardkernel.patch from current hardkernel sources
+#   - added genpatches-3.0-57
+#   - merge old ths branch
+#     git merge v3.0.85-ths
+#   - create new branch from v3.0.86
+#     git checkout -b v3.0.86-ths v3.0.86
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/15
+#   - updated branch v3.0.85-ths
+#     git push origin v3.0.85-ths
+#     git commit -m "updated v3.0.85-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidx2-smp-v6 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidu2-smp-v5 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - note patches not tested in this kernel version (see 3.0.86)
+#   - added patches:
+#     linux-3.0-ths-hdrv.patch (hello device test driver)
+#     linux-3.0.85-dohofpga.patch
+#   - added driver development stuff to
+#     drivers/dohofpga.tar.bz2
+#     drivers/hdrv.tar.bz2
+#   - testing multiple configs
+#  13/07/04
+#   - updated branch v3.0.85-ths
+#     git push origin v3.0.85-ths
+#     git commit -m "updated v3.0.85-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.85-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - patch kernel
+#     kv=3.0.85
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.85-ths
+#     git commit -m "created v3.0.85-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.85-mmxiii-vii-iv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - (*) had to use Makefile after linux-3.0.82-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - still using linux-3.0.84-hardkernel.patch
+#   - still using genpatches-3.0-55
+#   - merge old ths branch
+#     git merge v3.0.84-ths
+#   - create new branch from v3.0.85
+#     git checkout -b v3.0.85-ths v3.0.85
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/04
+#   - updated branch v3.0.84-ths
+#     git push origin v3.0.84-ths
+#     git commit -m "updated v3.0.84-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/07/03
+#   - setup & build kernel 3.0.84-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.84-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.0.84-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - patch kernel
+#     kv=3.0.84
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.84-ths
+#     git commit -m "created v3.0.84-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.84-mmxiii-vii-iii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - (*) had to use Makefile after linux-3.0.82-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.0.84-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - created linux-3.0.84-hardkernel.patch from newes hardkernel sources (v3.0.84)
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - update to genpatches-3.0-55
+#   - merge old ths branch
+#     git merge v3.0.83-ths
+#   - create new branch from v3.0.84
+#     git checkout -b v3.0.84-ths v3.0.84
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/06/27
+#   - updated branch v3.0.83-ths
+#     git push origin v3.0.83-ths
+#     git commit -m "updated v3.0.83-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.83-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/06/26
+#   - setup & build kernel 3.0.83-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/06/25
+#   - setup & build kernel 3.0.83-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - patch kernel
+#     kv=3.0.83
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.83-ths
+#     git commit -m "created v3.0.83-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.83-mmxiii-vi-xxv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - update to genpatches-3.0-54
+#   - (*) had to use Makefile after linux-3.0.82-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.0.82-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#     linux-firmware-ar3k.patch
+#     linux-firmware-ath6k.patch
+#     linux-firmware-carl9170.patch
+#     linux-firmware-creative.patch
+#     linux-firmware-device-tree.patch
+#     linux-firmware-go7007.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-libertas.patch
+#     linux-firmware-maudio.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-mwl8k.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-tegra3.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-tigon.patch
+#     linux-firmware-xilinx.patch
+#   - created linux-3.0.82-hardkernel.patch from newes hardkernel sources (v3.0.82)
+#   - renamed and updated firmware patches
+#   - obsolete/disabled patches
+#     none
+#   - merge old ths branch
+#     git merge v3.0.80-ths
+#   - create new branch from v3.0.83
+#     git checkout -b v3.0.83-ths v3.0.83
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/30
+#   - updated branch v3.0.80-ths
+#     git push origin v3.0.80-ths
+#     git commit -m "updated v3.0.80-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/29
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidu2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#  13/05/28
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx2-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - reverted to linux-3.0.75-hardkernel.patch
+#  13/05/28
+#   - updated branch v3.0.80-ths
+#     git push origin v3.0.80-ths
+#     git commit -m "updated v3.0.80-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/27
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.80-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - recreated linux-3.0.80-hardkernel.patch from newes hardkernel sources (v3.0.80)
+#   - patch kernel
+#     kv=3.0.80
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.80-ths
+#     git commit -m "created v3.0.80-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.80-mmxiii-v-xxvii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - update to genpatches-3.0-51
+#   - (*) had to use Makefile after linux-3.0.80-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.80-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.79-ths
+#   - create new branch from v3.0.80
+#     git checkout -b v3.0.80-ths v3.0.80
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/24
+#   - updated branch v3.0.79-ths
+#     git push origin v3.0.79-ths
+#     git commit -m "updated v3.0.79-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/22
+#   - setup & build kernel 3.0.79-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.79-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.79
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.79-ths
+#     git commit -m "created v3.0.79-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.79-mmxiii-v-xxii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - update to genpatches-3.0-50
+#   - (*) had to use Makefile after linux-3.0.79-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.79-hardkernel.patch 
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.78-ths
+#   - create new branch from v3.0.79
+#     git checkout -b v3.0.79-ths v3.0.79
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/13
+#   - updated branch v3.0.78-ths
+#     git push origin v3.0.78-ths
+#     git commit -m "updated v3.0.78-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.78-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.78-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.78
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.78-ths
+#     git commit -m "created v3.0.78-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.78-mmxiii-v-xiii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - update to genpatches-3.0-49
+#   - (*) had to use Makefile after linux-3.0.78-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.78-hardkernel.patch 
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.77-ths
+#   - create new branch from v3.0.78
+#     git checkout -b v3.0.78-ths v3.0.78
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/10
+#   - updated branch v3.0.77-ths
+#     git push origin v3.0.77-ths
+#     git commit -m "updated v3.0.77-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/08
+#   - setup & build kernel 3.0.77-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - updated branch v3.0.77-ths
+#     git push origin v3.0.77-ths
+#     git commit -m "updated v3.0.77-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.77-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.77
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.77-ths
+#     git commit -m "created v3.0.77-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.77-mmxiii-v-viii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - still using genpatches-3.0-47
+#   - (*) had to use Makefile after linux-3.0.77-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.77-hardkernel.patch 
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.76-ths
+#   - create new branch from v3.0.77
+#     git checkout -b v3.0.77-ths v3.0.77
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/08
+#   - updated branch v3.0.76-ths
+#     git push origin v3.0.76-ths
+#     git commit -m "updated v3.0.76-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/05/03
+#   - setup & build kernel 3.0.76-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - patch kernel
+#     kv=3.0.76
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.76-ths
+#     git commit -m "created v3.0.76-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.76-mmxiii-v-iii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-47
+#   - (*) had to use Makefile after linux-3.0.76-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.76-hardkernel.patch 
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.75-ths
+#   - create new branch from v3.0.76
+#     git checkout -b v3.0.76-ths v3.0.76
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/03
+#   - updated branch v3.0.75-ths
+#     git push origin v3.0.75-ths
+#     git commit -m "updated v3.0.75-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added genpatches-3.0-45
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.75-ths-arm-exynos4-odroidx-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/04/30
+#   - updated patches:
+#     linux-3.0.latest-ths-Makefile.patch
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.75-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.0.75-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - updated Makefile.addon/Makefile.addon.debian to handle odroid board types
+#  13/04/27
+#   - updated branch v3.0.75-ths
+#     git push origin v3.0.75-ths
+#     git commit -m "updated v3.0.75-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/04/26
+#   - setup & build kernel 3.0.75-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.0.75
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.75-ths
+#     git commit -m "created v3.0.75-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.75-mmxiii-iv-xxvi
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-45
+#   - (*) had to use Makefile after linux-3.0.75-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.75-hardkernel.patch 
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.74-ths
+#   - create new branch from v3.0.75
+#     git checkout -b v3.0.75-ths v3.0.75
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/25
+#   - updated branch v3.0.74-ths
+#     git push origin v3.0.74-ths
+#     git commit -m "updated v3.0.74-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - cleanup
+#  13/04/22
+#   - updated branch v3.0.74-ths
+#     git push origin v3.0.74-ths
+#     git commit -m "updated v3.0.74-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.74-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.0.74
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.74-ths
+#     git commit -m "created v3.0.74-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.74-mmxiii-iv-xxii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-45
+#   - (*) had to use Makefile after linux-3.0.74-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.74-hardkernel.patch (created new from latest hardkernel tree)
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - updated configs (3.0)
+#   - merge old ths branch
+#     git merge v3.0.73-ths
+#   - create new branch from v3.0.74
+#     git checkout -b v3.0.74-ths v3.0.74
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/16
+#   - updated branch v3.0.73-ths
+#     git push origin v3.0.73-ths
+#     git commit -m "updated v3.0.73-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/04/15
+#   - setup & build kernel 3.0.73-ths-arm-exynos5-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.0.73-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.0.73
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.73-ths
+#     git commit -m "created v3.0.73-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.73-mmxiii-iv-xv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-44
+#   - (*) had to use Makefile after linux-3.0.73-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.73-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.71-ths
+#   - create new branch from v3.0.73
+#     git checkout -b v3.0.73-ths v3.0.73
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/05
+#   - updated branch v3.0.71-ths
+#     git push origin v3.0.71-ths
+#     git commit -m "updated v3.0.71-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#  13/04/04
+#   - updated branch v3.0.71-ths
+#     git push origin v3.0.71-ths
+#     git commit -m "updated v3.0.71-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.71-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.0.71
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.71-ths
+#     git commit -m "created v3.0.71-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.71-mmxiii-iv-iv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-42
+#   - (*) had to use Makefile after linux-3.0.71-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.71-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.70-ths
+#   - create new branch from v3.0.71
+#     git checkout -b v3.0.71-ths v3.0.71
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/03/22
+#   - updated branch v3.0.70-ths
+#     git push origin v3.0.70-ths
+#     git commit -m "updated v3.0.70-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.70-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/03/21
+#   - patch kernel
+#     kv=3.0.70
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.70-ths
+#     git commit -m "created v3.0.70-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.70-mmxiii-iii-xxi
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-39
+#   - (*) had to use Makefile after linux-3.0.70-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#   - updated patches:
+#     linux-3.0.70-hardkernel.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#   - merge old ths branch
+#     git merge v3.0.68-ths
+#   - create new branch from v3.0.70
+#     git checkout -b v3.0.70-ths v3.0.70
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/03/17
+#   - updated branch v3.0.68-ths
+#     git push origin v3.0.68-ths
+#     git commit -m "updated v3.0.68-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#  13/03/15
+#   - updated configs (3.0)
+#   - setup & build kernel 3.0.68-ths-arm-exynos5-smp-v3 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/03/13
+#   - setup & build kernel 3.0.68-ths-arm-exynos5-smp-v2 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#  13/03/12
+#   - setup & build kernel 3.0.68-ths-arm-exynos5-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - patch kernel
+#     kv=3.0.68
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.0.68-ths
+#     git commit -m "created v3.0.68-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.68-mmxiii-iii-xii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added genpatches-3.0-39
+#   - (*) had to use Makefile after linux-3.0.68-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     linux-3.0.68-hardkernel.patch
+#     linux-3.0-firmware-ath6k.patch
+#     linux-3.0-firmware-carl9170.patch
+#     linux-3.0-firmware-device-tree.patch
+#     linux-3.0-firmware-maudio.patch
+#     linux-3.0-firmware-mrvl.patch
+#     linux-3.0-firmware-mwl8k.patch
+#     linux-3.0-firmware-rtl_nic.patch
+#     linux-3.0-firmware-rtlwifi.patch
+#     linux-3.0-firmware-s5p-mfc.patch
+#     linux-3.0-firmware-tegra3.patch
+#     linux-3.0-firmware-xilinx.patch
+#     linux-3.0-ths-drm_vm.patch
+#     linux-3.0-ths-setlocalversion.patch
+#   - updated patches:
+#     linux-3.0-firmware-libertas.patch
+#     linux-3.0-firmware-ti-connectivity.patch
+#     linux-3.0-ths-git.patch
+#     linux-3.0-ths-init.patch
+#     linux-3.0-ths-logo.patch
+#     linux-3.0-ths-quantis-v1.patch
+#     linux-3.0-ths-quantis-v2.patch
+#     linux-3.0.latest-ths-Makefile.patch
+#   - obsolete/disabled patches
+#     linux-3.0-ecam32-overo.patch
+#   - updated tools
+#   - reorganize layout and patches (using 3.9 as template)
+#   - merge old ths branch
+#     git merge v3.0.36-ths
+#   - create new branch from v3.0.36
+#     git checkout -b v3.0.68-ths v3.0.68
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  12/07/17
+#   - updated branch v3.0.36-ths
+#     git push origin v3.0.36-ths
+#     git commit -m "updated v3.0.36-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs
+#   - setup & build kernel 3.0.36-ths-arm-smp using gcc-4.7.0/crossdev target armv7a-softfloat-linux-gnueabi
+#  12/07/16
+#     BASEVER=linux-3.0.36-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch final
+#     BASEVER=linux-3.0.36-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch ths
+#     BASEVER=linux-3.0.36-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arm
+#     BASEVER=linux-3.0.36-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch arch
+#     BASEVER=linux-3.0.36-ths SRCDIR=/usr/armv7a-softfloat-linux-gnueabi/usr/src ADDONS/tools/patch-kernel --patch gentoo
+#  12/07/13
+#   - commit and push new branch
+#     git push origin v3.0.36-ths
+#     git commit -m "created v3.0.36-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.0.36-mmxii-vii-xiii
+#   - udated/enabled patches:
+#     linux-3.5-ecam32-overo.patch
+#     linux-3.5-firmware-ti-connectivity.patch
+#   - updated kversion.figlet testversion.c
+#   - updated patches
+#   - merge old ths branch
+#     git merge v3.5.0-rc6-ths
+#   - create new branch from v3.0.36
+#     git checkout -b v3.0.36-ths v3.0.36
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#   - switched to git
+#
+# 11/10/22
+#   - setup & build kernel 3.0.7-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/10/19
+#   - setup & build kernel 3.0.7-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.0.7-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.0.7-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - THS-RELEASE 3.0.7-mmxi-x-ix
+#   - added genpatches-3.0-9
+#   - updated to kernel 3.0.7
+# 11/10/10
+#   - setup & build kernel 3.0.6-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/10/05
+#   - setup & build kernel 3.0.6-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.0.6-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - THS-RELEASE 3.0.6-mmxi-x-v
+#   - added genpatches-3.0-8
+#   - updated to kernel 3.0.6
+# 11/10/04
+#   - added genpatches-3.0-7
+# 11/10/01
+#   - cleanup
+# 11/09/30
+#   - added genpatches-3.0-6
+# 11/09/23
+#   - cleanup
+# 11/09/22
+#   - setup & build kernel 3.0.4-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+# 11/09/17
+#   - setup & build kernel 3.0.4-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/09/14
+#   - setup & build kernel 3.0.4-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.0.4-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - THS-RELEASE 3.0.4-mmxi-ix-xiv
+#   - added genpatches-3.0-5
+#   - updated to kernel 3.0.4
+# 11/09/10
+#   - setup & build kernel 3.0.3-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/08/22
+#   - setup & build kernel 3.0.3-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.0.3-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - THS-RELEASE 3.0.3-mmxi-viii-xxii
+#   - added genpatches-3.0-4
+#   - updated to kernel 3.0.3
+# 11/08/13
+#   - setup & build kernel 3.0.1-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - THS-RELEASE 3.0.1-mmxi-viii-xiii
+#   - patch bugfix
+# 11/08/09
+#   - cleanup and sync
+#   - setup & build kernel 3.0.1-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+# 11/08/08
+#   - setup & build kernel 3.0.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - THS-RELEASE 3.0.1-mmxi-viii-viii
+#   - added genpatches-3.0-3
+#   - updated to kernel 3.0.1
+# 11/07/30
+#   - setup & build kernel 3.0-ths-x86_64-k8-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/07/25
+#   - added genpatches-3.0-1
+# 11/07/22
+#   - setup & build kernel 3.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0-ths-x86_64-core2-smp-desktop using gcc-4.6.1 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - THS-RELEASE 3.0-mmxi-vii-xxii
+#   - updated ./ADDONS/tools/setup-kernel for 3.0
+#   - updated to kernel 3.0
+# 11/07/13
+#   - setup & build kernel 3.0-rc7-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0-rc7-ths-x86_64-core2-smp-desktop using gcc-4.6.0 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - THS-RELEASE 3.0-rc7-mmxi-vii-xiii
+#   - updated ./ADDONS/tools/setup-kernel for rc7
+#   - updated to kernel 3.0-rc7
+# 11/07/04
+#   - cleanup & sync
+# 11/07/02
+#   - setup & build kernel 3.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.6.0 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/07/01
+#   - setup & build kernel 3.0-rc5-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.6.0 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - THS-RELEASE 3.0-rc5-mmxi-vii-i
+#   - updated ./ADDONS/tools/setup-kernel for rc5
+#   - updated to kernel 3.0-rc5
+# 11/06/20
+#   - cleanup & sync
+# 11/06/19
+#   - setup & build kernel 3.0-rc3-ths-x86_64-k8-smp-desktop using gcc-4.6.0 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+# 11/06/14
+#   - setup & build kernel 3.0-rc3-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.0-rc3-ths-x86_64-core2-smp-desktop using gcc-4.6.0 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - THS-RELEASE 3.0-rc3-mmxi-vi-xiv
+#   - updated patches & tools
+#   - started with kernel 3.0-rc3
+#
+# architecture      processor      Singe/SMP   MemLimit    status
+# ----------------------------------------------------------------------------
+#
+#   x64             K8             smp           -         ok
+#   x64             corei7         smp           -         ok
+#
+#
+# applied patches
+# ---------------
+#
+#  ID-patches:
+#    applied script setup-kernel
+#    applied linux-3.0-ths-init.patch
+#    applied linux-3.0-ths-quantis-v1.1.patch
+#    applied linux-3.0-ths-quantis-v2.0.patch
+#  (final)
+#    linux-3.0-ths-Makefile.patch
+#  (PS3 only)
+#    linux-3.0-ths-ps3.patch (not yet)
+#
+#  Gentoo patches
+#    applied gentoo-patches-3.0-X (without kernel patches)
+#  Other patches
+#
+# see ./ADDONS/PATCHES for more information
+#
+# source changes
+# --------------
+#
+# ./Makefile
+#   version handling changed
+#
+# ./drivers/video/logo
+#   - hacked in special kernel logos
+#   - symlinked to favourite logo 
+#
+# ./drivers/misc/quantis
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v1.1 from idquantique
+#   -> linux-3.0-ths-quantis-1.1-RXXX.patch
+#
+# ./drivers/misc/quantis_pci
+# ./drivers/misc/Kconfig
+# ./drivers/misc/Makefile
+#   - added quantis driver v2.0 from idquantique
+#   -> linux-3.0-ths-quantis-2.0-RXXX.patch
+#
+# ./init/main.c
+# ./init/version.c
+#   - changed to support colored banner 
+#   - added colored banner
+#   -> linux-3.0-ths-init.patch 
+#
+
+
+
