@@ -1,0 +1,459 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.9.10
+# created : 13/03/04
+# changed : 13/07/15
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.9.10-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.9.10-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.9.10-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.9.10-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.9.10-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
+#   - setup & build kernel 3.9.10-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.9.10-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.9.10-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.9.10-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.9.10-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.9.10-ths-arm-exynos4-odroidu2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.9.10-ths-arm-exynos4-odroids2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.9.10-ths-arm-exynos4-odroidx-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.9.10-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.9.10-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  13/07/15
+#   - updated branch v3.9.10-ths
+#     git push origin v3.9.10-ths
+#     git commit -m "updated v3.9.10-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.10-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.10-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.10
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.10-ths
+#     git commit -m "created v3.9.10-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.10-mmxiii-vii-xv
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     linux-3.9-ths-hdrv.patch
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - renamed and updated firmware patches
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-15
+#   - merge old ths branch
+#     git merge v3.9.8-ths
+#   - create new branch from v3.9.10
+#     git checkout -b v3.9.10-ths v3.9.10
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/01
+#   - updated branch v3.9.8-ths
+#     git push origin v3.9.8-ths
+#     git commit -m "updated v3.9.8-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.8-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.8-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.8
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.8-ths
+#     git commit -m "created v3.9.8-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.8-mmxiii-vii-i
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#     linux-firmware-ar3k.patch
+#     linux-firmware-ath6k.patch
+#     linux-firmware-carl9170.patch
+#     linux-firmware-creative.patch
+#     linux-firmware-device-tree.patch
+#     linux-firmware-go7007.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-libertas.patch
+#     linux-firmware-maudio.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-mwl8k.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-tegra3.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-tigon.patch
+#     linux-firmware-xilinx.patch
+#   - renamed and updated firmware patches
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-13
+#   - merge old ths branch
+#     git merge v3.9.4-ths
+#   - create new branch from v3.9.8
+#     git checkout -b v3.9.8-ths v3.9.8
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/28
+#   - updated branch v3.9.4-ths
+#     git push origin v3.9.4-ths
+#     git commit -m "updated v3.9.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - updated configs (3.0)
+#   - setup & build kernel 3.9.4-ths-arm-exynos4-odroids2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/05/27
+#   - updated branch v3.9.4-ths
+#     git push origin v3.9.4-ths
+#     git commit -m "updated v3.9.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - updated configs (3.0)
+#   - setup & build kernel 3.9.4-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#  13/05/26
+#   - setup & build kernel 3.9.4-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.9.4-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.4
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.4-ths
+#     git commit -m "created v3.9.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.4-mmxiii-v-xxiv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - linux-3.9-ths-init.patch: 
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-8
+#   - merge old ths branch
+#     git merge v3.9.2-ths
+#   - create new branch from v3.9.4
+#     git checkout -b v3.9.4-ths v3.9.4
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/13
+#   - updated branch v3.9.2-ths
+#     git push origin v3.9.2-ths
+#     git commit -m "updated v3.9.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.2-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.2-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.2
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.2-ths
+#     git commit -m "created v3.9.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.2-mmxiii-v-x
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - linux-3.9-ths-init.patch: 
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-5
+#   - merge old ths branch
+#     git merge v3.9.1-ths
+#   - create new branch from v3.9.2
+#     git checkout -b v3.9.2-ths v3.9.2
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/10
+#   - updated branch v3.9.1-ths
+#     git push origin v3.9.1-ths
+#     git commit -m "updated v3.9.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.1
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.1-ths
+#     git commit -m "created v3.9.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.1-mmxiii-v-x
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - linux-3.9-ths-init.patch: 
+#     updated Makefile.addon/Makefile.addon.debian to handle odroid board types
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-4
+#   - merge old ths branch
+#     git merge v3.9.0-ths
+#   - create new branch from v3.9.1
+#     git checkout -b v3.9.1-ths v3.9.1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/29
+#   - updated branch v3.9.0-ths
+#     git push origin v3.9.0-ths
+#     git commit -m "updated v3.9.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.0-ths-arm-exynos4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.9.0-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.0-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.0
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.0-ths
+#     git commit -m "created v3.9.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.0-mmxiii-iv-xxix
+#   - updated configs (3.0,3.8)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.8-13
+#   - merge old ths branch
+#     git merge v3.9.0-rc7-ths
+#   - create new branch from v3.9
+#     git checkout -b v3.9.0-ths v3.9
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/16
+#   - updated branch v3.9.0-rc7-ths
+#     git push origin v3.9.0-rc7-ths
+#     git commit -m "updated v3.9.0-rc7-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.8,3.9)
+#   - setup & build kernel 3.9.0-rc7-ths-arm-exynos4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.9.0-rc7-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.9.0-rc7-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.0-rc7
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.0-rc7-ths
+#     git commit -m "created v3.9.0-rc7-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.0-rc7-mmxiii-iv-iv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.8-10
+#   - merge old ths branch
+#     git merge v3.9.0-rc5-ths
+#   - create new branch from v3.9-rc7
+#     git checkout -b v3.9.0-rc7-ths v3.9-rc7
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/04/05
+#   - updated branch v3.9.0-rc5-ths
+#     git push origin v3.9.0-rc5-ths
+#     git commit -m "updated v3.9.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.0-rc5-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#  13/04/04
+#   - setup & build kernel 3.9.0-rc5-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.9.0-rc5
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.0-rc5-ths
+#     git commit -m "created v3.9.0-rc5-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.0-rc5-mmxiii-iv-iv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#     linux-3.9-ths-init.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.8-8
+#   - merge old ths branch
+#     git merge v3.9.0-rc5-ths
+#   - create new branch from v3.9-rc1
+#     git checkout -b v3.9.0-ths v3.9-rc1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/03/06
+#   - updated branch v3.9.0-rc1-ths
+#     git push origin v3.9.0-rc1-ths
+#     git commit -m "updated v3.9.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.9.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#  13/03/05
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9.latest-ths-Makefile.patch updated and renamed to linux-3.9-latest-ths-Makefile.patch
+#   - updated Makefile.addons and Makefile.addons.debian for new x86 architecture handling
+#  13/03/04
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.9.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.9.0-rc1
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.9.0-rc1-ths
+#     git commit -m "created v3.9.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.9.0-rc1-mmxiii-ii-xix
+#   - updated configs (3.8)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.9-firmware-ath6k.patch
+#     linux-3.9-firmware-carl9170.patch
+#     linux-3.9-firmware-device-tree.patch
+#     linux-3.9-firmware-libertas.patch
+#     linux-3.9-firmware-maudio.patch
+#     linux-3.9-firmware-mrvl.patch
+#     linux-3.9-firmware-mwl8k.patch
+#     linux-3.9-firmware-rtl_nic.patch
+#     linux-3.9-firmware-rtlwifi.patch
+#     linux-3.9-firmware-s5p-mfc.patch
+#     linux-3.9-firmware-tegra3.patch
+#     linux-3.9-firmware-ti-connectivity.patch
+#     linux-3.9-firmware-xilinx.patch
+#     linux-3.9.latest-ths-Makefile.patch
+#     linux-3.9-omap2-dpi-secure-disable.patch
+#     linux-3.9-ths-drm_vm.patch
+#     linux-3.9-ths-git.patch
+#     linux-3.9-ths-init.patch
+#     linux-3.9-ths-logo.patch
+#     linux-3.9-ths-quantis-v1.patch
+#     linux-3.9-ths-quantis-v2.patch
+#     linux-3.9-ths-setlocalversion.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.8-4
+#   - merge old ths branch
+#     merge manually from v3.8.2--ths
+#   - create new branch from v3.9-rc1
+#     git checkout -b v3.9.0-ths v3.9-rc1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+
+
+
