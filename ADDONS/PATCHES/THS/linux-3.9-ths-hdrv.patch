@@ -1,11 +1,13 @@
 diff -Naur org/drivers/misc/hdrv/hdrv.c ths/drivers/misc/hdrv/hdrv.c
 --- org/drivers/misc/hdrv/hdrv.c	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/misc/hdrv/hdrv.c	2013-07-11 15:59:45.000000000 +0200
-@@ -0,0 +1,94 @@
++++ ths/drivers/misc/hdrv/hdrv.c	2013-07-16 09:58:01.448695542 +0200
+@@ -0,0 +1,96 @@
 +/*
 +  hdrv.c
 +*/
 +
++#include <linux/kernel.h>
++#include <linux/module.h>
 +#include <linux/fs.h>
 +#include <linux/cdev.h>
 +#include <linux/device.h>
