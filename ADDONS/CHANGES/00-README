@@ -36,7 +36,7 @@
 #     git push origin v3.9.11-ths
 #     git commit -m "updated v3.9.11-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (3.9)
+#   - updated configs (3.9,3.8)
 #  13/08/12
 #   - setup & build kernel 3.9.11-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.9.11-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
