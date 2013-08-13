@@ -45,8 +45,6 @@
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
-#   - disabled patches
-#     4200_fbcondecor-0.9.6.patch from gentoo patch set 
 #   - commit and push new branch
 #     git push origin v3.11.0-rc5-ths
 #     git commit -m "created v3.11.0-rc5-ths"
@@ -62,6 +60,11 @@
 #     linux-3.11-ths-init.patch
 #   - obsolete patches
 #     none
+#   - manually inserted 
+#     1801_block-cgroups-kconfig-build-bits-for-BFQ-v6r2-3.10.patch
+#   - disabled patches
+#     2300_USB-mount-extd-inq-cmd-fix.patch
+#     4200_fbcondecor-0.9.6.patch from gentoo patch set 
 #   - using genpatches-3.10.11
 #   - merge old ths branch
 #     git merge v3.11.0-rc1-ths
