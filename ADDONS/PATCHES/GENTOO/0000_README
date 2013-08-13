@@ -43,6 +43,26 @@ Patch:  1000_linux-3.10.1.patch
 From:   http://www.kernel.org
 Desc:   Linux 3.10.1
 
+Patch:  1001_linux-3.10.2.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.10.2
+
+Patch:  1002_linux-3.10.3.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.10.3
+
+Patch:  1003_linux-3.10.4.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.10.4
+
+Patch:  1004_linux-3.10.5.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.10.5
+
+Patch:  1005_linux-3.10.6.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.10.6
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -66,6 +86,10 @@ Desc:   BFQ v6r2 patch 2 for 3.10: BFQ Scheduler
 Patch:  1803_block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v6r2-for-3.10.0.patch1
 From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
 Desc:   BFQ v6r2 patch 3 for 3.10: Early Queue Merge (EQM)
+
+Patch:  2300_USB-mount-extd-inq-cmd-fix.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=478698
+Desc:   USB Mount fix: Don't attempt to send extended INQUIRY command if skip_vpd_pages is set
 
 Patch:  2400_kcopy-patch-for-infiniband-driver.patch
 From:   Alexey Shvetsov <alexxy@gentoo.org>

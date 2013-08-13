@@ -4,7 +4,7 @@ diff -Naur org/Makefile ths/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 11
  SUBLEVEL = 0
- EXTRAVERSION = -rc1
+ EXTRAVERSION = -rc5
 -NAME = Linux for Workgroups
 +NAME = Odonata Draconis
  
