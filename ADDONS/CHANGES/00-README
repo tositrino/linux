@@ -1,0 +1,257 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.10.1
+# created : 13/05/13
+# changed : 13/07/16
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.10.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.10.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.10.1-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.10.1-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.10.1-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
+#   - setup & build kernel 3.10.1-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.10.1-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.10.1-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.10.1-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.10.1-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.10.1-ths-arm-exynos4-odroidu2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.10.1-ths-arm-exynos4-odroidx2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.10.1-ths-arm-exynos4-odroidx-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.10.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.10.1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+#  13/07/16
+#     git push origin v3.10.1-ths
+#     git commit -m "updated v3.10.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.10)
+#   - setup & build kernel 3.10.1-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.10.1-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.10.1
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.10.1-ths
+#     git commit -m "created v3.10.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.10.1-mmxiii-vii-xvi
+#   - updated configs (3.9)
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added hdrv sources to drivers/hdrv.tar.bz2
+#   - added patches:
+#     linux-3.10-ths-hdrv.patch
+#   - updated patches:
+#     linux-3.10.latest-ths-Makefile.patch
+#     linux-3.10-ths-init.patch
+#   - renamed and updated firmware patches
+#   - disabled patches
+#     none
+#   - obsolete patches
+#     none
+#   - using genpatches-3.10-4
+#   - merge old ths branch
+#     git merge v3.10.0-ths
+#   - create new branch from v3.10.1
+#     git checkout -b v3.10.1-ths v3.10.1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/07/01
+#     git push origin v3.10.0-ths
+#     git commit -m "updated v3.10.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.10)
+#   - updated configs (3.9)
+#   - setup & build kernel 3.10.0-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.10.0-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.10.0
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.10.0-ths
+#     git commit -m "created v3.10.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.10.0-mmxiii-vii-i
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.10.latest-ths-Makefile.patch
+#     linux-3.10-ths-init.patch
+#     linux-firmware-ar3k.patch
+#     linux-firmware-ath6k.patch
+#     linux-firmware-carl9170.patch
+#     linux-firmware-creative.patch
+#     linux-firmware-device-tree.patch
+#     linux-firmware-go7007.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-libertas.patch
+#     linux-firmware-maudio.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-mwl8k.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-tegra3.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-tigon.patch
+#     linux-firmware-xilinx.patch
+#   - renamed and updated firmware patches
+#   - disabled patches
+#     none
+#   - obsolete patches
+#     none
+#   - using genpatches-3.10-2
+#   - merge old ths branch
+#     git merge v3.10.0-rc3-ths
+#   - create new branch from v3.10
+#     git checkout -b v3.10.0-ths v3.10
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/28
+#   - updated branch v3.10.0-rc3-ths
+#     git push origin v3.10.0-rc3-ths
+#     git commit -m "updated v3.10.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.10)
+#   - updated configs (3.9)
+#   - updated configs (3.0)
+#   - setup & build kernel 3.10.0-rc3-ths-arm-exynos4-odroidx2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/05/27
+#   - updated branch v3.10.0-rc3-ths
+#     git push origin v3.10.0-rc3-ths
+#     git commit -m "updated v3.10.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.10)
+#   - setup & build kernel 3.10.0-rc3-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.10.0-rc3-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - patch kernel
+#     kv=3.10.0-rc3
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.10.0-rc3-ths
+#     git commit -m "created v3.10.0-rc3-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.10.0-rc3-mmxiii-v-xxvii
+#   - updated configs (3.9)
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.10.latest-ths-Makefile.patch
+#     linux-3.10-ths-init.patch
+#   - disabled patches
+#     2710_radeon-uvd-patchset.patch from gentoo patch set 
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-8
+#   - merge old ths branch
+#     git merge v3.10.0-rc1-ths
+#   - create new branch from v3.10-rc3
+#     git checkout -b v3.10.0-rc3-ths v3.10-rc3
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#  13/05/14
+#   - updated branch v3.10.0-rc1-ths
+#     git push origin v3.10.0-rc1-ths
+#     git commit -m "updated v3.10.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.9)
+#   - setup & build kernel 3.10.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.10.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - updated patches:
+#     linux-3.9-latest-ths-Makefile.patch
+#   - patch kernel
+#     kv=3.10.0-rc1
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - obsolete patches
+#     ARM/linux-3.10-ths-drm_vm.patch
+#   - disabled patches
+#     2710_radeon-uvd-patchset.patch from gentoo patch set 
+#  13/05/13
+#   - commit and push new branch
+#     git push origin v3.10.0-rc1-ths
+#     git commit -m "created v3.10.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.10.0-rc1-mmxiii-v-xiii
+#   - updated configs (3.0)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     linux-3.10-firmware-creative.patch
+#     linux-3.10-firmware-intel.patch
+#     linux-3.10-firmware-whence.patch
+#     none
+#   - updated patches:
+#     linux-3.10-firmware-ath6k.patch
+#     linux-3.10-firmware-carl9170.patch
+#     linux-3.10-firmware-device-tree.patch
+#     linux-3.10-firmware-libertas.patch
+#     linux-3.10-firmware-maudio.patch
+#     linux-3.10-firmware-mrvl.patch
+#     linux-3.10-firmware-mwl8k.patch
+#     linux-3.10-firmware-rtl_nic.patch
+#     linux-3.10-firmware-rtlwifi.patch
+#     linux-3.10-firmware-s5p-mfc.patch
+#     linux-3.10-firmware-tegra3.patch
+#     linux-3.10-firmware-ti-connectivity.patch
+#     linux-3.10-firmware-xilinx.patch
+#     linux-3.10.latest-ths-Makefile.patch
+#     linux-3.10-omap2-dpi-secure-disable.patch
+#     linux-3.10-ths-drm_vm.patch
+#     linux-3.10-ths-git.patch
+#     linux-3.10-ths-init.patch
+#     linux-3.10-ths-logo.patch
+#     linux-3.10-ths-quantis-v1.patch
+#     linux-3.10-ths-quantis-v2.patch
+#     linux-3.10-ths-setlocalversion.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.9-5
+#   - merge old ths branch
+#     manually merge v3.9.2-ths
+#   - create new branch from v3.10-rc1
+#     git checkout -b v3.10.0-rc1-ths v3.10-rc1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+
+
+
