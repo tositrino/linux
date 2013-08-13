@@ -59,7 +59,7 @@
 #   - updated patches:
 #     linux-3.10.latest-ths-Makefile.patch
 #     linux-3.10-ths-init.patch
-#   - renamed and updated firmware patches
+#   - updated firmware patches
 #   - disabled patches
 #     none
 #   - obsolete patches
