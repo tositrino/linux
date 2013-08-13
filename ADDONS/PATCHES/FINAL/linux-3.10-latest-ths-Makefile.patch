@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 10
  SUBLEVEL = 0
  EXTRAVERSION = 6
--NAME = Unicycling Gorilla
+-NAME = TOSSUG Baby Fish
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
