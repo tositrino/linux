@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.9.11
 # created : 13/03/04
-# changed : 13/08/12
+# changed : 13/08/13
 #
 # TODO:
 #   * ubuntu
@@ -31,12 +31,13 @@
 #   - setup & build kernel 3.9.11-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.9.11-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/08/11
+#  13/08/13
 #   - updated branch v3.9.11-ths
 #     git push origin v3.9.11-ths
 #     git commit -m "updated v3.9.11-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.9)
+#  13/08/12
 #   - setup & build kernel 3.9.11-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.9.11-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - updated patches:
