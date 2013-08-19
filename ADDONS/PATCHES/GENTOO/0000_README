@@ -387,6 +387,18 @@ Patch:  1087_linux-3.0.88.patch
 From:   http://www.kernel.org
 Desc:   Linux 3.0.88
 
+Patch:  1088_linux-3.0.89.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.0.89
+
+Patch:  1089_linux-3.0.90.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.0.90
+
+Patch:  1090_linux-3.0.91.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.0.91
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -438,3 +450,11 @@ Desc:   ACPI: Disable Windows 8 compatibility for some Lenovo ThinkPads
 Patch:  4200_fbcondecor-0.9.6.patch
 From:   http://dev.gentoo.org/~spock
 Desc:   Bootsplash successor by Michal Januszewski ported by Alexxy
+
+Patch:  4500_nouveau-video-output-control-Kconfig.patch
+From:   Tom Wijsman <TomWij@gentoo.org
+Desc:   Make DRM_NOUVEU select VIDEO_OUTPUT_CONTROL, fixes bug #475748.
+
+Patch:  4567_distro-Gentoo-Kconfig.patch
+From:   Tom Wijsman <TomWij@gentoo.org
+Desc:   Add Gentoo Linux support config settings and defaults.
