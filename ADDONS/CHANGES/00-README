@@ -52,12 +52,15 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
-#     00-linux-3.0-ths-samsung-audio.patch (added export symbols)
+#     80-linux-3.0.90-hk.patch
+#   - created new hardkernel patch 80-linux-3.0.90-hk.patch
+#     from linux-3.0.90-hk and linux-3.0.90-org
 #   - updated patches:
 #     linux-3.0-ths-init-hk.patch
 #     linux-3.0.latest-ths-Makefile-hk.patch
+#     80-linux-3.0.88-hk.patch        (****)
 #   - obsolete/disabled patches
-#     none
+#     80-linux-3.0.88-hk.patch
 #   - using genpatches-3.0-61
 #   - merge old ths branch
 #     git merge v3.0.90-ths
