@@ -61,6 +61,8 @@
 #     80-linux-3.0.88-hk.patch        (****)
 #   - obsolete/disabled patches
 #     80-linux-3.0.88-hk.patch
+#   - disabled gentoo patches
+#     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.0-61
 #   - merge old ths branch
 #     git merge v3.0.90-ths
