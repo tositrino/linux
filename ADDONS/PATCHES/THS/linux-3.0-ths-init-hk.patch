@@ -221,7 +221,7 @@ diff -Naur hk/init/version.c ths/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 13/08/19 kernel-3.0.91
++ *  - 13/08/21 kernel-3.0.91
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur hk/init/version.c ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxiii-viii-xix"
++#define THS_RELEASE          "mmxiii-viii-xxi"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
