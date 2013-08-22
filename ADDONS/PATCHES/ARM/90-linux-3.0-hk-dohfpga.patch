@@ -515,14 +515,14 @@ diff -Naur org/arch/arm/mach-exynos/mach-odroid-fimc.inc ths/arch/arm/mach-exyno
 +#endif
 +	.camera		= 
 +	{
-+#if defined(CONFIG_VIDEO_DOHOFPGA1) || defined(CONFIG_VIDEO_DOHOFPGA1_MODULE)
-+#warning added dohofpga1
-+		&dohofpga1,
-+#endif
-+
 +#if defined(CONFIG_VIDEO_DOHOFPGA2) || defined(CONFIG_VIDEO_DOHOFPGA2_MODULE)
 +#warning added dohofpga2
 +		&dohofpga2,
++#endif
++
++#if defined(CONFIG_VIDEO_DOHOFPGA1) || defined(CONFIG_VIDEO_DOHOFPGA1_MODULE)
++#warning added dohofpga1
++		&dohofpga1,
 +#endif
 +
 +#if defined(CONFIG_VIDEO_MT9M113) || defined(CONFIG_VIDEO_MT9M113_MODULE)
