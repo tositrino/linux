@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.0.93-ths
 # created : 11/06/14
-# changed : 13/08/22
+# changed : 13/08/23
 #
 # TODO:
 #   * ubuntu
@@ -31,7 +31,7 @@
 #   - setup & build kernel 3.0.93-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.93-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/08/22
+#  13/08/23
 #   - updated branch v3.0.93-ths
 #     git push origin v3.0.93-ths
 #     git commit -m "updated v3.0.93-ths"
@@ -39,7 +39,13 @@
 #   - updated configs (3.0)
 #   - setup & build kernel 3.0.93-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - setup & build kernel 3.0.93-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#  13/08/22
 #   - setup & build kernel 3.0.93-ths-arm-exynos4-odroidx1-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
+#   - updated patches:
+#     90-linux-3.0-hk-dohfpga.patch 
+#       - updated to dohofpga-0.5.13
+#       - restored order of dohofpga1 (1->0) and dohofpga1 (0->1))
+#   - setup & build kernel 3.0.93-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
 #   - patch kernel
 #     kv=3.0.93
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
@@ -53,6 +59,9 @@
 #   - THS-RELEASE 3.0.93-mmxiii-viii-xxii
 #   - updated tools
 #     kversion.figlet testversion.c
+#   - added patches
+#     82-linux-3.0-hk-cacheid.patch (required due to patches in vanilla update that are
+#                                    not in 3.0.90 hk patch)
 #   - updated patches:
 #     90-linux-3.0-hk-dohfpga.patch (changed order of dohofpga1 (0->1) and dohofpga1 (1->0))
 #     linux-3.0-ths-init-hk.patch

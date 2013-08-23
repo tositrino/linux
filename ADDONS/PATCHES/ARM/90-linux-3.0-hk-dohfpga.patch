@@ -515,14 +515,14 @@ diff -Naur org/arch/arm/mach-exynos/mach-odroid-fimc.inc ths/arch/arm/mach-exyno
 +#endif
 +	.camera		= 
 +	{
-+#if defined(CONFIG_VIDEO_DOHOFPGA2) || defined(CONFIG_VIDEO_DOHOFPGA2_MODULE)
-+#warning added dohofpga2
-+		&dohofpga2,
-+#endif
-+
 +#if defined(CONFIG_VIDEO_DOHOFPGA1) || defined(CONFIG_VIDEO_DOHOFPGA1_MODULE)
 +#warning added dohofpga1
 +		&dohofpga1,
++#endif
++
++#if defined(CONFIG_VIDEO_DOHOFPGA2) || defined(CONFIG_VIDEO_DOHOFPGA2_MODULE)
++#warning added dohofpga2
++		&dohofpga2,
 +#endif
 +
 +#if defined(CONFIG_VIDEO_MT9M113) || defined(CONFIG_VIDEO_MT9M113_MODULE)
@@ -6300,7 +6300,7 @@ diff -Naur org/drivers/media/video/ar0832_is.c ths/drivers/media/video/ar0832_is
 -MODULE_LICENSE("GPL");
 diff -Naur org/drivers/media/video/dohofpga/dohofpga1.c ths/drivers/media/video/dohofpga/dohofpga1.c
 --- org/drivers/media/video/dohofpga/dohofpga1.c	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga/dohofpga1.c	2013-07-29 12:48:18.000000000 +0200
++++ ths/drivers/media/video/dohofpga/dohofpga1.c	2013-08-22 14:45:18.000000000 +0200
 @@ -0,0 +1,616 @@
 +/* linux/drivers/media/video/dohofpga1.c
 + *
@@ -6920,8 +6920,8 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga1.c ths/drivers/media/video/
 +
 diff -Naur org/drivers/media/video/dohofpga/dohofpga1.h ths/drivers/media/video/dohofpga/dohofpga1.h
 --- org/drivers/media/video/dohofpga/dohofpga1.h	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga/dohofpga1.h	2013-07-29 12:48:25.000000000 +0200
-@@ -0,0 +1,2612 @@
++++ ths/drivers/media/video/dohofpga/dohofpga1.h	2013-08-22 14:45:18.000000000 +0200
+@@ -0,0 +1,2614 @@
 +/* linux/drivers/media/video/dohofpga1.h
 + *
 + * Copyright (c) 2013 institute for visual computing, ETH Zuerich
@@ -6941,8 +6941,10 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga1.h ths/drivers/media/video/
 +
 +#define DOHOFPGA1_COMPLETE
 +#undef DOHOFPGA1_COMPLETE
++
 +#ifndef __DOHOFPGA1_H__
 +#define __DOHOFPGA1_H__
++
 +
 +#define DOHOFPGA1_DRIVER_NAME  "DOHOFPGA1"
 +//define __DOHOFPGA1_REGWRITE__
@@ -9536,8 +9538,8 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga1.h ths/drivers/media/video/
 +#endif
 diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/dohofpga/dohofpga2.c
 --- org/drivers/media/video/dohofpga/dohofpga2.c	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga/dohofpga2.c	2013-07-29 12:48:10.000000000 +0200
-@@ -0,0 +1,2226 @@
++++ ths/drivers/media/video/dohofpga/dohofpga2.c	2013-08-22 14:45:18.000000000 +0200
+@@ -0,0 +1,1847 @@
 +/* linux/drivers/media/video/dohofpga2.c
 + *
 + * Copyright (c) 2013 institute for visual computing, ETH Zuerich
@@ -9557,389 +9559,42 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +
 +#define __DOHOFPGA2_C__
 +
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/i2c.h>
++#include <linux/slab.h>
++#include <linux/delay.h>
++#include <linux/version.h>
++#include <linux/vmalloc.h>
++#include <linux/completion.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-subdev.h>
++#include <media/dohofpga2_platform.h>
++#include <linux/videodev2_samsung.h>
++#include <linux/workqueue.h>
++
++#include <linux/delay.h>
++#ifdef CONFIG_EXYNOS4_CPUFREQ
++#include <linux/cpufreq.h>
++#include <mach/cpufreq.h>
++#endif
++
++#include "dohofpga2_regs.h"
 +#include "dohofpga2.h"
 +
-+static int dohofpga2_s_ctrl(struct v4l2_subdev *sd, struct v4l2_control *ctrl);
-+static int dohofpga2_init(struct v4l2_subdev *sd, u32 val);
-+
-+static const struct dohofpga2_fps dohofpga2_framerates[] = {
-+  { I_FPS_0,  FRAME_RATE_AUTO },
-+  { I_FPS_15,  FRAME_RATE_15 },
-+  { I_FPS_25,  FRAME_RATE_25 },
-+  { I_FPS_30,  FRAME_RATE_30 },
-+};
-+
-+static const struct dohofpga2_framesize dohofpga2_preview_frmsizes[] = {
-+  { DOHOFPGA2_PREVIEW_QCIF,  176,  144 }, 
-+  { DOHOFPGA2_PREVIEW_CIF,    352,  288 }, 
-+  { DOHOFPGA2_PREVIEW_VGA,    640,  480 }, 
-+  { DOHOFPGA2_PREVIEW_D1,    720,  480 }, 
-+  { DOHOFPGA2_PREVIEW_960,    960,  640 }, 
-+  { DOHOFPGA2_PREVIEW_720P,   1280, 720 }, 
-+};
-+
-+static const struct dohofpga2_framesize dohofpga2_capture_frmsizes[] = {
-+  { DOHOFPGA2_CAPTURE_VGA,    640,  480 },
-+  { DOHOFPGA2_CAPTURE_1MP,    1280, 960 },
-+  { DOHOFPGA2_CAPTURE_2MP,    1600, 1200 },
-+  { DOHOFPGA2_CAPTURE_3MP,    2048, 1536 },
-+  { DOHOFPGA2_CAPTURE_5MP,    2560, 1920 },
-+};
-+
-+static struct dohofpga2_control dohofpga2_ctrls[] = {
-+  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_FLASH_MODE, \
-+          FLASH_MODE_OFF),
-+
-+  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_BRIGHTNESS, \
-+          EV_DEFAULT),
-+
-+  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_METERING, \
-+          METERING_MATRIX),
-+
-+  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_WHITE_BALANCE, \
-+          WHITE_BALANCE_AUTO),
-+
-+  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_EFFECT, \
-+          IMAGE_EFFECT_NONE),
-+};
-+
-+static const struct dohofpga2_regs reg_datas = {
-+  .ev = {
-+    DOHOFPGA2_REGSET(EV_MINUS_4,   dohofpga2_EV_Minus_4),
-+    DOHOFPGA2_REGSET(EV_MINUS_3,   dohofpga2_EV_Minus_3),
-+    DOHOFPGA2_REGSET(EV_MINUS_2,   dohofpga2_EV_Minus_2),
-+    DOHOFPGA2_REGSET(EV_MINUS_1,   dohofpga2_EV_Minus_1),
-+    DOHOFPGA2_REGSET(EV_DEFAULT,   dohofpga2_EV_Default),
-+    DOHOFPGA2_REGSET(EV_PLUS_1,     dohofpga2_EV_Plus_1),
-+    DOHOFPGA2_REGSET(EV_PLUS_2,     dohofpga2_EV_Plus_2),
-+    DOHOFPGA2_REGSET(EV_PLUS_3,     dohofpga2_EV_Plus_3),
-+    DOHOFPGA2_REGSET(EV_PLUS_4,     dohofpga2_EV_Plus_4),
-+
-+  },
-+  .metering = {
-+    DOHOFPGA2_REGSET(METERING_MATRIX,   dohofpga2_Metering_Matrix),
-+    DOHOFPGA2_REGSET(METERING_CENTER,   dohofpga2_Metering_Center),
-+    DOHOFPGA2_REGSET(METERING_SPOT,     dohofpga2_Metering_Spot),
-+  },
-+  .iso = {
-+    DOHOFPGA2_REGSET(ISO_AUTO,   dohofpga2_ISO_Auto),
-+    DOHOFPGA2_REGSET(ISO_100,   dohofpga2_ISO_100),
-+    DOHOFPGA2_REGSET(ISO_200,   dohofpga2_ISO_200),
-+    DOHOFPGA2_REGSET(ISO_400,   dohofpga2_ISO_400),
-+  },
-+  .effect = {
-+    DOHOFPGA2_REGSET(IMAGE_EFFECT_NONE,     dohofpga2_Effect_Normal),
-+    DOHOFPGA2_REGSET(IMAGE_EFFECT_BNW,     dohofpga2_Effect_Black_White),
-+    DOHOFPGA2_REGSET(IMAGE_EFFECT_SEPIA,   dohofpga2_Effect_Sepia),
-+    DOHOFPGA2_REGSET(IMAGE_EFFECT_NEGATIVE,   dohofpga2_Effect_Negative),
-+  },
-+  .white_balance = {
-+    DOHOFPGA2_REGSET(WHITE_BALANCE_AUTO,     dohofpga2_WB_Auto),
-+    DOHOFPGA2_REGSET(WHITE_BALANCE_SUNNY,     dohofpga2_WB_Sunny),
-+    DOHOFPGA2_REGSET(WHITE_BALANCE_CLOUDY,     dohofpga2_WB_Cloudy),
-+    DOHOFPGA2_REGSET(WHITE_BALANCE_TUNGSTEN,    dohofpga2_WB_Tungsten),
-+    DOHOFPGA2_REGSET(WHITE_BALANCE_FLUORESCENT,  dohofpga2_WB_Fluorescent),
-+  },
-+  .preview_size = {
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_QCIF,    dohofpga2_176_Preview),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_CIF,     dohofpga2_352_Preview),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_VGA,     dohofpga2_640_Preview),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_D1,    dohofpga2_720_Preview),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_960,    dohofpga2_960_Preview),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_720P,    dohofpga2_1280_Preview),
-+  },
-+  .scene_mode = {
-+    DOHOFPGA2_REGSET(SCENE_MODE_NONE,       dohofpga2_Scene_Default),
-+    DOHOFPGA2_REGSET(SCENE_MODE_PORTRAIT,     dohofpga2_Scene_Portrait),
-+    DOHOFPGA2_REGSET(SCENE_MODE_NIGHTSHOT,     dohofpga2_Scene_Nightshot),
-+    DOHOFPGA2_REGSET(SCENE_MODE_LANDSCAPE,     dohofpga2_Scene_Landscape),
-+    DOHOFPGA2_REGSET(SCENE_MODE_SPORTS,       dohofpga2_Scene_Sports),
-+    DOHOFPGA2_REGSET(SCENE_MODE_PARTY_INDOOR,   dohofpga2_Scene_Party_Indoor),
-+    DOHOFPGA2_REGSET(SCENE_MODE_BEACH_SNOW,     dohofpga2_Scene_Beach_Snow),
-+    DOHOFPGA2_REGSET(SCENE_MODE_SUNSET,       dohofpga2_Scene_Sunset),
-+    DOHOFPGA2_REGSET(SCENE_MODE_DUSK_DAWN,    dohofpga2_Scene_Duskdawn),
-+    DOHOFPGA2_REGSET(SCENE_MODE_TEXT,       dohofpga2_Scene_Text),
-+    DOHOFPGA2_REGSET(SCENE_MODE_CANDLE_LIGHT,   dohofpga2_Scene_Candle_Light),
-+  },
-+  .saturation = {
-+    DOHOFPGA2_REGSET(SATURATION_MINUS_2,     dohofpga2_Saturation_Minus_2),
-+    DOHOFPGA2_REGSET(SATURATION_MINUS_1,     dohofpga2_Saturation_Minus_1),
-+    DOHOFPGA2_REGSET(SATURATION_DEFAULT,     dohofpga2_Saturation_Default),
-+    DOHOFPGA2_REGSET(SATURATION_PLUS_1,       dohofpga2_Saturation_Plus_1),
-+    DOHOFPGA2_REGSET(SATURATION_PLUS_2,       dohofpga2_Saturation_Plus_2),
-+  },
-+  .contrast = {
-+    DOHOFPGA2_REGSET(CONTRAST_MINUS_2,     dohofpga2_Contrast_Minus_2),
-+    DOHOFPGA2_REGSET(CONTRAST_MINUS_1,     dohofpga2_Contrast_Minus_1),
-+    DOHOFPGA2_REGSET(CONTRAST_DEFAULT,     dohofpga2_Contrast_Default),
-+    DOHOFPGA2_REGSET(CONTRAST_PLUS_1,    dohofpga2_Contrast_Plus_1),
-+    DOHOFPGA2_REGSET(CONTRAST_PLUS_2,     dohofpga2_Contrast_Plus_2),
-+  },
-+  .sharpness = {
-+    DOHOFPGA2_REGSET(SHARPNESS_MINUS_2,     dohofpga2_Sharpness_Minus_2),
-+    DOHOFPGA2_REGSET(SHARPNESS_MINUS_1,     dohofpga2_Sharpness_Minus_1),
-+    DOHOFPGA2_REGSET(SHARPNESS_DEFAULT,     dohofpga2_Sharpness_Default),
-+    DOHOFPGA2_REGSET(SHARPNESS_PLUS_1,     dohofpga2_Sharpness_Plus_1),
-+    DOHOFPGA2_REGSET(SHARPNESS_PLUS_2,     dohofpga2_Sharpness_Plus_2),
-+  },
-+  .fps = {
-+    DOHOFPGA2_REGSET(I_FPS_0,     dohofpga2_FPS_Auto),
-+    DOHOFPGA2_REGSET(I_FPS_15,     dohofpga2_FPS_15),
-+    DOHOFPGA2_REGSET(I_FPS_25,     dohofpga2_FPS_25),
-+    DOHOFPGA2_REGSET(I_FPS_30,     dohofpga2_FPS_30),
-+  },
-+  .jpeg_quality_high     =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_High),
-+  .jpeg_quality_normal   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_Normal),
-+  .jpeg_quality_low     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_Low),
-+
-+  .preview_return     =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Preview_Return),
-+
-+  .flash_start       =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Flash_Start),
-+  .flash_end         =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Flash_End),
-+
-+  .af_assist_flash_start   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Pre_Flash_Start),
-+  .af_assist_flash_end   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Pre_Flash_End),
-+  .af_low_light_mode_on   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Low_Light_Mode_On),
-+  .af_low_light_mode_off   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Low_Light_Mode_Off),
-+
-+  .ae_awb_lock_on      =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AE_AWB_Lock_On),
-+  .ae_awb_lock_off    =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AE_AWB_Lock_Off),
-+
-+  .restore_cap      =  DOHOFPGA2_REGSET_TABLE(dohofpga2_restore_capture_reg),
-+  .change_wide_cap     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_change_wide_cap),
-+
-+  .af_macro_mode_1     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_1),
-+  .af_macro_mode_2     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_2),
-+  .af_macro_mode_3     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_3),
-+  .af_normal_mode_1    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_1),
-+  .af_normal_mode_2    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_2),
-+  .af_normal_mode_3    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_3),
-+
-+  .single_af_start = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Start),
-+  .video_af_start = DOHOFPGA2_REGSET_TABLE(dohofpga2_Video_AF_Start),
-+  .single_af_off_1 = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Off_1),
-+  .single_af_off_2 = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Off_2),
-+
-+  .capture_start = {
-+    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_VGA, dohofpga2_VGA_Capture),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_1MP, dohofpga2_1M_Capture),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_2MP, dohofpga2_2M_Capture),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_3MP, dohofpga2_3M_Capture),
-+    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_5MP, dohofpga2_5M_Capture),
-+  },
-+  .init_arm        =   DOHOFPGA2_REGSET_TABLE(dohofpga2_init_arm),
-+  .init_reg         =   DOHOFPGA2_REGSET_TABLE(dohofpga2_init_reg),
-+  .get_esd_status     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_esd_status),
-+  .stream_stop       =   DOHOFPGA2_REGSET_TABLE(dohofpga2_stream_stop_reg),
-+  .get_light_level     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Get_Light_Level),
-+
-+  .get_1st_af_search_status =
-+      DOHOFPGA2_REGSET_TABLE(dohofpga2_get_1st_af_search_status),
-+  .get_2nd_af_search_status =
-+      DOHOFPGA2_REGSET_TABLE(dohofpga2_get_2nd_af_search_status),
-+  .get_capture_status =
-+    DOHOFPGA2_REGSET_TABLE(dohofpga2_get_capture_status),
-+
-+  .get_iso         =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_iso_reg),
-+  .get_ev           =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_ev_reg),
-+  .get_ae_stable       =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Get_AE_Stable_Status),
-+  .get_shutterspeed     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_shutterspeed_reg),
-+  .update_preview     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_update_preview_reg),
-+  .update_hd_preview     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_update_hd_preview_reg),
-+};
-+
-+static const struct v4l2_mbus_framefmt capture_fmts[] = {
-+  {
-+    .code    = V4L2_MBUS_FMT_FIXED,
-+    .colorspace  = V4L2_COLORSPACE_JPEG,
-+  },
-+};
-+
 +#ifdef CONFIG_LOAD_FILE
-+static int loadFile(void)
-+{
-+  struct file *fp = NULL;
-+  struct test *nextBuf = NULL;
-+
-+  u8 *nBuf = NULL;
-+  size_t file_size = 0, max_size = 0, testBuf_size = 0;
-+  ssize_t nread = 0;
-+  s32 check = 0, starCheck = 0;
-+  s32 tmp_large_file = 0;
-+  s32 i = 0;
-+  int ret = 0;
-+  loff_t pos;
-+
-+  mm_segment_t fs = get_fs();
-+  set_fs(get_ds());
-+
-+  cam_info("%s: E\n", __func__);
-+
-+  BUG_ON(testBuf);
-+
-+  fp = filp_open(TUNING_FILE_PATH, O_RDONLY, 0);
-+  if (IS_ERR(fp)) {
-+    cam_err("file open error\n");
-+    return PTR_ERR(fp);
-+  }
-+
-+  file_size = (size_t) fp->f_path.dentry->d_inode->i_size;
-+  max_size = file_size;
-+
-+  cam_dbg("file_size = %d\n", file_size);
-+
-+  nBuf = kmalloc(file_size, GFP_ATOMIC);
-+  if (nBuf == NULL) {
-+    cam_dbg("Fail to 1st get memory\n");
-+    nBuf = vmalloc(file_size);
-+    if (nBuf == NULL) {
-+      cam_err("ERR: nBuf Out of Memory\n");
-+      ret = -ENOMEM;
-+      goto error_out;
-+    }
-+    tmp_large_file = 1;
-+  }
-+
-+  testBuf_size = sizeof(struct test) * file_size;
-+  if (tmp_large_file) {
-+    testBuf = (struct test *)vmalloc(testBuf_size);
-+    large_file = 1;
-+  } else {
-+    testBuf = kmalloc(testBuf_size, GFP_ATOMIC);
-+    if (testBuf == NULL) {
-+      cam_dbg("Fail to get mem(%d bytes)\n", testBuf_size);
-+      testBuf = (struct test *)vmalloc(testBuf_size);
-+      large_file = 1;
-+    }
-+  }
-+  if (testBuf == NULL) {
-+    cam_err("ERR: Out of Memory\n");
-+    ret = -ENOMEM;
-+    goto error_out;
-+  }
-+
-+  pos = 0;
-+  memset(nBuf, 0, file_size);
-+  memset(testBuf, 0, file_size * sizeof(struct test));
-+
-+  nread = vfs_read(fp, (char __user *)nBuf, file_size, &pos);
-+  if (nread != file_size) {
-+    cam_err("failed to read file ret = %d\n", nread);
-+    ret = -1;
-+    goto error_out;
-+  }
-+
-+  set_fs(fs);
-+
-+  i = max_size;
-+
-+  cam_dbg(KERN_DEBUG "i = %d\n", i);
-+
-+  while (i) {
-+    testBuf[max_size - i].data = *nBuf;
-+    if (i != 1) {
-+      testBuf[max_size - i].nextBuf =
-+        &testBuf[max_size - i + 1];
-+    } else {
-+      testBuf[max_size - i].nextBuf = NULL;
-+      break;
-+    }
-+    i--;
-+    nBuf++;
-+  }
-+
-+  i = max_size;
-+  nextBuf = &testBuf[0];
-+
-+  while (i - 1) {
-+    if (!check && !starCheck) {
-+      if (testBuf[max_size - i].data == '/') {
-+        if (testBuf[max_size-i].nextBuf != NULL) {
-+          if (testBuf[max_size-i].nextBuf->data
-+                == '/') {
-+            check = 1;/* when find '//' */
-+            i--;
-+          } else if (
-+              testBuf[max_size-i].nextBuf->data
-+              == '*') {
-+            /* when find '/ *' */
-+            starCheck = 1;
-+            i--;
-+          }
-+        } else
-+          break;
-+      }
-+      if (!check && !starCheck) {
-+        /* ignore '\t' */
-+        if (testBuf[max_size - i].data != '\t') {
-+          nextBuf->nextBuf = &testBuf[max_size-i];
-+          nextBuf = &testBuf[max_size - i];
-+        }
-+      }
-+    } else if (check && !starCheck) {
-+      if (testBuf[max_size - i].data == '/') {
-+        if (testBuf[max_size-i].nextBuf != NULL) {
-+          if (testBuf[max_size-i].nextBuf->data
-+              == '*') {
-+            /* when find '/ *' */
-+            starCheck = 1;
-+            check = 0;
-+            i--;
-+          }
-+        } else
-+          break;
-+      }
-+
-+       /* when find '\n' */
-+      if (testBuf[max_size - i].data == '\n' && check) {
-+        check = 0;
-+        nextBuf->nextBuf = &testBuf[max_size - i];
-+        nextBuf = &testBuf[max_size - i];
-+      }
-+
-+    } else if (!check && starCheck) {
-+      if (testBuf[max_size - i].data == '*') {
-+        if (testBuf[max_size-i].nextBuf != NULL) {
-+          if (testBuf[max_size-i].nextBuf->data
-+              == '/') {
-+            /* when find '* /' */
-+            starCheck = 0;
-+            i--;
-+          }
-+        } else
-+          break;
-+      }
-+    }
-+
-+    i--;
-+
-+    if (i < 2) {
-+      nextBuf = NULL;
-+      break;
-+    }
-+
-+    if (testBuf[max_size - i].nextBuf == NULL) {
-+      nextBuf = NULL;
-+      break;
-+    }
-+  }
-+
-+error_out:
-+  tmp_large_file ? vfree(nBuf) : kfree(nBuf);
-+
-+  if (fp)
-+    filp_close(fp, current->files);
-+  return ret;
-+}
++/* The Path of Setfile */
++#include "dohofpga2_loadfile.inc"
 +#endif
 +
 +/**
 + * dohofpga2_i2c_read_twobyte: Read 2 bytes from sensor
 + */
++
 +static int dohofpga2_i2c_read_twobyte(struct i2c_client *client,
 +          u16 subaddr, u16 *data)
 +{
-+  int err;
++  int err = 0 ;
 +  u8 buf[2];
 +  struct i2c_msg msg[2];
 +
@@ -9955,12 +9610,18 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  msg[1].len = 2;
 +  msg[1].buf = buf;
 +
-+  err = i2c_transfer(client->adapter, msg, 2);
-+  CHECK_ERR_COND_MSG(err != 2, -EIO, "fail to read register\n");
-+
-+  *data = ((buf[0] << 8) | buf[1]);
-+
-+  return 0;
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_READ) == DOHOFPGA2_I2C_READ )
++  {
++    err = i2c_transfer(client->adapter, msg, 2);
++    CHECK_ERR_COND_MSG(err != 2, -EIO, "fail to read register\n");
++    *data = ((buf[0] << 8) | buf[1]);
++  }
++  else
++  {
++    cam_dbg("%s: i2c read disabled by config\n", __func__);
++    *data = 0x0000;
++  }
++  return err;
 +}
 +
 +/**
@@ -9972,9 +9633,11 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 + *
 + * Returns 0 on success, <0 on error
 + */
++
 +static int dohofpga2_i2c_write_twobyte(struct i2c_client *client,
 +           u16 addr, u16 w_data)
 +{
++  int err = 0;
 +  int retry_count = 5;
 +  int ret = 0;
 +  u8 buf[4] = {0,};
@@ -9990,141 +9653,40 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  buf[2] = w_data >> 8;
 +  buf[3] = w_data & 0xff;
 +
-+  /* cam_dbg("I2C writing: 0x%02X%02X%02X%02X\n",
-+      buf[0], buf[1], buf[2], buf[3]); */
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_WRITE) == DOHOFPGA2_I2C_WRITE )
++  {
++    /* cam_dbg("I2C writing: 0x%02X%02X%02X%02X\n",
++       buf[0], buf[1], buf[2], buf[3]); */
++    do 
++    {
++      ret = i2c_transfer(client->adapter, &msg, 1);
++      if (likely(ret == 1)) break;
++      msleep(POLL_TIME_MS);
++      cam_err("%s: ERROR(%d), write (%04X, %04X), retry %d.\n",
++              __func__, ret, addr, w_data, retry_count);
++    } while (retry_count-- > 0);
++    CHECK_ERR_COND_MSG(ret != 1, -EIO, "I2C does not working.\n\n");
++  }
++  else
++  {
++    cam_dbg("%s: i2c write disabled by config\n", __func__);
++  }
++  return err;
++}
 +
-+  do {
-+    ret = i2c_transfer(client->adapter, &msg, 1);
-+    if (likely(ret == 1))
-+      break;
-+    msleep(POLL_TIME_MS);
-+    cam_err("%s: ERROR(%d), write (%04X, %04X), retry %d.\n",
-+        __func__, ret, addr, w_data, retry_count);
-+  } while (retry_count-- > 0);
-+
-+  CHECK_ERR_COND_MSG(ret != 1, -EIO, "I2C does not working.\n\n");
-+
++static int dohofpga2_i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
++{
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_TRANSFER) == DOHOFPGA2_I2C_TRANSFER )
++    return i2c_transfer(adap,msgs,num);
++  cam_dbg("%s: i2c transfer disabled by config\n", __func__);
 +  return 0;
 +}
-+
-+/* PX: */
-+#ifdef CONFIG_LOAD_FILE
-+static int dohofpga2_write_regs_from_sd(struct v4l2_subdev *sd,
-+            const u8 s_name[])
-+{
-+  struct i2c_client *client = v4l2_get_subdevdata(sd);
-+  struct test *tempData = NULL;
-+
-+  int ret = -EAGAIN;
-+  u32 temp;
-+  u32 delay = 0;
-+  u8 data[11];
-+  s32 searched = 0;
-+  size_t size = strlen(s_name);
-+  s32 i;
-+#ifdef DEBUG_WRITE_REGS
-+  u8 regs_name[128] = {0,};
-+
-+  BUG_ON(size > sizeof(regs_name));
-+#endif
-+
-+  cam_dbg("%s: E size = %d, string = %s\n", __func__, size, s_name);
-+  tempData = &testBuf[0];
-+  while (!searched) {
-+    searched = 1;
-+    for (i = 0; i < size; i++) {
-+      if (tempData->data != s_name[i]) {
-+        searched = 0;
-+        break;
-+      }
-+#ifdef DEBUG_WRITE_REGS
-+      regs_name[i] = tempData->data;
-+#endif
-+      tempData = tempData->nextBuf;
-+    }
-+#ifdef DEBUG_WRITE_REGS
-+    if (i > 9) {
-+      regs_name[i] = '\0';
-+      cam_dbg("Searching: regs_name = %s\n", regs_name);
-+    }
-+#endif
-+    tempData = tempData->nextBuf;
-+  }
-+  /* structure is get..*/
-+#ifdef DEBUG_WRITE_REGS
-+  regs_name[i] = '\0';
-+  cam_dbg("Searched regs_name = %s\n\n", regs_name);
-+#endif
-+
-+  while (1) {
-+    if (tempData->data == '{')
-+      break;
-+    else
-+      tempData = tempData->nextBuf;
-+  }
-+
-+  while (1) {
-+    searched = 0;
-+    while (1) {
-+      if (tempData->data == 'x') {
-+        /* get 10 strings.*/
-+        data[0] = '0';
-+        for (i = 1; i < 11; i++) {
-+          data[i] = tempData->data;
-+          tempData = tempData->nextBuf;
-+        }
-+        /*cam_dbg("%s\n", data);*/
-+        temp = simple_strtoul(data, NULL, 16);
-+        break;
-+      } else if (tempData->data == '}') {
-+        searched = 1;
-+        break;
-+      } else
-+        tempData = tempData->nextBuf;
-+
-+      if (tempData->nextBuf == NULL)
-+        return -1;
-+    }
-+
-+    if (searched)
-+      break;
-+
-+    if ((temp & DOHOFPGA2_DELAY) == DOHOFPGA2_DELAY) {
-+      delay = temp & 0x0FFFF;
-+      debug_msleep(sd, delay);
-+      continue;
-+    }
-+
-+    /* cam_dbg("I2C writing: 0x%08X,\n",temp);*/
-+    ret = dohofpga2_i2c_write_twobyte(client,
-+      (temp >> 16), (u16)temp);
-+
-+    /* In error circumstances */
-+    /* Give second shot */
-+    if (unlikely(ret)) {
-+      dev_info(&client->dev,
-+          "dohofpga2 i2c retry one more time\n");
-+      ret = dohofpga2_i2c_write_twobyte(client,
-+        (temp >> 16), (u16)temp);
-+
-+      /* Give it one more shot */
-+      if (unlikely(ret)) {
-+        dev_info(&client->dev,
-+            "dohofpga2 i2c retry twice\n");
-+        ret = dohofpga2_i2c_write_twobyte(client,
-+          (temp >> 16), (u16)temp);
-+      }
-+    }
-+  }
-+
-+  return ret;
-+}
-+#endif
 +
 +/* Write register
 + * If success, return value: 0
 + * If fail, return value: -EIO
 + */
++
 +static int dohofpga2_write_regs(struct v4l2_subdev *sd, const u32 regs[],
 +           int size)
 +{
@@ -10132,30 +9694,41 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  u16 delay = 0;
 +  int i, err = 0;
 +
-+  for (i = 0; i < size; i++) {
-+    if ((regs[i] & DOHOFPGA2_DELAY) == DOHOFPGA2_DELAY) {
-+      delay = regs[i] & 0xFFFF;
-+      debug_msleep(sd, delay);
-+      continue;
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_ENABLE) == DOHOFPGA2_I2C_ENABLE)
++  {
++    cam_dbg("%s: i2c enabled, writing regs\n", __func__);
++    for (i = 0; i < size; i++) 
++    {
++      if ((regs[i] & DOHOFPGA2_DELAY) == DOHOFPGA2_DELAY) 
++      {
++        delay = regs[i] & 0xFFFF;
++        debug_msleep(sd, delay);
++        continue;
++      }
++
++      err = dohofpga2_i2c_write_twobyte(client,
++            (regs[i] >> 16), regs[i]);
++      CHECK_ERR_MSG(err, "write registers\n")
 +    }
-+
-+    err = dohofpga2_i2c_write_twobyte(client,
-+      (regs[i] >> 16), regs[i]);
-+    CHECK_ERR_MSG(err, "write registers\n")
 +  }
-+
-+  return 0;
++  else
++  {
++    cam_dbg("%s: i2c disabled by config\n", __func__);
++  }
++  return err;
 +}
 +
 +#define BURST_MODE_BUFFER_MAX_SIZE 2700
++
 +u8 dohofpga2_burstmode_buf[BURST_MODE_BUFFER_MAX_SIZE];
 +
 +/* PX: */
++
 +static int dohofpga2_burst_write_regs(struct v4l2_subdev *sd,
 +      const u32 list[], u32 size, char *name)
 +{
 +  struct i2c_client *client = v4l2_get_subdevdata(sd);
-+  int err = -EINVAL;
++  int err = 0;
 +  int i = 0, idx = 0;
 +  u16 subaddr = 0, next_subaddr = 0, value = 0;
 +  struct i2c_msg msg = {
@@ -10165,57 +9738,66 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +    .buf  = dohofpga2_burstmode_buf,
 +  };
 +
-+  cam_trace("E\n");
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_ENABLE) == DOHOFPGA2_I2C_ENABLE)
++  {
++    cam_dbg("%s: i2c enabled, writing regs\n", __func__);
++    cam_trace("E\n");
 +
-+  for (i = 0; i < size; i++) {
-+    CHECK_ERR_COND_MSG((idx > (BURST_MODE_BUFFER_MAX_SIZE - 10)),
-+      err, "BURST MOD buffer overflow!\n")
++    for (i = 0; i < size; i++) 
++    {
++      CHECK_ERR_COND_MSG((idx > (BURST_MODE_BUFFER_MAX_SIZE - 10)),
++                          err, "BURST MOD buffer overflow!\n")
 +
-+    subaddr = (list[i] & 0xFFFF0000) >> 16;
-+    if (subaddr == 0x0F12)
-+      next_subaddr = (list[i+1] & 0xFFFF0000) >> 16;
++      subaddr = (list[i] & 0xFFFF0000) >> 16;
++      if (subaddr == 0x0F12)
++        next_subaddr = (list[i+1] & 0xFFFF0000) >> 16;
 +
-+    value = list[i] & 0x0000FFFF;
++      value = list[i] & 0x0000FFFF;
 +
-+    switch (subaddr) {
-+    case 0x0F12:
-+      /* make and fill buffer for burst mode write. */
-+      if (idx == 0) {
-+        dohofpga2_burstmode_buf[idx++] = 0x0F;
-+        dohofpga2_burstmode_buf[idx++] = 0x12;
++      switch (subaddr) 
++      {
++        case 0x0F12:
++          /* make and fill buffer for burst mode write. */
++          if (idx == 0) 
++          {
++            dohofpga2_burstmode_buf[idx++] = 0x0F;
++            dohofpga2_burstmode_buf[idx++] = 0x12;
++          }
++          dohofpga2_burstmode_buf[idx++] = value >> 8;
++          dohofpga2_burstmode_buf[idx++] = value & 0xFF;
++
++          /* write in burstmode*/
++          if (next_subaddr != 0x0F12) 
++          {
++            msg.len = idx;
++            err = dohofpga2_i2c_transfer(client->adapter,
++                  &msg, 1) == 1 ? 0 : -EIO;
++            CHECK_ERR_MSG(err, "dohofpga2_i2c_transfer\n");
++            /* cam_dbg("dohofpga2_sensor_burst_write,
++                  idx = %d\n", idx); */
++            idx = 0;
++          }
++          break;
++
++        case 0xFFFF:
++          debug_msleep(sd, value);
++          break;
++
++        default:
++          idx = 0;
++          err = dohofpga2_i2c_write_twobyte(client,
++                subaddr, value);
++          CHECK_ERR_MSG(err, "i2c_write_twobytes\n");
 +      }
-+      dohofpga2_burstmode_buf[idx++] = value >> 8;
-+      dohofpga2_burstmode_buf[idx++] = value & 0xFF;
-+
-+      /* write in burstmode*/
-+      if (next_subaddr != 0x0F12) {
-+        msg.len = idx;
-+        err = i2c_transfer(client->adapter,
-+          &msg, 1) == 1 ? 0 : -EIO;
-+        CHECK_ERR_MSG(err, "i2c_transfer\n");
-+        /* cam_dbg("dohofpga2_sensor_burst_write,
-+            idx = %d\n", idx); */
-+        idx = 0;
-+      }
-+      break;
-+
-+    case 0xFFFF:
-+      debug_msleep(sd, value);
-+      break;
-+
-+    default:
-+      idx = 0;
-+      err = dohofpga2_i2c_write_twobyte(client,
-+            subaddr, value);
-+      CHECK_ERR_MSG(err, "i2c_write_twobytes\n");
-+      break;
 +    }
 +  }
-+
-+  return 0;
++  else
++  {
++    cam_dbg("%s: i2c disabled by config\n", __func__);
++  }
++  return err;
 +}
 +
-+/* PX: */
 +static int dohofpga2_set_from_table(struct v4l2_subdev *sd,
 +        const char *setting_name,
 +        const struct dohofpga2_regset_table *table,
@@ -10223,8 +9805,9 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +{
 +  int err = 0;
 +
-+  /* cam_dbg("%s: set %s index %d\n",
-+    __func__, setting_name, index); */
++  cam_dbg("%s: set %s index %d\n",
++          __func__, setting_name, index); 
++
 +  CHECK_ERR_COND_MSG(((index < 0) || (index >= table_size)),
 +    -EINVAL, "index(%d) out of range[0:%d] for table for %s\n",
 +    index, table_size, setting_name);
@@ -10249,6 +9832,7 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  CHECK_ERR_MSG(err, "write regs(%s), err=%d\n", setting_name, err);
 +  return 0;
 +#endif /* CONFIG_LOAD_FILE */
++
 +}
 +
 +static int dohofpga2_set_parameter(struct v4l2_subdev *sd,
@@ -10271,7 +9855,6 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  return err;
 +}
 +
-+/* PX: */
 +static inline int dohofpga2_save_ctrl(struct v4l2_subdev *sd,
 +          struct v4l2_control *ctrl)
 +{
@@ -10308,6 +9891,7 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 + * @mode: DOHOFPGA2_FLASH_MODE_NORMAL or DOHOFPGA2_FLASH_MODE_MOVIE
 + * @onoff: DOHOFPGA2_FLASH_ON or DOHOFPGA2_FLASH_OFF
 + */
++
 +static int dohofpga2_flash_en(struct v4l2_subdev *sd, s32 mode, s32 onoff)
 +{
 +  struct dohofpga2_state *state = to_state(sd);
@@ -10384,7 +9968,6 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  return 0;
 +}
 +
-+/* PX: Set sensor mode */
 +static int dohofpga2_set_sensor_mode(struct v4l2_subdev *sd, s32 val)
 +{
 +  struct dohofpga2_state *state = to_state(sd);
@@ -10420,7 +10003,6 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  return 0;
 +}
 +
-+/* PX: Set framerate */
 +static int dohofpga2_set_frame_rate(struct v4l2_subdev *sd, s32 fps)
 +{
 +  struct dohofpga2_state *state = to_state(sd);
@@ -10487,18 +10069,27 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +static int dohofpga2_init_param(struct v4l2_subdev *sd)
 +{
 +  struct v4l2_control ctrl;
-+  int i;
++  int i,e,err=0;
 +
-+  for (i = 0; i < ARRAY_SIZE(dohofpga2_ctrls); i++) {
-+    if (dohofpga2_ctrls[i].value !=
-+        dohofpga2_ctrls[i].default_value) {
++  cam_dbg("%s start:\n", __func__ );
++  for (i = 0; i < ARRAY_SIZE(dohofpga2_ctrls); i++) 
++  {
++    cam_dbg(" * control %d, id=0x%08X, value=%d, default=%d\n", i,
++            dohofpga2_ctrls[i].id ,
++            dohofpga2_ctrls[i].value,
++            dohofpga2_ctrls[i].default_value
++            );
++
++    if (dohofpga2_ctrls[i].value != dohofpga2_ctrls[i].default_value) 
++    {
 +      ctrl.id = dohofpga2_ctrls[i].id;
 +      ctrl.value = dohofpga2_ctrls[i].value;
-+      dohofpga2_s_ctrl(sd, &ctrl);
++      cam_dbg("   reset control %d to default value\n", i);
++      if ( (e = dohofpga2_s_ctrl(sd, &ctrl)) != 0 ) err=e;
 +    }
 +  }
-+
-+  return 0;
++  cam_dbg("%s finished, status=%d:\n", __func__, err );
++  return err;
 +}
 +
 +
@@ -10509,64 +10100,61 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +    container_of(sd, struct dohofpga2_state, sd);
 +  struct sec_cam_parm *parms =
 +    (struct sec_cam_parm *)&state->strm.parm.raw_data;
-+  int err;
++  int err=0;
 +
-+  if (parms->focus_mode == value)
-+    return 0;
 +
 +  cam_dbg("%s value(%d)\n", __func__, value);
 +
-+  switch (value) {
-+  case FOCUS_MODE_MACRO:
-+    dev_dbg(&client->dev,
-+        "%s: FOCUS_MODE_MACRO\n", __func__);
-+    err = dohofpga2_set_from_table(sd, "af macro mode 1",
-+        &state->regs->af_macro_mode_1, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    msleep(FIRST_SETTING_FOCUS_MODE_DELAY_MS);
-+    err = dohofpga2_set_from_table(sd, "af macro mode 2",
-+        &state->regs->af_macro_mode_2, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    msleep(SECOND_SETTING_FOCUS_MODE_DELAY_MS);
-+    err = dohofpga2_set_from_table(sd, "af macro mode 3",
-+        &state->regs->af_macro_mode_3, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    parms->focus_mode = FOCUS_MODE_MACRO;
-+    break;
++  if (parms->focus_mode == value) goto done ;
 +
-+  case FOCUS_MODE_INFINITY:
-+  case FOCUS_MODE_AUTO:
-+    err = dohofpga2_set_from_table(sd,
-+      "af normal mode 1",
-+      &state->regs->af_normal_mode_1, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    msleep(FIRST_SETTING_FOCUS_MODE_DELAY_MS);
-+    err = dohofpga2_set_from_table(sd,
-+      "af normal mode 2",
-+      &state->regs->af_normal_mode_2, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    msleep(SECOND_SETTING_FOCUS_MODE_DELAY_MS);
-+    err = dohofpga2_set_from_table(sd,
-+      "af normal mode 3",
-+      &state->regs->af_normal_mode_3, 1, 0);
-+    if (err < 0)
-+      goto fail;
-+    parms->focus_mode = value;
-+    break;
-+  default:
-+    return -EINVAL;
-+    break;
++  switch (value) 
++  {
++    case FOCUS_MODE_MACRO:
++      dev_dbg(&client->dev,
++        "%s: FOCUS_MODE_MACRO\n", __func__);
++      err = dohofpga2_set_from_table(sd, "af macro mode 1",
++            &state->regs->af_macro_mode_1, 1, 0);
++      if (err < 0) goto fail;
++      msleep(FIRST_SETTING_FOCUS_MODE_DELAY_MS);
++      err = dohofpga2_set_from_table(sd, "af macro mode 2",
++            &state->regs->af_macro_mode_2, 1, 0);
++      if (err < 0) goto fail;
++      msleep(SECOND_SETTING_FOCUS_MODE_DELAY_MS);
++      err = dohofpga2_set_from_table(sd, "af macro mode 3",
++            &state->regs->af_macro_mode_3, 1, 0);
++      if (err < 0) goto fail;
++      parms->focus_mode = FOCUS_MODE_MACRO;
++      break;
++
++    case FOCUS_MODE_INFINITY:
++    case FOCUS_MODE_AUTO:
++      err = dohofpga2_set_from_table(sd,
++            "af normal mode 1",
++            &state->regs->af_normal_mode_1, 1, 0);
++      if (err < 0) goto fail;
++      msleep(FIRST_SETTING_FOCUS_MODE_DELAY_MS);
++      err = dohofpga2_set_from_table(sd,
++            "af normal mode 2",
++            &state->regs->af_normal_mode_2, 1, 0);
++      if (err < 0) goto fail;
++      msleep(SECOND_SETTING_FOCUS_MODE_DELAY_MS);
++      err = dohofpga2_set_from_table(sd,
++            "af normal mode 3",
++            &state->regs->af_normal_mode_3, 1, 0);
++      if (err < 0) goto fail;
++      parms->focus_mode = value;
++      break;
++    default:
++      err=-EINVAL;
 +  }
 +
-+  return 0;
-+fail:
-+  dev_err(&client->dev,
-+    "%s: i2c_write failed\n", __func__);
++  done:
++  cam_dbg("%s finished, status=%d:\n", __func__, err );
++  return err;
++
++  fail:
++  cam_dbg("%s finished, status=%d:\n", __func__, err );
++  dev_err(&client->dev, "%s: i2c_write failed\n", __func__);
 +  return -EIO;
 +}
 +
@@ -10760,16 +10348,12 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  return 0;
 +}
 +
-+
-+
-+
-+
 +static int dohofpga2_init_regs(struct v4l2_subdev *sd)
 +{
 +  struct i2c_client *client = v4l2_get_subdevdata(sd);
 +  struct dohofpga2_state *state = to_state(sd);
 +  u16 read_value = 0;
-+  int err = -ENODEV;
++  int err = 0 ;
 +
 +  /* we'd prefer to do this in probe, but the framework hasn't
 +   * turned on the camera yet so our i2c operations would fail
@@ -10777,34 +10361,43 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +   * and keep track if we succeeded or not.
 +   */
 +
-+  /* enter read mode */
-+  err = dohofpga2_i2c_write_twobyte(client, 0x002C, 0x7000);
-+  if (unlikely(err < 0))
-+    return -ENODEV;
++  cam_dbg("%s: start\n", __func__);
 +
-+  dohofpga2_i2c_write_twobyte(client, 0x002E, 0x01A4);
-+  dohofpga2_i2c_read_twobyte(client, 0x0F12, &read_value);
-+  if (likely(read_value == DOHOFPGA2_CHIP_ID))
-+    cam_dbg("Sensor ChipID: 0x%04X\n", DOHOFPGA2_CHIP_ID);
++  if ( (dohofpga2_i2c & DOHOFPGA2_I2C_ENABLE) == DOHOFPGA2_I2C_ENABLE)
++  {
++    /* enter read mode */
++    err = dohofpga2_i2c_write_twobyte(client, 0x002C, 0x7000);
++    if (unlikely(err < 0)) return -ENODEV;
++
++    dohofpga2_i2c_write_twobyte(client, 0x002E, 0x01A4);
++    dohofpga2_i2c_read_twobyte(client, 0x0F12, &read_value);
++    if (likely(read_value == DOHOFPGA2_CHIP_ID))
++      cam_dbg("Sensor ChipID: 0x%04X\n", DOHOFPGA2_CHIP_ID);
++    else
++      cam_dbg("Sensor ChipID: 0x%04X, unknown ChipID\n", read_value);
++
++    dohofpga2_i2c_write_twobyte(client, 0x002C, 0x7000);
++    dohofpga2_i2c_write_twobyte(client, 0x002E, 0x01A6);
++    dohofpga2_i2c_read_twobyte(client, 0x0F12, &read_value);
++    if (likely(read_value == DOHOFPGA2_CHIP_REV))
++      cam_dbg("Sensor revision: 0x%04X\n", DOHOFPGA2_CHIP_REV);
++    else
++      cam_dbg("Sensor revision: 0x%04X, unknown revision\n", read_value);
++
++    /* restore write mode */
++    err = dohofpga2_i2c_write_twobyte(client, 0x0028, 0x7000);
++    CHECK_ERR_COND(err < 0, -ENODEV);
++  }
 +  else
-+    cam_dbg("Sensor ChipID: 0x%04X, unknown ChipID\n", read_value);
-+
-+  dohofpga2_i2c_write_twobyte(client, 0x002C, 0x7000);
-+  dohofpga2_i2c_write_twobyte(client, 0x002E, 0x01A6);
-+  dohofpga2_i2c_read_twobyte(client, 0x0F12, &read_value);
-+  if (likely(read_value == DOHOFPGA2_CHIP_REV))
-+    cam_dbg("Sensor revision: 0x%04X\n", DOHOFPGA2_CHIP_REV);
-+  else
-+    cam_dbg("Sensor revision: 0x%04X, unknown revision\n",
-+        read_value);
-+
-+  /* restore write mode */
-+  err = dohofpga2_i2c_write_twobyte(client, 0x0028, 0x7000);
-+  CHECK_ERR_COND(err < 0, -ENODEV);
++  {
++    cam_dbg("%s: i2c disabled by config\n", __func__);
++    cam_dbg("Sensor ChipID   : 0x%04X\n", DOHOFPGA2_CHIP_ID);
++    cam_dbg("Sensor Revision : 0x%04X\n", DOHOFPGA2_CHIP_REV);
++  }
 +
 +  state->regs = &reg_datas;
 +
-+  return 0;
++  return err;
 +}
 +
 +static const struct dohofpga2_framesize *dohofpga2_get_framesize
@@ -11148,6 +10741,7 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  * In case of image capture,
 +  * this returns the default camera resolution (VGA)
 +  */
++
 +  if (state->format_mode != V4L2_PIX_FMT_MODE_CAPTURE) {
 +    if (unlikely(state->preview == NULL)) {
 +      cam_err("%s: ERROR\n", __func__);
@@ -11210,10 +10804,10 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  cam_dbg("%s: ID =%d, val = %d\n",
 +    __func__, ctrl->id - V4L2_CID_PRIVATE_BASE, ctrl->value);
 +
-+
 +  mutex_lock(&state->ctrl_lock);
 +
-+  switch (ctrl->id) {
++  switch (ctrl->id) 
++  {
 +  case V4L2_CID_WHITE_BALANCE_PRESET:
 +    break;
 +  case V4L2_CID_COLORFX:
@@ -11442,7 +11036,7 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  if (ctrl->id != V4L2_CID_CAMERA_SET_AUTO_FOCUS)
 +    mutex_unlock(&state->ctrl_lock);
 +
-+  return 0;
++  return err;
 +}
 +
 +static int dohofpga2_s_ext_ctrl(struct v4l2_subdev *sd,
@@ -11455,13 +11049,15 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +        struct v4l2_ext_controls *ctrls)
 +{
 +  struct v4l2_ext_control *ctrl = ctrls->controls;
-+  int ret;
++  int ret=0;
 +  int i;
 +
-+  for (i = 0; i < ctrls->count; i++, ctrl++) {
++  for (i = 0; i < ctrls->count; i++, ctrl++) 
++  {
 +    ret = dohofpga2_s_ext_ctrl(sd, ctrl);
 +
-+    if (ret) {
++    if (ret) 
++    {
 +      ctrls->error_idx = i;
 +      break;
 +    }
@@ -11477,8 +11073,10 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +
 +  BUG_ON(!state->initialized);
 +
-+  if(enable) {
-+    switch (state->sensor_mode) {
++  if(enable) 
++  {
++    switch (state->sensor_mode) 
++    {
 +      case SENSOR_CAMERA:
 +        if (state->format_mode == V4L2_PIX_FMT_MODE_CAPTURE)
 +          err = dohofpga2_set_capture_start(sd);
@@ -11489,7 +11087,7 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +        break;
 +    }
 +  }
-+  return 0;
++  return err;
 +}
 +
 +static int dohofpga2_reset(struct v4l2_subdev *sd, u32 val)
@@ -11509,8 +11107,13 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  struct dohofpga2_state *state = to_state(sd);
 +  int err = -EINVAL;
 +
++  cam_info("%s started for %s version %s\n", __func__, DOHOFPGA2_DRIVER_NAME,
++            DOHOFPGA2_DRIVER_VER );
++
 +#if defined(CONFIG_EXYNOS4_CPUFREQ)
-+  if (state->cpufreq_lock_level == CPUFREQ_ENTRY_INVALID) {
++  cam_dbg("%s: locking cpufreq at %d\n", __func__, state->cpufreq_lock_level);
++  if (state->cpufreq_lock_level == CPUFREQ_ENTRY_INVALID) 
++  {
 +    err = exynos_cpufreq_get_level(1400 * 1000,
 +      &state->cpufreq_lock_level);
 +    CHECK_ERR_MSG(err, "failed get DVFS level\n");
@@ -11519,15 +11122,14 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  CHECK_ERR_MSG(err, "failed lock DVFS\n");
 +#endif
 +
-+  cam_dbg("%s: start\n", __func__);
 +  state->initialized = 0;
 +  err = dohofpga2_init_regs(sd);
 +  CHECK_ERR_MSG(err, "failed to indentify sensor chip\n");
 +
 +  if (dohofpga2_set_from_table(sd, "init arm",
-+          &state->regs->init_arm, 1, 0) < 0)
++      &state->regs->init_arm, 1, 0) < 0)
 +    return -EIO;
-+    
++
 +  err = DOHOFPGA2_BURST_WRITE_REGS(sd, dohofpga2_init_reg);
 +  CHECK_ERR_MSG(err, "failed to initialize camera device\n");
 +
@@ -11538,21 +11140,26 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  state->scene_mode = SCENE_MODE_NONE;
 +  state->flash_on = 0;
 +  state->light_level = 0xFFFFFFFF;
-+
 +  state->initialized = 1;
 +
 +  if (state->sensor_mode == SENSOR_MOVIE)
-+    dohofpga2_init_param(sd);
++  {
++    err = dohofpga2_init_param(sd);
++    CHECK_ERR_MSG(err, "failed to initialize camera controls\n");
++  }
 +
-+  if (state->req_fps >= 0) {
++  if (state->req_fps >= 0) 
++  {
 +    err = dohofpga2_set_frame_rate(sd, state->req_fps);
-+    CHECK_ERR(err);
++    CHECK_ERR_MSG(err, "failed to initialize frmae rate to %d\n", state->req_fps );
 +  }
 +
 +#if defined(CONFIG_EXYNOS4_CPUFREQ)
++  cam_dbg("%s: unlocking cpufreq\n", __func__);
 +  exynos_cpufreq_lock_free(DVFS_LOCK_ID_CAM);
 +#endif
 +
++  cam_dbg("%s: stop, return = %d\n", __func__, err);
 +  return err;
 +}
 +
@@ -11564,19 +11171,20 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 + * except for version checking
 + * NOTE: version checking is optional
 + */
++
 +static int dohofpga2_s_config(struct v4l2_subdev *sd,
 +      int irq, void *platform_data)
 +{
 +  struct dohofpga2_state *state = to_state(sd);
 +  int i;
-+#ifdef CONFIG_LOAD_FILE
 +  int err = 0;
-+#endif
 +
-+  if (!platform_data) {
++  if (!platform_data) 
++  {
 +    cam_err("%s: ERROR, no platform data\n", __func__);
 +    return -ENODEV;
 +  }
++
 +  state->pdata = platform_data;
 +  state->dbg_level = &state->pdata->dbg_level;
 +
@@ -11634,34 +11242,35 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +
 +#ifdef CONFIG_LOAD_FILE
 +  err = loadFile();
-+  if (unlikely(err < 0)) {
++  if (unlikely(err < 0))
 +    cam_err("failed to load file ERR=%d\n", err);
-+    return err;
-+  }
 +#endif
 +
-+  return 0;
++  return err;
 +}
 +
-+static const struct v4l2_subdev_core_ops dohofpga2_core_ops = {
-+  .init = dohofpga2_init,  /* initializing API */
-+  .g_ctrl = dohofpga2_g_ctrl,
-+  .s_ctrl = dohofpga2_s_ctrl,
++static const struct v4l2_subdev_core_ops dohofpga2_core_ops = 
++{
++  .init        = dohofpga2_init,  /* initializing API */
++  .g_ctrl      = dohofpga2_g_ctrl,
++  .s_ctrl      = dohofpga2_s_ctrl,
 +  .s_ext_ctrls = dohofpga2_s_ext_ctrls,
 +  .reset = dohofpga2_reset,
 +};
 +
-+static const struct v4l2_subdev_video_ops dohofpga2_video_ops = {
-+  .s_mbus_fmt = dohofpga2_s_mbus_fmt,
++static const struct v4l2_subdev_video_ops dohofpga2_video_ops = 
++{
++  .s_mbus_fmt      = dohofpga2_s_mbus_fmt,
 +  .enum_framesizes = dohofpga2_enum_framesizes,
-+  .enum_mbus_fmt = dohofpga2_enum_mbus_fmt,
-+  .try_mbus_fmt = dohofpga2_try_mbus_fmt,
-+  .g_parm = dohofpga2_g_parm,
-+  .s_parm = dohofpga2_s_parm,
-+  .s_stream = dohofpga2_s_stream,
++  .enum_mbus_fmt   = dohofpga2_enum_mbus_fmt,
++  .try_mbus_fmt    = dohofpga2_try_mbus_fmt,
++  .g_parm          = dohofpga2_g_parm,
++  .s_parm          = dohofpga2_s_parm,
++  .s_stream        = dohofpga2_s_stream,
 +};
 +
-+static const struct v4l2_subdev_ops dohofpga2_ops = {
++static const struct v4l2_subdev_ops dohofpga2_ops = 
++{
 +  .core = &dohofpga2_core_ops,
 +  .video = &dohofpga2_video_ops,
 +};
@@ -11672,15 +11281,20 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 + * Fetching platform data is being done with s_config subdev call.
 + * In probe routine, we just register subdev device
 + */
++
 +static int dohofpga2_probe(struct i2c_client *client,
 +      const struct i2c_device_id *id)
 +{
 +  struct v4l2_subdev *sd;
 +  struct dohofpga2_state *state;
-+  int err = -EINVAL;
++  int err = 0;
++
++  pr_info("[%s]: %s called for %s version %s\n", DOHOFPGA2_DRIVER_NAME, 
++          __func__, DOHOFPGA2_DRIVER_NAME, DOHOFPGA2_DRIVER_VER );
 +
 +  state = kzalloc(sizeof(struct dohofpga2_state), GFP_KERNEL);
-+  if (unlikely(!state)) {
++  if (unlikely(!state)) 
++  {
 +    dev_err(&client->dev, "probe, fail to get memory\n");
 +    return -ENOMEM;
 +  }
@@ -11698,10 +11312,10 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  err = dohofpga2_s_config(sd, 0, client->dev.platform_data);
 +  CHECK_ERR_MSG(err, "fail to s_config\n");
 +
-+  cam_dbg(KERN_DEBUG "%s %s: driver probed!!\n",
-+    dev_driver_string(&client->dev), dev_name(&client->dev));
++  cam_dbg("driver probed!! driver_string=\"%s\" dev_name=\"%s\"\n",
++          dev_driver_string(&client->dev), dev_name(&client->dev));
 +
-+  return 0;
++  return err;
 +}
 +
 +static int dohofpga2_remove(struct i2c_client *client)
@@ -11709,10 +11323,14 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +  struct dohofpga2_state *state = to_state(sd);
 +
++  pr_info("[%s]: %s called for %s version %s\n", DOHOFPGA2_DRIVER_NAME, 
++          __func__, DOHOFPGA2_DRIVER_NAME, DOHOFPGA2_DRIVER_VER );
++
 +  /* Check whether flash is on when unlolading driver,
 +   * to preventing Market App from controlling improperly flash.
 +   * It isn't necessary in case that you power flash down
 +   * in power routine to turn camera off.*/
++
 +  if (unlikely(state->flash_on && !state->ignore_flash))
 +    dohofpga2_flash_torch(sd, DOHOFPGA2_FLASH_OFF);
 +
@@ -11727,12 +11345,13 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +  testBuf = NULL;
 +#endif
 +
-+  cam_dbg(KERN_DEBUG "%s %s: driver removed!!\n",
-+    dev_driver_string(&client->dev), dev_name(&client->dev));
++  cam_dbg("driver removed!! driver_string=\"%s\" dev_name=\"%s\"\n",
++          dev_driver_string(&client->dev), dev_name(&client->dev));
 +  return 0;
 +}
 +
-+static const struct i2c_device_id dohofpga2_id[] = {
++static const struct i2c_device_id dohofpga2_id[] = 
++{
 +  { DOHOFPGA2_DRIVER_NAME, 0 },
 +  {}
 +};
@@ -11741,33 +11360,37 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.c ths/drivers/media/video/
 +
 +static struct i2c_driver v4l2_i2c_driver = {
 +  .driver.name  = DOHOFPGA2_DRIVER_NAME,
-+  .probe    = dohofpga2_probe,
-+  .remove    = dohofpga2_remove,
-+  .id_table  = dohofpga2_id,
++  .probe        = dohofpga2_probe,
++  .remove       = dohofpga2_remove,
++  .id_table     = dohofpga2_id,
 +};
 +
 +static int __init v4l2_i2c_drv_init(void)
 +{
-+  pr_info("%s: %s called\n", __func__, DOHOFPGA2_DRIVER_NAME); /* dslim*/
++  pr_info("[%s]: %s called for %s version %s\n", DOHOFPGA2_DRIVER_NAME, 
++          __func__, DOHOFPGA2_DRIVER_NAME, DOHOFPGA2_DRIVER_VER );
 +  return i2c_add_driver(&v4l2_i2c_driver);
 +}
 +
 +static void __exit v4l2_i2c_drv_cleanup(void)
 +{
-+  pr_info("%s: %s called\n", __func__, DOHOFPGA2_DRIVER_NAME); /* dslim*/
++  pr_info("[%s]: %s called for %s version %s\n", DOHOFPGA2_DRIVER_NAME, 
++          __func__, DOHOFPGA2_DRIVER_NAME, DOHOFPGA2_DRIVER_VER );
 +  i2c_del_driver(&v4l2_i2c_driver);
 +}
 +
-+module_init(v4l2_i2c_drv_init);
-+module_exit(v4l2_i2c_drv_cleanup);
++module_init( v4l2_i2c_drv_init );
 +
-+MODULE_DESCRIPTION("LSI DOHOFPGA2 5MP SOC camera driver");
-+MODULE_AUTHOR("Hak-Joo Kim <ruppi.kim@hardkernel.com>");
++module_exit( v4l2_i2c_drv_cleanup );
++
++MODULE_DESCRIPTION("DOHOFPGA2 - ivc/doho fpga camera interface driver");
++MODULE_AUTHOR("dominik.honegger <dominik.honegger@inf.ethz.ch>");
++MODULE_VERSION(DOHOFPGA2_DRIVER_VER);
 +MODULE_LICENSE("GPL");
 diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/dohofpga/dohofpga2.h
 --- org/drivers/media/video/dohofpga/dohofpga2.h	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga/dohofpga2.h	2013-07-29 12:47:37.000000000 +0200
-@@ -0,0 +1,601 @@
++++ ths/drivers/media/video/dohofpga/dohofpga2.h	2013-08-22 14:45:18.000000000 +0200
+@@ -0,0 +1,761 @@
 +/* linux/drivers/media/video/dohofpga2.h
 + *
 + * Copyright (c) 2013 institute for visual computing, ETH Zuerich
@@ -11788,61 +11411,10 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +#ifndef __DOHOFPGA2_H__
 +#define __DOHOFPGA2_H__
 +
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/i2c.h>
-+#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/version.h>
-+#include <linux/vmalloc.h>
-+#include <linux/completion.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-subdev.h>
-+#include <media/dohofpga2_platform.h>
-+#include <linux/videodev2_samsung.h>
-+#include <linux/workqueue.h>
-+
-+#include <linux/delay.h>
-+#ifdef CONFIG_EXYNOS4_CPUFREQ
-+#include <linux/cpufreq.h>
-+#include <mach/cpufreq.h>
-+#endif
-+
-+#include "dohofpga2.h"
-+#include "dohofpga2_regs.h"
-+
-+/* The Path of Setfile */
-+#ifdef CONFIG_LOAD_FILE
-+#include <linux/vmalloc.h>
-+#include <linux/fs.h>
-+#include <linux/mm.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+
-+struct test 
-+{
-+  u8 data;
-+  struct test *nextBuf;
-+};
-+static struct test *testBuf;
-+static s32 large_file;
-+
-+#define TEST_INIT  \
-+{      \
-+  .data = 0;  \
-+  .nextBuf = NULL;  \
-+}
-+
-+#if defined(CONFIG_VIDEO_DOHOFPGA2_ODROIDQ)
-+#define TUNING_FILE_PATH "/mnt/sdcard/dohofpga2_regs_odroid.h"
-+#else
-+#define TUNING_FILE_PATH NULL
-+#endif
-+#endif /* CONFIG_LOAD_FILE*/
-+
 +#define DOHOFPGA2_DRIVER_NAME  "DOHOFPGA2"
++#define DOHOFPGA2_DRIVER_VER    "0.5.13"
 +
-+#define DOHOFPGA2_DELAY    0xFFFF0000
++#define DOHOFPGA2_DELAY        0xFFFF0000
 +
 +/************************************
 + * FEATURE DEFINITIONS
@@ -11852,18 +11424,19 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +
 +/** Debuging Feature **/
 +#define CONFIG_CAM_DEBUG
-+#define CONFIG_CAM_TRACE /* Enable it with CONFIG_CAM_DEBUG */
-+#define CONFIG_CAM_AF_DEBUG /* Enable it with CONFIG_CAM_DEBUG */
-+/* #define DEBUG_WRITE_REGS */
++#define CONFIG_CAM_TRACE       /* Enable it with CONFIG_CAM_DEBUG */
++#define CONFIG_CAM_AF_DEBUG    /* Enable it with CONFIG_CAM_DEBUG */
++#define DEBUG_WRITE_REGS
++
 +/***********************************/
-+//#define CONFIG_VIDEO_DOHOFPGA2_DEBUG
++#define CONFIG_VIDEO_DOHOFPGA2_DEBUG
 +#ifdef CONFIG_VIDEO_DOHOFPGA2_DEBUG
-+enum {
-+  DOHOFPGA2_DEBUG_I2C    = 1U << 0,
++enum 
++{
++  DOHOFPGA2_DEBUG_I2C         = 1U << 0,
 +  DOHOFPGA2_DEBUG_I2C_BURSTS  = 1U << 1,
 +};
-+static uint32_t dohofpga2_debug_mask = DOHOFPGA2_DEBUG_I2C_BURSTS | DOHOFPGA2_DEBUG_I2C;
-+module_param_named(debug_mask, dohofpga2_debug_mask, uint, S_IWUSR | S_IRUGO);
++
 +
 +#define dohofpga2_debug(mask, x...) \
 +  do { \
@@ -11875,19 +11448,14 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +#endif
 +
 +#define TAG_NAME  "["DOHOFPGA2_DRIVER_NAME"]"" "
-+#define cam_err(fmt, ...)  \
-+  printk(KERN_ERR TAG_NAME fmt, ##__VA_ARGS__)
-+#define cam_warn(fmt, ...)  \
-+  printk(KERN_WARNING TAG_NAME fmt, ##__VA_ARGS__)
-+#define cam_info(fmt, ...)  \
-+  printk(KERN_INFO TAG_NAME fmt, ##__VA_ARGS__)
++#define cam_err(fmt, ...)  printk(KERN_ERR TAG_NAME fmt, ##__VA_ARGS__)
++#define cam_warn(fmt, ...) printk(KERN_WARNING TAG_NAME fmt, ##__VA_ARGS__)
++#define cam_info(fmt, ...) printk(KERN_INFO TAG_NAME fmt, ##__VA_ARGS__)
 +
 +#if defined(CONFIG_CAM_DEBUG)
-+#define cam_dbg(fmt, ...)  \
-+  printk(KERN_DEBUG TAG_NAME fmt, ##__VA_ARGS__)
++#define cam_dbg(fmt, ...)  printk(KERN_DEBUG TAG_NAME fmt, ##__VA_ARGS__)
 +#else
-+#define cam_dbg(fmt, ...)  \
-+  do { \
++#define cam_dbg(fmt, ...)  do { \
 +    if (*to_state(sd)->dbg_level & CAMDBG_LEVEL_DEBUG) \
 +      printk(KERN_DEBUG TAG_NAME fmt, ##__VA_ARGS__); \
 +  } while (0)
@@ -11948,7 +11516,6 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +  AF_CANCEL,
 +  AF_INITIAL,
 +};
-+
 +
 +enum preflash_status {
 +  PREFLASH_NONE = 0,
@@ -12328,8 +11895,9 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +#endif
 +
 +/*********** Sensor specific ************/
-+#define DOHOFPGA2_CHIP_ID  0x4EC0
-+#define DOHOFPGA2_CHIP_REV  0x0011
++#define DOHOFPGA2_I2C_ALLOW  0
++#define DOHOFPGA2_CHIP_ID    0x1234
++#define DOHOFPGA2_CHIP_REV   0x5678
 +
 +#define FORMAT_FLAGS_COMPRESSED    0x3
 +
@@ -12368,10 +11936,225 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2.h ths/drivers/media/video/
 +#define SCND_WINSIZE_X      230
 +#define SCND_WINSIZE_Y      306
 +
-+#endif /* __DOHOFPGA2_H__ */
++#ifdef __DOHOFPGA2_C__
++
++static uint32_t dohofpga2_debug_mask = DOHOFPGA2_DEBUG_I2C_BURSTS | DOHOFPGA2_DEBUG_I2C;
++module_param_named(debug_mask, dohofpga2_debug_mask, uint, S_IWUSR | S_IRUGO);
++
++static int dohofpga2_s_ctrl(struct v4l2_subdev *sd, struct v4l2_control *ctrl);
++static int dohofpga2_init(struct v4l2_subdev *sd, u32 val);
++
++static const struct dohofpga2_fps dohofpga2_framerates[] = {
++  { I_FPS_0,  FRAME_RATE_AUTO },
++  { I_FPS_15,  FRAME_RATE_15 },
++  { I_FPS_25,  FRAME_RATE_25 },
++  { I_FPS_30,  FRAME_RATE_30 },
++};
++
++static const struct dohofpga2_framesize dohofpga2_preview_frmsizes[] = {
++  { DOHOFPGA2_PREVIEW_QCIF,  176,  144 }, 
++  { DOHOFPGA2_PREVIEW_CIF,    352,  288 }, 
++  { DOHOFPGA2_PREVIEW_VGA,    640,  480 }, 
++  { DOHOFPGA2_PREVIEW_D1,    720,  480 }, 
++  { DOHOFPGA2_PREVIEW_960,    960,  640 }, 
++  { DOHOFPGA2_PREVIEW_720P,   1280, 720 }, 
++};
++
++static const struct dohofpga2_framesize dohofpga2_capture_frmsizes[] = {
++  { DOHOFPGA2_CAPTURE_VGA,    640,  480 },
++  { DOHOFPGA2_CAPTURE_1MP,    1280, 960 },
++  { DOHOFPGA2_CAPTURE_2MP,    1600, 1200 },
++  { DOHOFPGA2_CAPTURE_3MP,    2048, 1536 },
++  { DOHOFPGA2_CAPTURE_5MP,    2560, 1920 },
++};
++
++static struct dohofpga2_control dohofpga2_ctrls[] = {
++  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_FLASH_MODE, \
++          FLASH_MODE_OFF),
++
++  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_BRIGHTNESS, \
++          EV_DEFAULT),
++
++  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_METERING, \
++          METERING_MATRIX),
++
++  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_WHITE_BALANCE, \
++          WHITE_BALANCE_AUTO),
++
++  DOHOFPGA2_INIT_CONTROL(V4L2_CID_CAMERA_EFFECT, \
++          IMAGE_EFFECT_NONE),
++};
++
++static const struct dohofpga2_regs reg_datas = {
++  .ev = {
++    DOHOFPGA2_REGSET(EV_MINUS_4,   dohofpga2_EV_Minus_4),
++    DOHOFPGA2_REGSET(EV_MINUS_3,   dohofpga2_EV_Minus_3),
++    DOHOFPGA2_REGSET(EV_MINUS_2,   dohofpga2_EV_Minus_2),
++    DOHOFPGA2_REGSET(EV_MINUS_1,   dohofpga2_EV_Minus_1),
++    DOHOFPGA2_REGSET(EV_DEFAULT,   dohofpga2_EV_Default),
++    DOHOFPGA2_REGSET(EV_PLUS_1,     dohofpga2_EV_Plus_1),
++    DOHOFPGA2_REGSET(EV_PLUS_2,     dohofpga2_EV_Plus_2),
++    DOHOFPGA2_REGSET(EV_PLUS_3,     dohofpga2_EV_Plus_3),
++    DOHOFPGA2_REGSET(EV_PLUS_4,     dohofpga2_EV_Plus_4),
++
++  },
++  .metering = {
++    DOHOFPGA2_REGSET(METERING_MATRIX,   dohofpga2_Metering_Matrix),
++    DOHOFPGA2_REGSET(METERING_CENTER,   dohofpga2_Metering_Center),
++    DOHOFPGA2_REGSET(METERING_SPOT,     dohofpga2_Metering_Spot),
++  },
++  .iso = {
++    DOHOFPGA2_REGSET(ISO_AUTO,   dohofpga2_ISO_Auto),
++    DOHOFPGA2_REGSET(ISO_100,   dohofpga2_ISO_100),
++    DOHOFPGA2_REGSET(ISO_200,   dohofpga2_ISO_200),
++    DOHOFPGA2_REGSET(ISO_400,   dohofpga2_ISO_400),
++  },
++  .effect = {
++    DOHOFPGA2_REGSET(IMAGE_EFFECT_NONE,     dohofpga2_Effect_Normal),
++    DOHOFPGA2_REGSET(IMAGE_EFFECT_BNW,     dohofpga2_Effect_Black_White),
++    DOHOFPGA2_REGSET(IMAGE_EFFECT_SEPIA,   dohofpga2_Effect_Sepia),
++    DOHOFPGA2_REGSET(IMAGE_EFFECT_NEGATIVE,   dohofpga2_Effect_Negative),
++  },
++  .white_balance = {
++    DOHOFPGA2_REGSET(WHITE_BALANCE_AUTO,     dohofpga2_WB_Auto),
++    DOHOFPGA2_REGSET(WHITE_BALANCE_SUNNY,     dohofpga2_WB_Sunny),
++    DOHOFPGA2_REGSET(WHITE_BALANCE_CLOUDY,     dohofpga2_WB_Cloudy),
++    DOHOFPGA2_REGSET(WHITE_BALANCE_TUNGSTEN,    dohofpga2_WB_Tungsten),
++    DOHOFPGA2_REGSET(WHITE_BALANCE_FLUORESCENT,  dohofpga2_WB_Fluorescent),
++  },
++  .preview_size = {
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_QCIF,    dohofpga2_176_Preview),
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_CIF,     dohofpga2_352_Preview),
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_VGA,     dohofpga2_640_Preview),
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_D1,    dohofpga2_720_Preview),
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_960,    dohofpga2_960_Preview),
++    DOHOFPGA2_REGSET(DOHOFPGA2_PREVIEW_720P,    dohofpga2_1280_Preview),
++  },
++  .scene_mode = {
++    DOHOFPGA2_REGSET(SCENE_MODE_NONE,       dohofpga2_Scene_Default),
++    DOHOFPGA2_REGSET(SCENE_MODE_PORTRAIT,     dohofpga2_Scene_Portrait),
++    DOHOFPGA2_REGSET(SCENE_MODE_NIGHTSHOT,     dohofpga2_Scene_Nightshot),
++    DOHOFPGA2_REGSET(SCENE_MODE_LANDSCAPE,     dohofpga2_Scene_Landscape),
++    DOHOFPGA2_REGSET(SCENE_MODE_SPORTS,       dohofpga2_Scene_Sports),
++    DOHOFPGA2_REGSET(SCENE_MODE_PARTY_INDOOR,   dohofpga2_Scene_Party_Indoor),
++    DOHOFPGA2_REGSET(SCENE_MODE_BEACH_SNOW,     dohofpga2_Scene_Beach_Snow),
++    DOHOFPGA2_REGSET(SCENE_MODE_SUNSET,       dohofpga2_Scene_Sunset),
++    DOHOFPGA2_REGSET(SCENE_MODE_DUSK_DAWN,    dohofpga2_Scene_Duskdawn),
++    DOHOFPGA2_REGSET(SCENE_MODE_TEXT,       dohofpga2_Scene_Text),
++    DOHOFPGA2_REGSET(SCENE_MODE_CANDLE_LIGHT,   dohofpga2_Scene_Candle_Light),
++  },
++  .saturation = {
++    DOHOFPGA2_REGSET(SATURATION_MINUS_2,     dohofpga2_Saturation_Minus_2),
++    DOHOFPGA2_REGSET(SATURATION_MINUS_1,     dohofpga2_Saturation_Minus_1),
++    DOHOFPGA2_REGSET(SATURATION_DEFAULT,     dohofpga2_Saturation_Default),
++    DOHOFPGA2_REGSET(SATURATION_PLUS_1,       dohofpga2_Saturation_Plus_1),
++    DOHOFPGA2_REGSET(SATURATION_PLUS_2,       dohofpga2_Saturation_Plus_2),
++  },
++  .contrast = {
++    DOHOFPGA2_REGSET(CONTRAST_MINUS_2,     dohofpga2_Contrast_Minus_2),
++    DOHOFPGA2_REGSET(CONTRAST_MINUS_1,     dohofpga2_Contrast_Minus_1),
++    DOHOFPGA2_REGSET(CONTRAST_DEFAULT,     dohofpga2_Contrast_Default),
++    DOHOFPGA2_REGSET(CONTRAST_PLUS_1,    dohofpga2_Contrast_Plus_1),
++    DOHOFPGA2_REGSET(CONTRAST_PLUS_2,     dohofpga2_Contrast_Plus_2),
++  },
++  .sharpness = {
++    DOHOFPGA2_REGSET(SHARPNESS_MINUS_2,     dohofpga2_Sharpness_Minus_2),
++    DOHOFPGA2_REGSET(SHARPNESS_MINUS_1,     dohofpga2_Sharpness_Minus_1),
++    DOHOFPGA2_REGSET(SHARPNESS_DEFAULT,     dohofpga2_Sharpness_Default),
++    DOHOFPGA2_REGSET(SHARPNESS_PLUS_1,     dohofpga2_Sharpness_Plus_1),
++    DOHOFPGA2_REGSET(SHARPNESS_PLUS_2,     dohofpga2_Sharpness_Plus_2),
++  },
++  .fps = {
++    DOHOFPGA2_REGSET(I_FPS_0,     dohofpga2_FPS_Auto),
++    DOHOFPGA2_REGSET(I_FPS_15,     dohofpga2_FPS_15),
++    DOHOFPGA2_REGSET(I_FPS_25,     dohofpga2_FPS_25),
++    DOHOFPGA2_REGSET(I_FPS_30,     dohofpga2_FPS_30),
++  },
++  .jpeg_quality_high     =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_High),
++  .jpeg_quality_normal   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_Normal),
++  .jpeg_quality_low     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Jpeg_Quality_Low),
++
++  .preview_return     =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Preview_Return),
++
++  .flash_start       =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Flash_Start),
++  .flash_end         =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Flash_End),
++
++  .af_assist_flash_start   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Pre_Flash_Start),
++  .af_assist_flash_end   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_Pre_Flash_End),
++  .af_low_light_mode_on   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Low_Light_Mode_On),
++  .af_low_light_mode_off   =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Low_Light_Mode_Off),
++
++  .ae_awb_lock_on      =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AE_AWB_Lock_On),
++  .ae_awb_lock_off    =  DOHOFPGA2_REGSET_TABLE(dohofpga2_AE_AWB_Lock_Off),
++
++  .restore_cap      =  DOHOFPGA2_REGSET_TABLE(dohofpga2_restore_capture_reg),
++  .change_wide_cap     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_change_wide_cap),
++
++  .af_macro_mode_1     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_1),
++  .af_macro_mode_2     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_2),
++  .af_macro_mode_3     = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Macro_mode_3),
++  .af_normal_mode_1    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_1),
++  .af_normal_mode_2    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_2),
++  .af_normal_mode_3    = DOHOFPGA2_REGSET_TABLE(dohofpga2_AF_Normal_mode_3),
++
++  .single_af_start = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Start),
++  .video_af_start = DOHOFPGA2_REGSET_TABLE(dohofpga2_Video_AF_Start),
++  .single_af_off_1 = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Off_1),
++  .single_af_off_2 = DOHOFPGA2_REGSET_TABLE(dohofpga2_Single_AF_Off_2),
++
++  .capture_start = {
++    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_VGA, dohofpga2_VGA_Capture),
++    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_1MP, dohofpga2_1M_Capture),
++    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_2MP, dohofpga2_2M_Capture),
++    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_3MP, dohofpga2_3M_Capture),
++    DOHOFPGA2_REGSET(DOHOFPGA2_CAPTURE_5MP, dohofpga2_5M_Capture),
++  },
++  .init_arm        =   DOHOFPGA2_REGSET_TABLE(dohofpga2_init_arm),
++  .init_reg         =   DOHOFPGA2_REGSET_TABLE(dohofpga2_init_reg),
++  .get_esd_status     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_esd_status),
++  .stream_stop       =   DOHOFPGA2_REGSET_TABLE(dohofpga2_stream_stop_reg),
++  .get_light_level     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Get_Light_Level),
++
++  .get_1st_af_search_status =
++      DOHOFPGA2_REGSET_TABLE(dohofpga2_get_1st_af_search_status),
++  .get_2nd_af_search_status =
++      DOHOFPGA2_REGSET_TABLE(dohofpga2_get_2nd_af_search_status),
++  .get_capture_status =
++    DOHOFPGA2_REGSET_TABLE(dohofpga2_get_capture_status),
++
++  .get_iso         =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_iso_reg),
++  .get_ev           =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_ev_reg),
++  .get_ae_stable       =   DOHOFPGA2_REGSET_TABLE(dohofpga2_Get_AE_Stable_Status),
++  .get_shutterspeed     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_get_shutterspeed_reg),
++  .update_preview     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_update_preview_reg),
++  .update_hd_preview     =   DOHOFPGA2_REGSET_TABLE(dohofpga2_update_hd_preview_reg),
++};
++
++static const struct v4l2_mbus_framefmt capture_fmts[] = {
++  {
++    .code    = V4L2_MBUS_FMT_FIXED,
++    .colorspace  = V4L2_COLORSPACE_JPEG,
++  },
++};
++
++#define DOHOFPGA2_I2C_READ      0x0001
++#define DOHOFPGA2_I2C_WRITE     0x0002
++#define DOHOFPGA2_I2C_TRANSFER  0x0004
++#define DOHOFPGA2_I2C_ENABLE    ( DOHOFPGA2_I2C_READ | \
++                                  DOHOFPGA2_I2C_WRITE | \
++                                  DOHOFPGA2_I2C_TRANSFER \
++                                )
++
++#define DOHOFPGA2_I2C_DISABLE   0x0000
++
++static u16 dohofpga2_i2c      = DOHOFPGA2_I2C_DISABLE ;
++
++#endif // ifdef __DOHOFPGA2_C__
++
++#endif // ifndef __DOHOFPGA2_H__
 diff -Naur org/drivers/media/video/dohofpga/dohofpga2_regs.h ths/drivers/media/video/dohofpga/dohofpga2_regs.h
 --- org/drivers/media/video/dohofpga/dohofpga2_regs.h	1970-01-01 01:00:00.000000000 +0100
-+++ ths/drivers/media/video/dohofpga/dohofpga2_regs.h	2013-07-29 12:56:56.000000000 +0200
++++ ths/drivers/media/video/dohofpga/dohofpga2_regs.h	2013-08-22 14:45:18.000000000 +0200
 @@ -0,0 +1,5362 @@
 +/* drivers/media/video/dohofpga2_regs_1_1.h
 + *
@@ -17735,6 +17518,349 @@ diff -Naur org/drivers/media/video/dohofpga/dohofpga2_regs.h ths/drivers/media/v
 +};
 +
 +#endif /* __DOHOFPGA2_REGS_H__ */
+diff -Naur org/drivers/media/video/dohofpga/dohofpga_loadfile.inc ths/drivers/media/video/dohofpga/dohofpga_loadfile.inc
+--- org/drivers/media/video/dohofpga/dohofpga_loadfile.inc	1970-01-01 01:00:00.000000000 +0100
++++ ths/drivers/media/video/dohofpga/dohofpga_loadfile.inc	2013-08-22 14:45:18.000000000 +0200
+@@ -0,0 +1,339 @@
++/* linux/drivers/media/video/dohofpga2_loadfile.inc
++ *
++ * Copyright (c) 2013 institute for visual computing, ETH Zuerich
++ * http://ivc.ethz.ch/
++ *
++ * based on s5k4egcx.c
++ * Copyright (C) 2012, Hardkernel Co.,Ltd.
++ * Author: ruppi.kim@hardkernel.com
++ *
++ * Driver for dominik honeggers fpga camara interface 
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++*/
++
++#ifndef __DOHOFPGA2_INC__
++#define __DOHOFPGA2_INC__
++
++#include <linux/vmalloc.h>
++#include <linux/fs.h>
++#include <linux/mm.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++
++struct test 
++{
++  u8 data;
++  struct test *nextBuf;
++};
++
++static struct test *testBuf;
++static s32 large_file;
++
++#define TEST_INIT  \
++{      \
++  .data = 0;  \
++  .nextBuf = NULL;  \
++}
++
++#if defined(CONFIG_VIDEO_DOHOFPGA2_ODROIDQ)
++#define TUNING_FILE_PATH "/mnt/sdcard/dohofpga2_regs_odroid.h"
++#else
++#define TUNING_FILE_PATH NULL
++#endif
++#endif /* CONFIG_LOAD_FILE*/
++
++
++static int loadFile(void)
++{
++  struct file *fp = NULL;
++  struct test *nextBuf = NULL;
++
++  u8 *nBuf = NULL;
++  size_t file_size = 0, max_size = 0, testBuf_size = 0;
++  ssize_t nread = 0;
++  s32 check = 0, starCheck = 0;
++  s32 tmp_large_file = 0;
++  s32 i = 0;
++  int ret = 0;
++  loff_t pos;
++
++  mm_segment_t fs = get_fs();
++  set_fs(get_ds());
++
++  cam_info("%s: E\n", __func__);
++
++  BUG_ON(testBuf);
++
++  fp = filp_open(TUNING_FILE_PATH, O_RDONLY, 0);
++  if (IS_ERR(fp)) {
++    cam_err("file open error\n");
++    return PTR_ERR(fp);
++  }
++
++  file_size = (size_t) fp->f_path.dentry->d_inode->i_size;
++  max_size = file_size;
++
++  cam_dbg("file_size = %d\n", file_size);
++
++  nBuf = kmalloc(file_size, GFP_ATOMIC);
++  if (nBuf == NULL) {
++    cam_dbg("Fail to 1st get memory\n");
++    nBuf = vmalloc(file_size);
++    if (nBuf == NULL) {
++      cam_err("ERR: nBuf Out of Memory\n");
++      ret = -ENOMEM;
++      goto error_out;
++    }
++    tmp_large_file = 1;
++  }
++
++  testBuf_size = sizeof(struct test) * file_size;
++  if (tmp_large_file) {
++    testBuf = (struct test *)vmalloc(testBuf_size);
++    large_file = 1;
++  } else {
++    testBuf = kmalloc(testBuf_size, GFP_ATOMIC);
++    if (testBuf == NULL) {
++      cam_dbg("Fail to get mem(%d bytes)\n", testBuf_size);
++      testBuf = (struct test *)vmalloc(testBuf_size);
++      large_file = 1;
++    }
++  }
++  if (testBuf == NULL) {
++    cam_err("ERR: Out of Memory\n");
++    ret = -ENOMEM;
++    goto error_out;
++  }
++
++  pos = 0;
++  memset(nBuf, 0, file_size);
++  memset(testBuf, 0, file_size * sizeof(struct test));
++
++  nread = vfs_read(fp, (char __user *)nBuf, file_size, &pos);
++  if (nread != file_size) {
++    cam_err("failed to read file ret = %d\n", nread);
++    ret = -1;
++    goto error_out;
++  }
++
++  set_fs(fs);
++
++  i = max_size;
++
++  cam_dbg(KERN_DEBUG "i = %d\n", i);
++
++  while (i) {
++    testBuf[max_size - i].data = *nBuf;
++    if (i != 1) {
++      testBuf[max_size - i].nextBuf =
++        &testBuf[max_size - i + 1];
++    } else {
++      testBuf[max_size - i].nextBuf = NULL;
++      break;
++    }
++    i--;
++    nBuf++;
++  }
++
++  i = max_size;
++  nextBuf = &testBuf[0];
++
++  while (i - 1) {
++    if (!check && !starCheck) {
++      if (testBuf[max_size - i].data == '/') {
++        if (testBuf[max_size-i].nextBuf != NULL) {
++          if (testBuf[max_size-i].nextBuf->data
++                == '/') {
++            check = 1;/* when find '//' */
++            i--;
++          } else if (
++              testBuf[max_size-i].nextBuf->data
++              == '*') {
++            /* when find '/ *' */
++            starCheck = 1;
++            i--;
++          }
++        } else
++          break;
++      }
++      if (!check && !starCheck) {
++        /* ignore '\t' */
++        if (testBuf[max_size - i].data != '\t') {
++          nextBuf->nextBuf = &testBuf[max_size-i];
++          nextBuf = &testBuf[max_size - i];
++        }
++      }
++    } else if (check && !starCheck) {
++      if (testBuf[max_size - i].data == '/') {
++        if (testBuf[max_size-i].nextBuf != NULL) {
++          if (testBuf[max_size-i].nextBuf->data
++              == '*') {
++            /* when find '/ *' */
++            starCheck = 1;
++            check = 0;
++            i--;
++          }
++        } else
++          break;
++      }
++
++       /* when find '\n' */
++      if (testBuf[max_size - i].data == '\n' && check) {
++        check = 0;
++        nextBuf->nextBuf = &testBuf[max_size - i];
++        nextBuf = &testBuf[max_size - i];
++      }
++
++    } else if (!check && starCheck) {
++      if (testBuf[max_size - i].data == '*') {
++        if (testBuf[max_size-i].nextBuf != NULL) {
++          if (testBuf[max_size-i].nextBuf->data
++              == '/') {
++            /* when find '* /' */
++            starCheck = 0;
++            i--;
++          }
++        } else
++          break;
++      }
++    }
++
++    i--;
++
++    if (i < 2) {
++      nextBuf = NULL;
++      break;
++    }
++
++    if (testBuf[max_size - i].nextBuf == NULL) {
++      nextBuf = NULL;
++      break;
++    }
++  }
++
++error_out:
++  tmp_large_file ? vfree(nBuf) : kfree(nBuf);
++
++  if (fp)
++    filp_close(fp, current->files);
++  return ret;
++}
++
++static int dohofpga2_write_regs_from_sd(struct v4l2_subdev *sd,
++            const u8 s_name[])
++{
++  struct i2c_client *client = v4l2_get_subdevdata(sd);
++  struct test *tempData = NULL;
++
++  int ret = -EAGAIN;
++  u32 temp;
++  u32 delay = 0;
++  u8 data[11];
++  s32 searched = 0;
++  size_t size = strlen(s_name);
++  s32 i;
++#ifdef DEBUG_WRITE_REGS
++  u8 regs_name[128] = {0,};
++
++  BUG_ON(size > sizeof(regs_name));
++#endif
++
++  cam_dbg("%s: E size = %d, string = %s\n", __func__, size, s_name);
++  tempData = &testBuf[0];
++  while (!searched) {
++    searched = 1;
++    for (i = 0; i < size; i++) {
++      if (tempData->data != s_name[i]) {
++        searched = 0;
++        break;
++      }
++#ifdef DEBUG_WRITE_REGS
++      regs_name[i] = tempData->data;
++#endif
++      tempData = tempData->nextBuf;
++    }
++#ifdef DEBUG_WRITE_REGS
++    if (i > 9) {
++      regs_name[i] = '\0';
++      cam_dbg("Searching: regs_name = %s\n", regs_name);
++    }
++#endif
++    tempData = tempData->nextBuf;
++  }
++  /* structure is get..*/
++#ifdef DEBUG_WRITE_REGS
++  regs_name[i] = '\0';
++  cam_dbg("Searched regs_name = %s\n\n", regs_name);
++#endif
++
++  while (1) {
++    if (tempData->data == '{')
++      break;
++    else
++      tempData = tempData->nextBuf;
++  }
++
++  while (1) {
++    searched = 0;
++    while (1) {
++      if (tempData->data == 'x') {
++        /* get 10 strings.*/
++        data[0] = '0';
++        for (i = 1; i < 11; i++) {
++          data[i] = tempData->data;
++          tempData = tempData->nextBuf;
++        }
++        /*cam_dbg("%s\n", data);*/
++        temp = simple_strtoul(data, NULL, 16);
++        break;
++      } else if (tempData->data == '}') {
++        searched = 1;
++        break;
++      } else
++        tempData = tempData->nextBuf;
++
++      if (tempData->nextBuf == NULL)
++        return -1;
++    }
++
++    if (searched)
++      break;
++
++    if ((temp & DOHOFPGA2_DELAY) == DOHOFPGA2_DELAY) {
++      delay = temp & 0x0FFFF;
++      debug_msleep(sd, delay);
++      continue;
++    }
++
++    /* cam_dbg("I2C writing: 0x%08X,\n",temp);*/
++    ret = dohofpga2_i2c_write_twobyte(client,
++      (temp >> 16), (u16)temp);
++
++    /* In error circumstances */
++    /* Give second shot */
++    if (unlikely(ret)) {
++      dev_info(&client->dev,
++          "dohofpga2 i2c retry one more time\n");
++      ret = dohofpga2_i2c_write_twobyte(client,
++        (temp >> 16), (u16)temp);
++
++      /* Give it one more shot */
++      if (unlikely(ret)) {
++        dev_info(&client->dev,
++            "dohofpga2 i2c retry twice\n");
++        ret = dohofpga2_i2c_write_twobyte(client,
++          (temp >> 16), (u16)temp);
++      }
++    }
++  }
++
++  return ret;
++}
++
++
++#endif // ifndef __DOHOFPGA2_INC__
++
 diff -Naur org/drivers/media/video/dohofpga/Kconfig ths/drivers/media/video/dohofpga/Kconfig
 --- org/drivers/media/video/dohofpga/Kconfig	1970-01-01 01:00:00.000000000 +0100
 +++ ths/drivers/media/video/dohofpga/Kconfig	2013-07-29 12:55:57.000000000 +0200
