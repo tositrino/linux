@@ -32,6 +32,9 @@
 #   - setup & build kernel 3.11.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
 #  13/09/03
+#   - note: tried lustre by removinge the BROKEN dependency in 
+#     driver/staging/lustre/lustre/Kconfig
+#     ->failed, changed revoked
 #   - updated branch v3.11.0-ths
 #     git push origin v3.11.0-ths
 #     git commit -m "updated v3.11.0-ths"
@@ -60,6 +63,8 @@
 #     linux-3.11-ths-init.patch
 #   - obsolete patches
 #     none
+#   - manually inserted 
+#     1801_block-cgroups-kconfig-build-bits-for-BFQ-v6r2-3.10.patch
 #   - disabled patches
 #     4200_fbcondecor-0.9.6.patch from gentoo patch set 
 #   - using genpatches-3.11-1
