@@ -1,0 +1,40 @@
+diff -Naur org/sound/soc/samsung/audss.c ths/sound/soc/samsung/audss.c
+--- org/sound/soc/samsung/audss.c	2013-08-12 10:37:24.000000000 +0200
++++ ths/sound/soc/samsung/audss.c	2013-08-07 17:32:41.000000000 +0200
+@@ -137,6 +137,8 @@
+ 					audss.suspend_audss_clkgate);
+ }
+ 
++EXPORT_SYMBOL(audss_clk_enable);
++
+ void audss_clk_enable(bool enable)
+ {
+ 	unsigned long flags;
+@@ -184,12 +186,16 @@
+ 	return;
+ }
+ 
++EXPORT_SYMBOL(audss_suspend);
++
+ void audss_suspend(void)
+ {
+ 	if (!audss.reg_saved)
+ 		audss_reg_save();
+ }
+ 
++EXPORT_SYMBOL(audss_resume);
++
+ void audss_resume(void)
+ {
+ 	if (audss.reg_saved)
+diff -Naur org/sound/soc/samsung/idma.c ths/sound/soc/samsung/idma.c
+--- org/sound/soc/samsung/idma.c	2013-08-12 10:37:24.000000000 +0200
++++ ths/sound/soc/samsung/idma.c	2013-08-07 17:34:07.000000000 +0200
+@@ -466,6 +466,7 @@
+ 	return ret;
+ }
+ 
++EXPORT_SYMBOL(idma_init);
+ void idma_init(void *regs)
+ {
+ 	spin_lock_init(&idma.lock);
