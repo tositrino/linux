@@ -40,11 +40,6 @@
 #   - setup & build kernel 3.0.96-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
 #   - setup & build kernel 3.0.96-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
 #   - setup & build kernel 3.0.96-ths-arm-exynos4-odroidx1-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x1 board)
-#   - updated patches:
-#     90-linux-3.0-hk-dohfpga.patch 
-#       - updated to dohofpga-0.5.13
-#       - restored order of dohofpga1 (1->0) and dohofpga1 (0->1))
-#   - setup & build kernel 3.0.96-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
 #   - patch kernel
 #     kv=3.0.96
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
