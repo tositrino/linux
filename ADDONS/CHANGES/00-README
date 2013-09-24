@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.0.96-ths
 # created : 11/06/14
-# changed : 13/09/16
+# changed : 13/09/24
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,16 @@
 #   - setup & build kernel 3.0.96-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.0.96-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/09/24
+#   - updated branch v3.0.96-ths
+#     git push origin v3.0.96-ths
+#     git commit -m "updated v3.0.96-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added patches:
+#     linux-firmware-moxa.patch
+#   - updated patches:
+#     linux-firmware-intel.patch
+#   - firmware updated, status 2013/09/24
 #  13/09/16
 #   - updated branch v3.0.96-ths
 #     git push origin v3.0.96-ths
