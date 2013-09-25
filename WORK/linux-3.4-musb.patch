@@ -1,0 +1,15 @@
+diff -Naur linux-org/drivers/usb/musb/Kconfig linux-ths/drivers/usb/musb/Kconfig
+--- linux-org/drivers/usb/musb/Kconfig	2012-07-18 18:04:18.000000000 +0200
++++ linux-ths/drivers/usb/musb/Kconfig	2012-07-20 10:16:23.000000000 +0200
+@@ -114,4 +114,11 @@
+ 
+ endchoice
+ 
++config USB_MUSB_INIT_HOST
++	bool 'initialize musb/otg as host'
++	depends on ARCH_OMAP2PLUS && EXPERIMENTAL
++	help
++	  since kernel 3.2 otg setup does not work correction. try to enable this
++	  as a temporary workaround.
++
+ endif # USB_MUSB_HDRC

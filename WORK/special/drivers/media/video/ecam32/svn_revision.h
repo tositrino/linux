@@ -1,0 +1,5 @@
+#define PRODUCT_NAME "e-CAM32_OMAP_GSTIX"
+#define SVN_REVISION "356"
+#define SVN_DATE "2011-12-27"
+#define SVN_TIME "13:59:38"
+#define THS_VERSION_ID "001"
