@@ -185,7 +185,8 @@ for pset in ${patchsets} ; do
     echo "${psmg}"
     continue
   fi
-  for file in ${pdir}/*.patch ; do
+  flist=`find ${pdir} -maxdepth 1 -name \*patch | sort`
+  for file in ${flist} ; do
     [ ! -f "${file}" ] && continue
     pfile=`basename ${file}`
     pfound=$(( ${pfound} + 1 ))

@@ -2,32 +2,96 @@
 # README - source package change documentation
 #
 # package : linux kernel
-# version : 3.4.24-ths
+# version : 3.4.51-ths
 # created : 12/04/30
-# changed : 12/12/19
+# changed : 13/09/25
 #
 # TODO:
 #   * ubuntu
-#   - setup & build kernel 3.4.24-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
-#   - setup & build kernel 3.4.24-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
-#   - setup & build kernel 3.4.24-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   - setup & build kernel 3.4.51-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.4.51-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.4.51-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
 #   * opensuse
 #   * sles
 #   * gentoo-powerpc
 #   * gentoo-x86_32
-#   - setup & build kernel 3.4.24-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   - setup & build kernel 3.4.51-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
 #   * gentoo-x86_64 (intel)
-#   - setup & build kernel 3.4.24-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
-#   - setup & build kernel 3.4.24-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
-#   - setup & build kernel 3.4.24-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   - setup & build kernel 3.4.51-ths-x86_64-core2-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-2600K CPU @ 3.40GHz)
+#   - setup & build kernel 3.4.51-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.4.51-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
 #   * gentoo-x86_64 (amd)
-#   - setup & build kernel 3.4.24-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
-#   - setup & build kernel 3.4.24-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   - setup & build kernel 3.4.51-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.4.51-ths-x86_64-k8-smp-desktop using gcc-4.7.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   * arch-arm (armv7)
-#   - setup & build kernel 3.4.24-ths-arm-exynos5-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
-#   - setup & build kernel 3.4.24-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
-#   - setup & build kernel 3.4.24-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#   - setup & build kernel 3.4.51-ths-arm-exynos5-odroidxu-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-xu board)
+#   - setup & build kernel 3.4.51-ths-arm-exynos4-odroidu2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.4.51-ths-arm-exynos4-odroidx2-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.4.51-ths-arm-exynos4-odroidx1-smp-v1 using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.4.51-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.4.51-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.4.51-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+#  13/09/25
+#   - patch kernel
+#     kv=3.4.51
+#     ##ksrc=/crossdev/arm/kernel
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.4.51-ths
+#     git commit -m "created v3.4.51-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.4.51-mmxiii-ix-xxvi
+#   - updated configs (3.0)
+#   - (*) had to use Makefile after linux-3.4.51-hardkernel.patch to get
+#         this working. renamed it to make sure we don't forget is
+#   - added patches:
+#     linux-3.4.51-hardkernel.patch
+#   - updated patches:
+#     linux-3.4-ths-git.patch
+#     linux-3.4-ths-init.patch (*)
+#     linux-3.4-ths-logo.patch
+#     linux-3.4-ths-quantis-v1.patch
+#     linux-3.4-ths-quantis-v2.patch
+#     linux-3.4.latest-ths-Makefile.patch
+#   - updated/added firmware patches
+#     linux-firmware-amducode.patch
+#     linux-firmware-ar3k.patch
+#     linux-firmware-ath6k.patch
+#     linux-firmware-carl9170.patch
+#     linux-firmware-creative.patch
+#     linux-firmware-device-tree.patch
+#     linux-firmware-go7007.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-libertas.patch
+#     linux-firmware-maudio.patch
+#     linux-firmware-moxa.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-mwl8k.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-tegra3.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-tigon.patch
+#     linux-firmware-xilinx.patch
+#   - disabled gentoo patches
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-3.4-43
+#   - updated tools
+#   - reorganize layout and patches (using 3.0 as template)
+#   - merge old ths branch
+#     git merge v3.4.24-ths
+#   - create new branch from v3.4.51
+#     git checkout -b v3.4.51-ths v3.4.51
+#   - update repositries
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 #  12/12/19
 #   - updated branch v3.4.24-ths
 #     git push origin v3.4.24-ths
