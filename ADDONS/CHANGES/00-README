@@ -32,13 +32,21 @@
 #   - setup & build kernel 3.4.51-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.4.51-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/09/25
+#  13/09/26
+#   - commit and push updates
+#     git push origin v3.4.51-ths
+#     git commit -m "updated v3.4.51-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - patch kernel
 #     kv=3.4.51
 #     ##ksrc=/crossdev/arm/kernel
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
+#   - updated patches
+#     linux-3.4-hdrv.patch
+#     linux-3.4-logo.patch (added 3.11 linux for workgroups logo)
+#  13/09/25
 #   - commit and push new branch
 #     git push origin v3.4.51-ths
 #     git commit -m "created v3.4.51-ths"
@@ -80,6 +88,8 @@
 #     linux-firmware-tigon.patch
 #     linux-firmware-xilinx.patch
 #   - disabled gentoo patches
+#     2700_dual-channel-mode-vbios-check.patch
+#     4500_nouveau-video-output-control-Kconfig.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.4-43
 #   - updated tools
