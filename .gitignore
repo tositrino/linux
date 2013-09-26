@@ -81,12 +81,6 @@ GRTAGS
 GSYMS
 GTAGS
 
-# THS
-THS-*
-config-*
-*.log
-samples/hidraw/hid-example
-
 *.orig
 *~
 \#*#
