@@ -1,0 +1,26 @@
+--- Makefile	2013-03-12 10:37:01.000000000 +0100
++++ Makefile	2013-03-12 11:08:22.720442937 +0100
+@@ -1015,12 +1021,20 @@
+ 	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
+ endef
+ 
+-include/linux/version.h: $(srctree)/Makefile FORCE
++#### THS - write KERNELRELAESE 
++THS-KERNELRELEASE: FORCE
++	@echo "Kernel release is : \"${KERNELRELEASE}\""
++	@echo "ths release is    : \"${FULL_RELEASE_STR}\""
++	@echo ${FULL_RELEASE_STR} > THS-KERNELRELEASE
++	@cp -f .config config-${FULL_RELEASE_STR}
++  
++include/linux/version.h: THS-KERNELRELEASE $(srctree)/Makefile include/config/kernel.release .config FORCE
+ 	$(call filechk,version.h)
+-
+-include/generated/utsrelease.h: include/config/kernel.release FORCE
++ 
++include/generated/utsrelease.h:  THS-KERNELRELEASE include/config/kernel.release FORCE
+ 	$(call filechk,utsrelease.h)
+ 
++
+ PHONY += headerdep
+ headerdep:
+ 	$(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \

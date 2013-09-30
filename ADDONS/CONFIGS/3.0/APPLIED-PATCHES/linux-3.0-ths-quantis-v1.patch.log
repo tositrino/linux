@@ -1,0 +1,11 @@
+03/12/13-12:03:17: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/THS/linux-3.0-ths-quantis-v1.patch
+patching file drivers/misc/Kconfig
+patching file drivers/misc/Makefile
+Hunk #1 succeeded at 27 (offset 1 line).
+patching file drivers/misc/quantis/Makefile
+patching file drivers/misc/quantis/quantis.c
+patching file drivers/misc/quantis/quantis-common.c
+patching file drivers/misc/quantis/quantis-common.h
+patching file drivers/misc/quantis/QuantisCpp.h
+patching file drivers/misc/quantis/quantis.h
+patching file drivers/misc/quantis/quantisio.h

@@ -1,0 +1,10 @@
+03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-tegra3.patch
+patching file firmware/nvavp_os_0ff00000.bin
+patching file firmware/nvavp_os_eff00000.bin
+patching file firmware/nvavp_vid_ucode_alt.bin
+patching file firmware/nvrm_avp_0ff00000.bin
+patching file firmware/nvrm_avp_8e000000.bin
+patching file firmware/nvrm_avp_9e000000.bin
+patching file firmware/nvrm_avp_be000000.bin
+patching file firmware/nvrm_avp.bin
+patching file firmware/nvrm_avp_eff00000.bin

@@ -3,7 +3,7 @@ diff -Naur org/Makefile ths/Makefile
 +++ ths/Makefile	2013-07-16 11:19:49.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 11
- SUBLEVEL = 0
+ SUBLEVEL = 2
  EXTRAVERSION =
 -NAME = Linux for Workgroups
 +NAME = Odonata Draconis

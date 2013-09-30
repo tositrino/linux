@@ -1,0 +1,2 @@
+03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2625_Input-ALPS-Add-documentation-for-protocol-versions-3.patch
+patching file Documentation/input/alps.txt

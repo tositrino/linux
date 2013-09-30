@@ -1,0 +1,8 @@
+03/12/13-12:03:17: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/THS/linux-3.0-ths-quantis-v2.patch
+patching file drivers/misc/Kconfig
+patching file drivers/misc/Makefile
+patching file drivers/misc/quantis_pci/Kbuild
+patching file drivers/misc/quantis_pci/Makefile
+patching file drivers/misc/quantis_pci/quantis_pci_common.h
+patching file drivers/misc/quantis_pci/quantis_pci.h
+patching file drivers/misc/quantis_pci/quantis_pci_linux.c

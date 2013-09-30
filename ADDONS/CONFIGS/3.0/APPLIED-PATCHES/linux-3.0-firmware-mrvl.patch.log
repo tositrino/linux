@@ -1,0 +1,4 @@
+03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-mrvl.patch
+patching file firmware/mrvl/sd8787_uapsta.bin
+patching file firmware/mrvl/sd8797_uapsta.bin
+patching file firmware/mrvl/usb8797_uapsta.bin

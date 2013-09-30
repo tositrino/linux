@@ -1,0 +1,66 @@
+#
+# Kconfig for dohofpga driver modules
+#
+
+config VIDEO_DOHOFPGA1
+  tristate "dohofpga version 1 support"
+  depends on I2C
+  help
+    This driver supports Dominik Honeggers FPGA camera interface
+choice
+  depends on VIDEO_DOHOFPGA1
+  prompt "Select ITU/MIPI Camera port for DOHOFPGA1"
+  default DOHOFPGA1_ITU_A
+  config DOHOFPGA1_ITU_A
+    bool "ITU Camera A port"
+    depends on I2C
+    help
+      This enables support for ITU A port
+  config DOHOFPGA1_ITU_B
+    bool "ITU Camera B port"
+    depends on I2C
+    help
+      This enables support for ITU B port
+  config DOHOFPGA1_CSI_C
+    bool "CSI Camera A port"
+    depends on (VIDEO_FIMC_MIPI || VIDEO_S5P_MIPI_CSIS)
+    help
+      This enables support for CSI A port
+  config DOHOFPGA1_CSI_D
+    bool "CSI Camera B port"
+    depends on (VIDEO_FIMC_MIPI || VIDEO_S5P_MIPI_CSIS)
+    help
+      This enables support for CSI B port
+endchoice
+
+config VIDEO_DOHOFPGA2
+  tristate "dohofpga version 2 support"
+  depends on I2C
+  help
+    This driver supports Dominik Honeggers FPGA camera interface
+choice
+  depends on VIDEO_DOHOFPGA2
+  prompt "Select ITU/MIPI Camera port for DOHOFPGA2"
+  default DOHOFPGA2_ITU_A
+  config DOHOFPGA2_ITU_A
+    bool "ITU Camera A port"
+    depends on I2C
+    help
+      This enables support for ITU A port
+  config DOHOFPGA2_ITU_B
+    bool "ITU Camera B port"
+    depends on I2C
+    help
+      This enables support for ITU B port
+  config DOHOFPGA2_CSI_C
+    bool "CSI Camera A port"
+    depends on (VIDEO_FIMC_MIPI || VIDEO_S5P_MIPI_CSIS)
+    help
+      This enables support for CSI A port
+  config DOHOFPGA2_CSI_D
+    bool "CSI Camera B port"
+    depends on (VIDEO_FIMC_MIPI || VIDEO_S5P_MIPI_CSIS)
+    help
+      This enables support for CSI B port
+endchoice
+

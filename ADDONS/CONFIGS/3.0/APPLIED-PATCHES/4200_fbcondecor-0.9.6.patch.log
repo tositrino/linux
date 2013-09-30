@@ -1,0 +1,65 @@
+03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/4200_fbcondecor-0.9.6.patch
+patching file Documentation/fb/00-INDEX
+patching file Documentation/fb/fbcondecor.txt
+patching file drivers/Makefile
+patching file drivers/video/Kconfig
+Hunk #1 succeeded at 1226 (offset 6 lines).
+patching file drivers/video/console/Kconfig
+patching file drivers/video/console/Makefile
+patching file drivers/video/console/bitblit.c
+patching file drivers/video/console/cfbcondecor.c
+patching file drivers/video/console/fbcon.c
+Hunk #6 succeeded at 452 (offset 7 lines).
+Hunk #7 succeeded at 467 (offset 7 lines).
+Hunk #8 succeeded at 492 (offset 7 lines).
+Hunk #9 succeeded at 553 (offset 6 lines).
+Hunk #10 succeeded at 974 (offset 34 lines).
+Hunk #11 succeeded at 1040 (offset 36 lines).
+Hunk #12 succeeded at 1075 (offset 36 lines).
+Hunk #13 succeeded at 1289 (offset 40 lines).
+Hunk #14 succeeded at 1313 (offset 40 lines).
+Hunk #15 succeeded at 1337 (offset 40 lines).
+Hunk #16 succeeded at 1453 (offset 40 lines).
+Hunk #17 succeeded at 1472 (offset 40 lines).
+Hunk #18 succeeded at 1539 (offset 40 lines).
+Hunk #19 succeeded at 1863 (offset 40 lines).
+Hunk #20 succeeded at 1956 (offset 40 lines).
+Hunk #21 succeeded at 2050 (offset 40 lines).
+Hunk #22 succeeded at 2068 (offset 40 lines).
+Hunk #23 succeeded at 2106 (offset 40 lines).
+Hunk #24 succeeded at 2164 (offset 40 lines).
+Hunk #25 succeeded at 2183 (offset 40 lines).
+Hunk #26 succeeded at 2220 (offset 40 lines).
+Hunk #27 succeeded at 2253 (offset 40 lines).
+Hunk #28 succeeded at 2296 (offset 40 lines).
+Hunk #29 succeeded at 2356 (offset 40 lines).
+Hunk #30 succeeded at 2415 (offset 40 lines).
+Hunk #31 succeeded at 2550 (offset 40 lines).
+Hunk #32 succeeded at 2573 (offset 40 lines).
+Hunk #33 succeeded at 2603 (offset 40 lines).
+Hunk #34 succeeded at 2702 (offset 40 lines).
+Hunk #35 succeeded at 2747 (offset 40 lines).
+Hunk #36 succeeded at 2777 (offset 40 lines).
+Hunk #37 succeeded at 3045 (offset 40 lines).
+Hunk #38 succeeded at 3097 (offset 40 lines).
+Hunk #39 succeeded at 3709 (offset 40 lines).
+Hunk #40 succeeded at 3763 (offset 40 lines).
+patching file drivers/video/console/fbcondecor.c
+patching file drivers/video/console/fbcondecor.h
+patching file drivers/video/fbcmap.c
+patching file drivers/video/fbmem.c
+Hunk #1 succeeded at 1223 (offset 15 lines).
+patching file include/linux/console_decor.h
+patching file include/linux/console_struct.h
+patching file include/linux/fb.h
+patching file kernel/sysctl.c
+Hunk #1 succeeded at 136 (offset 1 line).
+Hunk #2 succeeded at 259 (offset 1 line).
+Hunk #3 succeeded at 1042 (offset 1 line).
+Hunk #4 succeeded at 1495 (offset 8 lines).
+Hunk #5 succeeded at 1856 (offset 8 lines).
+Hunk #6 succeeded at 2296 (offset 8 lines).
+Hunk #7 succeeded at 2390 (offset 8 lines).
+Hunk #8 succeeded at 2717 (offset 8 lines).
+Hunk #9 succeeded at 2739 (offset 8 lines).
+Hunk #10 succeeded at 2762 (offset 8 lines).

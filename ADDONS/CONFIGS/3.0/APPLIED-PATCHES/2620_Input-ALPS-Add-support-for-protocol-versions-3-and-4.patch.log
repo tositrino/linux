@@ -1,0 +1,13 @@
+03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2620_Input-ALPS-Add-support-for-protocol-versions-3-and-4.patch
+patching file drivers/input/mouse/alps.c
+Hunk #6 succeeded at 816 (offset 3 lines).
+Hunk #7 succeeded at 855 (offset 3 lines).
+Hunk #8 succeeded at 872 (offset 3 lines).
+Hunk #9 succeeded at 951 (offset 3 lines).
+Hunk #10 succeeded at 978 (offset 3 lines).
+Hunk #11 succeeded at 993 (offset 3 lines).
+Hunk #12 succeeded at 1012 (offset 3 lines).
+Hunk #13 succeeded at 1341 (offset 3 lines).
+Hunk #14 succeeded at 1370 (offset 3 lines).
+Hunk #15 succeeded at 1426 (offset 3 lines).
+patching file drivers/input/mouse/alps.h

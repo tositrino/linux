@@ -1,0 +1,4 @@
+03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2615_Input-ALPS-Remove-assumptions-about-packet-size.patch
+patching file drivers/input/mouse/alps.c
+Hunk #3 succeeded at 534 (offset 3 lines).
+Hunk #4 succeeded at 552 (offset 3 lines).

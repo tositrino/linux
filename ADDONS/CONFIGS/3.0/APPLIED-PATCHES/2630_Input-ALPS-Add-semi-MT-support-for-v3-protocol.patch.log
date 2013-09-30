@@ -1,0 +1,4 @@
+03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2630_Input-ALPS-Add-semi-MT-support-for-v3-protocol.patch
+patching file drivers/input/mouse/alps.c
+Hunk #7 succeeded at 1564 (offset 3 lines).
+patching file drivers/input/mouse/alps.h

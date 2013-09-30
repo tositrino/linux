@@ -1,6 +1,6 @@
 diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 --- linux-x/firmware/WHENCE	2013-05-26 13:01:58.000000000 +0200
-+++ linux-y/firmware/WHENCE	2013-06-25 08:15:07.000000000 +0200
++++ linux-y/firmware/WHENCE	2013-09-24 17:02:34.000000000 +0200
 @@ -10,7 +10,7 @@
  
  Driver: ambassador -- Madge Ambassador (Collage PCI 155 Server) ATM NIC.
@@ -423,7 +423,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: adaptec/starfire_rx.bin
  File: adaptec/starfire_tx.bin
-@@ -485,7 +637,192 @@
+@@ -485,7 +637,198 @@
  
  --------------------------------------------------------------------------
  
@@ -592,6 +592,12 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: iwlwifi-2000-6.ucode
 +Version: 18.168.6.1
 +
++File: iwlwifi-7260-7.ucode
++Version: 22.0.7.0
++
++File: iwlwifi-3160-7.ucode
++Version: 22.0.7.0
++
 +Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
 +
 +Also available from http://intellinuxwireless.org/?n=Downloads
@@ -617,7 +623,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: tehuti/bdx.bin
  
-@@ -501,7 +838,7 @@
+@@ -501,7 +844,7 @@
  
  --------------------------------------------------------------------------
  
@@ -626,7 +632,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: 3com/typhoon.bin
  
-@@ -543,7 +880,7 @@
+@@ -543,7 +886,7 @@
  
  --------------------------------------------------------------------------
  
@@ -635,7 +641,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yam/1200.bin
  File: yam/9600.bin
-@@ -555,59 +892,111 @@
+@@ -555,59 +898,111 @@
  
  --------------------------------------------------------------------------
  
@@ -748,9 +754,10 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  Originally developed by the pcmcia-cs project
 +Copyright (C) 1998, 1999, 2000 David A. Hinds
-+
-+--------------------------------------------------------------------------
-+
+ 
+ --------------------------------------------------------------------------
+ 
+-Driver: PCMCIA_SMC91C92 - SMC 91Cxx PCMCIA
 +Driver: serial_cs - Serial PCMCIA adapter
 +
 +File: cis/SW_555_SER.cis
@@ -760,15 +767,14 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Licence: GPLv3
 +
 +Copyright Sierra Wireless
- 
- --------------------------------------------------------------------------
- 
--Driver: PCMCIA_SMC91C92 - SMC 91Cxx PCMCIA
++
++--------------------------------------------------------------------------
++
 +Driver: smc91c92_cs - SMC 91Cxx PCMCIA
  
  File: ositech/Xilinx7OD.bin
  
-@@ -619,7 +1008,55 @@
+@@ -619,7 +1014,55 @@
  
  --------------------------------------------------------------------------
  
@@ -825,7 +831,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: qlogic/isp1000.bin
  
-@@ -629,7 +1066,7 @@
+@@ -629,7 +1072,7 @@
  
  --------------------------------------------------------------------------
  
@@ -834,7 +840,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: myricom/lanai.bin
  
-@@ -641,9 +1078,42 @@
+@@ -641,9 +1084,42 @@
  
  Driver: bnx2x: Broadcom Everest
  
@@ -877,7 +883,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  License:
    Copyright (c) 2007-2011 Broadcom Corporation
-@@ -660,12 +1130,31 @@
+@@ -660,12 +1136,31 @@
  
  --------------------------------------------------------------------------
  
@@ -911,7 +917,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  File: bnx2/bnx2-rv2p-09ax-6.0.17.fw
  
  Licence:
-@@ -681,17 +1170,30 @@
+@@ -681,17 +1176,30 @@
  
  --------------------------------------------------------------------------
  
@@ -945,7 +951,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yamaha/yss225_registers.bin
  
-@@ -702,6 +1204,114 @@
+@@ -702,6 +1210,114 @@
  
  --------------------------------------------------------------------------
  
@@ -1060,7 +1066,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  Driver: mga - Matrox G200/G400/G550
  
  File: matrox/g200_warp.fw
-@@ -823,6 +1433,111 @@
+@@ -823,6 +1439,142 @@
  
  --------------------------------------------------------------------------
  
@@ -1069,19 +1075,27 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: radeon/R600_rlc.bin
 +File: radeon/R700_rlc.bin
 +File: radeon/RV710_uvd.bin
++File: radeon/RV710_smc.bin
++File: radeon/RV730_smc.bin
++File: radeon/RV740_smc.bin
++File: radeon/RV770_smc.bin
 +File: radeon/CEDAR_me.bin
 +File: radeon/CEDAR_pfp.bin
 +File: radeon/CEDAR_rlc.bin
++File: radeon/CEDAR_smc.bin
 +File: radeon/CYPRESS_me.bin
 +File: radeon/CYPRESS_pfp.bin
 +File: radeon/CYPRESS_rlc.bin
 +File: radeon/CYPRESS_uvd.bin
++File: radeon/CYPRESS_smc.bin
 +File: radeon/JUNIPER_me.bin
 +File: radeon/JUNIPER_pfp.bin
 +File: radeon/JUNIPER_rlc.bin
++File: radeon/JUNIPER_smc.bin
 +File: radeon/REDWOOD_me.bin
 +File: radeon/REDWOOD_pfp.bin
 +File: radeon/REDWOOD_rlc.bin
++File: radeon/REDWOOD_smc.bin
 +File: radeon/PALM_me.bin
 +File: radeon/PALM_pfp.bin
 +File: radeon/SUMO_rlc.bin
@@ -1089,17 +1103,21 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: radeon/BARTS_mc.bin
 +File: radeon/BARTS_me.bin
 +File: radeon/BARTS_pfp.bin
++File: radeon/BARTS_smc.bin
 +File: radeon/BTC_rlc.bin
 +File: radeon/CAICOS_mc.bin
 +File: radeon/CAICOS_me.bin
 +File: radeon/CAICOS_pfp.bin
++File: radeon/CAICOS_smc.bin
 +File: radeon/TURKS_mc.bin
 +File: radeon/TURKS_me.bin
 +File: radeon/TURKS_pfp.bin
++File: radeon/TURKS_smc.bin
 +File: radeon/CAYMAN_mc.bin
 +File: radeon/CAYMAN_me.bin
 +File: radeon/CAYMAN_pfp.bin
 +File: radeon/CAYMAN_rlc.bin
++File: radeon/CAYMAN_smc.bin
 +File: radeon/SUMO_pfp.bin
 +File: radeon/SUMO_me.bin
 +File: radeon/SUMO2_pfp.bin
@@ -1112,27 +1130,46 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: radeon/PITCAIRN_me.bin
 +File: radeon/PITCAIRN_pfp.bin
 +File: radeon/PITCAIRN_rlc.bin
++File: radeon/PITCAIRN_smc.bin
 +File: radeon/TAHITI_ce.bin
 +File: radeon/TAHITI_mc.bin
 +File: radeon/TAHITI_me.bin
 +File: radeon/TAHITI_pfp.bin
 +File: radeon/TAHITI_rlc.bin
 +File: radeon/TAHITI_uvd.bin
++File: radeon/TAHITI_smc.bin
 +File: radeon/VERDE_ce.bin
 +File: radeon/VERDE_mc.bin
 +File: radeon/VERDE_me.bin
 +File: radeon/VERDE_pfp.bin
 +File: radeon/VERDE_rlc.bin
++File: radeon/VERDE_smc.bin
 +File: radeon/OLAND_ce.bin
 +File: radeon/OLAND_mc.bin
 +File: radeon/OLAND_me.bin
 +File: radeon/OLAND_pfp.bin
 +File: radeon/OLAND_rlc.bin
++File: radeon/OLAND_smc.bin
 +File: radeon/HAINAN_ce.bin
 +File: radeon/HAINAN_mc.bin
 +File: radeon/HAINAN_me.bin
 +File: radeon/HAINAN_pfp.bin
 +File: radeon/HAINAN_rlc.bin
++File: radeon/HAINAN_smc.bin
++File: radeon/BONAIRE_ce.bin
++File: radeon/BONAIRE_mc.bin
++File: radeon/BONAIRE_me.bin
++File: radeon/BONAIRE_mec.bin
++File: radeon/BONAIRE_pfp.bin
++File: radeon/BONAIRE_rlc.bin
++File: radeon/BONAIRE_sdma.bin
++File: radeon/BONAIRE_uvd.bin
++File: radeon/KABINI_ce.bin
++File: radeon/KABINI_me.bin
++File: radeon/KABINI_mec.bin
++File: radeon/KABINI_pfp.bin
++File: radeon/KABINI_rlc.bin
++File: radeon/KABINI_sdma.bin
 +
 +Licence: Redistributable. See LICENSE.radeon for details.
 +
@@ -1172,7 +1209,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  Driver: ib_qib - QLogic Infiniband
  
  File: qlogic/sd7220.fw
-@@ -862,3 +1577,595 @@
+@@ -862,3 +1614,643 @@
  Found in hex form in kernel source.
  
  --------------------------------------------------------------------------
@@ -1472,6 +1509,9 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: rtl_nic/rtl8411-1.fw
 +Version: 0.0.3
 +
++File: rtl_nic/rtl8411-2.fw
++Version: 0.0.1
++
 +File: rtl_nic/rtl8402-1.fw
 +Version: 0.0.1
 +
@@ -1521,6 +1561,8 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: ar3k/AthrBT_0x01020201.dfu
 +File: ar3k/ramps_0x01020201_26.dfu
 +File: ar3k/ramps_0x01020201_40.dfu
++File: ar3k/AthrBT_0x41020000.dfu
++File: ar3k/ramps_0x41020000_40.dfu
 +
 +Licence: Redistributable. See LICENCE.atheros_firmware for details
 +
@@ -1709,7 +1751,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +Driver: btusb - Bluetooth USB driver
 +
-+File: intel/ibt-default-37.7.bseq
++File: intel/ibt-hw-37.7.bseq
 +File: intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq
 +
 +Licence: Redistributable. See LICENCE.ibt_firmware for details
@@ -1766,5 +1808,48 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: go7007/wis-startrek.fw
 +
 +Licence: Redistributable. See LICENCE.go7007_firmware for details
++
++--------------------------------------------------------------------------
++
++Driver: microcode_amd - AMD CPU Microcode Update Driver for Linux
++
++File: amd-ucode/microcode_amd.bin
++Version: 2013-07-10
++File: amd-ucode/microcode_amd_fam15h.bin
++Version: 2013-07-10
++
++License: Redistributable. See LICENSE.amd-ucode for details
++
++--------------------------------------------------------------------------
++
++Driver: mxuport - MOXA UPort USB Serial hub driver
++
++File: moxa/moxa-04e2.fw
++File: moxa/moxa-04e3.fw
++File: moxa/moxa-0582.fw
++File: moxa/moxa-05aa.fw
++File: moxa/moxa-05ab.fw
++File: moxa/moxa-064d.fw
++File: moxa/moxa-0652.fw
++File: moxa/moxa-0675.fw
++File: moxa/moxa-067a.fw
++
++License:
++The software accompanying this license statement (the “Software”)
++is the property of Moxa Inc. (the “Moxa”), and is protected by
++United States and International Copyright Laws and International
++treaty provisions. No ownership rights are granted by this
++Agreement or possession of the Software. Therefore, you must treat
++the Licensed Software like any other copyrighted material. Your
++rights and obligations in its use are described as follows:
++
++1. You may freely redistribute this software under this license.
++2. You may freely download and use this software on Moxa's device.
++3. You may not modify or attempt to reverse engineer the software, or
++   make any attempt to change or even examine the source code of the
++   software.
++4. You may not re-license or sub-license the software to any person or
++   business, using any other license.
++5. Moxa(r) is worldwide registered trademark.
 +
 +--------------------------------------------------------------------------

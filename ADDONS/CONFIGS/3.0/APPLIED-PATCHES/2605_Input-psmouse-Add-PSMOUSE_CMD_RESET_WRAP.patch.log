@@ -1,0 +1,2 @@
+03/12/13-12:03:12: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2605_Input-psmouse-Add-PSMOUSE_CMD_RESET_WRAP.patch
+patching file drivers/input/mouse/psmouse.h

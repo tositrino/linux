@@ -37,8 +37,19 @@ FEATURES
 4400-4500   security enhancement
 4500-4600   other
 
+EXPERIMENTAL
+5000-5100   experimental patches (BFQ, ...)
+
 Individual Patch Descriptions:
 --------------------------------------------------------------------------
+Patch:  1000_linux-3.11.1.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.11.1
+
+Patch:  1001_linux-3.11.2.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.11.2
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -66,3 +77,15 @@ Desc:   Bootsplash successor by Michal Januszewski ported by Jeremy (bug #452574
 Patch:  4567_distro-Gentoo-Kconfig.patch
 From:   Tom Wijsman <TomWij@gentoo.org
 Desc:   Add Gentoo Linux support config settings and defaults.
+
+Patch:  5000-BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v6r2 patch 1 for 3.11: Build, cgroups and kconfig bits
+
+Patch:  5000-BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v6r2 patch 2 for 3.10: BFQ Scheduler
+
+Patch:  5000-BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v6r2 patch 3 for 3.10: Early Queue Merge (EQM)

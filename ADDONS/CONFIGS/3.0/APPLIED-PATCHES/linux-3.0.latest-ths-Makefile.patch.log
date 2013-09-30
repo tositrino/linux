@@ -1,0 +1,8 @@
+03/12/13-12:03:19: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FINAL/linux-3.0.latest-ths-Makefile.patch
+patching file Makefile
+Hunk #2 succeeded at 671 (offset 3 lines).
+Hunk #3 FAILED at 1015.
+Hunk #4 succeeded at 1171 (offset 11 lines).
+1 out of 4 hunks FAILED -- saving rejects to file Makefile.rej
+patching file Makefile.addons
+patching file Makefile.addons.debian
