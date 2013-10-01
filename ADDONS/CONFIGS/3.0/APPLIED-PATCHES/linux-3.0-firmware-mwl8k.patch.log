@@ -1,8 +1,0 @@
-03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-mwl8k.patch
-patching file firmware/mwl8k/fmimage_8366_ap-1.fw
-patching file firmware/mwl8k/fmimage_8366_ap-2.fw
-patching file firmware/mwl8k/fmimage_8366_ap-3.fw
-patching file firmware/mwl8k/fmimage_8366.fw
-patching file firmware/mwl8k/fmimage_8687.fw
-patching file firmware/mwl8k/helper_8366.fw
-patching file firmware/mwl8k/helper_8687.fw

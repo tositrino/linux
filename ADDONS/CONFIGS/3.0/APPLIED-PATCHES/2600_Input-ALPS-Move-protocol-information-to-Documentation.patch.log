@@ -1,3 +1,0 @@
-03/12/13-12:03:12: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2600_Input-ALPS-Move-protocol-information-to-Documentation.patch
-patching file Documentation/input/alps.txt
-patching file drivers/input/mouse/alps.c

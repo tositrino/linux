@@ -1,8 +1,0 @@
-03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-xilinx.patch
-patching file firmware/xilinx/xusbdfwu.hex
-patching file firmware/xilinx/xusb_emb.hex
-patching file firmware/xilinx/xusb_xlp.hex
-patching file firmware/xilinx/xusb_xp2.hex
-patching file firmware/xilinx/xusb_xpr.hex
-patching file firmware/xilinx/xusb_xse.hex
-patching file firmware/xilinx/xusb_xup.hex

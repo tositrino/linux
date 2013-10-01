@@ -1,3 +1,0 @@
-03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-s5p-mfc.patch
-patching file firmware/s5p-mfc/s5p-mfc.fw
-patching file firmware/s5p-mfc/s5p-mfc-v6.fw

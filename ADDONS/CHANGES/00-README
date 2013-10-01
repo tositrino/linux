@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.11.2
 # created : 13/07/16
-# changed : 13/09/30
+# changed : 13/10/01
 #
 # TODO:
 #   * ubuntu
@@ -31,7 +31,7 @@
 #   - setup & build kernel 3.11.2-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.11.2-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/09/30
+#  13/10/01
 #   - note: tried lustre by removinge the BROKEN dependency in 
 #     driver/staging/lustre/lustre/Kconfig
 #     ->failed, changed revoked
@@ -48,12 +48,28 @@
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
+#   - updated branch v3.11.2-ths
+#     git push origin v3.11.2-ths
+#     git commit -m "updated v3.11.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.11.2-mmxiii-x-i
+#   - disabled experimental gento patches:
+#     5000-BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
+#     5000-BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
+#     5000-BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
+#   - updated configs (3.0)
+#  13/09/30
+#   - patch kernel
+#     kv=3.11.2
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
 #   - commit and push new branch
 #     git push origin v3.11.2-ths
 #     git commit -m "created v3.11.2-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - THS-RELEASE 3.11.2-mmxiii-ix-iii
-#   - updated configs (3.0)
+#   - THS-RELEASE 3.11.2-mmxiii-ix-xxx
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:

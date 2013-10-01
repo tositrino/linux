@@ -1,4 +1,0 @@
-03/12/13-12:03:16: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/THS/linux-3.0-ths-init.patch
-patching file init/main.c
-Hunk #4 succeeded at 765 (offset 2 lines).
-patching file init/version.c

@@ -1,2 +1,0 @@
-03/12/13-12:02:23: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/ARM/linux-3.0-ths-drm_vm.patch
-patching file drivers/gpu/drm/drm_vm.c

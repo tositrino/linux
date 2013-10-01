@@ -1,2 +1,0 @@
-#!/bin/sh
-make && make modules_install && make firmware_install

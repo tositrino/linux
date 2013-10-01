@@ -1,2 +1,0 @@
-03/12/13-12:03:13: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/2635_Input-ALPS-dump-raw-packet-data.patch
-patching file drivers/input/mouse/alps.c

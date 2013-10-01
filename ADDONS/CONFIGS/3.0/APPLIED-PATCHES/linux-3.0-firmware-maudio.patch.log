@@ -1,8 +1,0 @@
-03/12/13-12:03:09: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-maudio.patch
-patching file firmware/maudio/MidiSport1x1.ihx
-patching file firmware/maudio/MidiSport2x2.ihx
-patching file firmware/maudio/MidiSport4x4.ihx
-patching file firmware/maudio/MidiSport8x8-2.10.ihx
-patching file firmware/maudio/MidiSport8x8-2.21.ihx
-patching file firmware/maudio/MidiSportKS.ihx
-patching file firmware/maudio/MidiSportLoader.ihx

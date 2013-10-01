@@ -1,4 +1,0 @@
-#! /bin/sh
-#
-make-kpkg clean
-fakeroot make-kpkg --initrd --append-to-version=-custom kernel_image kernel_headers 

@@ -1,5 +1,0 @@
-03/12/13-12:03:08: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/FIRMWARE/linux-3.0-firmware-device-tree.patch
-patching file firmware/device-tree/exynos4210-origen.dtb
-patching file firmware/device-tree/exynos4210-smdkv310.dtb
-patching file firmware/device-tree/exynos4210-trats.dtb
-patching file firmware/device-tree/exynos5250-smdk5250.dtb

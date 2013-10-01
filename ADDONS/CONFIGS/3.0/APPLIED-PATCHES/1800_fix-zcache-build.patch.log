@@ -1,4 +1,0 @@
-03/12/13-12:03:12: patch -p1 < /usr/src/linux-3.0.68-ths/ADDONS/PATCHES/GENTOO/1800_fix-zcache-build.patch
-patching file drivers/staging/zcache/Makefile
-patching file drivers/staging/zcache/zcache.c
-patching file drivers/staging/zcache/zcache_drv.c
