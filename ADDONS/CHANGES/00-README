@@ -32,9 +32,6 @@
 #   - setup & build kernel 3.11.2-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
 #  13/10/01
-#   - note: tried lustre by removinge the BROKEN dependency in 
-#     driver/staging/lustre/lustre/Kconfig
-#     ->failed, changed revoked
 #   - updated branch v3.11.2-ths
 #     git push origin v3.11.2-ths
 #     git commit -m "updated v3.11.2-ths"
