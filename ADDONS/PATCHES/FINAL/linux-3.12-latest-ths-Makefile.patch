@@ -1,11 +1,11 @@
-diff -Naur org/Makefile ths/Makefile
---- org/Makefile	2013-07-16 10:25:56.000000000 +0200
-+++ ths/Makefile	2013-07-16 11:19:49.000000000 +0200
+diff -Naur linux-x/Makefile linux-y/Makefile
+--- linux-x/Makefile	2013-10-01 09:16:14.000000000 +0200
++++ linux-y/Makefile	2013-10-01 17:55:27.000000000 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 12
  SUBLEVEL = 0
- EXTRAVERSION = rc3
--NAME = Linux for Workgroups
+ EXTRAVERSION = -rc3
+-NAME = One Giant Leap for Frogkind
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
@@ -23,7 +23,7 @@ diff -Naur org/Makefile ths/Makefile
  # Default kernel image to build when no specific target is given.
  # KBUILD_IMAGE may be overruled on the command line or
  # set in the environment
-@@ -858,10 +864,17 @@
+@@ -861,10 +867,17 @@
  	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
  endef
  
@@ -43,7 +43,7 @@ diff -Naur org/Makefile ths/Makefile
  	$(call filechk,utsrelease.h)
  
  PHONY += headerdep
-@@ -1016,6 +1029,10 @@
+@@ -1019,6 +1032,10 @@
  # Directories & files removed with 'make clean'
  CLEAN_DIRS  += $(MODVERDIR)
  
@@ -54,9 +54,9 @@ diff -Naur org/Makefile ths/Makefile
  # Directories & files removed with 'make mrproper'
  MRPROPER_DIRS  += include/config usr/include include/generated          \
                    arch/*/include/generated
-diff -Naur org/Makefile.addons ths/Makefile.addons
---- org/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ ths/Makefile.addons	2013-07-16 11:20:31.544789853 +0200
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
+--- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons	2013-10-01 17:54:57.000000000 +0200
 @@ -0,0 +1,292 @@
 +###
 +### extra version infomation addons
@@ -350,9 +350,9 @@ diff -Naur org/Makefile.addons ths/Makefile.addons
 +
 +KERNELRELEASE=$(FULL_RELEASE_STR)
 +export KERNELRELEASE
-diff -Naur org/Makefile.addons.debian ths/Makefile.addons.debian
---- org/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ ths/Makefile.addons.debian	2013-07-16 11:20:43.056790073 +0200
+diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
+--- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons.debian	2013-10-01 17:54:57.000000000 +0200
 @@ -0,0 +1,302 @@
 +###
 +### extra version infomation addons

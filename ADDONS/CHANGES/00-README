@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.12.0-rc3
 # created : 13/10/01
-# changed : 13/10/01
+# changed : 13/10/02
 #
 # TODO:
 #   * ubuntu
@@ -31,7 +31,7 @@
 #   - setup & build kernel 3.12.0-rc3-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.12.0-rc3-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/10/01
+#  13/10/02
 #   - updated branch v3.12.0-rc3-ths
 #     git push origin v3.12.0-rc3-ths
 #     git commit -m "updated v3.12.0-rc3-ths"
@@ -39,12 +39,16 @@
 #   - updated configs (3.12)
 #   - setup & build kernel 3.12.0-rc3-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - setup & build kernel 3.12.0-rc3-ths-x86_64-k8-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#  13/10/01
+#   - disabled gentoo patches:
+#     2700_ThinkPad-30-brightness-control-fix.patch
 #   - patch kernel
 #     kv=3.12.0-rc3
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
+#  13/10/01
 #   - commit and push new branch
 #     git push origin v3.12.0-rc3-ths
 #     git commit -m "created v3.12.0-rc3-ths"
