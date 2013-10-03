@@ -50,6 +50,10 @@ Patch:  1001_linux-3.11.2.patch
 From:   http://www.kernel.org
 Desc:   Linux 3.11.2
 
+Patch:  1002_linux-3.11.3.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.11.3
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -65,6 +69,10 @@ Desc:   Zero copy for infiniband psm userspace driver
 Patch:  2700_ThinkPad-30-brightness-control-fix.patch
 From:   Seth Forshee <seth.forshee@canonical.com>
 Desc:   ACPI: Disable Windows 8 compatibility for some Lenovo ThinkPads
+
+Patch:  2800_i915-clear-adj-mode-flag.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=486346
+Desc:   i915/tv: clear adjusted_mode.flags
 
 Patch:  2900_dev-root-proc-mount-fix.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=438380
