@@ -53,6 +53,8 @@
 #     git commit -m "created v3.0.100-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - THS-RELEASE 3.0.100-mmxiii-x-vii
+#   - recreated hardkernel patch
+#     diff -Naur linux-30x-org linux-30x-hk > linux-3.0.90-hardkernel.patch
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches
