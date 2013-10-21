@@ -62,7 +62,7 @@
 #     linux-3.0-ths-init-hk.patch
 #     linux-3.0.latest-ths-Makefile-hk.patch
 #   - obsolete/disabled patches
-#     none
+#     81-linux-3.0-hk-cacheid.patch
 #   - disabled gentoo patches
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.0-70
