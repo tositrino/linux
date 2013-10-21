@@ -1,0 +1,158 @@
+#
+#! /bin/sh
+#
+
+echo
+echo "make-debian-kernel v1.3.1"
+echo "-------------------------"
+echo
+cf=""
+
+clean="enabled"
+wait="enabled"
+cconfig="enabled"
+madd=""
+errmsg=""
+bupdate="enabled"
+testmode="disabled"
+debiancheck="enabled"
+
+for arg in $@ ; do
+  case ${arg} in
+    --clean)   clean="enabled"    ;;
+    --keep)    clean="disabled"   ;;
+    --wait)    wait="enabled"     ;;
+    --auto)    wait="disabled"    ;;
+    --nobuild) bupdate="disabled" ;;
+    --test)    testmode="enabled" ;;
+    --fai)     madd="-fai"         ;;
+    --default) madd="-all"         ;;
+    *)
+      [ -z "${arg}" ] && continue
+      if [ -z "${cf}" ] && [ -f "${arg}" ] ; then
+        cf="${arg}"
+        continue
+      fi
+      errmsg="${errmsg}Error: invalid argument \"${arg}\"\n"
+      ;;
+  esac
+done
+
+if [ -n "${errmsg}" ] ; then
+  echo -e "${errmsg}\n"
+  echo -e "Usage : `basename $0` [options] <config-file>"
+  echo -e "        valid options are:" 
+  echo -e "          --clean    - clean before start make-kpkg (default)" 
+  echo -e "          --keep     - keep (do not clean) status before make-kpkg" 
+  echo -e "          --wait     - wait before start make-kpkg (default)" 
+  echo -e "          --test     - test mode, do not call make-kpkg" 
+  echo -e "          --auto     - automatically start make-kpkg" 
+  echo -e "          --default  - default kernel (adds all to version)" 
+  echo -e "          --fai      - fai kernel (adds fai to version)" 
+  echo -e "          --nobuild  - do not update build-number in THS-DEBIAN-BUILD" 
+  echo
+  exit 2
+fi
+
+echo "checking config & makefile ..."
+if [ -z "${cf}" ] ; then
+  echo "No config file specified, using .config"
+  cf=".config"
+fi
+if [ ! -f "${cf}" ] ; then
+  echo "ERROR:${errmsg}Error: missing config file"
+  exit 2
+fi
+[ "${cf}" != ".config" ] && cp -f "${cf}" .config
+
+mf="./ADDONS/CHANGES/Makefile.addons.debian"
+if [ ! -f "${mf}" ] ; then
+  echo "ERROR: ${mf} not found, exiting ..."
+  exit 1
+fi
+rm -f Makefile.addons
+cp -f ${mf} Makefile.addons
+
+echo "preparing build ..."
+##make oldconfig > /dev/null
+make THS-KERNELRELEASE
+
+if [ ! -r THS-DEBIAN-BUILD ] ; then
+  kbuild=0
+else
+  kbuild=`cat THS-DEBIAN-BUILD`
+  kbuild=$(( $kbuild + 1 ))
+fi
+
+kversion=`cat THS-KERNELRELEASE`
+krevision="custom.1.${kbuild}"
+kaddon=`echo "${kversion}${madd}" | cut -d '-' -f 2-`
+klogfile="make-debian-kernel-${kversion}.log"
+echo  | tee -a ${klogfile}
+echo "*** kernel full version is : ${kversion}"   | tee -a ${klogfile}
+echo "*** kernel add version is  : ${kaddon}"     | tee -a ${klogfile}
+echo "*** kernel revision is     : ${krevision}"  | tee -a ${klogfile}
+
+[ "${testmode}" = "enabled" ] && echo -e "\n    [TESTMODE]"
+echo
+if [ "${wait}" = "enabled" ] ; then
+  echo -n "press control-c to abort or any key else to start : "
+  read
+fi
+
+
+if [ "${cconfig}" = "enabled" ] ; then
+  echo "*** updating .config ... " | tee -a ${klogfile}
+  if [ "${testmode}" != "enabled" ] ; then
+    sed -i -r -e 's/CONFIG_LOCALVERSION\=.*$/CONFIG_LOCALVERSION="-'${kaddon}'"/g' .config
+    make oldconfig
+  else
+    echo "TEST: sed -i -r -e 's/CONFIG_LOCALVERSION\=.*$/CONFIG_LOCALVERSION="-'${kaddon}'"/g' .config" 
+  fi
+fi
+
+if [ "${clean}" = "enabled" ] ; then
+  echo "*** cleaning kernel directory ... " | tee -a ${klogfile}
+  make-kpkg clean
+  make THS-KERNELRELEASE
+  if [ -d ./debian ] ; then
+    echo "*** remove debian status directory ... " | tee -a ${klogfile}
+    rm -rf ./debian/*
+  fi  
+fi
+
+if [ "${debiancheck}" = "enabled" ] ; then
+  echo "*** setup/check debian directory ... " | tee -a ${klogfile}
+  mkdir -p ./debian
+  chown 0775 ./debian
+  chmod -R -s *
+fi
+
+buildkernel()
+{
+  echo "*** building new kernel ${kversion} ... "
+  if [ "${testmode}" != "enabled" ] ; then
+    ## make-kpkg --append_to_version -${kaddon} --revision "${krevision}" --initrd --us --uc buildpackage 2>&1
+    ##make-kpkg --append_to_version "-${kaddon}" kernel_image kernel_headers 2>&1
+    fakeroot make-kpkg --initrd kernel_image kernel_headers 2>&1
+    err="$?"
+  else
+    echo "TEST: fakeroot make-kpkg --initrd kernel_image kernel_headers "
+    err="$?"
+  fi
+} 
+
+err=0
+buildkernel 2>&1 | tee -a ${klogfile}
+
+if [ "${err}" = "0" ] ; then
+  echo "*** kernel has been build"
+  if [ "${bupdate}" = "enabled" ] ; then
+    echo ${kbuild} > THS-DEBIAN-BUILD
+  fi
+else
+  echo "*** error occured building kernel"
+fi
+
+echo
+exit $err
