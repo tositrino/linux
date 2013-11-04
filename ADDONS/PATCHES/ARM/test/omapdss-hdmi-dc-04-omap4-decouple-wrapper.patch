@@ -1,0 +1,50 @@
+diff -Naur ths2/drivers/video/omap2/dss/dss_features.c ths3/drivers/video/omap2/dss/dss_features.c
+--- ths2/drivers/video/omap2/dss/dss_features.c	2012-05-21 09:34:43.000000000 +0200
++++ ths3/drivers/video/omap2/dss/dss_features.c	2012-05-23 09:33:08.000000000 +0200
+@@ -569,6 +569,7 @@
+ #if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+ 	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
+ 	.audio_enable		=       ti_hdmi_4xxx_wp_audio_enable,
++	.audio_start		=       ti_hdmi_4xxx_audio_start,
+ #endif
+ 
+ };
+diff -Naur ths2/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+--- ths2/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:26:58.000000000 +0200
++++ ths3/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c	2012-05-23 09:33:08.000000000 +0200
+@@ -1252,10 +1252,14 @@
+ 
+ void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable)
+ {
+-	REG_FLD_MOD(hdmi_av_base(ip_data),
+-				HDMI_CORE_AV_AUD_MODE, enable, 0, 0);
+ 	REG_FLD_MOD(hdmi_wp_base(ip_data),
+ 				HDMI_WP_AUDIO_CTRL, enable, 31, 31);
++}
++
++void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable)
++{
++	REG_FLD_MOD(hdmi_av_base(ip_data),
++				HDMI_CORE_AV_AUD_MODE, enable, 0, 0);
+ 	REG_FLD_MOD(hdmi_wp_base(ip_data),
+ 				HDMI_WP_AUDIO_CTRL, enable, 30, 30);
+ }
+diff -Naur ths2/drivers/video/omap2/dss/ti_hdmi.h ths3/drivers/video/omap2/dss/ti_hdmi.h
+--- ths2/drivers/video/omap2/dss/ti_hdmi.h	2012-05-21 09:34:43.000000000 +0200
++++ ths3/drivers/video/omap2/dss/ti_hdmi.h	2012-05-23 09:33:08.000000000 +0200
+@@ -109,6 +109,8 @@
+ #if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+ 	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
+ 	void (*audio_enable)(struct hdmi_ip_data *ip_data, bool start);
++
++	void (*audio_start)(struct hdmi_ip_data *ip_data, bool start);
+ #endif
+ 
+ };
+@@ -184,5 +186,6 @@
+ #if defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI) || \
+ 	defined(CONFIG_SND_OMAP_SOC_OMAP4_HDMI_MODULE)
+ void ti_hdmi_4xxx_wp_audio_enable(struct hdmi_ip_data *ip_data, bool enable);
++void ti_hdmi_4xxx_audio_start(struct hdmi_ip_data *ip_data, bool enable);
+ #endif
+ #endif
