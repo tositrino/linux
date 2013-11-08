@@ -63,10 +63,11 @@
 #   - disabled patches
 #     none
 #   - disabled gentoo patches:
+#     2800_i915-clear-adj-mode-flag.patch
+#     4567_distro-Gentoo-Kconfig.patch
 #     5000-BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
 #     5000-BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
 #     5000-BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
-#     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.11-7
 #   - merge old ths branch
 #     git merge v3.11.3-ths
