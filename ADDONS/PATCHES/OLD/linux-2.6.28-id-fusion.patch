@@ -1,0 +1,25 @@
+diff -Naur linux-2.6.28-org/drivers/message/fusion/mptsas.c linux-2.6.28-id/drivers/message/fusion/mptsas.c
+--- linux-2.6.28-org/drivers/message/fusion/mptsas.c	2008-12-25 00:26:37.000000000 +0100
++++ linux-2.6.28-id/drivers/message/fusion/mptsas.c	2008-12-25 19:42:54.470788256 +0100
+@@ -839,14 +839,16 @@
+ static int
+ mptsas_slave_configure(struct scsi_device *sdev)
+ {
++  struct sas_rphy *rphy;
+ 
+-	if (sdev->channel == MPTSAS_RAID_CHANNEL)
+-		goto out;
++  if (sdev->channel == MPTSAS_RAID_CHANNEL) goto out;
+ 
+-	sas_read_port_mode_page(sdev);
++  rphy = dev_to_rphy(sdev->sdev_target->dev.parent);
++  if (rphy->identify.device_type == SAS_END_DEVICE && !(rphy->identify.target_port_protocols & (SAS_PROTOCOL_SATA | SAS_PROTOCOL_SSP)))
++    sas_read_port_mode_page(sdev);
+ 
+- out:
+-	return mptscsih_slave_configure(sdev);
++  out:
++  return mptscsih_slave_configure(sdev);
+ }
+ 
+ static int

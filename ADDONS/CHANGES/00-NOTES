@@ -1,0 +1,46 @@
+# notes
+
+arm:
+
+  modules that don't compile:
+
+    arm/mach-omap2/board-n8x0  - Nokia N800/N810
+
+    cpufreq/arm/*
+
+    crypto/tcrypt              - Testing module (read_current_timer undefined)
+
+    drivers/input/eeti_ts      - EETI touchscreen panel support
+    drivers/input/egalax_ts    - ETI eGalax multi-touch panel support
+
+    drivers/spi/xilinx         - Xilinx SPI controller common module
+
+    drivers/media/radio/radio-shark - Griffin radioSHARK USB radio receiver (snd_tea575x_init,exit undefined)
+
+    drivers/mfd/pcap           - PCAP Support
+
+    drivers/net/ethernet       - faraday devices
+    drivers/net/ethernet       - STMicroelectronics devices
+    drivers/net/ethernet       - TI devices (need davinci arch)
+
+    drivers/mmc/tmio...        - Toshiba Mobile IO Controller (TMIO) MMC/SD function support
+    drivers/usb/dwc3/*         - DesignWare USB3 DRD Core Support
+
+    drivers/usb/wusb           - Enable Wireless USB extensions (EXPERIMENTAL)
+    drivers/usb/wusb-cbaf      - Support WUSB Cable Based Association (CBA)
+    drivers/usb/hwa            - Host Wire Adapter (HWA) driver (EXPERIMENTAL)
+
+    drivers/usb/host/ehci-platform/ohci-platform  - dont configure and use
+
+    drivers/vfio               - doesn't compile on arm
+
+    drivers/staging/iio/accel/lis3l02dq*    - ST Microelectronics LIS3L02DQ Accelerometer Driver
+
+    drivers/video/udlfb.ko     - DISPLAYLINK support ("read_current_timer" undefined!)
+
+    drivers/staging/bcm/bcm_wima   - Beceem BCS200/BCS220-3 and BCSM250 wimax support ("__bad_udelay" undefined)
+
+  modules that need to be compiled in
+
+    drivers/dma/omap_dma      - fixed refrences
+    sound/*                   - fixed references from omap hdmi
