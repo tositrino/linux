@@ -1,0 +1,30 @@
+--- a/drivers/video/omap2/dss/overlay.c
++++ b/drivers/video/omap2/dss/overlay.c
+@@ -610,7 +610,7 @@  int dss_ovl_simple_check(struct omap_overlay *ovl,
+ {
+     if (info->paddr == 0) {
+         DSSERR("check_overlay: paddr cannot be 0\n");
+-        return -EINVAL;
++//        return -EINVAL;
+     }
+
+     if ((ovl->caps & OMAP_DSS_OVL_CAP_SCALE) == 0) {
+@@ -630,7 +630,7 @@  int dss_ovl_simple_check(struct omap_overlay *ovl,
+     if ((ovl->supported_modes & info->color_mode) == 0) {
+         DSSERR("check_overlay: overlay %d doesn't support mode %d\n",
+                 ovl->id, info->color_mode);
+-        return -EINVAL;
++//        return -EINVAL;
+     }
+
+     if (info->zorder >= omap_dss_get_num_overlays()) {
+@@ -641,7 +641,7 @@  int dss_ovl_simple_check(struct omap_overlay *ovl,
+     if (dss_feat_rotation_type_supported(info->rotation_type) == 0) {
+         DSSERR("check_overlay: rotation type %d not supported\n",
+                 info->rotation_type);
+-        return -EINVAL;
++//        return -EINVAL;
+     }
+
+     return 0;
+
