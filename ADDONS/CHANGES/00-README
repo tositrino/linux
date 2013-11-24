@@ -38,7 +38,7 @@
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.13)
 #   - setup & build kernel 3.13.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
-#   - setup & build kernel 3.13.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.13.0-rc1-ths-x86_64-k8-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
 #   - patch kernel
 #     kv=3.13.0-rc1
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
