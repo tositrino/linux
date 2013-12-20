@@ -1,6 +1,6 @@
 diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
---- linux-x/firmware/WHENCE	2013-05-26 13:01:58.000000000 +0200
-+++ linux-y/firmware/WHENCE	2013-09-24 17:02:34.000000000 +0200
+--- linux-x/firmware/WHENCE	2013-11-04 09:40:46.000000000 +0100
++++ linux-y/firmware/WHENCE	2013-12-20 08:46:59.000000000 +0100
 @@ -10,7 +10,7 @@
  
  Driver: ambassador -- Madge Ambassador (Collage PCI 155 Server) ATM NIC.
@@ -246,9 +246,9 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: ql2322_fw.bin
 +Version: 3.03.28 IPX
 +File: ql2400_fw.bin
-+Version: 5.08.00 MID
++Version: 7.01.00 MID
 +File: ql2500_fw.bin
-+Version: 5.08.00 MIDQ
++Version: 7.01.00 MIDQ
 +
 +Licence: Redistributable. See LICENCE.qla2xxx for details
 +
@@ -378,14 +378,16 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  Licence:
   *	Copyright (c) 2007-2009 NetLogic Microsystems, Inc.
-@@ -423,6 +565,15 @@
+@@ -423,6 +565,17 @@
  
  --------------------------------------------------------------------------
  
-+Driver: cxgb4 - Chelsio Terminator 4 1G/10G Ethernet adapter
++Driver: cxgb4 - Chelsio Terminator 4/5 1G/10/40G Ethernet adapter
 +
-+File: cxgb4/t4fw-1.6.2.0.bin
-+Link: cxgb4/t4fw.bin -> t4fw-1.6.2.0.bin
++File: cxgb4/t4fw-1.9.23.0.bin
++Link: cxgb4/t4fw.bin -> t4fw-1.9.23.0.bin
++File: cxgb4/t5fw-1.9.23.0.bin
++Link: cxgb4/t5fw.bin -> t5fw-1.9.23.0.bin
 +
 +Licence: Redistributable. See LICENCE.chelsio_firmware for details
 +
@@ -394,7 +396,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  Driver: e100 -- Intel PRO/100 Ethernet NIC
  
  File: e100/d101m_ucode.bin
-@@ -447,16 +598,17 @@
+@@ -447,16 +600,17 @@
  
  --------------------------------------------------------------------------
  
@@ -414,7 +416,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
   *
   *	Permission is hereby granted for the distribution of this firmware
   *	data in hexadecimal or equivalent format, provided this copyright
-@@ -466,7 +618,7 @@
+@@ -466,7 +620,7 @@
  
  --------------------------------------------------------------------------
  
@@ -423,7 +425,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: adaptec/starfire_rx.bin
  File: adaptec/starfire_tx.bin
-@@ -485,7 +637,198 @@
+@@ -485,7 +639,201 @@
  
  --------------------------------------------------------------------------
  
@@ -518,11 +520,14 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: mrvl/sd8797_uapsta.bin
 +Version: 14.66.11.p151
 +
++File: mrvl/sd8897_uapsta.bin
++Version: 15.69.2.p11
++
 +File: mrvl/usb8797_uapsta.bin
 +Version: 14.69.11.p179
 +
 +File: mrvl/pcie8897_uapsta.bin
-+Version: 15.69.201.p52
++Version: 15.69.2.p11
 +
 +Licence: Redistributable. See LICENCE.Marvell for details.  Originates from
 +http://git.marvell.com/?p=mwifiex-firmware.git
@@ -623,7 +628,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: tehuti/bdx.bin
  
-@@ -501,7 +844,7 @@
+@@ -501,7 +849,7 @@
  
  --------------------------------------------------------------------------
  
@@ -632,7 +637,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: 3com/typhoon.bin
  
-@@ -543,7 +886,7 @@
+@@ -543,7 +891,7 @@
  
  --------------------------------------------------------------------------
  
@@ -641,7 +646,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yam/1200.bin
  File: yam/9600.bin
-@@ -555,59 +898,111 @@
+@@ -555,59 +903,111 @@
  
  --------------------------------------------------------------------------
  
@@ -754,10 +759,9 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  Originally developed by the pcmcia-cs project
 +Copyright (C) 1998, 1999, 2000 David A. Hinds
- 
- --------------------------------------------------------------------------
- 
--Driver: PCMCIA_SMC91C92 - SMC 91Cxx PCMCIA
++
++--------------------------------------------------------------------------
++
 +Driver: serial_cs - Serial PCMCIA adapter
 +
 +File: cis/SW_555_SER.cis
@@ -767,14 +771,15 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Licence: GPLv3
 +
 +Copyright Sierra Wireless
-+
-+--------------------------------------------------------------------------
-+
+ 
+ --------------------------------------------------------------------------
+ 
+-Driver: PCMCIA_SMC91C92 - SMC 91Cxx PCMCIA
 +Driver: smc91c92_cs - SMC 91Cxx PCMCIA
  
  File: ositech/Xilinx7OD.bin
  
-@@ -619,7 +1014,55 @@
+@@ -619,7 +1019,55 @@
  
  --------------------------------------------------------------------------
  
@@ -831,7 +836,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: qlogic/isp1000.bin
  
-@@ -629,7 +1072,7 @@
+@@ -629,7 +1077,7 @@
  
  --------------------------------------------------------------------------
  
@@ -840,7 +845,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: myricom/lanai.bin
  
-@@ -641,9 +1084,42 @@
+@@ -641,9 +1089,42 @@
  
  Driver: bnx2x: Broadcom Everest
  
@@ -883,7 +888,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  License:
    Copyright (c) 2007-2011 Broadcom Corporation
-@@ -660,12 +1136,31 @@
+@@ -660,12 +1141,31 @@
  
  --------------------------------------------------------------------------
  
@@ -917,7 +922,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  File: bnx2/bnx2-rv2p-09ax-6.0.17.fw
  
  Licence:
-@@ -681,17 +1176,30 @@
+@@ -681,17 +1181,30 @@
  
  --------------------------------------------------------------------------
  
@@ -951,7 +956,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yamaha/yss225_registers.bin
  
-@@ -702,6 +1210,114 @@
+@@ -702,6 +1215,114 @@
  
  --------------------------------------------------------------------------
  
@@ -1066,12 +1071,14 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  Driver: mga - Matrox G200/G400/G550
  
  File: matrox/g200_warp.fw
-@@ -823,6 +1439,142 @@
+@@ -823,14 +1444,157 @@
  
  --------------------------------------------------------------------------
  
+-Driver: ib_qib - QLogic Infiniband
 +Driver: radeon - ATI Radeon
-+
+ 
+-File: qlogic/sd7220.fw
 +File: radeon/R600_rlc.bin
 +File: radeon/R700_rlc.bin
 +File: radeon/RV710_uvd.bin
@@ -1164,12 +1171,19 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: radeon/BONAIRE_rlc.bin
 +File: radeon/BONAIRE_sdma.bin
 +File: radeon/BONAIRE_uvd.bin
++File: radeon/BONAIRE_smc.bin
 +File: radeon/KABINI_ce.bin
 +File: radeon/KABINI_me.bin
 +File: radeon/KABINI_mec.bin
 +File: radeon/KABINI_pfp.bin
 +File: radeon/KABINI_rlc.bin
 +File: radeon/KABINI_sdma.bin
++File: radeon/KAVERI_ce.bin
++File: radeon/KAVERI_me.bin
++File: radeon/KAVERI_mec.bin
++File: radeon/KAVERI_pfp.bin
++File: radeon/KAVERI_rlc.bin
++File: radeon/KAVERI_sdma.bin
 +
 +Licence: Redistributable. See LICENSE.radeon for details.
 +
@@ -1178,8 +1192,8 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Driver: s2255drv
 +
 +File: f2255usb.bin
-+
-+Licence:
+ 
+ Licence:
 +  Sensoray grants permission to use and redistribute these firmware
 +  files for use with Sensoray devices, but not as a part of the Linux
 +  kernel or in any other form which would require these files themselves
@@ -1187,7 +1201,9 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +  These firmware files are distributed in the hope that they will be
 +  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 +  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-+
+ 
+- * Copyright (c) 2007, 2008 QLogic Corporation. All rights reserved.
+- *
 +--------------------------------------------------------------------------
 +
 +Driver: rtl8192e - Realtek 8192 PCI wireless driver
@@ -1206,10 +1222,18 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +--------------------------------------------------------------------------
 +
- Driver: ib_qib - QLogic Infiniband
- 
- File: qlogic/sd7220.fw
-@@ -862,3 +1614,643 @@
++Driver: ib_qib - QLogic Infiniband
++
++File: qlogic/sd7220.fw
++
++Licence:
++
++ * Copyright (c) 2007, 2008 QLogic Corporation. All rights reserved.
++ *
+  * This software is available to you under a choice of one of two
+  * licenses.  You may choose to be licensed under the terms of the GNU
+  * General Public License (GPL) Version 2, available from the file
+@@ -862,3 +1626,735 @@
  Found in hex form in kernel source.
  
  --------------------------------------------------------------------------
@@ -1286,9 +1310,12 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +File: brcm/bcm4329-fullmac-4.bin
 +File: brcm/brcmfmac43236b.bin
-+File: brcm/brcmfmac4329.bin
-+File: brcm/brcmfmac4330.bin
-+File: brcm/brcmfmac4334.bin
++File: brcm/brcmfmac4329-sdio.bin
++File: brcm/brcmfmac4330-sdio.bin
++File: brcm/brcmfmac4334-sdio.bin
++File: brcm/brcmfmac4335-sdio.bin
++File: brcm/brcmfmac43241b0-sdio.bin
++File: brcm/brcmfmac43241b4-sdio.bin
 +
 +Licence: Redistributable. See LICENCE.broadcom_bcm43xx for details.
 +
@@ -1301,6 +1328,24 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +Licence: Redistributable. See LICENCE.tda7706-firmware.txt for details.
 +        Copyright © 2010 STMicroelectronics
++
++--------------------------------------------------------------------------
++
++Driver: wl1251 - Texas Instruments 802.11 WLAN driver for WiLink4 chips
++
++File: ti-connectivity/wl1251-fw.bin
++Version: 4.0.4.3.7
++
++File: ti-connectivity/wl1251-nvs.bin
++
++Licence: See LICENCE.wl1251 for details.
++
++The published NVS files are for testing only.  Every device needs to
++have a unique NVS which is properly calibrated for best results.
++
++The driver expects to find the firmwares under a ti-connectivity subdirectory.
++So if your system looks for firmwares in /lib/firmware, the firmwares for
++wl12xx chips must be located in /lib/firmware/ti-connectivity/.
 +
 +--------------------------------------------------------------------------
 +
@@ -1447,6 +1492,9 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Driver: rtl8192cu - Realtek 802.11n WLAN driver for RTL8192CU
 +
 +File: rtlwifi/rtl8192cufw.bin
++FILE: rtlwifi/rtl8192cufw_A.bin
++FILE: rtlwifi/rtl8192cufw_B.bin
++FILE: rtlwifi/rtl8192cufw_TMSC.bin
 +
 +Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
 +
@@ -1484,6 +1532,15 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +Info: Taken from Realtek version rtl_92ce_92se_92de_8723ae_88ee_linux_mac80211_0010.0109.2013
 +File: rtlwifi/rtl8188efw.bin
++
++Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
++
++--------------------------------------------------------------------------
++
++Driver: rtl8188eu - Realtek 802.11n WLAN driver for RTL8188EU
++
++Info: Taken from Realtek version RTL8188EUS_linux_v4.1.4_6773.20130222
++File: rtlwifi/rtl8188eufw.bin
 +
 +Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
 +
@@ -1752,7 +1809,11 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Driver: btusb - Bluetooth USB driver
 +
 +File: intel/ibt-hw-37.7.bseq
++Version: 1316.02.00
 +File: intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq
++Version: 1344.01.33
++File: intel/ibt-hw-37.7.10-fw-1.0.2.3.d.bseq
++Version: 1344.01.33
 +
 +Licence: Redistributable. See LICENCE.ibt_firmware for details
 +
@@ -1824,15 +1885,15 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +Driver: mxuport - MOXA UPort USB Serial hub driver
 +
-+File: moxa/moxa-04e2.fw
-+File: moxa/moxa-04e3.fw
-+File: moxa/moxa-0582.fw
-+File: moxa/moxa-05aa.fw
-+File: moxa/moxa-05ab.fw
-+File: moxa/moxa-064d.fw
-+File: moxa/moxa-0652.fw
-+File: moxa/moxa-0675.fw
-+File: moxa/moxa-067a.fw
++File: moxa/moxa-1250.fw
++File: moxa/moxa-1251.fw
++File: moxa/moxa-1410.fw
++File: moxa/moxa-1450.fw
++File: moxa/moxa-1451.fw
++File: moxa/moxa-1613.fw
++File: moxa/moxa-1618.fw
++File: moxa/moxa-1653.fw
++File: moxa/moxa-1658.fw
 +
 +License:
 +The software accompanying this license statement (the “Software”)
@@ -1853,3 +1914,58 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +5. Moxa(r) is worldwide registered trademark.
 +
 +--------------------------------------------------------------------------
++
++Driver: cw1200 - ST-E CW1100/CW1200 WLAN driver
++
++File: wsm_22.bin
++Version: WSM395
++Licence: Redistributable. See LICENSE.cw1200 for details.
++
++File: sdd_sagrad_1091_1098.bin
++
++License:
++  Copyright (c) 2011-2013 Sagrad, Inc.
++
++  This SDD ("Static Dynamic Data") file is licensed strictly for use with
++  the Sagrad WiFi modules (such as the SG901-1091/1098) that utilize the
++  cw1200 driver. There is no warranty expressed or implied about its 
++  fitness for any purpose.
++
++  Permission is hereby granted for the distribution of this SDD file as
++  part of Linux or other Open Source operating system kernel in text or
++  binary form as required.
++
++  (Please note that the actual device firmware is separately licensed)
++
++--------------------------------------------------------------------------
++
++Driver: BFA/BNA - Brocade Adapter FC/FCOE drivers
++
++File: cbfw-3.2.1.1.bin
++FIle: ctfw-3.2.1.1.bin
++FIle: ct2fw-3.2.1.1.bin
++File: cbfw-3.2.3.0.bin
++FIle: ctfw-3.2.3.0.bin
++FIle: ct2fw-3.2.3.0.bin
++
++Licence:
++
++This file contains firmware data derived from proprietary unpublished
++source code, Copyright (c) 2013 Brocade Communications Systems, Inc.
++
++Permission is hereby granted for the distribution of this firmware data
++in hexadecimal or equivalent format, provided this copyright notice is
++accompanying it.
++
++Found in hex form in kernel source.
++
++Brocade grants permission to use and redistribute these firmware files
++for use with Brocade devices, but not as a part of the Linux
++kernel or in any other form which would require these files themselves
++to be covered by the terms of the GNU General Public License.
++These firmware files are distributed in the hope that they will be
++useful, but WITHOUT ANY WARRANTY; without even the implied warranty
++of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++
++--------------------------------------------------------------------------
++
