@@ -244,7 +244,7 @@ diff -Naur linux-org/init/version.c linux-ths/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxiii-xii-xxi"
++#define THS_RELEASE          "mmxiii-xii-xx"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
