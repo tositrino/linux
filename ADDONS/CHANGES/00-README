@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.12.5
 # created : 13/10/01
-# changed : 13/12/21
+# changed : 13/12/20
 #
 # TODO:
 #   * ubuntu
@@ -31,19 +31,40 @@
 #   - setup & build kernel 3.12.5-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.12.5-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-#  13/12/21
+# 13/12/20
 #   - updated branch v3.12.5-ths
 #     git push origin v3.12.5-ths
 #     git commit -m "updated v3.12.5-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (3.12)
-#   - setup & build kernel 3.12.5-ths-x86_64-core2-smp-desktop using gcc-4.8.1 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.12.5-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - setup & build kernel 3.12.5-ths-x86_64-k8-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
 #   - patch kernel
 #     kv=3.12.5
 #     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
+#   - new firmware patches
+#     linux-firmware-brcm.patch
+#     linux-firmware-brocade-fc.patch
+#     linux-firmware-cw120.patch
+#     linux-firmware-cxgb4.patch
+#     linux-firmware-emi62.patch
+#     linux-firmware-qlaxxx.patch
+#     linux-firmware-ralink.patch
+#   - updated firmware patches
+#     linux-firmware-ar3k.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-moxa.patch
+#     linux-firmware-mrvl.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-whence.patch
+# 13/12/19
 #   - commit and push new branch
 #     git push origin v3.12.5-ths
 #     git commit -m "created v3.12.5-ths"
@@ -73,7 +94,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/11/25
+# 13/11/25
 #   - updated branch v3.12.1-ths
 #     git push origin v3.12.1-ths
 #     git commit -m "updated v3.12.1-ths"
@@ -87,7 +108,7 @@
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
 #   - THS-RELEASE 3.12.1-mmxiii-xi-xxv
-#  13/11/24
+# 13/11/24
 #   - commit and push new branch
 #     git push origin v3.12.1-ths
 #     git commit -m "created v3.12.1-ths"
@@ -118,7 +139,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/11/05
+# 13/11/05
 #   - updated branch v3.12.0-ths
 #     git push origin v3.12.0-ths
 #     git commit -m "updated v3.12.0-ths"
@@ -133,7 +154,7 @@
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
 #   - updated configs (3.0)
-#  13/11/04
+# 13/11/04
 #   - commit and push new branch
 #     git push origin v3.12.0-ths
 #     git commit -m "created v3.12.0-ths"
@@ -164,7 +185,7 @@
 #     git fetch origin
 #     git fetch stable
 #     git fetch upstream
-#  13/10/02
+# 13/10/02
 #   - updated branch v3.12.0-rc3-ths
 #     git push origin v3.12.0-rc3-ths
 #     git commit -m "updated v3.12.0-rc3-ths"
@@ -181,7 +202,7 @@
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
-#  13/10/01
+# 13/10/01
 #   - commit and push new branch
 #     git push origin v3.12.0-rc3-ths
 #     git commit -m "created v3.12.0-rc3-ths"
