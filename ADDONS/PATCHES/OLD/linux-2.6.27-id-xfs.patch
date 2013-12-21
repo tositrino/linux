@@ -1,0 +1,56 @@
+diff -Naur linux-2.6.27-org/fs/xfs/xfs_da_btree.c linux-2.6.27-id/fs/xfs/xfs_da_btree.c
+--- linux-2.6.27-org/fs/xfs/xfs_da_btree.c	2008-10-10 00:13:53.000000000 +0200
++++ linux-2.6.27-id/fs/xfs/xfs_da_btree.c	2008-11-05 13:37:22.000000000 +0100
+@@ -1566,11 +1566,13 @@
+ 	int nmap, error, w, count, c, got, i, mapi;
+ 	xfs_trans_t *tp;
+ 	xfs_mount_t *mp;
++    xfs_drfsbno_t   nblks;
+ 
+ 	dp = args->dp;
+ 	mp = dp->i_mount;
+ 	w = args->whichfork;
+ 	tp = args->trans;
++	nblks = dp->i_d.di_nblocks;
+ 	/*
+ 	 * For new directories adjust the file offset and block count.
+ 	 */
+@@ -1647,6 +1649,10 @@
+ 	}
+ 	if (mapp != &map)
+ 		kmem_free(mapp);
++
++    /* account for newly allocated blocks in reserved blocks total */
++    args->total -= dp->i_d.di_nblocks - nblks;
++
+ 	*new_blkno = (xfs_dablk_t)bno;
+ 	return 0;
+ }
+diff -Naur linux-2.6.27-org/fs/xfs/xfs_dir2.c linux-2.6.27-id/fs/xfs/xfs_dir2.c
+--- linux-2.6.27-org/fs/xfs/xfs_dir2.c	2008-10-10 00:13:53.000000000 +0200
++++ linux-2.6.27-id/fs/xfs/xfs_dir2.c	2008-11-05 13:47:07.000000000 +0100
+@@ -525,11 +525,13 @@
+ 	xfs_mount_t	*mp;
+ 	int		nmap;		/* number of bmap entries */
+ 	xfs_trans_t	*tp;
++	xfs_drfsbno_t   nblks;
+ 
+ 	xfs_dir2_trace_args_s("grow_inode", args, space);
+ 	dp = args->dp;
+ 	tp = args->trans;
+ 	mp = dp->i_mount;
++	nblks = dp->i_d.di_nblocks;
+ 	/*
+ 	 * Set lowest possible block in the space requested.
+ 	 */
+@@ -622,6 +624,10 @@
+ 	 */
+ 	if (mapp != &map)
+ 		kmem_free(mapp);
++
++    /* account for newly allocated blocks in reserved blocks total */
++    args->total -= dp->i_d.di_nblocks - nblks;
++
+ 	*dbp = xfs_dir2_da_to_db(mp, (xfs_dablk_t)bno);
+ 	/*
+ 	 * Update file's size if this is the data space and it grew.
