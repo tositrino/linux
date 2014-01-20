@@ -4,7 +4,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 13
  SUBLEVEL = 0
- EXTRAVERSION = -rc4
+ EXTRAVERSION =
 -NAME = One Giant Leap for Frogkind
 +NAME = Odonata Draconis
  
