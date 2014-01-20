@@ -1,0 +1,15 @@
+--- linux-org/.gitignore	2013-09-30 08:43:10.000000000 +0200
++++ linux-ths/.gitignore	2013-10-01 17:23:33.678669857 +0200
+@@ -81,6 +81,12 @@
+ GSYMS
+ GTAGS
+ 
++# THS
++THS-*
++config-*
++*.log
++samples/hidraw/hid-example
++
+ *.orig
+ *~
+ \#*#
