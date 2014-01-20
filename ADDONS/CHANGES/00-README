@@ -55,6 +55,7 @@
 #   - added patches:
 #     none
 #   - updated patches:
+#     linux-firmware-whence-3.12.patch
 #     linux-3.12-latest-ths-Makefile.patch
 #     linux-3.12-ths-init.patch
 #   - obsolete patches
