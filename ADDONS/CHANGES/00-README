@@ -53,8 +53,12 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
-#     none
+#     linux-firmware-atheros.patch
 #   - updated patches:
+#     linux-firmware-ar3k.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtlwifi.patch
 #     linux-firmware-whence-3.12.patch
 #     linux-3.12-latest-ths-Makefile.patch
 #     linux-3.12-ths-init.patch
