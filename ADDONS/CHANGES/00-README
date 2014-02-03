@@ -68,6 +68,7 @@
 #   - obsolete patches
 #     none
 #   - disabled gentoo patches:
+#     1900_frozen-fs-time-update.patch (obsolete)
 #     5000_BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
 #     5000_BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
 #     5000_BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
