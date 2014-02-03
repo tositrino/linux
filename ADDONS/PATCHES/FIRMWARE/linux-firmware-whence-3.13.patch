@@ -1,6 +1,6 @@
-diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
---- linux-x/firmware/WHENCE	2013-11-04 09:40:46.000000000 +0100
-+++ linux-y/firmware/WHENCE	2013-12-20 08:46:59.000000000 +0100
+diff -Naur linux-3.13.1/firmware/WHENCE linux-y/firmware/WHENCE
+--- linux-3.13.1/firmware/WHENCE	2013-11-04 09:40:46.000000000 +0100
++++ linux-y/firmware/WHENCE	2014-02-03 11:22:54.000000000 +0100
 @@ -10,7 +10,7 @@
  
  Driver: ambassador -- Madge Ambassador (Collage PCI 155 Server) ATM NIC.
@@ -425,7 +425,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: adaptec/starfire_rx.bin
  File: adaptec/starfire_tx.bin
-@@ -485,7 +639,201 @@
+@@ -485,7 +639,207 @@
  
  --------------------------------------------------------------------------
  
@@ -598,10 +598,16 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Version: 18.168.6.1
 +
 +File: iwlwifi-7260-7.ucode
-+Version: 22.0.7.0
++Version: 22.1.7.0
++
++File: iwlwifi-7260-8.ucode
++Version: 22.15.8.0
 +
 +File: iwlwifi-3160-7.ucode
-+Version: 22.0.7.0
++Version: 22.1.7.0
++
++File: iwlwifi-3160-8.ucode
++Version: 22.15.8.0
 +
 +Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
 +
@@ -628,7 +634,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: tehuti/bdx.bin
  
-@@ -501,7 +849,7 @@
+@@ -501,7 +855,7 @@
  
  --------------------------------------------------------------------------
  
@@ -637,7 +643,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: 3com/typhoon.bin
  
-@@ -543,7 +891,7 @@
+@@ -543,7 +897,7 @@
  
  --------------------------------------------------------------------------
  
@@ -646,7 +652,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yam/1200.bin
  File: yam/9600.bin
-@@ -555,59 +903,111 @@
+@@ -555,59 +909,111 @@
  
  --------------------------------------------------------------------------
  
@@ -779,7 +785,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: ositech/Xilinx7OD.bin
  
-@@ -619,7 +1019,55 @@
+@@ -619,7 +1025,55 @@
  
  --------------------------------------------------------------------------
  
@@ -836,7 +842,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: qlogic/isp1000.bin
  
-@@ -629,7 +1077,7 @@
+@@ -629,7 +1083,7 @@
  
  --------------------------------------------------------------------------
  
@@ -845,7 +851,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: myricom/lanai.bin
  
-@@ -641,9 +1089,42 @@
+@@ -641,9 +1095,42 @@
  
  Driver: bnx2x: Broadcom Everest
  
@@ -888,7 +894,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  License:
    Copyright (c) 2007-2011 Broadcom Corporation
-@@ -660,12 +1141,31 @@
+@@ -660,12 +1147,31 @@
  
  --------------------------------------------------------------------------
  
@@ -922,7 +928,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  File: bnx2/bnx2-rv2p-09ax-6.0.17.fw
  
  Licence:
-@@ -681,17 +1181,30 @@
+@@ -681,17 +1187,30 @@
  
  --------------------------------------------------------------------------
  
@@ -956,7 +962,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  
  File: yamaha/yss225_registers.bin
  
-@@ -702,6 +1215,114 @@
+@@ -702,6 +1221,114 @@
  
  --------------------------------------------------------------------------
  
@@ -1071,7 +1077,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
  Driver: mga - Matrox G200/G400/G550
  
  File: matrox/g200_warp.fw
-@@ -823,14 +1444,157 @@
+@@ -823,9 +1450,160 @@
  
  --------------------------------------------------------------------------
  
@@ -1184,6 +1190,14 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +File: radeon/KAVERI_pfp.bin
 +File: radeon/KAVERI_rlc.bin
 +File: radeon/KAVERI_sdma.bin
++File: radeon/HAWAII_ce.bin
++File: radeon/HAWAII_mc.bin
++File: radeon/HAWAII_me.bin
++File: radeon/HAWAII_mec.bin
++File: radeon/HAWAII_pfp.bin
++File: radeon/HAWAII_rlc.bin
++File: radeon/HAWAII_sdma.bin
++File: radeon/HAWAII_smc.bin
 +
 +Licence: Redistributable. See LICENSE.radeon for details.
 +
@@ -1192,8 +1206,8 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Driver: s2255drv
 +
 +File: f2255usb.bin
- 
- Licence:
++
++Licence:
 +  Sensoray grants permission to use and redistribute these firmware
 +  files for use with Sensoray devices, but not as a part of the Linux
 +  kernel or in any other form which would require these files themselves
@@ -1201,9 +1215,7 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +  These firmware files are distributed in the hope that they will be
 +  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 +  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- 
-- * Copyright (c) 2007, 2008 QLogic Corporation. All rights reserved.
-- *
++
 +--------------------------------------------------------------------------
 +
 +Driver: rtl8192e - Realtek 8192 PCI wireless driver
@@ -1225,15 +1237,10 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +Driver: ib_qib - QLogic Infiniband
 +
 +File: qlogic/sd7220.fw
-+
-+Licence:
-+
-+ * Copyright (c) 2007, 2008 QLogic Corporation. All rights reserved.
-+ *
-  * This software is available to you under a choice of one of two
-  * licenses.  You may choose to be licensed under the terms of the GNU
-  * General Public License (GPL) Version 2, available from the file
-@@ -862,3 +1626,735 @@
+ 
+ Licence:
+ 
+@@ -862,3 +1640,757 @@
  Found in hex form in kernel source.
  
  --------------------------------------------------------------------------
@@ -1528,6 +1535,19 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +--------------------------------------------------------------------------
 +
++Driver: r8723au - Realtek 802.11n WLAN driver for RTL8723AU
++
++Info: Taken from Realtek driver rtl8723A_WiFi_linux_v4.1.3_6044.20121224
++      Firmware is embedded in the driver as data statements. This info
++      has been extracted into a binary file.
++File: rtlwifi/rtl8723aufw_A.bin
++File: rtlwifi/rtl8723aufw_B.bin
++File: rtlwifi/rtl8723aufw_B_NoBT.bin
++
++Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
++
++--------------------------------------------------------------------------
++
 +Driver: rtl8188ee - Realtek 802.11n WLAN driver for RTL8188EE
 +
 +Info: Taken from Realtek version rtl_92ce_92se_92de_8723ae_88ee_linux_mac80211_0010.0109.2013
@@ -1541,6 +1561,15 @@ diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
 +
 +Info: Taken from Realtek version RTL8188EUS_linux_v4.1.4_6773.20130222
 +File: rtlwifi/rtl8188eufw.bin
++
++Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
++
++--------------------------------------------------------------------------
++
++Driver: rtl8821ae - Realtek 802.11n WLAN driver for RTL8821AE
++
++Info: Taken from Realtek version wifi_driver_8821ae_0018.1129.2013.tar.gz
++File: rtlwifi/rtl8821aefw.bin
 +
 +Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
 +
