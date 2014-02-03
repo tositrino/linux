@@ -1,0 +1,24 @@
+config  HDRV_DEV
+	tristate "Hello Device (testing driver)"
+	default n
+	help
+	  The Hello Device Driver (HDRV) is a driver testing framework. it creates
+	  a device file called /dev/HDRV_DEV_NAME (defaults to /dev/hello) which will 
+	  return the string defined under HELLO_DEV_MESSAGE (defaults to "Hello World") 
+	  when it is read.
+
+config HDRV_DEV_MESSAGE
+	string "Hello Device Driver output message"
+    default "Hello World"
+	depends on HDRV_DEV
+	help
+	  define the string that will be returned by reading the device file
+	  /dev/HDRV_DEV_NAME (default "Hello World" )
+
+config HDRV_DEV_NAME
+	string "Hello Device Driver device name"
+	default "hello"
+	depends on HDRV_DEV
+	help
+	  define the device file name (default "hello")
+
