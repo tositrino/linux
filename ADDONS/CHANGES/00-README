@@ -3,8 +3,8 @@
 #
 # package : linux kernel
 # version : 3.14.0
-# created : 14/02/03
-# changed : 14/02/03
+# created : 14/03/31
+# changed : 14/04/14
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,22 @@
 #   - setup & build kernel 3.14.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.14.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 14/04/14
+#   - updated branch v3.14.0-ths
+#     git push origin v3.14.0-ths
+#     git commit -m "updated v3.14.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated patches:
+#     linux-3.14-ths-init.patch
+#   - disabled gentoo patches:
+#     1900_frozen-fs-time-update.patch (obsolete)
+#     2800_i915-clear-adj-mode-flag.patch.log (obsolete)
+#     5000_BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
+#     5000_BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
+#     5000_BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
+#     5000_BFQ-4-block-Switch-from-BFQ-v6r2-for-3.11.0-to-BFQ-v6r2-fo.patch
+#   - using genpatches-3.14-10
+#   - THS-RELEASE 3.14.0-mmxiv-iv-xiv
 # 14/03/31
 #   - updated branch v3.14.0-ths
 #     git push origin v3.14.0-ths
