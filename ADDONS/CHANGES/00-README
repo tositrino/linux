@@ -45,7 +45,7 @@
 #     5000_BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
 #     5000_BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
 #     5000_BFQ-4-block-Switch-from-BFQ-v6r2-for-3.11.0-to-BFQ-v6r2-fo.patch
-#   - using genpatches-3.14-10
+#   - using genpatches-3.14-3
 #   - THS-RELEASE 3.14.0-mmxiv-iv-xiv
 # 14/03/31
 #   - updated branch v3.14.0-ths
