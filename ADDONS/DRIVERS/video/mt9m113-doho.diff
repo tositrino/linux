@@ -1,0 +1,158 @@
+--- mt9m113.c	2013-07-05 08:28:14.000000000 +0200
++++ mt9m113-doho.c	2013-07-10 17:23:58.000000000 +0200
+@@ -29,7 +29,7 @@
+ /* Default resolution & pixelformat. plz ref mt9m113_platform.h */
+ #define DEFAULT_RES		WVGA	/* Index of resoultion */
+ #define DEFAUT_FPS_INDEX	MT9M113_15FPS
+-#define DEFAULT_FMT		V4L2_PIX_FMT_UYVY	/* YUV422 */
++#define DEFAULT_FMT		V4L2_PIX_FMT_UYVY//	/* YUV422 */
+ 
+ 
+ #define MT9M113_JPEG_MAXSIZE	0x3A0000
+@@ -111,17 +111,17 @@
+ 	reg[3] = val & 0xff;
+ 
+ 	err = i2c_transfer(client->adapter, msg, 1);
+-	if (err >= 0)
+-		return err;	/* Returns here on success */
++	//if (err >= 0)
++	//	return err;	/* Returns here on success */
+ 
+ 	/* abnormal case: retry 5 times */
+-	if (retry < 5) {
+-		dev_err(&client->dev, "%s: address: 0x%02x%02x, " \
+-			"value: 0x%02x%02x error..\n", __func__, \
+-			reg[0], reg[1], reg[2], reg[3]);
+-		retry++;
+-		goto again;
+-	}
++	//if (retry < 5) {
++	//	dev_err(&client->dev, "%s: address: 0x%02x%02x, " \
++	//		"value: 0x%02x%02x error..\n", __func__, \
++	//		reg[0], reg[1], reg[2], reg[3]);
++	//	retry++;
++	//	goto again;
++	//}
+ 
+ 	return err;
+ }
+@@ -540,19 +540,19 @@
+ 	int err = -EINVAL, i;
+ 	unsigned short *item;
+ 
+-	for (i = 0; i < total; i++) {
+-		item = (unsigned short *) &reg[i];
+-		if (item[0] == REG_DELAY) {
+-			mdelay(item[1]);
+-			err = 0;
+-		} else {
+-			err = mt9m113_write(sd, item[0], item[1]);
+-		}
+-
+-		if (err < 0)
+-			v4l_info(client, "%s: register set failed\n", \
+-			__func__);
+-	}
++//	for (i = 0; i < total; i++) {
++//		item = (unsigned short *) &reg[i];
++//		if (item[0] == REG_DELAY) {
++//			mdelay(item[1]);
++//			err = 0;
++//		} else {
++//			err = mt9m113_write(sd, item[0], item[1]);
++//		}
++//
++	//	if (err < 0)
++	//		v4l_info(client, "%s: register set failed\n", \
++	//		__func__);
++	//}
+ 
+ 	return err;
+ }
+@@ -564,21 +564,21 @@
+ 	int err = -EINVAL, i;
+ 	unsigned short *item;
+ 
+-	for (i = 0; i < total; i+=2) {
+-		item = (unsigned short *) &reg[i];
+-		if (item[0] == REG_DELAY) {
+-			mdelay(item[1]);
+-			err = 0;
+-		} else {
+-			err = mt9m113_write(sd, item[0], item[1]);
+-		}
+-
+-		if (err < 0){
+-			v4l_info(client, "%s: register set failed\n", \
+-			__func__);
+-			printk("%s: register set failed\n", __func__);
+-			}
+-	}
++//	for (i = 0; i < total; i+=2) {
++//		item = (unsigned short *) &reg[i];
++//		if (item[0] == REG_DELAY) {
++//			mdelay(item[1]);
++//			err = 0;
++//		} else {
++//			err = mt9m113_write(sd, item[0], item[1]);
++//		}
++//
++	//	if (err < 0){
++	//		v4l_info(client, "%s: register set failed\n", \
++	//		__func__);
++	//		printk("%s: register set failed\n", __func__);
++	//		}
++	//}
+ 
+ 	return err;
+ }
+@@ -594,11 +594,11 @@
+ 	err = __mt9m113_init_2byte(sd, \
+ 		(unsigned short *) mt9m113_init0, MT9M113_INIT0);
+ 
+-	if (err < 0) {
+-		v4l_err(client, "%s: camera initialization failed\n", \
+-			__func__);
+-		return -EIO;	/* FIXME */
+-	}
++	//if (err < 0) {
++	//	v4l_err(client, "%s: camera initialization failed\n", \
++	//		__func__);
++	//	return -EIO;	/* FIXME */
++	//}
+ 
+ 	return 0;
+ }
+@@ -699,22 +699,22 @@
+ 			printk("%s STREAM_MODE_CAM_ON\n",__func__);
+ 			err = __mt9m113_init_2byte(sd, \
+ 				(unsigned short *) Viewfinder_ON, MT9M113_Viewfinder_ON);
+-			if (err < 0) {
+-				v4l_err(client, "%s: camera i2c setting failed\n", \
+-					__func__);
+-				return -EIO;	/* FIXME */
+-			}
++			//if (err < 0) {
++			//	v4l_err(client, "%s: camera i2c setting failed\n", \
++			//		__func__);
++			//	return -EIO;	/* FIXME */
++			//}
+ 
+ 			break;
+ 		case STREAM_MODE_CAM_OFF:
+ 			printk("%s STREAM_MODE_CAM_OFF\n",__func__);
+ 			err = __mt9m113_init_2byte(sd, \
+ 				(unsigned short *) Viewfinder_OFF, MT9M113_Viewfinder_OFF);
+-			if (err < 0) {
+-				v4l_err(client, "%s: camera i2c setting failed\n", \
+-					__func__);
+-				return -EIO;	/* FIXME */
+-			}
++			//if (err < 0) {
++			//	v4l_err(client, "%s: camera i2c setting failed\n", \
++			//		__func__);
++			//	return -EIO;	/* FIXME */
++			//}
+ 			break;
+ 		default:
+ 			
