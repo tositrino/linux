@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.14.1
 # created : 14/03/31
-# changed : 14/04/23
+# changed : 14/05/13
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,12 @@
 #   - setup & build kernel 3.14.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.14.1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 14/05/13
+#   - updated branch v3.14.1-ths
+#     git push origin v3.14.1-ths
+#     git commit -m "updated v3.14.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - added some old driver files (for completeness)
 # 14/04/21
 #   - updated branch v3.14.1-ths
 #     git push origin v3.14.1-ths
