@@ -51,12 +51,14 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
+#     linux-firmware-bnx2x.patch
 #     linux-firmware-intel-qat-crypto.patch
 #     linux-firmware-readme.patch
 #     linux-firmware-rsi.patch
 #     linux-firmware-bnx2.patch
 #     linux-firmware-myri10ge.patch
 #   - updated patches:
+#     linux-firmware-bnx2.patch
 #     linux-firmware-brcm.patch
 #     linux-firmware-intel.patch
 #     linux-firmware-iwlwifi.patch
