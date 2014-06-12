@@ -51,8 +51,19 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
-#     none
+#     linux-firmware-intel-qat-crypto.patch
+#     linux-firmware-readme.patch
+#     linux-firmware-rsi.patch
+#     linux-firmware-bnx2.patch
+#     linux-firmware-myri10ge.patch
 #   - updated patches:
+#     linux-firmware-brcm.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-whence-3.14.patch
 #     linux-3.14-latest-ths-Makefile.patch
 #     linux-3.14-ths-init.patch
 #   - obsolete patches
