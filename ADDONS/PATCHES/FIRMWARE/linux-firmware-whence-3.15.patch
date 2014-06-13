@@ -1,6 +1,6 @@
-diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
---- linux-org/firmware/WHENCE	2013-11-04 09:40:46.000000000 +0100
-+++ linux-ths/firmware/WHENCE	2014-03-31 09:22:32.000000000 +0200
+diff -Naur linux-x/firmware/WHENCE linux-y/firmware/WHENCE
+--- linux-x/firmware/WHENCE	2014-06-13 12:58:16.000000000 +0200
++++ linux-y/firmware/WHENCE	2014-06-12 08:54:28.000000000 +0200
 @@ -10,7 +10,7 @@
  
  Driver: ambassador -- Madge Ambassador (Collage PCI 155 Server) ATM NIC.
@@ -160,16 +160,26 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  Licence: Allegedly GPLv2, but no source visible. Marked:
  	 Copyright (C) 2000-2002  ConnectTech Inc
-@@ -283,7 +313,7 @@
+@@ -273,7 +303,17 @@
  
  --------------------------------------------------------------------------
  
 -Driver: CPiA2 -- cameras based on Vision's CPiA2
++Driver: ip2 -- Computone IntelliPort Plus serial device
++
++File: intelliport2.bin
++
++Licence: Unknown
++
++Found in hex form in kernel source.
++
++--------------------------------------------------------------------------
++
 +Driver: cpia2 -- cameras based on Vision's CPiA2
  
  File: cpia2/stv0672_vp4.bin
  
-@@ -296,7 +326,7 @@
+@@ -286,7 +326,7 @@
  
  --------------------------------------------------------------------------
  
@@ -178,7 +188,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: dabusb/firmware.fw
  File: dabusb/bitstream.bin
-@@ -312,7 +342,7 @@
+@@ -302,7 +342,7 @@
  
  --------------------------------------------------------------------------
  
@@ -187,7 +197,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: vicam/firmware.fw
  
-@@ -322,7 +352,7 @@
+@@ -312,7 +352,7 @@
  
  --------------------------------------------------------------------------
  
@@ -196,7 +206,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: edgeport/boot.fw
  File: edgeport/boot2.fw
-@@ -340,7 +370,7 @@
+@@ -330,7 +370,7 @@
  
  --------------------------------------------------------------------------
  
@@ -205,7 +215,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  (TI Devices)
  
  File: edgeport/down3.bin
-@@ -356,19 +386,21 @@
+@@ -346,19 +386,21 @@
  
  --------------------------------------------------------------------------
  
@@ -230,7 +240,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: sb16/mulaw_main.csp
  File: sb16/alaw_main.csp
-@@ -386,7 +418,62 @@
+@@ -376,7 +418,62 @@
  
  --------------------------------------------------------------------------
  
@@ -294,7 +304,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: sun/cassini.bin
  
-@@ -396,21 +483,76 @@
+@@ -386,21 +483,76 @@
  
  --------------------------------------------------------------------------
  
@@ -378,7 +388,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  Licence:
   *	Copyright (c) 2007-2009 NetLogic Microsystems, Inc.
-@@ -423,6 +565,17 @@
+@@ -413,6 +565,17 @@
  
  --------------------------------------------------------------------------
  
@@ -396,7 +406,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  Driver: e100 -- Intel PRO/100 Ethernet NIC
  
  File: e100/d101m_ucode.bin
-@@ -447,16 +600,17 @@
+@@ -437,16 +600,17 @@
  
  --------------------------------------------------------------------------
  
@@ -416,7 +426,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
   *
   *	Permission is hereby granted for the distribution of this firmware
   *	data in hexadecimal or equivalent format, provided this copyright
-@@ -466,7 +620,7 @@
+@@ -456,7 +620,7 @@
  
  --------------------------------------------------------------------------
  
@@ -425,7 +435,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: adaptec/starfire_rx.bin
  File: adaptec/starfire_tx.bin
-@@ -485,7 +639,207 @@
+@@ -475,7 +639,219 @@
  
  --------------------------------------------------------------------------
  
@@ -603,15 +613,27 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: iwlwifi-7260-8.ucode
 +Version: 22.24.8.0
 +
++File: iwlwifi-7260-9.ucode
++Version: 23.214.9.0
++
 +File: iwlwifi-3160-7.ucode
 +Version: 22.1.7.0
 +
 +File: iwlwifi-3160-8.ucode
 +Version: 22.24.8.0
 +
++File: iwlwifi-3160-9.ucode
++Version: 23.214.9.0
++
++File: iwlwifi-7265-8.ucode
++Version: 22.24.8.0
++
++File: iwlwifi-7265-9.ucode
++Version: 23.214.9.0
++
 +Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
 +
-+Also available from http://wireless.kernel.org/en/users/Drivers/iwlwifi/?n=Downloads
++Also available from http://wireless.kernel.org/en/users/Drivers/iwlwifi#Firmware
 +
 +--------------------------------------------------------------------------
 +
@@ -634,7 +656,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: tehuti/bdx.bin
  
-@@ -501,7 +855,7 @@
+@@ -491,7 +867,7 @@
  
  --------------------------------------------------------------------------
  
@@ -643,7 +665,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: 3com/typhoon.bin
  
-@@ -543,7 +897,7 @@
+@@ -533,7 +909,7 @@
  
  --------------------------------------------------------------------------
  
@@ -652,7 +674,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: yam/1200.bin
  File: yam/9600.bin
-@@ -555,59 +909,111 @@
+@@ -545,59 +921,111 @@
  
  --------------------------------------------------------------------------
  
@@ -785,7 +807,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: ositech/Xilinx7OD.bin
  
-@@ -619,7 +1025,55 @@
+@@ -609,7 +1037,55 @@
  
  --------------------------------------------------------------------------
  
@@ -842,7 +864,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: qlogic/isp1000.bin
  
-@@ -629,7 +1083,7 @@
+@@ -619,7 +1095,7 @@
  
  --------------------------------------------------------------------------
  
@@ -851,7 +873,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: myricom/lanai.bin
  
-@@ -641,9 +1095,45 @@
+@@ -631,9 +1107,45 @@
  
  Driver: bnx2x: Broadcom Everest
  
@@ -897,7 +919,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  License:
    Copyright (c) 2007-2011 Broadcom Corporation
-@@ -660,12 +1150,31 @@
+@@ -650,12 +1162,31 @@
  
  --------------------------------------------------------------------------
  
@@ -931,7 +953,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  File: bnx2/bnx2-rv2p-09ax-6.0.17.fw
  
  Licence:
-@@ -681,17 +1190,30 @@
+@@ -671,17 +1202,30 @@
  
  --------------------------------------------------------------------------
  
@@ -965,54 +987,102 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
  
  File: yamaha/yss225_registers.bin
  
-@@ -702,6 +1224,114 @@
+@@ -692,73 +1236,181 @@
  
  --------------------------------------------------------------------------
  
+-Driver: mga - Matrox G200/G400/G550
 +Driver: rt61pci - Ralink RT2561, RT2561S, RT2661 wireless MACs
-+
+ 
+-File: matrox/g200_warp.fw
+-File: matrox/g400_warp.fw
 +File: rt2561.bin
 +File: rt2561s.bin
 +File: rt2661.bin
-+
+ 
+-Licence:
 +Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
-+
+ 
+-Copyright 1999 Matrox Graphics Inc.
+-All Rights Reserved.
 +Downloaded from http://www.ralinktech.com/ralink/Home/Support/Linux.html
-+
+ 
+-Permission is hereby granted, free of charge, to any person obtaining a
+-copy of this software and associated documentation files (the "Software"),
+-to deal in the Software without restriction, including without limitation
+-the rights to use, copy, modify, merge, publish, distribute, sublicense,
+-and/or sell copies of the Software, and to permit persons to whom the
+-Software is furnished to do so, subject to the following conditions:
 +--------------------------------------------------------------------------
-+
+ 
+-The above copyright notice and this permission notice shall be included
+-in all copies or substantial portions of the Software.
 +Driver: rt73usb - Ralink RT2571W, RT2671 wireless MACs
-+
+ 
+-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+-MATROX GRAPHICS INC., OR ANY OTHER CONTRIBUTORS BE LIABLE FOR ANY CLAIM,
+-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 +File: rt73.bin
-+
+ 
+-Found in hex form in kernel source.
 +Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
 +
 +Downloaded from http://www.ralinktech.com/ralink/Home/Support/Linux.html
-+
-+--------------------------------------------------------------------------
-+
+ 
+ --------------------------------------------------------------------------
+ 
+-Driver: r128 - ATI Rage 128
 +Driver: rt2800pci - Ralink RT2860, RT2890, RT3090, RT3290, RT5390 wireless MACs
-+
+ 
+-File: r128/r128_cce.bin
 +File: rt2860.bin
 +File: rt3290.bin
-+
+ 
+-Licence:
 +Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
-+
+ 
+-Copyright 2000 Advanced Micro Devices, Inc.
 +Binary file supplied by Shiang Tu <shiang_tu@ralinktech.com>. Firmware Version 34
 +rt3290.bin is a specific firmware support the RT3290 chip. Firmware Version 37
-+
+ 
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the next
+- * paragraph) shall be included in all copies or substantial portions of the
+- * Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
 +--------------------------------------------------------------------------
-+
+ 
+-Found in decimal form in kernel source.
 +Driver: rt2860sta - Ralink RT3090 wireless MACs
 +
 +Link: rt3090.bin -> rt2860.bin
 +
 +Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
-+
-+--------------------------------------------------------------------------
-+
+ 
+ --------------------------------------------------------------------------
+ 
+-Driver: radeon - ATI Radeon
 +Driver: rt2800usb - Ralink RT2870, RT3070, RT3071, RT3072, RT5370 wireless MACs
-+
+ 
+-File: radeon/R100_cp.bin
+-File: radeon/R200_cp.bin
 +File: rt2870.bin
 +
 +Licence: Redistributable. See LICENCE.ralink-firmware.txt for details
@@ -1077,17 +1147,82 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +
 +--------------------------------------------------------------------------
 +
- Driver: mga - Matrox G200/G400/G550
- 
- File: matrox/g200_warp.fw
-@@ -823,9 +1453,160 @@
++Driver: mga - Matrox G200/G400/G550
++
++File: matrox/g200_warp.fw
++File: matrox/g400_warp.fw
++
++Licence:
++
++Copyright 1999 Matrox Graphics Inc.
++All Rights Reserved.
++
++Permission is hereby granted, free of charge, to any person obtaining a
++copy of this software and associated documentation files (the "Software"),
++to deal in the Software without restriction, including without limitation
++the rights to use, copy, modify, merge, publish, distribute, sublicense,
++and/or sell copies of the Software, and to permit persons to whom the
++Software is furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included
++in all copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++MATROX GRAPHICS INC., OR ANY OTHER CONTRIBUTORS BE LIABLE FOR ANY CLAIM,
++DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
++OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++
++Found in hex form in kernel source.
++
++--------------------------------------------------------------------------
++
++Driver: r128 - ATI Rage 128
++
++File: r128/r128_cce.bin
++
++Licence:
++
++Copyright 2000 Advanced Micro Devices, Inc.
++
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++ * DEALINGS IN THE SOFTWARE.
++
++Found in decimal form in kernel source.
++
++--------------------------------------------------------------------------
++
++Driver: radeon - ATI Radeon
++
++File: radeon/R100_cp.bin
++File: radeon/R200_cp.bin
+ File: radeon/R300_cp.bin
+ File: radeon/R420_cp.bin
+ File: radeon/RS600_cp.bin
+@@ -813,6 +1465,171 @@
  
  --------------------------------------------------------------------------
  
--Driver: ib_qib - QLogic Infiniband
 +Driver: radeon - ATI Radeon
- 
--File: qlogic/sd7220.fw
++
 +File: radeon/R600_rlc.bin
 +File: radeon/R700_rlc.bin
 +File: radeon/RV710_uvd.bin
@@ -1143,12 +1278,14 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: radeon/ARUBA_rlc.bin
 +File: radeon/PITCAIRN_ce.bin
 +File: radeon/PITCAIRN_mc.bin
++File: radeon/PITCAIRN_mc2.bin
 +File: radeon/PITCAIRN_me.bin
 +File: radeon/PITCAIRN_pfp.bin
 +File: radeon/PITCAIRN_rlc.bin
 +File: radeon/PITCAIRN_smc.bin
 +File: radeon/TAHITI_ce.bin
 +File: radeon/TAHITI_mc.bin
++File: radeon/TAHITI_mc2.bin
 +File: radeon/TAHITI_me.bin
 +File: radeon/TAHITI_pfp.bin
 +File: radeon/TAHITI_rlc.bin
@@ -1156,24 +1293,28 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: radeon/TAHITI_smc.bin
 +File: radeon/VERDE_ce.bin
 +File: radeon/VERDE_mc.bin
++File: radeon/VERDE_mc2.bin
 +File: radeon/VERDE_me.bin
 +File: radeon/VERDE_pfp.bin
 +File: radeon/VERDE_rlc.bin
 +File: radeon/VERDE_smc.bin
 +File: radeon/OLAND_ce.bin
 +File: radeon/OLAND_mc.bin
++File: radeon/OLAND_mc2.bin
 +File: radeon/OLAND_me.bin
 +File: radeon/OLAND_pfp.bin
 +File: radeon/OLAND_rlc.bin
 +File: radeon/OLAND_smc.bin
 +File: radeon/HAINAN_ce.bin
 +File: radeon/HAINAN_mc.bin
++File: radeon/HAINAN_mc2.bin
 +File: radeon/HAINAN_me.bin
 +File: radeon/HAINAN_pfp.bin
 +File: radeon/HAINAN_rlc.bin
 +File: radeon/HAINAN_smc.bin
 +File: radeon/BONAIRE_ce.bin
 +File: radeon/BONAIRE_mc.bin
++File: radeon/BONAIRE_mc2.bin
 +File: radeon/BONAIRE_me.bin
 +File: radeon/BONAIRE_mec.bin
 +File: radeon/BONAIRE_pfp.bin
@@ -1181,6 +1322,7 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: radeon/BONAIRE_sdma.bin
 +File: radeon/BONAIRE_uvd.bin
 +File: radeon/BONAIRE_smc.bin
++File: radeon/BONAIRE_vce.bin
 +File: radeon/KABINI_ce.bin
 +File: radeon/KABINI_me.bin
 +File: radeon/KABINI_mec.bin
@@ -1195,12 +1337,19 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: radeon/KAVERI_sdma.bin
 +File: radeon/HAWAII_ce.bin
 +File: radeon/HAWAII_mc.bin
++File: radeon/HAWAII_mc2.bin
 +File: radeon/HAWAII_me.bin
 +File: radeon/HAWAII_mec.bin
 +File: radeon/HAWAII_pfp.bin
 +File: radeon/HAWAII_rlc.bin
 +File: radeon/HAWAII_sdma.bin
 +File: radeon/HAWAII_smc.bin
++File: radeon/MULLINS_ce.bin
++File: radeon/MULLINS_me.bin
++File: radeon/MULLINS_mec.bin
++File: radeon/MULLINS_pfp.bin
++File: radeon/MULLINS_rlc.bin
++File: radeon/MULLINS_sdma.bin
 +
 +Licence: Redistributable. See LICENSE.radeon for details.
 +
@@ -1237,13 +1386,10 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +
 +--------------------------------------------------------------------------
 +
-+Driver: ib_qib - QLogic Infiniband
-+
-+File: qlogic/sd7220.fw
+ Driver: ib_qib - QLogic Infiniband
  
- Licence:
- 
-@@ -862,3 +1643,773 @@
+ File: qlogic/sd7220.fw
+@@ -852,3 +1669,814 @@
  Found in hex form in kernel source.
  
  --------------------------------------------------------------------------
@@ -1327,6 +1473,9 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: brcm/brcmfmac43362-sdio.bin
 +File: brcm/brcmfmac43241b0-sdio.bin
 +File: brcm/brcmfmac43241b4-sdio.bin
++File: brcm/brcmfmac43143.bin
++File: brcm/brcmfmac43143-sdio.bin
++File: brcm/brcmfmac4354-sdio.bin
 +
 +Licence: Redistributable. See LICENCE.broadcom_bcm43xx for details.
 +
@@ -1536,6 +1685,15 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +Info: Taken from Realtek version rtl_92ce_92se_92de_8723ae_linux_mac80211_0007.0809.2012
 +File: rtlwifi/rtl8723fw.bin
 +File: rtlwifi/rtl8723fw_B.bin
++
++Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
++
++--------------------------------------------------------------------------
++
++Driver: rtl8723be - Realtek 802.11n WLAN driver for RTL8723BE
++
++Info: Taken from driver sent to me from Realtek
++File: rtlwifi/rtl8723befw.bin
 +
 +Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
 +
@@ -1818,11 +1976,14 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +
 +File: s5p-mfc/s5p-mfc.fw
 +File: s5p-mfc/s5p-mfc-v6.fw
++File: s5p-mfc/s5p-mfc-v6-v2.fw
++File: s5p-mfc/s5p-mfc-v7.fw
++File: s5p-mfc/s5p-mfc-v8.fw
 +
 +Licence:
-+Samsung grants permission to use and redistribute these firmware
-+files for use with Exynos series devices, but not as part of the Linux
-+kernel or in any other form which would require these files themselves
++Samsung grants permission to use and redistribute aforementioned firmware
++files for the use with Exynos series devices, but not as part of the Linux
++kernel, or in any other form which would require these files themselves
 +to be covered by the terms of the GNU General Public License.
 +
 +These firmware files are distributed in the hope that they will be
@@ -1859,9 +2020,15 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +File: intel/ibt-hw-37.7.bseq
 +Version: 1316.02.00
 +File: intel/ibt-hw-37.7.10-fw-1.80.2.3.d.bseq
-+Version: 1344.01.33
++Version: auto.WP_1303_02_patch_0.1.55.1 (0x37)
 +File: intel/ibt-hw-37.7.10-fw-1.0.2.3.d.bseq
-+Version: 1344.01.33
++Version: auto.WP_1303_02_patch_0.1.55.1 (0x37)
++File: intel/ibt-hw-37.7.10-fw-1.80.1.2d.d.bseq
++Version: WP_1345_01_patch_0.0.06.1
++File: intel/ibt-hw-37.8.bseq
++Version: 1339_02.00
++File: intel/ibt-hw-37.8.10-fw-1.10.2.27.d.bseq
++Version: STP2_C0_1339_02_patch_13.1 (0x0D)
 +
 +Licence: Redistributable. See LICENCE.ibt_firmware for details
 +
@@ -2016,4 +2183,24 @@ diff -Naur linux-org/firmware/WHENCE linux-ths/firmware/WHENCE
 +of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 +
 +--------------------------------------------------------------------------
++Driver: qat_dh895xxcc - Intel(R) QAT crypto accelerator
 +
++File: qat_895xcc.bin
++
++Licence: Redistributable. See LICENCE.qat_dh895xcc_firmware for details
++--------------------------------------------------------------------------
++
++Driver: rsi -- Redpine Signals Inc 91x driver
++
++File: rsi_91x.fw
++
++Licence:
++ * Firmware is:
++ *	Derived from proprietary unpublished source code,
++ *	Copyright (C) 2014 Redpine Signals Inc.
++ *
++ *	Permission is hereby granted for the distribution of this firmware
++ *	as part of Linux or other Open Source operating system kernel
++ *	provided this copyright notice is accompanying it.
++
++--------------------------------------------------------------------------
