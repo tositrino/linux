@@ -9,8 +9,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define UTS_RELEASE        "3.14.4"
-#define THS_RELEASE        "2014-05-13"
+#define UTS_RELEASE        "3.14.7"
+#define THS_RELEASE        "2014-06-13"
 
 
 const char *cbanner_data[]  = {

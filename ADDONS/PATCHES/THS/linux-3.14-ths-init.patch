@@ -244,7 +244,7 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxiv-vi-xii"
++#define THS_RELEASE          "mmxiv-vi-xiii"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
@@ -265,13 +265,6 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 +unsigned short cbanner_count  = 3;
 +unsigned short cbanner_id     = __CBANNER_DEFAULT__;
 +
-eeeee 
-8   8 
-   e' 
-  e'  
-  8   
-  8   
- 
 +const char *cbanner_data[]  = {
 +
 +                               //12345678901234567890123456789012345678901234567890123456789012345678901234567890
