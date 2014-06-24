@@ -36,8 +36,8 @@
 #     git push origin v3.16.0-rc1-ths
 #     git commit -m "updated v3.16.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-# 14/06/16
 #   - updated configs (3.16)
+# 14/06/16
 #   - setup & build kernel 3.16.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
 #   - patch kernel
 #     kv=3.16.0-rc1
