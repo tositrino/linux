@@ -1,0 +1,138 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 3.15.0
+# created : 14/04/14
+# changed : 14/06/14
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 3.15.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 3.15.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 3.15.0-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 3.15.0-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 3.15.0-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
+#   - setup & build kernel 3.15.0-ths-x86_64-core2-smp-desktop using gcc-4.6.2 on gentoo-x86_64 (bora, Intel(R) Core(TM) i7 CPU 965 3.2GHz)
+#   - setup & build kernel 3.15.0-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 3.15.0-ths-x86_64-k8-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   - setup & build kernel 3.15.0-ths-x86_64-k8-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (galdov, AMD Athlon(tm) 64 X2 Dual Core Processor 6000+)
+#   * arch-arm (armv7)
+#   - setup & build kernel 3.15.0-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 3.15.0-ths-arm-exynos4-odroidu2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 3.15.0-ths-arm-exynos4-odroidx2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 3.15.0-ths-arm-exynos4-odroidx-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 3.15.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 3.15.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+# 14/06/14
+#   - updated branch v3.15.0-ths
+#     git push origin v3.15.0-ths
+#     git commit -m "updated v3.15.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - using genpatches-3.15-1
+#   - updated configs (3.15)
+#   - setup & build kernel 3.15.0-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+# 14/06/13
+#   - patch kernel
+#     kv=3.15.0 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.15.0-ths
+#     git commit -m "created v3.15.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.15.0-mmxiv-vi-xiii
+#   - updated configs (3.14)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     linux-firmware-bnx2x.patch
+#     linux-firmware-intel-qat-crypto.patch
+#     linux-firmware-readme.patch
+#     linux-firmware-rsi.patch
+#     linux-firmware-bnx2.patch
+#     linux-firmware-myri10ge.patch
+#   - updated patches:
+#     linux-firmware-bnx2.patch
+#     linux-firmware-brcm.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-whence-3.14.patch
+#     linux-3.14-latest-ths-Makefile.patch
+#     linux-3.14-ths-init.patch
+#   - obsolete patches
+#     none
+#   - using genpatches-3.15-1
+#   - merge old ths branch
+#     git merge v3.15.0-rc1-ths
+#   - create new branch from v3.15
+#     git checkout -b v3.15.0-ths v3.15
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+# 14/04/14
+#   - updated branch v3.15.0-rc1-ths
+#     git push origin v3.15.0-rc1-ths
+#     git commit -m "updated v3.15.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.15)
+#   - setup & build kernel 3.15.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+#   - patch kernel
+#     kv=3.15.0-rc1
+#     ##ksrc=/usr/armv7a-hardfloat-linux-gnueabi/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v3.15.0-rc1-ths
+#     git commit -m "created v3.15.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.15.0-rc1-mmxiv-iv-xiv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-firmware-whence-3.15.patch
+#     linux-3.15-latest-ths-Makefile.patch
+#     linux-3.15-ths-drm_vm.patch
+#     linux-3.15-ths-git.patch
+#     linux-3.15-ths-hdrv.patch
+#     linux-3.15-ths-init.patch
+#     linux-3.15-ths-logo.patch
+#     linux-3.15-ths-quantis-v1.patch
+#     linux-3.15-ths-quantis-v2.patch
+#     linux-3.15-ths-setlocalversion.patch
+#   - obsolete patches
+#     none
+#   - disabled gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#     5000_BFQ-1-block-cgroups-kconfig-build-bits-for-v6r2-3.11.patch
+#     5000_BFQ-2-block-introduce-the-v6r2-I-O-sched-for-3.11.patch1
+#     5000_BFQ-3-block-add-Early-Queue-Merge-EQM-v6r2-for-3.11.0.patch1
+#     5000_BFQ-4-block-Switch-from-BFQ-v6r2-for-3.11.0-to-BFQ-v6r2-fo.patch
+#   - using genpatches-3.14-3
+#   - merge old ths branch
+#     manually merge v3.14.0-ths
+#   - create new branch from v3.15-rc1
+#     git checkout -b v3.15.0-rc1-ths v3.15-rc1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+
+
+
