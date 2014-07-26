@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2014-04-14 17:13:04.946481358 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 15
- SUBLEVEL = 0
+ SUBLEVEL = 6
  EXTRAVERSION =
 -NAME = Shuffling Zombie Juror
 +NAME = Odonata Draconis
