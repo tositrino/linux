@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2014-06-16 13:53:36.132980382 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 16
- SUBLEVEL = 3
+ SUBLEVEL = 5
  EXTRAVERSION =
 -NAME = Museum of Fishiegoodies
 +NAME = Odonata Draconis

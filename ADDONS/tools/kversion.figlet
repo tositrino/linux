@@ -1,6 +1,6 @@
 #!/bin/sh
 
-usetext="THS kern 3.16.3"
+usetext="THS kern 3.16.5"
 usefont="-w 90 -f computer" 
 
 #usefont="-c -w 80 -k -f colossal" 
