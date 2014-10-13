@@ -1,5 +1,5 @@
 Product:                   kernel
-Version:                   3.17.0-rc6
+Version:                   3.17.0
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
 Kurzbeschreibung:          linux kernel
