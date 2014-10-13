@@ -51,10 +51,24 @@
 #   - updated tools
 #     kversion.figlet testversion.c
 #   - added patches:
-#     none
+#     linux-firmware-dvb.patch
+#     linux-firmware-r8a779x_usb3.patch
 #   - updated patches:
 #     linux-3.16-latest-ths-Makefile.patch
 #     linux-3.16-ths-init.patch
+#     linux-firmware-bnx2x.patch
+#     linux-firmware-cxgb4.patch
+#     linux-firmware-emi62.patch
+#     linux-firmware-intel-qat-crypto.patch
+#     linux-firmware-intel.patch
+#     linux-firmware-iwlwifi.patch
+#     linux-firmware-qlaxxx.patch
+#     linux-firmware-radeon.patch
+#     linux-firmware-rtl_nic.patch
+#     linux-firmware-rtlwifi.patch
+#     linux-firmware-s5p-mfc.patch
+#     linux-firmware-ti-connectivity.patch
+#     linux-firmware-whence-3.16.patch
 #   - obsolete patches
 #     none
 #   - using genpatches-3.16-7
