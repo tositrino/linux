@@ -43,6 +43,22 @@ EXPERIMENTAL
 Individual Patch Descriptions:
 --------------------------------------------------------------------------
 
+Patch:  1000_linux-3.17.1.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.17.1
+
+Patch:  1500_XATTR_USER_PREFIX.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
+Desc:   Support for namespace user.pax.* on tmpfs.
+
+Patch:  1510_mnt-Prevent-pivot_root-from-creating-a-loop-in-the-m.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=524848
+Desc:   Prevent a leak of unreachable mounts
+
+Patch:  1900_udf-Fix-loading-of-special-inodes.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=525476
+Desc:   Fix loading of special inodes
+
 Patch:  2400_kcopy-patch-for-infiniband-driver.patch
 From:   Alexey Shvetsov <alexxy@gentoo.org>
 Desc:   Zero copy for infiniband psm userspace driver
