@@ -66,8 +66,10 @@
 #     linux-3.18-ths-quantis-v2.patch
 #     linux-3.18-ths-setlocalversion.patch
 #   - obsolete patches
-#     none
+#     non
 #   - disabled gentoo patches:
+#     1900_udf-Fix-loading-of-special-inodes.patch
+#     2400_kcopy-patch-for-infiniband-driver.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.17-3
 #   - merge old ths branch
