@@ -68,6 +68,7 @@
 #   - obsolete patches
 #     non
 #   - disabled gentoo patches:
+#     1510_mnt-Prevent-pivot_root-from-creating-a-loop-in-the-m.patch
 #     1900_udf-Fix-loading-of-special-inodes.patch
 #     2400_kcopy-patch-for-infiniband-driver.patch
 #     4567_distro-Gentoo-Kconfig.patch
