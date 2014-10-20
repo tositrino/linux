@@ -1,0 +1,28 @@
+diff -Naur xxx/arch/arm/plat-samsung/include/plat/dma-pl330.h yyy/arch/arm/plat-samsung/include/plat/dma-pl330.h
+--- xxx/arch/arm/plat-samsung/include/plat/dma-pl330.h	2012-10-13 09:03:39.000000000 +0200
++++ yyy/arch/arm/plat-samsung/include/plat/dma-pl330.h	2012-10-15 14:55:52.000000000 +0200
+@@ -103,9 +103,10 @@
+ 	DMACH_MAX,
+ };
+ 
+-struct s3c2410_dma_client {
+-	char	*name;
+-};
++//already defined in arch/arm/plat-samsung/include/plat/dma.h
++//struct s3c2410_dma_client {
++//  char  *name;
++//};
+ 
+ static inline bool samsung_dma_has_circular(void)
+ {
+diff -Naur xxx/sound/soc/samsung/spdif.c yyy/sound/soc/samsung/spdif.c
+--- xxx/sound/soc/samsung/spdif.c	2012-10-15 10:04:56.000000000 +0200
++++ yyy/sound/soc/samsung/spdif.c	2012-10-15 14:55:53.000000000 +0200
+@@ -19,6 +19,7 @@
+ 
+ #include <linux/platform_data/asoc-s3c.h>
+ #include <mach/dma.h>
++#include <plat/dma.h>
+ 
+ #include "dma.h"
+ #include "spdif.h"
