@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.18.0-rc1
 # created : 14/10/20
-# changed : 14/10/20
+# changed : 14/10/21
 #
 # TODO:
 #   * ubuntu
@@ -31,12 +31,13 @@
 #   - setup & build kernel 3.18.0-rc1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.18.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-# 14/10/20
+# 14/10/21
 #   - updated branch v3.18.0-rc1-ths
 #     git push origin v3.18.0-rc1-ths
 #     git commit -m "updated v3.18.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - setup & build kernel 3.18.0-rc1-ths-x86_64-core2-smp-desktop using gcc-4.8.2 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz)
+# 14/10/20
 #   - patch kernel
 #     kv=3.18.0-rc1 ; ksrc=/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
