@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 18
  SUBLEVEL = 0
  EXTRAVERSION =
--NAME = Shuffling Zombie Juror
+-NAME = Diseased Newt
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
