@@ -47,9 +47,33 @@ Patch:  1000_linux-3.18.1.patch
 From:   http://www.kernel.org
 Desc:   Linux 3.18.1
 
+Patch:  1001_linux-3.18.2.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.18.2
+
+Patch:  1002_linux-3.18.3.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.18.3
+
+Patch:  1003_linux-3.18.4.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.18.4
+
+Patch:  1004_linux-3.18.5.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.18.5
+
+Patch:  1005_linux-3.18.6.patch
+From:   http://www.kernel.org
+Desc:   Linux 3.18.6
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
+
+Patch:  1700_ARM-dts-patch-to-support-popoplug-e02.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=508248
+Desc:   ARM: dts: Add support for Pogoplug E02.
 
 Patch:  2700_ThinkPad-30-brightness-control-fix.patch
 From:   Seth Forshee <seth.forshee@canonical.com>
@@ -61,7 +85,7 @@ Desc:   Ensure that /dev/root doesn't appear in /proc/mounts when bootint withou
 
 Patch:  2905_s2disk-resume-image-fix.patch
 From:   Al Viro <viro <at> ZenIV.linux.org.uk>
-Desc:   Do not lock when UMH is waiting on current thread spawned by linuxrc. (bug #481344)
+Desc:   Do not lock when UMH is waiting on current thread spawned by linuxrc. (bug #481344.)
 
 Patch:  4200_fbcondecor-3.16.patch
 From:   http://www.mepiscommunity.org/fbcondecor
@@ -75,14 +99,14 @@ Patch:  5000_enable-additional-cpu-optimizations-for-gcc.patch
 From:   https://github.com/graysky2/kernel_gcc_patch/
 Desc:   Kernel patch enables gcc optimizations for additional CPUs.
 
-Patch:  5001_block-cgroups-kconfig-build-bits-for-BFQ-v7r6-3.18.patch
+Patch:  5001_block-cgroups-kconfig-build-bits-for-BFQ-v7r7-3.18.patch
 From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r6 patch 1 for 3.17: Build, cgroups and kconfig bits
+Desc:   BFQ v7r7 patch 1 for 3.17: Build, cgroups and kconfig bits
 
-Patch:  5002_block-introduce-the-BFQ-v7r6-I-O-sched-for-3.18.patch1
+Patch:  5002_block-introduce-the-BFQ-v7r7-I-O-sched-for-3.18.patch1
 From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r6 patch 2 for 3.17: BFQ Scheduler
+Desc:   BFQ v7r7 patch 2 for 3.17: BFQ Scheduler
 
-Patch:  5003_block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r6-for-3.18.0.patch
+Patch:  5003_block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r7-for-3.18.0.patch
 From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r6 patch 3 for 3.17: Early Queue Merge (EQM)
+Desc:   BFQ v7r7 patch 3 for 3.17: Early Queue Merge (EQM)
