@@ -59,6 +59,7 @@
 #   - obsolete patches
 #     none
 #   - disabled gentoo patches:
+#     4200_fbcondecor-3.16.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-3.18-8
 #   - merge old ths branch
