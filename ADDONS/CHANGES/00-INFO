@@ -1,5 +1,5 @@
 Product:                   kernel
-Version:                   3.19.0-rc2
+Version:                   3.19.0
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
 Kurzbeschreibung:          linux kernel
