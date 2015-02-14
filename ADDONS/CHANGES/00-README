@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 3.19.0
 # created : 15/01/03
-# changed : 15/02/09
+# changed : 15/02/14
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,32 @@
 #   - setup & build kernel 3.19.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 3.19.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 15/02/14
+#   - updated branch v3.19.0-ths
+#     git push origin v3.19.0-ths
+#     git commit -m "updated v3.19.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (3.19)
+#   - setup & build kernel 3.19.0-ths-x86_64-core2-smp-desktop using gcc-4.8.3 on gentoo-x86_64 (galdov, Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz)
+#   - commit and push new branch
+#     git push origin v3.19.0-ths
+#     git commit -m "updated v3.19.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 3.19.0-mmxv-ii-xiv
+#   - updated configs (3.18)
+#   - updated tools
+#     kversion.figlet 
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-3.19-ths-init.patch
+#   - updated patches:
+#     none
+#   - obsolete patches
+#     none
+#   - disabled gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-3.19-1
 # 15/02/09
 #   - updated branch v3.19.0-ths
 #     git push origin v3.19.0-ths

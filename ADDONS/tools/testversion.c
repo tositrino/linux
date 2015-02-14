@@ -10,7 +10,7 @@
 #include <fcntl.h>
 
 #define UTS_RELEASE        "3.19.0"
-#define THS_RELEASE        "2015-02-09"
+#define THS_RELEASE        "2015-02-14"
 
 
 const char *cbanner_data[]  = {
