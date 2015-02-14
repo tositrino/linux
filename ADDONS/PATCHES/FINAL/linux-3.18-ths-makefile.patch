@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2014-10-20 12:58:04.630890460 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 18
- SUBLEVEL = 6
+ SUBLEVEL = 7
  EXTRAVERSION =
 -NAME = Diseased Newt
 +NAME = Odonata Draconis
