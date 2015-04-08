@@ -1,5 +1,5 @@
 Product:                   kernel
-Version:                   4.0.0-tc1
+Version:                   4.0.0-rc7
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
 Kurzbeschreibung:          linux kernel
