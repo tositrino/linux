@@ -1,0 +1,11 @@
+diff -Naur linux-x/net/nfc/Kconfig linux-y/net/nfc/Kconfig
+--- linux-x/net/nfc/Kconfig	2014-02-03 11:50:48.000000000 +0100
++++ linux-y/net/nfc/Kconfig	2014-08-18 14:10:59.000000000 +0200
+@@ -4,7 +4,6 @@
+ 
+ menuconfig NFC
+ 	depends on NET
+-	depends on RFKILL || !RFKILL
+ 	tristate "NFC subsystem support"
+ 	default n
+ 	help

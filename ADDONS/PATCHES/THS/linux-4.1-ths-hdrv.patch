@@ -1,0 +1,158 @@
+diff -Naur linux-x/drivers/misc/hdrv/hdrv.c linux-y/drivers/misc/hdrv/hdrv.c
+--- linux-x/drivers/misc/hdrv/hdrv.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/hdrv/hdrv.c	2015-04-29 17:06:54.897000425 +0200
+@@ -0,0 +1,96 @@
++/*
++  hdrv.c
++*/
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/fs.h>
++#include <linux/cdev.h>
++#include <linux/device.h>
++#include <asm/uaccess.h>
++
++#define  HDRV_NAME           "hdrv"
++#define  HDRV_CLASS_NAME     "hdrvclass"
++
++static char  *hdrv_name    = CONFIG_HDRV_DEV_NAME ;
++static char  *hdrv_message = CONFIG_HDRV_DEV_MESSAGE ;
++
++static dev_t  hdrv_dev_number;
++static struct cdev *driver_object;
++static struct class *hdrv_dev_class;
++static struct device *hdrv_dev;
++
++static int driver_open( struct inode *geraete_datei, struct file *instanz )
++{
++	dev_info( hdrv_dev, HDRV_NAME ": driver_open called\n" );
++	return 0;
++}
++
++static int driver_close( struct inode *geraete_datei, struct file *instanz )
++{
++	dev_info( hdrv_dev, HDRV_NAME": driver_close called\n" );
++	return 0;
++}
++
++static ssize_t driver_read( struct file *instanz, char __user *user,
++		size_t count, loff_t *offset )
++{
++	unsigned long not_copied, to_copy;
++
++	to_copy = min( count, strlen(hdrv_message)+1 );
++	not_copied=copy_to_user(user,hdrv_message,to_copy);
++	return to_copy-not_copied;
++}
++
++static struct file_operations fops = {
++	.owner= THIS_MODULE,
++	.read= driver_read,
++	.open= driver_open, 
++	.release= driver_close,
++};
++
++static int __init mod_init( void )
++{
++	if( alloc_chrdev_region(&hdrv_dev_number,0,1,HDRV_CLASS_NAME)<0 )
++		return -EIO;
++	driver_object = cdev_alloc(); /* Anmeldeobjekt reservieren */
++	if( driver_object==NULL )
++		goto free_device_number;
++	driver_object->owner = THIS_MODULE;
++	driver_object->ops = &fops;
++	if( cdev_add(driver_object,hdrv_dev_number,1) )
++		goto free_cdev;
++	/* Eintrag im Sysfs, damit Udev den Geraetedateieintrag erzeugt. */
++	hdrv_dev_class = class_create( THIS_MODULE, HDRV_CLASS_NAME );
++	if( IS_ERR( hdrv_dev_class ) ) {
++		pr_err( HDRV_NAME": no udev support\n");
++		goto free_cdev;
++	}
++	hdrv_dev = device_create( hdrv_dev_class, NULL, hdrv_dev_number,
++			NULL, "%s", hdrv_name );
++	return 0;
++free_cdev:
++	kobject_put( &driver_object->kobj );
++free_device_number:
++	unregister_chrdev_region( hdrv_dev_number, 1 );
++	return -EIO;
++}
++
++static void __exit mod_exit( void )
++{
++	/* Loeschen des Sysfs-Eintrags und damit der Geraetedatei */
++	device_destroy( hdrv_dev_class, hdrv_dev_number );
++	class_destroy( hdrv_dev_class );
++	/* Abmelden des Treibers */
++	cdev_del( driver_object );
++	unregister_chrdev_region( hdrv_dev_number, 1 );
++	return;
++}
++
++module_init( mod_init );
++module_exit( mod_exit );
++
++/* Metainformation */
++MODULE_AUTHOR("ths");
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("A virtual device, which returns a string.");
+diff -Naur linux-x/drivers/misc/hdrv/Kconfig linux-y/drivers/misc/hdrv/Kconfig
+--- linux-x/drivers/misc/hdrv/Kconfig	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/hdrv/Kconfig	2015-04-29 17:06:54.897000425 +0200
+@@ -0,0 +1,24 @@
++config  HDRV_DEV
++	tristate "Hello Device (testing driver)"
++	default n
++	help
++	  The Hello Device Driver (HDRV) is a driver testing framework. it creates
++	  a device file called /dev/HDRV_DEV_NAME (defaults to /dev/hello) which will 
++	  return the string defined under HELLO_DEV_MESSAGE (defaults to "Hello World") 
++	  when it is read.
++
++config HDRV_DEV_MESSAGE
++	string "Hello Device Driver output message"
++    default "Hello World"
++	depends on HDRV_DEV
++	help
++	  define the string that will be returned by reading the device file
++	  /dev/HDRV_DEV_NAME (default "Hello World" )
++
++config HDRV_DEV_NAME
++	string "Hello Device Driver device name"
++	default "hello"
++	depends on HDRV_DEV
++	help
++	  define the device file name (default "hello")
++
+diff -Naur linux-x/drivers/misc/hdrv/Makefile linux-y/drivers/misc/hdrv/Makefile
+--- linux-x/drivers/misc/hdrv/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/hdrv/Makefile	2015-04-29 17:06:54.897000425 +0200
+@@ -0,0 +1,4 @@
++#
++# Makefile for the hello dev
++#
++obj-$(CONFIG_HDRV_DEV)     += hdrv.o
+diff -Naur linux-x/drivers/misc/Kconfig linux-y/drivers/misc/Kconfig
+--- linux-x/drivers/misc/Kconfig	2015-02-09 14:13:43.000000000 +0100
++++ linux-y/drivers/misc/Kconfig	2015-04-29 17:06:54.897000425 +0200
+@@ -515,6 +515,7 @@
+ 	  bus. System Configuration interface is one of the possible means
+ 	  of generating transactions on this bus.
+ 
++source "drivers/misc/hdrv/Kconfig"
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff -Naur linux-x/drivers/misc/Makefile linux-y/drivers/misc/Makefile
+--- linux-x/drivers/misc/Makefile	2014-12-18 10:30:53.000000000 +0100
++++ linux-y/drivers/misc/Makefile	2015-04-29 17:06:54.897000425 +0200
+@@ -34,6 +34,7 @@
+ obj-$(CONFIG_SENSORS_TSL2550)	+= tsl2550.o
+ obj-$(CONFIG_DS1682)		+= ds1682.o
+ obj-$(CONFIG_TI_DAC7512)	+= ti_dac7512.o
++obj-y                       += hdrv/
+ obj-$(CONFIG_C2PORT)		+= c2port/
+ obj-$(CONFIG_HMC6352)		+= hmc6352.o
+ obj-y				+= eeprom/

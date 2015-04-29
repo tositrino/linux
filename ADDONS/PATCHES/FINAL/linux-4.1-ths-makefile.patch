@@ -1,0 +1,661 @@
+diff -Naur linux-x/Makefile linux-y/Makefile
+--- linux-x/Makefile	2015-04-29 16:53:23.000000000 +0200
++++ linux-y/Makefile	2015-04-29 17:11:40.760363864 +0200
+@@ -2,7 +2,7 @@
+ PATCHLEVEL = 1
+ SUBLEVEL = 0
+ EXTRAVERSION = -rc1
+-NAME = Hurr durr I'ma sheep
++NAME = Odonata Draconis
+ 
+ # *DOCUMENTATION*
+ # To see a list of typical targets execute "make help"
+@@ -798,6 +798,12 @@
+ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+ endif
+ 
++#### THS include addons  (standard) ####
++include $(srctree)/Makefile.addons
++## KERNELRELEASE=$(FULL_RELEASE_STR)
++## export KERNELRELEASE
++####################################
++
+ # Default kernel image to build when no specific target is given.
+ # KBUILD_IMAGE may be overruled on the command line or
+ # set in the environment
+@@ -1012,11 +1018,18 @@
+ 	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
+ endef
+ 
+-$(version_h): $(srctree)/Makefile FORCE
++#### THS - write KERNELRELAESE.
++THS-KERNELRELEASE: FORCE
++	@echo "Kernel release is : \"${KERNELRELEASE}\""
++	@echo "ths release is    : \"${FULL_RELEASE_STR}\""
++	@echo ${FULL_RELEASE_STR} > THS-KERNELRELEASE
++	@cp -f .config config-${FULL_RELEASE_STR}
++
++$(version_h): THS-KERNELRELEASE $(srctree)/Makefile include/config/kernel.release .config FORCE
+ 	$(call filechk,version.h)
+ 	$(Q)rm -f $(old_version_h)
+ 
+-include/generated/utsrelease.h: include/config/kernel.release FORCE
++include/generated/utsrelease.h: THS-KERNELRELEASE include/config/kernel.release FORCE
+ 	$(call filechk,utsrelease.h)
+ 
+ PHONY += headerdep
+@@ -1170,6 +1183,10 @@
+ # Directories & files removed with 'make clean'
+ CLEAN_DIRS  += $(MODVERDIR)
+ 
++#### THS : add THS-KERNELRELEASE to CLEAN_FILES
++CLEAN_FILES +=	vmlinux System.map THS-KERNELRELEASE \
++                 .tmp_kallsyms* .tmp_version .tmp_vmlinux* .tmp_System.map
++
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_DIRS  += include/config usr/include include/generated          \
+ 		  arch/*/include/generated .tmp_objdiff
+diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
+--- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons	2015-04-29 17:11:40.760363864 +0200
+@@ -0,0 +1,293 @@
++###
++### extra version infomation addons
++###
++
++CPU_TYPE=
++SMPVERSION=
++HIGHMEMVERSION=
++THISARCH=$(ARCH)
++
++# Test for SMP
++ifdef CONFIG_SMP
++SMPVERSION=-smp
++else
++SMPVERSION=
++endif
++
++# Test for cputype
++CPU_TYPE=
++
++# Intel and compatible
++######################
++
++ifdef CONFIG_M386
++CPU_TYPE=-386
++endif
++ifdef CONFIG_M486
++CPU_TYPE=-486
++endif
++ifdef CONFIG_M586
++CPU_TYPE=-586
++endif
++ifdef CONFIG_M586TSC
++CPU_TYPE=-586tsc
++endif
++ifdef CONFIG_M586MMX
++CPU_TYPE=-586mmx
++endif
++ifdef CONFIG_M686
++CPU_TYPE=-686
++endif
++ifdef CONFIG_MPENTIUMII
++CPU_TYPE=-p2
++endif
++ifdef CONFIG_MPENTIUMIII
++CPU_TYPE=-p3
++endif
++ifdef CONFIG_MPENTIUMM
++CPU_TYPE=-pm
++endif
++ifdef CONFIG_MPENTIUM4
++CPU_TYPE=-p4
++endif
++ifdef CONFIG_MK6
++CPU_TYPE=-k6
++endif
++ifdef CONFIG_MK7
++CPU_TYPE=-k7
++endif
++ifdef CONFIG_MK731
++CPU_TYPE=-k7
++endif
++ifdef CONFIG_MXP731
++CPU_TYPE=-mxp
++endif
++ifdef CONFIG_MMP731
++CPU_TYPE=-mmp
++endif
++ifdef CONFIG_MK8
++CPU_TYPE=-k8
++endif
++ifdef CONFIG_MCORE2
++CPU_TYPE=-core2
++endif
++ifdef CONFIG_MATOM
++CPU_TYPE=-atom
++endif
++ifdef CONFIG_MPSC
++CPU_TYPE=-mpsc
++endif
++ifdef CONFIG_MELAN
++CPU_TYPE=-elan
++endif
++ifdef CONFIG_MCRUSOE
++CPU_TYPE=-crusoe
++endif
++ifdef CONFIG_MEFFICEON
++CPU_TYPE=-efficeon
++endif
++ifdef CONFIG_MWINCHIPC6
++CPU_TYPE=-winchipc6
++endif
++ifdef CONFIG_MWINCHIP2
++CPU_TYPE=-winchip2
++endif
++ifdef CONFIG_MWINCHIP3D
++CPU_TYPE=-winchip3D
++endif
++ifdef CONFIG_MGEODE_LX
++CPU_TYPE=-geode
++endif
++ifdef CONFIG_MCYRIXIII
++CPU_TYPE=-cyrix3
++endif
++ifdef CONFIG_MVIAC3_2
++CPU_TYPE=-viac3_2
++endif
++ifdef CONFIG_MVIAC7
++CPU_TYPE=-viac7
++endif
++ifdef CONFIG_MATOM
++CPU_TYPE=-atom
++endif
++
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
++endif
++
++# powerpc
++##########
++
++ifdef CONFIG_PPC
++CPU_TYPE=-ppc
++endif
++ifdef CONFIG_PPC32
++CPU_TYPE=-ppc32
++endif
++ifdef CONFIG_PPC64
++CPU_TYPE=-ppc64
++endif
++ifdef CONFIG_40x
++CPU_TYPE=-40x
++endif
++ifdef CONFIG_44x
++CPU_TYPE=-44x
++endif
++ifdef CONFIG_4xx
++CPU_TYPE=-4xx
++endif
++ifdef CONFIG_6xx
++CPU_TYPE=-6xx
++endif
++#ifdef CONFIG_PPC_BOOK3S_32
++#CPU_TYPE=-ppc32
++#endif
++#ifdef CONFIG_PPC_BOOK3S
++#CPU_TYPE=-ppc64
++#endif
++ifdef CONFIG_8xx
++CPU_TYPE=-8xx
++endif
++ifdef CONFIG_8260
++CPU_TYPE=-8260
++endif
++ifdef CONFIG_PPC_85xx
++CPU_TYPE=-85xx
++endif
++ifdef CONFIG_E200
++CPU_TYPE=-e200
++endif
++ifdef CONFIG_POWER3
++CPU_TYPE=-power3
++endif
++ifdef CONFIG_POWER4
++CPU_TYPE=-power4
++endif
++ifdef CONFIG_CELLEB
++CPU_TYPE=-cell
++endif
++
++ifdef CONFIG_PPC_PS3
++CPU_TYPE=-ps3
++endif
++
++ifdef CONFIG_PMAC64
++CPU_TYPE=-g5
++endif
++ifdef CONFIG_PPC64
++CPU_TYPE=-ppc64
++endif
++## Playstation 3 special
++isPS3=$(shell ./ADDONS/tools/checkps3 )
++ifeq ("$(isPS3)","PS3")
++  SMPVERSION=-ps3
++endif
++
++ifdef CONFIG_GENERIC_CPU
++CPU_TYPE=-generic
++endif
++
++# arch platforms
++ifdef CONFIG_ARCH_OMAP
++CPU_TYPE=-omap
++endif
++
++ifdef CONFIG_ARCH_OMAP1
++CPU_TYPE=-omap1
++endif
++ifdef CONFIG_ARCH_OMAP2PLUS
++CPU_TYPE=-omap2plus
++endif
++ifdef CONFIG_ARCH_OMAP2
++CPU_TYPE=-omap2
++endif
++ifdef CONFIG_ARCH_OMAP3
++CPU_TYPE=-omap3
++endif
++ifdef CONFIG_ARCH_OMAP4
++CPU_TYPE=-omap4
++endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
++
++ifdef CONFIG_ARCH_EXYNOS
++CPU_TYPE=-exynos
++endif
++ifdef CONFIG_ARCH_EXYNOS4
++CPU_TYPE=-exynos4
++endif
++ifdef CONFIG_ARCH_EXYNOS5
++CPU_TYPE=-exynos5
++endif
++
++ifdef CONFIG_ARCH_TEGRA
++  CPU_TYPE=-tegra
++endif
++ifdef  CONFIG_ARCH_TEGRA_2x_SOC
++  CPU_TYPE=-tegra2
++endif
++ifdef CONFIG_ARCH_TEGRA_3x_SOC
++  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
++endif
++
++# board type
++ifdef CONFIG_BOARD_ODROID_Q
++  BOARD_TYPE=-odroidq1
++endif
++ifdef CONFIG_BOARD_ODROID_Q2
++  BOARD_TYPE=-odroidq2
++endif
++ifdef CONFIG_BOARD_ODROID_X
++  BOARD_TYPE=-odroidx1
++endif
++ifdef CONFIG_BOARD_ODROID_X2
++  BOARD_TYPE=-odroidx2
++endif
++ifdef CONFIG_BOARD_ODROID_U
++  BOARD_TYPE=-odroidu1
++endif
++ifdef CONFIG_BOARD_ODROID_U2
++  BOARD_TYPE=-odroidu2
++endif
++
++# Test for Highmem support
++ifdef CONFIG_HIGHMEM4G
++HIGHMEMVERSION=-4gb
++else
++ifdef CONFIG_HIGHMEM64G
++HIGHMEMVERSION=-64gb
++else
++HIGHMEMVERSION=
++endif
++endif
++
++# Test for paravirtualization
++ifdef CONFIG_PARAVIRT
++PARA="-para"
++else
++PARA=""
++endif
++
++#NAME=Libellula de Tigre
++NAME = Odonata Draconis
++LOCALVERSION = -ths
++CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
++
++XV=$(shell test -r localversion.extra && cat localversion.extra | tr -d [:space:] )
++
++ADDON_RELEASE_STR=$(THISARCH)$(CPU_TYPE)$(BOARD_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
++FULL_RELEASE_STR=$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)$(XV)$(LOCALVERSION)-$(THISARCH)$(CPU_TYPE)$(BOARD_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
++export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
++
++KERNELRELEASE=$(FULL_RELEASE_STR)
++export KERNELRELEASE
+diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
+--- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/Makefile.addons.debian	2015-04-29 17:11:40.760363864 +0200
+@@ -0,0 +1,303 @@
++###
++### extra version infomation addons
++###
++
++CPU_TYPE=
++SMPVERSION=
++HIGHMEMVERSION=
++THISARCH=$(ARCH)
++
++# Test for SMP
++ifdef CONFIG_SMP
++SMPVERSION=-smp
++else
++SMPVERSION=
++endif
++
++# Test for cputype
++CPU_TYPE=
++
++# Intel and compatible
++######################
++
++ifdef CONFIG_M386
++CPU_TYPE=-386
++endif
++ifdef CONFIG_M486
++CPU_TYPE=-486
++endif
++ifdef CONFIG_M586
++CPU_TYPE=-586
++endif
++ifdef CONFIG_M586TSC
++CPU_TYPE=-586tsc
++endif
++ifdef CONFIG_M586MMX
++CPU_TYPE=-586mmx
++endif
++ifdef CONFIG_M686
++CPU_TYPE=-686
++endif
++ifdef CONFIG_MPENTIUMII
++CPU_TYPE=-p2
++endif
++ifdef CONFIG_MPENTIUMIII
++CPU_TYPE=-p3
++endif
++ifdef CONFIG_MPENTIUMM
++CPU_TYPE=-pm
++endif
++ifdef CONFIG_MPENTIUM4
++CPU_TYPE=-p4
++endif
++ifdef CONFIG_MK6
++CPU_TYPE=-k6
++endif
++ifdef CONFIG_MK7
++CPU_TYPE=-k7
++endif
++ifdef CONFIG_MK731
++CPU_TYPE=-k7
++endif
++ifdef CONFIG_MXP731
++CPU_TYPE=-mxp
++endif
++ifdef CONFIG_MMP731
++CPU_TYPE=-mmp
++endif
++ifdef CONFIG_MK8
++CPU_TYPE=-k8
++endif
++ifdef CONFIG_MCORE2
++CPU_TYPE=-core2
++endif
++ifdef CONFIG_MATOM
++CPU_TYPE=-atom
++endif
++ifdef CONFIG_MPSC
++CPU_TYPE=-mpsc
++endif
++ifdef CONFIG_MELAN
++CPU_TYPE=-elan
++endif
++ifdef CONFIG_MCRUSOE
++CPU_TYPE=-crusoe
++endif
++ifdef CONFIG_MEFFICEON
++CPU_TYPE=-efficeon
++endif
++ifdef CONFIG_MWINCHIPC6
++CPU_TYPE=-winchipc6
++endif
++ifdef CONFIG_MWINCHIP2
++CPU_TYPE=-winchip2
++endif
++ifdef CONFIG_MWINCHIP3D
++CPU_TYPE=-winchip3D
++endif
++ifdef CONFIG_MGEODE_LX
++CPU_TYPE=-geode
++endif
++ifdef CONFIG_MCYRIXIII
++CPU_TYPE=-cyrix3
++endif
++ifdef CONFIG_MVIAC3_2
++CPU_TYPE=-viac3_2
++endif
++ifdef CONFIG_MVIAC7
++CPU_TYPE=-viac7
++endif
++ifdef CONFIG_MATOM
++CPU_TYPE=-atom
++endif
++
++ifdef CONFIG_X86
++THISARCH=x86_32
++ifdef CONFIG_64BIT
++THISARCH=x86_64
++endif
++ifdef CONFIG_X86_64
++THISARCH=x86_64
++endif
++endif
++
++# powerpc
++##########
++
++ifdef CONFIG_PPC
++CPU_TYPE=-ppc
++endif
++ifdef CONFIG_PPC32
++CPU_TYPE=-ppc32
++endif
++ifdef CONFIG_PPC64
++CPU_TYPE=-ppc64
++endif
++ifdef CONFIG_40x
++CPU_TYPE=-40x
++endif
++ifdef CONFIG_44x
++CPU_TYPE=-44x
++endif
++ifdef CONFIG_4xx
++CPU_TYPE=-4xx
++endif
++ifdef CONFIG_6xx
++CPU_TYPE=-6xx
++endif
++#ifdef CONFIG_PPC_BOOK3S_32
++#CPU_TYPE=-ppc32
++#endif
++#ifdef CONFIG_PPC_BOOK3S
++#CPU_TYPE=-ppc64
++#endif
++ifdef CONFIG_8xx
++CPU_TYPE=-8xx
++endif
++ifdef CONFIG_8260
++CPU_TYPE=-8260
++endif
++ifdef CONFIG_PPC_85xx
++CPU_TYPE=-85xx
++endif
++ifdef CONFIG_E200
++CPU_TYPE=-e200
++endif
++ifdef CONFIG_POWER3
++CPU_TYPE=-power3
++endif
++ifdef CONFIG_POWER4
++CPU_TYPE=-power4
++endif
++ifdef CONFIG_CELLEB
++CPU_TYPE=-cell
++endif
++
++ifdef CONFIG_PPC_PS3
++CPU_TYPE=-ps3
++endif
++
++ifdef CONFIG_PMAC64
++CPU_TYPE=-g5
++endif
++ifdef CONFIG_PPC64
++CPU_TYPE=-ppc64
++endif
++## Playstation 3 special
++isPS3=$(shell ./ADDONS/tools/checkps3 )
++ifeq ("$(isPS3)","PS3")
++  SMPVERSION=-ps3
++endif
++
++ifdef CONFIG_GENERIC_CPU
++CPU_TYPE=-generic
++endif
++
++# arch platforms
++ifdef CONFIG_ARCH_OMAP
++CPU_TYPE=-omap
++endif
++
++ifdef CONFIG_ARCH_OMAP1
++CPU_TYPE=-omap1
++endif
++ifdef CONFIG_ARCH_OMAP2PLUS
++CPU_TYPE=-omap2plus
++endif
++ifdef CONFIG_ARCH_OMAP2
++CPU_TYPE=-omap2
++endif
++ifdef CONFIG_ARCH_OMAP3
++CPU_TYPE=-omap3
++endif
++ifdef CONFIG_ARCH_OMAP4
++CPU_TYPE=-omap4
++endif
++ifdef CONFIG_ARCH_OMAP5
++CPU_TYPE=-omap5
++endif
++
++ifdef CONFIG_ARCH_EXYNOS
++CPU_TYPE=-exynos
++endif
++ifdef CONFIG_ARCH_EXYNOS4
++CPU_TYPE=-exynos4
++endif
++ifdef CONFIG_ARCH_EXYNOS5
++CPU_TYPE=-exynos5
++endif
++
++ifdef CONFIG_ARCH_TEGRA
++  CPU_TYPE=-tegra
++endif
++ifdef  CONFIG_ARCH_TEGRA_2x_SOC
++  CPU_TYPE=-tegra2
++endif
++ifdef CONFIG_ARCH_TEGRA_3x_SOC
++  CPU_TYPE=-tegra3
++endif
++ifdef CONFIG_ARCH_TEGRA_4x_SOC
++  CPU_TYPE=-tegra4
++endif
++
++# board type
++ifdef CONFIG_BOARD_ODROID_Q
++  BOARD_TYPE=-odroidq1
++endif
++ifdef CONFIG_BOARD_ODROID_Q2
++  BOARD_TYPE=-odroidq2
++endif
++ifdef CONFIG_BOARD_ODROID_X
++  BOARD_TYPE=-odroidx1
++endif
++ifdef CONFIG_BOARD_ODROID_X2
++  BOARD_TYPE=-odroidx2
++endif
++ifdef CONFIG_BOARD_ODROID_U
++  BOARD_TYPE=-odroidu1
++endif
++ifdef CONFIG_BOARD_ODROID_U2
++  BOARD_TYPE=-odroidu2
++endif
++
++# Test for Highmem support
++ifdef CONFIG_HIGHMEM4G
++HIGHMEMVERSION=-4gb
++else
++ifdef CONFIG_HIGHMEM64G
++HIGHMEMVERSION=-64gb
++else
++HIGHMEMVERSION=
++endif
++endif
++
++# Test for paravirtualization
++ifdef CONFIG_PARAVIRT
++PARA="-para"
++else
++PARA=""
++endif
++
++#NAME=Libellula de Tigre
++NAME = Odonata Draconis
++
++CFGVERSION=$(shell echo $(CONFIG_LOCALVERSION))
++
++VARCH := $(shell uname -m | sed -e s/i.86/x86/ \
++                  -e s/x86_64/x64/ \
++                  -e s/sun4u/sparc64/ \
++                  -e s/arm.*/arm/ -e s/sa110/arm/ \
++                  -e s/s390x/s390/ -e s/parisc64/parisc/ \
++                  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
++                  -e s/sh.*/sh/ )
++
++ADDON_RELEASE_STR = $(VARCH)$(CPU_TYPE)$(BOARD_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(PARA)
++FULL_RELEASE_STR  = $(VERSION).$(PATCHLEVEL).$(SUBLEVEL)$(EXTRAVERSION)-ths-$(VARCH)$(CPU_TYPE)$(BOARD_TYPE)$(HIGHMEMVERSION)$(SMPVERSION)$(CFGVERSION)
++
++export FULL_RELEASE_STR ADDON_RELEASE_STR NAME LOCALVERSION
++
++#KERNELRELEASE=$(FULL_RELEASE_STR)
++export KERNELRELEASE
++
++
++
