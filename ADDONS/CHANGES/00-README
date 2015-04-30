@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 4.0.1
 # created : 15/02/24
-# changed : 15/04/08
+# changed : 15/04/30
 #
 # TODO:
 #   * ubuntu
@@ -31,12 +31,13 @@
 #   - setup & build kernel 4.0.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.0.1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-# 15/04/29
+# 15/04/30
 #   - updated branch v4.0.1-ths
 #     git push origin v4.0.1-ths
 #     git commit -m "updated v4.0.1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (4.0)
+# 15/04/29
 #   - setup & build kernel 4.0.1-ths-x86_64-core2-smp-desktop using gcc-4.8.3 on gentoo-x86_64 (galdov, Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz)
 #   - patch kernel
 #     kv=4.0.1 ; ksrc=/usr/src
