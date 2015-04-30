@@ -36,6 +36,12 @@
 #     git push origin v4.1.0-rc1-ths
 #     git commit -m "updated v4.1.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - using genpatches-4.0-2
+# 15/04/30
+#   - updated branch v4.1.0-rc1-ths
+#     git push origin v4.1.0-rc1-ths
+#     git commit -m "updated v4.1.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (4.1)
 #   - updated configs (4.0)
 # 15/04/29
