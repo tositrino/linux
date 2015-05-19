@@ -37,7 +37,6 @@
 #     git commit -m "updated v4.1.0-rc4-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (4.1)
-# 15/04/29
 #   - setup & build kernel 4.1.0-rc4-ths-x86_64-core2-smp-desktop using gcc-4.8.3 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-3770K CPU @ 3.40GHz)
 #   - patch kernel
 #     kv=4.1.0-rc4 ; ksrc=/usr/src
@@ -58,7 +57,7 @@
 #     linux-4.1-ths-init.patch
 #     linux-4.1-ths-makefile.patch
 #   - obsolete patches
-#     none
+#     2600_select-REGMAP_IRQ-for-rt5033.patch
 #   - disabled gentoo patches:
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.0-6
