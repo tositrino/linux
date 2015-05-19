@@ -47,6 +47,18 @@ Patch:  1000_linux-4.0.1.patch
 From:   http://www.kernel.org
 Desc:   Linux 4.0.1
 
+Patch:  1001_linux-4.0.2.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.0.2
+
+Patch:  1002_linux-4.0.3.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.0.3
+
+Patch:  1003_linux-4.0.4.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.0.4
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -71,6 +83,10 @@ Patch:  2905_s2disk-resume-image-fix.patch
 From:   Al Viro <viro <at> ZenIV.linux.org.uk>
 Desc:   Do not lock when UMH is waiting on current thread spawned by linuxrc. (bug #481344)
 
+Patch:  2910_lz4-compression-fix.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=546422
+Desc:   Fix for lz4 compression regression. Thanks to Christian Xia. See bug #546422.
+
 Patch:  4200_fbcondecor-3.19.patch
 From:   http://www.mepiscommunity.org/fbcondecor
 Desc:   Bootsplash ported by Marco. (Bug #539616)
@@ -82,6 +98,18 @@ Desc:   Add Gentoo Linux support config settings and defaults.
 Patch:  5000_enable-additional-cpu-optimizations-for-gcc.patch
 From:   https://github.com/graysky2/kernel_gcc_patch/
 Desc:   Kernel patch enables gcc < v4.9 optimizations for additional CPUs.
+
+Patch:  5001_block-cgroups-kconfig-build-bits-for-BFQ-v7r7-4.0.patch
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v7r7 patch 1 for 4.0: Build, cgroups and kconfig bits
+
+Patch:  5002_block-introduce-the-BFQ-v7r7-I-O-sched-for-4.0.patch1
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v7r7 patch 2 for 4.0: BFQ Scheduler
+
+Patch:  5003_block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r7-for-4.0.0.patch
+From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
+Desc:   BFQ v7r7 patch 3 for 4.0: Early Queue Merge (EQM)
 
 Patch:  5010_enable-additional-cpu-optimizations-for-gcc-4.9.patch
 From:   https://github.com/graysky2/kernel_gcc_patch/

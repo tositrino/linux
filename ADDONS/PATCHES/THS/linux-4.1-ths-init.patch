@@ -221,7 +221,7 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 + *  THS changes
 + *  -----------
 + *
-+ *  - 15/04/29 kernel-4.1.0-rc1
++ *  - 15/05/19 kernel-4.1.0-rc4
 + *
 + *  - colored banner defines
 + *    __CBANNER_DEFAULT__ : define default banner id
@@ -244,7 +244,7 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 + * 
   */
 + 
-+#define THS_RELEASE          "mmxv-iv-xxix"
++#define THS_RELEASE          "mmxv-v-xix"
 +#define __CBANNER_DEFAULT__  0x00
 +#define __CBANNER_LOGO__     0x08
 +#define __CBANNER_TEXT__     0x09
@@ -273,7 +273,7 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 +                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888      8     8  8    \n"
 +                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8       8     8 e8    \n"
 +                                "  88  88  8 e   88   88   8 88   88   8 88  8   8888    8888    8888    \n"
-+                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888 88 8888 rc1\n",
++                                "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888 88 8888 rc4\n",
 +
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +
@@ -282,7 +282,7 @@ diff -Naur linux-x/init/version.c linux-y/init/version.c
 +                                "8eee8e  8    8   8  8   8 8    8      8888      8     8  8     odbo     \n"
 +                                "88   8  8eee 8eee8e 8e  8 8eee 8e       8       8     8 e8 o88o db o88o \n"
 +                                "88   8  88   88   8 88  8 88   88     8888    8888    8888 oo   db   oo \n"
-+                                "88   8  88ee 88   8 88  8 88ee 88eee  8888 88 8888 88 8888 rc1  db      \n",
++                                "88   8  88ee 88   8 88  8 88ee 88eee  8888 88 8888 88 8888 rc4  db      \n",
 +
 +                                "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 +

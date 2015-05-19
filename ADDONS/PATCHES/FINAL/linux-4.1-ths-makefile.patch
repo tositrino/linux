@@ -4,7 +4,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 1
  SUBLEVEL = 0
- EXTRAVERSION = -rc1
+ EXTRAVERSION = -rc4
 -NAME = Hurr durr I'ma sheep
 +NAME = Odonata Draconis
  
