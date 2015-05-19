@@ -1,0 +1,16 @@
+diff -Naur linux-x/.gitignore linux-y/.gitignore
+--- linux-x/.gitignore	2015-02-24 12:12:20.000000000 +0100
++++ linux-y/.gitignore	2015-02-24 13:12:14.214633661 +0100
+@@ -88,6 +88,12 @@
+ GSYMS
+ GTAGS
+ 
++# THS
++THS-*
++config-*
++*.log
++samples/hidraw/hid-example
++
+ *.orig
+ *~
+ \#*#

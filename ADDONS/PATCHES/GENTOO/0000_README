@@ -1,0 +1,88 @@
+README
+--------------------------------------------------------------------------
+This patchset is to be the series of patches for gentoo-sources.
+It is designed for cross-compatibility, fixes and stability, with performance
+and additional features/driver support being a second.
+
+Unless otherwise stated and marked as such, this kernel should be suitable for
+all environments.
+
+
+Patchset Numbering Scheme
+--------------------------------------------------------------------------
+
+FIXES
+1000-1400	linux-stable
+1400-1500	linux-stable queue
+1500-1700	security
+1700-1800	architecture-related
+1800-1900	mm/scheduling/misc
+1900-2000	filesystems
+2000-2100	networking core
+2100-2200	storage core
+2200-2300	power management (ACPI, APM)
+2300-2400	bus (USB, IEEE1394, PCI, PCMCIA, ...)
+2400-2500	network drivers
+2500-2600	storage drivers
+2600-2700	input
+2700-2900	media (graphics, sound, tv)
+2900-3000	other
+3000-4000	reserved
+
+FEATURES
+4000-4100	network
+4100-4200	storage
+4200-4300	graphics
+4300-4400	filesystem
+4400-4500   security enhancement
+4500-4600   other
+
+EXPERIMENTAL
+5000-5100   experimental patches (BFQ, ...)
+
+Individual Patch Descriptions:
+--------------------------------------------------------------------------
+
+Patch:  1000_linux-4.0.1.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.0.1
+
+Patch:  1500_XATTR_USER_PREFIX.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
+Desc:   Support for namespace user.pax.* on tmpfs.
+
+Patch:  1510_fs-enable-link-security-restrictions-by-default.patch
+From:   http://sources.debian.net/src/linux/3.16.7-ckt4-3/debian/patches/debian/fs-enable-link-security-restrictions-by-default.patch/
+Desc:   Enable link security restrictions by default.
+
+Patch:  2600_select-REGMAP_IRQ-for-rt5033.patch
+From:   http://git.kernel.org/
+Desc:   mfd: rt5033: MFD_RT5033 needs to select REGMAP_IRQ. See bug #546938.
+
+Patch:  2700_ThinkPad-30-brightness-control-fix.patch
+From:   Seth Forshee <seth.forshee@canonical.com>
+Desc:   ACPI: Disable Windows 8 compatibility for some Lenovo ThinkPads.
+
+Patch:  2900_dev-root-proc-mount-fix.patch
+From:   https://bugs.gentoo.org/show_bug.cgi?id=438380
+Desc:   Ensure that /dev/root doesn't appear in /proc/mounts when bootint without an initramfs.
+
+Patch:  2905_s2disk-resume-image-fix.patch
+From:   Al Viro <viro <at> ZenIV.linux.org.uk>
+Desc:   Do not lock when UMH is waiting on current thread spawned by linuxrc. (bug #481344)
+
+Patch:  4200_fbcondecor-3.19.patch
+From:   http://www.mepiscommunity.org/fbcondecor
+Desc:   Bootsplash ported by Marco. (Bug #539616)
+
+Patch:  4567_distro-Gentoo-Kconfig.patch
+From:   Tom Wijsman <TomWij@gentoo.org>
+Desc:   Add Gentoo Linux support config settings and defaults.
+
+Patch:  5000_enable-additional-cpu-optimizations-for-gcc.patch
+From:   https://github.com/graysky2/kernel_gcc_patch/
+Desc:   Kernel patch enables gcc < v4.9 optimizations for additional CPUs.
+
+Patch:  5010_enable-additional-cpu-optimizations-for-gcc-4.9.patch
+From:   https://github.com/graysky2/kernel_gcc_patch/
+Desc:   Kernel patch enables gcc >= v4.9 optimizations for additional CPUs.

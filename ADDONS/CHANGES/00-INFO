@@ -1,0 +1,12 @@
+Product:                   kernel
+Version:                   4.0.1
+Architecture:              linux
+Source:                    ftp://ftp.kernel.org
+Kurzbeschreibung:          linux kernel
+Short-Description:         linux kernel
+Provider:                  hanskult.de
+Compiled-By:               THS
+Support:                   ths@hanskult.de
+Copyright:                 GPL
+
+
