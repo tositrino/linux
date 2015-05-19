@@ -9,25 +9,25 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define UTS_RELEASE        "4.0.1"
-#define THS_RELEASE        "2015-04-29"
+#define UTS_RELEASE        "4.0.4"
+#define THS_RELEASE        "2015-05-19"
 
 const char *cbanner_data[]  = {
 
 
                                //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-                                "88888 8   8 888888                              e       eeea     ea     \n"
-                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e     8  8    ee8     \n"
-                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888    8  8      8     \n"
+                                "88888 8   8 888888                              e       eeea    e       \n"
+                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e     8  8    8 e     \n"
+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888    8  8    8888    \n"
                                 "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8     8 e8      8     \n"
                                 "  88  88  8 e   88   88   8 88   88   8 88  8   8888    8888    8888    \n"
                                 "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888 88 8888    \n",
 
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
-                                "e   e                                 e       eeea     ea  o8o  db  o8o \n"
-                                "8   8   eeee eeeee  eeeee eeee e      8 e     8  8    ee8  o8888db8888o \n"
-                                "8eee8e  8    8   8  8   8 8    8      8888    8  8      8      odbo     \n"
+                                "e   e                                 e       eeea    e    o8o  db  o8o \n"
+                                "8   8   eeee eeeee  eeeee eeee e      8 e     8  8    8 e  o8888db8888o \n"
+                                "8eee8e  8    8   8  8   8 8    8      8888    8  8    8888     odbo     \n"
                                 "88   8  8eee 8eee8e 8e  8 8eee 8e       8     8 e8      8  o88o db o88o \n"
                                 "88   8  88   88   8 88  8 88   88     8888    8888    8888 oo   db   oo \n"
                                 "88   8  88ee 88   8 88  8 88ee 88eee  8888 88 8888 88 8888      db      \n",
@@ -64,9 +64,9 @@ const char *cbanner_data[]  = {
 
 const char *cbanner_1      = "\n"
                                //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-                                "88888 8   8 888888                              e       eeea     ea     \n"
-                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e     8  8    ee8     \n"
-                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888    8  8      8     \n"
+                                "88888 8   8 888888                              e       eeea    e       \n"
+                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e     8  8    8 e     \n"
+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888    8  8    8888    \n"
                                 "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8     8 e8      8     \n"
                                 "  88  88  8 e   88   88   8 88   88   8 88  8   8888    8888    8888    \n"
                                 "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888 88 8888    \n"
@@ -74,9 +74,9 @@ const char *cbanner_1      = "\n"
 
 const char *cbanner_2      = "\n"
 
-                                "e   e                                 e       eeea     ea  o8o  db  o8o \n"
-                                "8   8   eeee eeeee  eeeee eeee e      8 e     8  8    ee8  o8888db8888o \n"
-                                "8eee8e  8    8   8  8   8 8    8      8888    8  8      8      odbo     \n"
+                                "e   e                                 e       eeea    e    o8o  db  o8o \n"
+                                "8   8   eeee eeeee  eeeee eeee e      8 e     8  8    8 e  o8888db8888o \n"
+                                "8eee8e  8    8   8  8   8 8    8      8888    8  8    8888     odbo     \n"
                                 "88   8  8eee 8eee8e 8e  8 8eee 8e       8     8 e8      8  o88o db o88o \n"
                                 "88   8  88   88   8 88  8 88   88     8888    8888    8888 oo   db   oo \n"
                                 "88   8  88ee 88   8 88  8 88ee 88eee  8888 88 8888 88 8888      db      \n"
