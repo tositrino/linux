@@ -59,7 +59,8 @@
 #     linux-4.2-ths-setlocalversion.patch
 #   - obsolete patches
 #     none
-#   - disabled gentoo patches:
+#   - disabled/obsolete gentoo patches:
+#     2910_lz4-compression-fix.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.1-5
 #   - merge old ths branch
