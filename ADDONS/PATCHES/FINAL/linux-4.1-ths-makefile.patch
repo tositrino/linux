@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 1
  SUBLEVEL = 1
  EXTRAVERSION =
--NAME = Hurr durr I'ma sheep
+-NAME = Series 4800
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
