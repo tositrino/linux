@@ -60,6 +60,7 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
+#     2900_dev-root-proc-mount-fix.patch
 #     2910_lz4-compression-fix.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.1-5
