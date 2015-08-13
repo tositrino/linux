@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2015-04-29 17:11:40.760363864 +0200
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 1
- SUBLEVEL = 1
+ SUBLEVEL = 5
  EXTRAVERSION =
 -NAME = Series 4800
 +NAME = Odonata Draconis
