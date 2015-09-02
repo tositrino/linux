@@ -44,6 +44,8 @@
 #     done
 #   - added patch to get nvidia driver compiling (GPL only labelled export removed)
 #     NOTE: this should not be used generally
+#   - added patches:
+#     linux-4.2-ths-workqueue.patch
 #   - updated patches:
 #     linux-4.2-ths-init.patch
 #   - updated tools
