@@ -36,12 +36,19 @@
 #     git push origin v4.2.0-ths
 #     git commit -m "updated v4.2.0-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.2)
+#   - setup & build kernel 4.2.0-ths-x86_64-core2-smp-desktop using gcc-5.2.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.2.0 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
 #   - updated patches:
 #     linux-4.2-ths-init.patch
 #   - THS-RELEASE 4.2.0-mmxv-ix-vii
 #   - added duo camera driver
 #     - added patches:
-        linux-4.2-ths-duo.patch
+#       linux-4.2-ths-duo.patch
 #   - updated firmware
 #     - added patches:
 #       linux-4.2.0-ths-firmware-whence.patch
