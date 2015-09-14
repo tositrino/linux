@@ -65,9 +65,8 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
-#     2900_dev-root-proc-mount-fix.patch
-#     2910_lz4-compression-fix.patch
-#     4567_distro-Gentoo-Kconfig.patch
+#     2710_flush-workqueu~lability.patch      (obsolete)
+#     2905_2disk-resume-image-fix.patch.log   (needs to be redone)
 #   - using genpatches-4.2-5
 #   - merge old ths branch
 #     manually merge v4.2.0-ths
