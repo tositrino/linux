@@ -1,0 +1,11 @@
+diff -Naur linux-org/drivers/gpu/drm/drm_vm.c linux-ths/drivers/gpu/drm/drm_vm.c
+--- linux-org/drivers/gpu/drm/drm_vm.c	2013-05-13 15:42:54.000000000 +0200
++++ linux-ths/drivers/gpu/drm/drm_vm.c	2013-05-13 16:18:55.519837393 +0200
+@@ -433,6 +433,7 @@
+ 	drm_vm_open_locked(dev, vma);
+ 	mutex_unlock(&dev->struct_mutex);
+ }
++EXPORT_SYMBOL(drm_vm_open_locked);
+ 
+ void drm_vm_close_locked(struct drm_device *dev,
+ 		struct vm_area_struct *vma)

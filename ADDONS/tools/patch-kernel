@@ -1,0 +1,224 @@
+#! /bin/sh
+#
+
+[ -z "${SRCDIR}" ] && SRCDIR="/usr/src"
+[ -z "${BASEVER}" ] && BASEVER="linux"
+
+EXTVER=""
+THSVER="${BASEVER}"
+BASEDIR="${SRCDIR}/${BASEVER}"
+THSDIR="${SRCDIR}/${THSVER}"
+
+PS3=`cat /proc/cpuinfo 2>&1 | grep PS3 | awk '$1 == "platform" || $1 == "machine" { print $3 }' | tr -d [:space:]`
+ARM=`cat /proc/cpuinfo 2>&1 | grep ARM | awk '$1 == "Processor" { print $3 }' | tr -d [:space:]`
+
+[ -z "${onPS3}" ] && onPS3="${PS3}"
+[ -z "${onARM}" ] && onARM="${ARM}"
+
+p_arch=""
+p_arm=""
+p_final=""
+p_firmware=""
+p_gentoo=""
+p_last=""
+p_lustre=""
+p_kernel=""
+p_others=""
+p_realtime=""
+p_ps3=""
+p_qlogic=""
+p_ths=""
+
+patchsets=""
+patchmode="-p1"
+patchbase="${THSDIR}/ADDONS/PATCHES"
+patchapplied="${THSDIR}/APPLIED-PATCHES"
+
+cleanup=""
+cleanupdirs=""
+mode="list"
+error=0
+errmsg=""
+
+for arg in $@ ; do
+  case "${arg}" in 
+    --mode)      mode="help"                                            ;;
+    --patch)     mode="patch"                                           ;;
+    --list)      mode="list"                                            ;;
+    --clean)     cleanup=="enabled"                                     ;;
+    all)         p_ths="enabled" 
+                 p_firmware="enabled"
+                 p_gentoo="enabled"  
+                 p_others="enabled"
+                 p_kernel="enabled"
+                 p_arch="enabled"
+                 p_final="enabled"
+                 ##[ -n "${onARM}" ] && p_arm="enabled"
+                 p_arm="enabled"
+                 [ -n "${onPS3}" ] && p_ps3="enabled"
+                 ;;
+    arch)        p_arch="enabled"                                       ;;
+    arm)         p_arm="enabled"                                        ;;
+    realtime)    p_realtime="enabled"                                   ;;
+    firmware)    p_firmware="enabled"                                   ;;
+    final)       p_final="enabled"                                      ;;
+    gentoo)      p_gentoo="enabled"                                     ;;
+    kernel)      p_kernel="enabled"                                     ;;
+    lustre)      p_lustre="enabled"                                     ;;
+    others)      p_others="enabled"                                     ;;
+    ps3)         [ -n "${onPS3}" ] && p_ps3="enabled"                   ;;
+    qlogic)      p_qlogic="enabled"                                     ;;
+    ths)         p_ths="enabled"                                        ;;
+    *)  if [ -n "${arg}" ] ; then
+          errmsg="${errmsg}ERROR: invalid argument \"${arg}\"\n"
+          error=2 
+        fi
+        ;;
+  esac
+done 
+
+echo
+echo "patch-kernel: apply THS and gentoo-patches"
+echo "------------------------------------------"
+echo
+
+[ "${p_ps3}"       = "enabled" ] && patchsets="${patchsets}PS3 "
+[ "${p_arm}"       = "enabled" ] && patchsets="${patchsets}ARM "
+[ "${p_ths}"       = "enabled" ] && patchsets="${patchsets}THS "
+[ "${p_kernel}"    = "enabled" ] && patchsets="${patchsets}KERNEL "
+[ "${p_gentoo}"    = "enabled" ] && patchsets="${patchsets}GENTOO "
+[ "${p_arch}"      = "enabled" ] && patchsets="${patchsets}ARCH "
+[ "${p_others}"    = "enabled" ] && patchsets="${patchsets}OTHER "
+[ "${p_lustre}"    = "enabled" ] && patchsets="${patchsets}LUSTRE "
+[ "${p_firmware}"  = "enabled" ] && patchsets="${patchsets}FIRMWARE "
+[ "${p_realtime}"  = "enabled" ] && patchsets="${patchsets}REALTIME "
+[ "${p_final}"     = "enabled" ] && patchsets="${patchsets}FINAL "
+
+if [ "${p_qlogic}"  = "enabled" ] ; then 
+  patchsets="${patchsets}QLOGIC"
+  cleanupdirs="drivers/scsi/qla2xxx"
+fi
+
+if [ -z "${patchsets}" ] ; then
+  errmsg="${errmsg}ERROR: no patch set defined\n"
+  error=2
+fi
+if [ ! -d "${THSDIR}" ] ; then
+  errmsg="${errmsg}ERROR: ths kernel directory not found\n  (${THSDIR})\n"
+  error=1
+fi
+if [ ! -d "${patchbase}" ] ; then
+  errmsg="${errmsg}ERROR: patch directory not found\n  (${patchbase})\n"
+  error=1
+fi
+#if [ ! -d "${patchapplied}" ] ; then
+#  errmsg="${errmsg}WARNING: patch status directory not found\n  (${patchapplied})\n"
+#  error=1
+#fi
+[ -n "${errmsg}" ] && echo -e "${errmsg}"
+if [ "${mode}" = "help" ] || [ ${error} -eq 2 ] ; then
+  echo -e "Usage : $0 [--patch|--list] <all|gentoo|ths|others|final>\n"
+  error=2
+fi
+[ ${error} -ne 0 ] && exit ${error} 
+
+echo "  kernel version   : ${BASEVER}"
+echo "  kernel directory : ${THSDIR}"
+echo "  run/exec mode    : ${mode}"
+echo "  patch set        : ${patchsets}"
+
+echo
+echo -n "enter kernel source directory ${THSDIR} ... "
+cd "${THSDIR}" || exit 1
+echo "[done]"
+
+final_clear()
+{
+  if [ -z "${cleanupdirs}" ] ; then
+    echo "final_clear(): no special directories to be removed"
+    return
+  fi    
+  echo "final_clear(): remove special directories before patching :"
+  for dir in ${cleanupdirs} ; do
+    if [ -d "/usr/src/${THSVER}/${dir}" ] ; then
+      echo -n "  rm -rf /usr/src/${THSVER}/${dir} ... "
+      if [ "${mode}" = "patch" ] ; then 
+	    rm -rf /usr/src/${THSVER}/${dir}
+        if [ "$?" != "0" ] ; then
+          echo "[ERROR]\nERROR: ${cmd} failed"
+          exit 1
+        fi
+        echo "[done]"
+	  else
+        echo "[${mode}]"
+	  fi
+    else
+      echo "WARNING: /usr/src/${THSVER}/${dir} not found"
+    fi
+  done
+}
+
+pfound=0
+papplied=0
+perrors=0
+
+echo -n "createing applied patches directory ... "
+mkdir -p "${patchapplied}"
+if [ "$?" != "0" ] || [ ! -d "${patchapplied}" ] ; then
+  echo "[ERROR]\nERROR: mkdir -p ${patchapplied} failed"
+  exit 1
+fi
+echo "[done]"
+
+for pset in ${patchsets} ; do
+  [ -z "${pset}" ] && continue
+  
+  [ "${pset}" = "FINAL" ] && final_clear
+
+  pmsg=""
+  pdir="${patchbase}/${pset}"
+  echo "[applying ${pset} patch set]"
+  if [ ! -d "${pdir}" ] ; then
+    perrors=$(( ${perrors} + 1 ))
+    pmsg="ERROR: ${pbane} patch directory not found\n  (${pdir})" 
+    errmsg="${errmsg}${pmsg}\n"
+    echo "${psmg}"
+    continue
+  fi
+  for file in ${pdir}/*.patch ; do
+    [ ! -f "${file}" ] && continue
+    pfile=`basename ${file}`
+    pfound=$(( ${pfound} + 1 ))
+    if [ "${mode}" != "patch" ] ; then
+      echo "  found patch : ${pfile}"
+      continue
+    fi
+
+    echo -n "applying patch ${pfile} ... "
+    echo -e "`date +%D-%T:` patch ${patchmode} < ${pdir}/${pfile}" > ${patchapplied}/${pfile}.log
+    patch ${patchmode} < ${pdir}/${pfile} >> ${patchapplied}/${pfile}.log 2>&1
+    papplied=$(( ${papplied} + 1 ))
+    if [ $?  -ne 0 ] ; then
+      echo "[error]"
+      perrors=$(( ${perrors} + 1 ))
+      pmsg="ERROR: patch ${pfile} failed" 
+      while read ln ; do 
+        echo " > ${ln}"
+      done < ${patchapplied}/${pfile}.log 2>&1
+      errmsg="${errmsg}${pmsg}\n"
+      echo "${psmg}"
+    else
+      echo "[done]"
+    fi
+  done
+done
+
+echo -e "\nfound: ${pfound}, applied: ${papplied}, errors ${perrors}\n"
+if [ -n "${errmsg}" ] ; then
+  echo -e "[error messages]\n${errmsg}"
+fi
+echo "[checking for rejects]"
+find . -type f -name \*.rej
+echo "[checking for origs]"
+find . -type f -name \*.orig
+echo

@@ -1,0 +1,1190 @@
+diff -Naur linux-org/drivers/misc/Kconfig linux-ths/drivers/misc/Kconfig
+--- linux-org/drivers/misc/Kconfig	2006-09-20 05:42:06.000000000 +0200
++++ linux-ths/drivers/misc/Kconfig	2006-11-06 20:56:23.000000000 +0100
+@@ -28,5 +28,14 @@
+ 
+ 	  If unsure, say N.
+ 
++config QUANTIS
++	tristate "Device driver for quantis true random generator"
++	depends on PCI && EXPERIMENTAL
++	---help---
++	  This option enables device driver support for the idquantique
++	  quantis random generator. This is a true random generator which
++	  uses quantum mechanical processes to generate a true random bit
++	  sequence.
++
+ endmenu
+ 
+diff -Naur linux-org/drivers/misc/Makefile linux-ths/drivers/misc/Makefile
+--- linux-org/drivers/misc/Makefile	2006-09-20 05:42:06.000000000 +0200
++++ linux-ths/drivers/misc/Makefile	2006-11-06 20:56:45.000000000 +0100
+@@ -5,3 +5,4 @@
+ 
+ obj-$(CONFIG_IBM_ASM)	+= ibmasm/
+ obj-$(CONFIG_HDPU_FEATURES)	+= hdpuftrs/
++obj-$(CONFIG_QUANTIS)	+= quantis/
+diff -Naur linux-org/drivers/misc/quantis/Makefile linux-ths/drivers/misc/quantis/Makefile
+--- linux-org/drivers/misc/quantis/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-ths/drivers/misc/quantis/Makefile	2006-11-06 16:19:04.000000000 +0100
+@@ -0,0 +1,2 @@
++obj-$(CONFIG_QUANTIS) := quantis.o
++
+diff -Naur linux-org/drivers/misc/quantis/quantis-common.c linux-ths/drivers/misc/quantis/quantis-common.c
+--- linux-org/drivers/misc/quantis/quantis-common.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-ths/drivers/misc/quantis/quantis-common.c	2006-07-11 15:00:06.000000000 +0200
+@@ -0,0 +1,314 @@
++/*
++ * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * Redistributions of source code must retain the above copyright notice, this
++ * list of conditions and the following disclaimer.
++ * Redistributions in binary form must reproduce the above copyright notice,
++ * this list of conditions and the following disclaimer in the documentation
++ * and/or other materials provided with the distribution.
++ * Neither the name of id Quantique nor the names of its contributors may be
++ * used to endorse or promote products derived from this software without
++ * specific prior written permission.
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
++ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++ * POSSIBILITY OF SUCH DAMAGE.
++ */
++
++/**# Quantis PCI card **/
++
++/**## Overview
++ **
++ ** This file contains the common routines to access the Quantis PCI
++ ** card. The OS dependent parts are the softstate structure, for
++ ** which you have to define the `QUANTIS_SOFT_T' type, and the
++ ** register access, for which you have to define the `QUANTIS_REG'
++ ** and `QUANTIS_REG_SET' macros. You also have to define the
++ ** `QUANTIS_DEBUG2' and `QUANTIS_DEBUG0' macros used to print the
++ ** status message, which is a string taking 2 parameters and 0
++ ** parameters..
++ **/
++
++/**## Common defines
++ **
++ ** We define the register numbers, register names, mask names, and
++ ** IDs.
++ **
++ ** We can now define the functions to control the PCI card. The
++ ** vendor ID used by the PCI card is the HEVS vendor ID.
++ **/
++
++/**## PCI Card Registers
++ **
++ ** The Quantis PCI card has a memory register page 16 words long,
++ ** consisting of 10 registers. These registers are split into the
++ ** following functional **groups: the Core Control group, with the
++ ** Enable Register `CC_ER', **the Disable Register `CC_DR' and the
++ ** Status Register `CC_SR'. We **then have the Core Version group,
++ ** with the Status Register `CV_SR', which is used to get the board
++ ** version. Then there is the Fifo **Status group, with the Fifo
++ ** Flush Register `FS_CA', the Fifo Status **Register `FS_RR' and the
++ ** Fifo Data Read Register `FD_RR'. Finally, **the Module Group is
++ ** used to enable and disable card modules, using **the Enable
++ ** Register `MX_ER', the Disable Register `MX_DR' and the **Status
++ ** Register `MX_SR'.
++ **/
++
++#define CC_ER 0
++#define CC_DR 4
++#define CC_SR 12
++#define CV_SR 28
++#define FS_CA 32
++#define FS_RR 40
++#define FD_RR 44
++#define MX_ER 48
++#define MX_DR 52
++#define MX_SR 60
++
++/**## PCI Card FIFO **/
++
++/** The FIFO of the random number generator is 4096 bytes big. It can
++ ** be either empty, one fourth full, half-full, three fourth full or
++ ** completely full. The FIFO is flushed by writing a `0' to the Flush
++ ** Register.
++ **/
++
++#define QUANTIS_FIFO_EMPTY 1
++#define QUANTIS_FIFO_FL1   (1 << 1)
++#define QUANTIS_FIFO_FL2   (1 << 2)
++#define QUANTIS_FIFO_FL3   (1 << 3)
++#define QUANTIS_FIFO_FULL  (1 << 6)
++#define QUANTIS_FIFO_ERROR (1 << 7)
++
++#define QUANTIS_FIFO_STATUS(scp) QUANTIS_REG(scp, FS_RR)
++#define QUANTIS_FLUSH_FIFO(scp) QUANTIS_SET_REG(scp, FS_CA, 0)
++
++/** Finally, we use a macro to print the state of the card. **/
++#define QUANTIS_DEBUG_STATUS(string, scp) \
++       QUANTIS_DEBUG2(string " (CC_SR = %04x, MX_SR = %04x)", \
++                     QUANTIS_REG(scp, CC_SR), QUANTIS_REG(scp, MX_SR))
++
++/**## PCI Card modules **/
++
++/** The module registers are separated in 4 bytes with the flags of
++ ** each device. However, the interface functions masks for each
++ ** function, so we need conversion functions.
++ **/
++
++#define MX_SD  0
++#define MX_SEN 1
++#define MX_TM  2
++#define MX_HEN 6
++#define MX_HST 7
++
++static INLINE u_int32_t mask2reg(u_int32_t mask, int type) {
++  u_int32_t reg;
++  reg = (mask & (1 << 0) ? 1 << 0  : 0)
++    |   (mask & (1 << 1) ? 1 << 8  : 0)
++    |   (mask & (1 << 2) ? 1 << 16 : 0)
++    |   (mask & (1 << 3) ? 1 << 24 : 0);
++  return reg << type;
++}
++
++static INLINE u_int32_t reg2mask(u_int32_t reg, int type) {
++  reg >>= type;
++  return (reg & (1 << 0) ? (1 << 0) : 0)
++    |    (reg & (1 << 8)  ? (1 << 1) : 0)
++    |    (reg & (1 << 16) ? (1 << 2) : 0)
++    |    (reg & (1 << 24) ? (1 << 3) : 0);
++}
++
++/**## PCI Card routines **/
++
++static INLINE u_int32_t quantis_rng_version(QUANTIS_SOFT_T *scp) {
++  return QUANTIS_REG(scp, CV_SR);
++}
++
++static INLINE u_int32_t quantis_rng_modules_status(QUANTIS_SOFT_T *scp) {
++  return
++    reg2mask(QUANTIS_REG(scp, MX_SR), MX_SEN) &
++    reg2mask(QUANTIS_REG(scp, MX_SR), MX_HST);
++}
++
++static INLINE int quantis_rng_error(QUANTIS_SOFT_T *scp) {
++  u_int32_t reg    = QUANTIS_REG(scp, MX_SR);
++  u_int32_t test   = reg2mask(reg, MX_TM);
++  u_int32_t status = reg2mask(reg, MX_HST);
++  u_int32_t enable = reg2mask(reg, MX_SEN);
++
++  if (test) {
++    return 0;
++  } else {
++    return (enable &~ status);
++  }
++}
++
++/**
++ ** This routines returns the number of bytes of random data in the
++ ** FIFO.
++ **/
++static INLINE int quantis_rng_fifo_bytes(QUANTIS_SOFT_T *scp) {
++  u_int32_t status = QUANTIS_FIFO_STATUS(scp);
++  if (status & QUANTIS_FIFO_FULL) {
++    return QUANTIS_FIFO_SIZE * 4;
++  } else if (status & QUANTIS_FIFO_FL3) {
++    return (3 * QUANTIS_FIFO_SIZE);
++  } else if (status & QUANTIS_FIFO_FL2) {
++    return (2 * QUANTIS_FIFO_SIZE);
++  } else if (status & QUANTIS_FIFO_FL1) {
++    return (1 * QUANTIS_FIFO_SIZE);
++  } else {
++    return 0;
++  }
++}
++
++/** This routine resets the entire PCI board.
++ **/
++static INLINE void quantis_rng_reset(QUANTIS_SOFT_T *scp) {
++  QUANTIS_DEBUG_STATUS("quantis_rng_reset", scp);
++
++  QUANTIS_SET_REG(scp, CC_ER, 1);
++  QUANTIS_DEBUG_STATUS("quantis_rng_reset (after ER reset)", scp);
++  QUANTIS_SET_REG(scp, CC_DR, 1);
++  QUANTIS_DEBUG_STATUS("quantis_rng_reset (after DR reset)", scp);
++}
++
++/** This routine returns the modules present as a mask of 4 bits. **/
++static INLINE u_int32_t quantis_rng_modules_mask(QUANTIS_SOFT_T *scp) {
++  QUANTIS_DEBUG_STATUS("quantis_rng_modules_mask", scp);
++
++  return reg2mask(QUANTIS_REG(scp, MX_SR), MX_HEN);
++}
++
++/** This routine enables the modules specified by `mask'. **/
++static INLINE void quantis_rng_enable_modules(QUANTIS_SOFT_T *scp, u_int32_t mask) {
++  QUANTIS_DEBUG_STATUS("quantis_rng_enable_modules", scp);
++
++  /* enable modules */
++  QUANTIS_SET_REG(scp, MX_ER, mask2reg(mask, MX_SEN));
++  QUANTIS_FLUSH_FIFO(scp);
++
++  QUANTIS_DEBUG_STATUS("quantis_rng_enable_modules (after enabling)", scp);
++}
++
++/** This routine disables the modules specified by `mask'. **/
++static INLINE void quantis_rng_disable_modules(QUANTIS_SOFT_T *scp, u_int32_t mask) {
++  QUANTIS_DEBUG_STATUS("quantis_rng_disable_modules", scp);
++
++  /* enable modules */
++  QUANTIS_SET_REG(scp, MX_DR, mask2reg(mask, MX_SEN));
++  QUANTIS_FLUSH_FIFO(scp);
++
++  QUANTIS_DEBUG_STATUS("quantis_rng_disable_modules (after disabling)", scp);
++}
++
++/** This routines enables the test mode for the PCI card (whatever the
++ ** test mode is).
++ **/
++static INLINE void quantis_rng_set_test_mode(QUANTIS_SOFT_T *scp, u_int32_t mask) {
++  QUANTIS_DEBUG_STATUS("quantis_rng_set_test_mode", scp);
++  
++  QUANTIS_SET_REG(scp, MX_DR, mask2reg(0xf, MX_SEN) | mask2reg(0xf, MX_TM));
++  QUANTIS_SET_REG(scp, MX_ER, mask2reg(mask, MX_TM));
++  QUANTIS_FLUSH_FIFO(scp);
++
++  QUANTIS_DEBUG_STATUS("quantis_rng_set_test_mode (after setting test mode)", scp);
++}
++
++/**
++ ** Wait till the FIFO is not empty anymore, or a timeout happens
++ ** (poll the FIFO 1000 times). A timeout is supposed to be a hard
++ ** error.
++ **/
++static INLINE int quantis_rng_wait_fifo(QUANTIS_SOFT_T *scp) {
++  unsigned int timeout = 10000;
++  do {
++    timeout--;
++  } while ((timeout > 0) && (quantis_rng_fifo_bytes(scp) == 0));
++
++  if (timeout <= 0) {
++    return -1;
++  } else {
++    return 0;
++  }
++}
++
++/**
++ ** This routine fills `buffer' with `length' random bytes, waiting
++ ** for the FIFO to be filled. However, if a timeout happens, the
++ ** routine returns `-1' to signal an error.
++ **/
++static INLINE int quantis_rng_read(QUANTIS_SOFT_T *scp,
++				   unsigned char *buffer, int length) {
++  int bytes = 0;
++  QUANTIS_DEBUG_STATUS("quantis_rng_read", scp);
++
++  /* XXX verify at least one module is enabled. */
++  
++  if (quantis_rng_error(scp)) {
++    QUANTIS_DEBUG0("Module status error");
++    return -1;
++  }
++  
++  while (bytes < length) {
++    int count = 0;
++
++  again:    
++    if (quantis_rng_wait_fifo(scp) < 0) {
++      QUANTIS_DEBUG0("Timeout");
++      return -1;
++    }
++
++    count = quantis_rng_fifo_bytes(scp) * 4;
++    if (count > (length - bytes))
++      count = (length - bytes);
++
++    while (count > 0) {
++      /* this can potentially cause endianness problems */
++      u_int32_t tmp = QUANTIS_REG(scp, FD_RR);
++      int len;
++
++      if (QUANTIS_FIFO_STATUS(scp) & QUANTIS_FIFO_ERROR) {
++	/* if the FIFO has overflown, reset it */
++	QUANTIS_FLUSH_FIFO(scp);
++	goto again;
++      }
++
++      len = count > 4 ? 4 : count;
++
++      if (bytes+len > 4 * QUANTIS_FIFO_SIZE) {
++	return bytes;
++      }
++
++      
++      memcpy(buffer + bytes, &tmp, len);
++      count -= len;
++      bytes += len;
++    }
++  } 
++
++  return bytes;
++}
++
++/** We are the only functions that get to access the registers directly! **/
++#undef CC_ER
++#undef CC_DR
++#undef CC_SR
++#undef CV_SR
++#undef FS_CA
++#undef FS_RR
++#undef FD_RR
++#undef MX_ER
++#undef MX_DR
++#undef MX_SR
+diff -Naur linux-org/drivers/misc/quantis/quantis-common.h linux-ths/drivers/misc/quantis/quantis-common.h
+--- linux-org/drivers/misc/quantis/quantis-common.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-ths/drivers/misc/quantis/quantis-common.h	2006-07-11 15:00:06.000000000 +0200
+@@ -0,0 +1,58 @@
++/*
++ * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * Redistributions of source code must retain the above copyright notice, this
++ * list of conditions and the following disclaimer.
++ * Redistributions in binary form must reproduce the above copyright notice,
++ * this list of conditions and the following disclaimer in the documentation
++ * and/or other materials provided with the distribution.
++ * Neither the name of id Quantique nor the names of its contributors may be
++ * used to endorse or promote products derived from this software without
++ * specific prior written permission.
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
++ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++ * POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#ifndef QUANTIS_COMMON_H__
++#define QUANTIS_COMMON_H__
++
++#ifndef INLINE
++#define INLINE
++#endif
++
++#define QUANTIS_DRIVER_VERSION 11
++
++#define QUANTIS_VENDOR_ID 0x179a
++#define QUANTIS_PCI_REGION 1
++
++#define QUANTIS_REG_LENGTH (16 * 4)
++#define QUANTIS_FIFO_SIZE  1024
++
++static INLINE u_int32_t mask2reg(u_int32_t mask, int type);
++static INLINE u_int32_t reg2mask(u_int32_t reg, int type);
++static INLINE u_int32_t quantis_rng_version(QUANTIS_SOFT_T *scp);
++static INLINE u_int32_t quantis_rng_modules_status(QUANTIS_SOFT_T *scp);
++static INLINE int quantis_rng_error(QUANTIS_SOFT_T *scp);
++static INLINE int quantis_rng_fifo_bytes(QUANTIS_SOFT_T *scp);
++static INLINE void quantis_rng_reset(QUANTIS_SOFT_T *scp);
++static INLINE u_int32_t quantis_rng_modules_mask(QUANTIS_SOFT_T *scp);
++static INLINE void quantis_rng_enable_modules(QUANTIS_SOFT_T *scp, u_int32_t mask);
++static INLINE void quantis_rng_disable_modules(QUANTIS_SOFT_T *scp, u_int32_t mask);
++static INLINE void quantis_rng_set_test_mode(QUANTIS_SOFT_T *scp, u_int32_t mask);
++static INLINE int quantis_rng_wait_fifo(QUANTIS_SOFT_T *scp);
++static int quantis_rng_read(QUANTIS_SOFT_T *scp, unsigned char *buffer, int length);
++
++#endif /* QUANTIS_COMMON_H__ */
+diff -Naur linux-org/drivers/misc/quantis/quantis.c linux-ths/drivers/misc/quantis/quantis.c
+--- linux-org/drivers/misc/quantis/quantis.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-ths/drivers/misc/quantis/quantis.c	2006-11-06 21:41:48.000000000 +0100
+@@ -0,0 +1,675 @@
++/*
++ * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * Redistributions of source code must retain the above copyright notice, this
++ * list of conditions and the following disclaimer.
++ * Redistributions in binary form must reproduce the above copyright notice,
++ * this list of conditions and the following disclaimer in the documentation
++ * and/or other materials provided with the distribution.
++ * Neither the name of id Quantique nor the names of its contributors may be
++ * used to endorse or promote products derived from this software without
++ * specific prior written permission.
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
++ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++ * POSSIBILITY OF SUCH DAMAGE.
++ */
++
++/**# Introduction **/
++
++/**## Preamble **/
++
++/**## Kernel includes **/
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/version.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/proc_fs.h>
++#include <linux/ioport.h>
++#include <linux/pci.h>
++
++#include <asm/ioctl.h>
++#include <asm/uaccess.h>
++#include <asm/io.h>
++
++#ifdef USE_DEVFS
++#include <linux/devfs_fs_kernel.h>
++#endif
++
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 0))
++#define LINUX_2_6__
++#endif
++
++/** We also include the file containing the definition of our IOCTL
++ ** command numbers.
++ **/
++#include "quantisio.h"
++
++#define DRIVER_NAME "Quantis-PCI driver"
++#define DRIVER_SHORT_NAME "qrandom"
++
++#define QUANTIS_DEFAULT_MAJOR 0
++#define QUANTIS_MAX_CARDS 10
++
++#define TOSTRING(__STRING__) #__STRING__
++#define QUANTIS_DESC_MAJOR(__NUMBER__) TOSTRING(quantis major number (default __NUMBER__))
++#define QUANTIS_DESC_TIMEOUT(__NUMBER__) TOSTRING(quantis timeout (default __NUMBER__))
++
++/**## Module parameters
++ **
++ **/
++
++/** When the major number is 0, it is automatically assigned by the
++ ** kernel.
++ **/
++int quantisMajor = QUANTIS_DEFAULT_MAJOR;
++//MODULE_PARM(quantisMajor, "i");
++module_param(quantisMajor, int, 0444);
++MODULE_PARM_DESC(quantisMajor, QUANTIS_DESC_MAJOR(QUANTIS_DEFAULT_MAJOR));
++
++#define QUANTIS_TIMEOUT 1000
++int quantisTimeOut = QUANTIS_TIMEOUT;
++//MODULE_PARM(quantisTimeOut, "i");
++module_param(quantisTimeOut, int, 0444);
++MODULE_PARM_DESC(quantisTimeOut, QUANTIS_DESC_TIMEOUT(QUANTIS_TIMEOUT));
++
++#if defined(USE_DEVFS) && defined(REPLACE_DEV_RANDOM)
++int quantisReplaceRandom = -1;
++//MODULE_PARM(quantisReplaceRandom, "i");
++module_param(quantisReplaceRandom, int, 0444);
++MODULE_PARM_DESC(quantisReplaceRandom,
++		 "(USE AT YOUR OWN RISK): Replace /dev/random and /dev/urandom with "
++		 "quantis random number generator (default off)");
++#endif
++
++/**## Logging routines **/
++#define QUANTIS_INFO(fmt, args...) \
++  printk(KERN_INFO "%s: " fmt "\n" , DRIVER_SHORT_NAME , ## args)
++#define QUANTIS_WARNING(fmt, args...) \
++printk(KERN_WARNING "%s: WARNING " fmt "\n" , DRIVER_SHORT_NAME , ## args)
++#define QUANTIS_ERROR(fmt, args...) \
++  printk(KERN_ERR "%s: ERROR " fmt "\n" , DRIVER_SHORT_NAME , ## args)
++
++#ifdef DEBUG
++#define QUANTIS_DEBUG(fmt, args...) \
++  printk(KERN_INFO "%s: " fmt "\n" , DRIVER_SHORT_NAME , ## args)
++#else
++#define QUANTIS_DEBUG(fmt, args...)
++#endif
++
++/**# PCI card structures **/
++
++#ifndef INLINE
++#define INLINE __inline__
++#endif
++
++struct quantis_card_s;
++#define QUANTIS_SOFT_T struct quantis_card_s
++#include "quantis-common.h"
++
++typedef struct quantis_card_s {
++  struct pci_dev   *bus;
++  u_int32_t        *regs;
++  struct semaphore mutex;
++  unsigned char    buffer[4 * QUANTIS_FIFO_SIZE];
++
++#ifdef USE_DEVFS
++  devfs_handle_t   handle;
++#endif 
++} quantis_card_t;
++
++#if defined(USE_DEVFS)
++/** Handle for the qrandom directory. **/
++devfs_handle_t dir_handle;
++
++#if defined(REPLACE_DEV_RANDOM)
++struct file_operations *random_prev_ops = NULL;
++devfs_handle_t random_handle = NULL;
++struct file_operations *urandom_prev_ops = NULL;
++devfs_handle_t urandom_handle = NULL;
++#endif 
++#endif /* USE_DEVFS */
++
++/* XXX use mutexes around global variables */
++quantis_card_t   quantisCards[QUANTIS_MAX_CARDS];
++int              quantisCardCount = 0;
++struct semaphore quantisMutex;
++
++/**## Shared functions
++ **
++ ** Drivers are not allowed to directly access the hardware, but have
++ ** to use the shared quantis functions.
++ **
++ ** We use two macros to read and write PCI card registers, using the
++ ** bus space interface. We always read 32 bits values. We define the
++ ** `quantis_soft_state_t' type for the shared functions, and inline
++ ** them, too.
++ **/
++#define QUANTIS_REG(scp, reg) ((scp)->regs[reg / 4])
++#define QUANTIS_SET_REG(scp, reg, val) (scp)->regs[(reg / 4)] = (val)
++#define QUANTIS_DEBUG0 QUANTIS_DEBUG
++#define QUANTIS_DEBUG2 QUANTIS_DEBUG
++
++/** After this setup, we can include the common functions. **/
++#include "quantis-common.c"
++
++static int quantis_open(struct inode *inode, struct file *file);
++static int quantis_close(struct inode *inode, struct file *file);
++static ssize_t quantis_read(struct file *file, char *buffer,
++			    size_t length, loff_t *ppos);
++static int quantis_ioctl(struct inode *inode, struct file *file,
++			 unsigned int cmd, unsigned long arg);
++
++static struct file_operations quantis_fops = {
++  owner:    THIS_MODULE,
++  read:     quantis_read,
++  ioctl:    quantis_ioctl,
++  open:     quantis_open,
++  release:  quantis_close
++};
++
++/**# Kernel PCI interface routines **/
++__devinitdata static struct pci_device_id pci_ids[] = {
++  { QUANTIS_VENDOR_ID, PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
++  { 0, }
++};
++MODULE_DEVICE_TABLE(pci, pci_ids);
++
++/**## Power management **/
++#ifdef CONFIG_PM
++static int quantis_suspend(struct pci_dev *pdev, u_int32_t state) {
++  return 0;
++}
++
++static int quantis_resume (struct pci_dev *pdev) {
++  return 0;
++}
++#endif 
++
++/**## File operations **/
++static int quantis_open(struct inode *inode, struct file *file) {
++  int card = MINOR(inode->i_rdev);
++  if(card > (quantisCardCount - 1))
++    return -ENODEV;
++
++#ifdef LINUX_2_6__
++  if (!try_module_get(THIS_MODULE)) {
++    return -EBUSY;
++  }
++#else
++  MOD_INC_USE_COUNT;
++#endif
++  
++  file->private_data = &quantisCards[card];
++  return 0;
++}
++
++static int quantis_close(struct inode *inode, struct file *file) {
++#ifdef LINUX_2_6__
++  module_put(THIS_MODULE);
++#else
++  MOD_DEC_USE_COUNT;
++#endif
++
++  return 0;
++}
++
++static ssize_t quantis_read(struct file *file, char *buffer,
++			    size_t length, loff_t *ppos) {
++  int ret;
++  quantis_card_t *device;
++
++  /** Verify this is a write access. **/
++  if(!access_ok(VERIFY_WRITE, buffer, length)) {
++    QUANTIS_ERROR("write access denied for buffer %p, length 0x%08x",
++		  buffer, (unsigned int) length);
++    return -EFAULT;
++  }
++    
++  device = file->private_data;
++  if (down_interruptible(&(device->mutex)))
++    return -ERESTARTSYS;
++
++  ret = quantis_rng_read(device, device->buffer, length);
++  
++  if (ret < 0) {
++    ret = -EIO;
++  } else {
++    __copy_to_user(buffer, device->buffer, ret);
++  }
++  
++  up(&(device->mutex));
++  return ret;
++}
++
++static int quantis_ioctl(struct inode *inode, struct file *file,
++			 unsigned int cmd, unsigned long arg)
++{
++  int status;
++  unsigned int card = MINOR(inode->i_rdev);
++  quantis_card_t *device;
++
++  device = &quantisCards[card];
++  if(down_interruptible(&device->mutex)) 
++    return -ERESTARTSYS;
++
++  switch (cmd) {
++  case QUANTIS_IOCTL_GET_DRIVER_VERSION:
++    status = put_user((u_int32_t)QUANTIS_DRIVER_VERSION, (u_int32_t *)arg);
++    break;
++    
++  case QUANTIS_IOCTL_GET_CARD_COUNT:
++    status = put_user((u_int32_t)quantisCardCount, (u_int32_t *)arg);
++    break;
++
++  case QUANTIS_IOCTL_GET_BOARD_VERSION:
++    {
++      u_int32_t version = quantis_rng_version(device);
++      status = put_user(version, (u_int32_t *)arg);
++      break;
++    }
++
++  case QUANTIS_IOCTL_RESET_BOARD:
++    quantis_rng_reset(device);
++    status = 0;
++    break;
++
++  case QUANTIS_IOCTL_GET_MODULES_MASK:
++    {
++      u_int32_t mask =  quantis_rng_modules_mask(device);
++      status = put_user(mask, (u_int32_t *)arg);
++      break;
++    }
++
++  case QUANTIS_IOCTL_ENABLE_MODULE:
++    {
++      u_int32_t modules;
++      get_user(modules, (u_int32_t *)arg);
++      quantis_rng_enable_modules(device, modules);
++      status = 0;
++    }
++    break;
++
++  case QUANTIS_IOCTL_DISABLE_MODULE:
++    {
++      u_int32_t modules;
++      get_user(modules, (u_int32_t *)arg);
++      quantis_rng_disable_modules(device, modules);
++      status = 0;
++    }
++    break;
++
++  case QUANTIS_IOCTL_SET_TEST_MODE:
++    {
++      u_int32_t modules;
++      get_user(modules, (u_int32_t *)arg);
++      quantis_rng_set_test_mode(device, modules);
++      status = 0;
++    }
++    break;
++
++  case QUANTIS_IOCTL_GET_MODULES_STATUS:
++    {
++      u_int32_t modules_status;
++      modules_status = quantis_rng_modules_status(device);
++      status = put_user(modules_status, (u_int32_t *)arg);
++    }
++    break;
++
++  default:
++    QUANTIS_DEBUG("no such IOCTL");
++    status = -ENOTTY;
++  }
++
++  up(&device->mutex);
++  return status;
++}
++
++#if defined(USE_DEVFS) && defined(REPLACE_DEV_RANDOM)
++static devfs_handle_t quantis_devfs_replace(char *name,
++					    unsigned int major,
++					    unsigned int minor,
++					    struct file_operations **old_ops,
++					    unsigned int new_major,
++					    unsigned int new_minor,
++					    struct file_operations *new_ops) {
++  devfs_handle_t old_h, new_h;
++  char fulldevname[16];
++
++  old_h = devfs_find_handle(NULL, name, major, minor, DEVFS_SPECIAL_CHR, 0);
++  if (old_h == NULL)
++    return NULL;
++
++  *old_ops = devfs_get_ops(old_h);
++  sprintf(fulldevname, DRIVER_SHORT_NAME "/%d", new_minor);
++      
++  QUANTIS_DEBUG("replacing %s device with /dev/%s", name, fulldevname);
++  devfs_unregister(old_h);
++  if ((new_h = devfs_register(NULL, name, DEVFS_FL_NONE,
++			      new_major, new_minor,
++			      S_IRUGO | S_IFCHR | S_IWUGO,
++			      new_ops, 0)) == NULL) {
++    /* restore random */
++    if (!devfs_register(NULL, name, DEVFS_FL_NONE, major, minor,
++			S_IRUGO | S_IWUSR | S_IFCHR, *old_ops, NULL)) {
++      QUANTIS_DEBUG("Could not restore %s", name);
++      *old_ops = NULL;
++      return NULL;
++    }
++  }
++  return new_h;
++}
++
++static void quantis_restore_random(void) {
++  if (random_prev_ops && random_handle) {
++    QUANTIS_DEBUG("restoring random device");
++    devfs_unregister(random_handle);
++    if (!devfs_register(NULL, "random", DEVFS_FL_NONE,
++			1, 8, S_IRUGO | S_IWUSR | S_IFCHR, random_prev_ops, NULL))
++      QUANTIS_DEBUG("Could not restore /dev/random");
++    urandom_handle = NULL;
++    urandom_prev_ops = NULL;
++  }
++
++  if (urandom_prev_ops && urandom_handle) {
++    QUANTIS_DEBUG("restoring urandom device");
++    devfs_unregister(urandom_handle);
++    if (!devfs_register(NULL, "urandom", DEVFS_FL_NONE,
++			1, 9, S_IRUGO | S_IWUSR | S_IFCHR, urandom_prev_ops, NULL))
++      QUANTIS_DEBUG("Could not restore /dev/urandom");
++    urandom_handle = NULL;
++    urandom_prev_ops = NULL;
++  }
++}
++
++static int quantis_replace_random(int card) {
++  random_handle = quantis_devfs_replace("random", 1, 8, &random_prev_ops,
++					quantisMajor, card,
++					&quantis_fops);
++  if (random_handle == NULL)
++    return -1;
++  urandom_handle = quantis_devfs_replace("urandom", 1, 9, &urandom_prev_ops,
++					 quantisMajor, card,
++					 &quantis_fops);
++  if (urandom_handle == NULL) {
++    quantis_restore_random();
++    return -1;
++  }
++  
++  return 0;
++}
++#endif
++
++static int __devinit quantis_probe(struct pci_dev *pdev,
++				   const struct pci_device_id *ent) {
++  int status;
++  quantis_card_t *device;
++
++#ifdef USE_DEVFS
++  char devname[4];
++#endif
++  
++  down(&quantisMutex);
++  if (quantisCardCount >= QUANTIS_MAX_CARDS) {
++    QUANTIS_ERROR("Not supporting more than %d cards", QUANTIS_MAX_CARDS);
++    up(&quantisMutex);
++    return -ENXIO;
++  }
++  device = &quantisCards[quantisCardCount];
++  device->bus = pdev;
++#ifdef USE_DEVFS
++  device->handle = NULL;
++#endif
++  quantisCardCount++;
++  up(&quantisMutex);
++  QUANTIS_DEBUG("now %d card(s) managed by this driver", quantisCardCount);
++  
++  if ((status = pci_enable_device(pdev)) != 0) {
++    QUANTIS_ERROR("can't enable pci device");
++    return status;
++  }  
++
++  if ((status = pci_request_regions(pdev, DRIVER_SHORT_NAME)) != 0) {
++    QUANTIS_ERROR("can't enable pci device");
++    return status;
++  }
++  
++  down(&quantisMutex);
++  device->regs =
++    (u_int32_t *)ioremap_nocache(pci_resource_start(pdev, 1),
++				 QUANTIS_REG_LENGTH);
++  sema_init(&device->mutex, 1);
++  up(&quantisMutex);
++
++  down(&device->mutex);
++  quantis_rng_reset(device);
++  up(&device->mutex);
++  
++#if defined(USE_DEVFS)
++  sprintf(devname, "%d", quantisCardCount-1);  
++  QUANTIS_DEBUG("trying to register in devfs /dev/%s/%s", DRIVER_SHORT_NAME, devname);
++  device->handle = devfs_register(dir_handle, devname, DEVFS_FL_DEFAULT,
++				  quantisMajor, quantisCardCount-1,
++				  S_IFCHR | S_IRUGO | S_IWUGO, &quantis_fops, 0);
++  QUANTIS_DEBUG("devfs returned %p", device->handle);
++  
++#if defined(REPLACE_DEV_RANDOM)
++  if (dir_handle && (quantisReplaceRandom == quantisCardCount - 1))
++    quantis_replace_random(quantisCardCount - 1);
++#endif
++#endif /* USE_DEVFS */
++  
++  QUANTIS_INFO("found card %d, with serial 0x%08x",
++	       quantisCardCount-1, quantis_rng_version(device));
++
++  return status;
++}
++
++static void __devexit quantis_remove_one(struct pci_dev *pdev) {
++  int i;
++
++  iounmap(quantisCards[quantisCardCount].regs);
++  pci_release_regions(pdev);
++  pci_disable_device(pdev);
++  
++  down(&quantisMutex);
++
++  for(i = 0; i < QUANTIS_MAX_CARDS; i++) {
++    if(quantisCards[i].bus == pdev) {
++      quantisCards[i].bus = NULL;
++
++#ifdef USE_DEVFS
++#if defined(REPLACE_DEV_RANDOM)
++      if (i == quantisReplaceRandom) {
++	quantis_restore_random();
++      }
++#endif
++      QUANTIS_DEBUG("unregister device");
++      if (quantisCards[i].handle)
++	devfs_unregister(quantisCards[i].handle);
++      QUANTIS_DEBUG("unregistered device");
++#endif
++    }
++  }
++  quantisCardCount--;
++
++  up(&quantisMutex);
++  QUANTIS_DEBUG("now %d card(s) managed by this driver", quantisCardCount);
++}
++
++static int quantis_proc_read(char *buf, char **start,
++			     off_t offset, int count, int *eof, void *data) {
++  int len = 0;
++  int card_count;
++  int i;
++  
++  down(&quantisMutex);
++  card_count = quantisCardCount;
++  up(&quantisMutex);
++  
++  len += snprintf(buf + len, count - len, DRIVER_NAME"\n");
++
++#ifdef DEBUG
++  len += snprintf(buf + len, count - len, "*** debug build ***\n");
++#endif
++  
++  len += snprintf(buf + len, count - len, 
++		 "version %d.%d with support for %d cards\n",
++		 QUANTIS_DRIVER_VERSION / 10, QUANTIS_DRIVER_VERSION % 10,
++		 QUANTIS_MAX_CARDS);
++  len += snprintf(buf + len, count - len,
++		 "driver '%s', device major %d\n",
++		 DRIVER_SHORT_NAME, quantisMajor);
++  len += snprintf(buf + len, count - len, "found %d card(s)\n", card_count);
++  
++  for(i = 0; i < card_count; i++) {
++    len += snprintf(buf + len, count - len, "card %d version:0x%08x\n", i,
++		    quantis_rng_version(&quantisCards[i]));
++  }
++
++  *eof = 1;
++  return len;
++}
++
++static int __init quantis_proc_register (void) {
++  struct proc_dir_entry *proc_entry;
++  proc_entry = create_proc_read_entry(DRIVER_SHORT_NAME, 0, 0,
++				      quantis_proc_read, 0);
++  if (proc_entry)
++    return 0;
++  else
++    return -EBUSY;
++}
++
++static struct pci_driver quantis_pci_driver = {
++  .name      = DRIVER_NAME,
++  .id_table  = pci_ids,
++  .probe     = quantis_probe,
++  .remove    = __devexit_p(quantis_remove_one),
++#ifdef CONFIG_PM
++  .suspend   = quantis_suspend,
++  .resume    = quantis_resume,
++#endif
++};
++
++typedef enum  {
++  STATE_NOTHING,
++  STATE_ALLOC,
++  STATE_DEVFS,
++  STATE_REGISTER,
++  STATE_PCI,
++  STATE_PROC,
++  STATE_OK
++} init_state_t;
++
++static void quantis_exit_module_state(init_state_t state) {
++  switch(state) {
++  case STATE_OK:
++    remove_proc_entry(DRIVER_SHORT_NAME, 0);
++    
++  case STATE_PROC:
++    pci_unregister_driver(&quantis_pci_driver);
++    
++  case STATE_PCI:
++      unregister_chrdev(quantisMajor, DRIVER_NAME);
++
++  case STATE_REGISTER:
++#ifdef USE_DEVFS
++    QUANTIS_DEBUG("unregister devfs dir");
++    if (dir_handle)
++      devfs_unregister(dir_handle);
++#ifdef REPLACE_DEV_RANDOM
++    quantis_restore_random();
++#endif
++#endif
++
++  case STATE_DEVFS:
++  case STATE_NOTHING:
++    break;
++
++  default:
++    QUANTIS_ERROR("exit module with unknown state (%d)",state);
++    break;
++  }
++}
++
++static void __exit quantis_exit_module(void) {
++  quantis_exit_module_state(STATE_OK);
++}
++
++static int __init quantis_init_module (void) {
++  int status;
++  
++  init_state_t state=STATE_NOTHING;
++  
++  QUANTIS_INFO("%s version %d.%d with support for %d cards",
++	       DRIVER_NAME, QUANTIS_DRIVER_VERSION / 10,
++	       QUANTIS_DRIVER_VERSION % 10,
++	       QUANTIS_MAX_CARDS);
++
++  sema_init(&quantisMutex,1);
++  
++#ifdef USE_DEVFS
++  state = STATE_DEVFS;
++  if ((dir_handle = devfs_mk_dir(NULL, DRIVER_SHORT_NAME, NULL)) == NULL) {
++    QUANTIS_ERROR("can't create /dev/%s/",DRIVER_SHORT_NAME);
++    quantis_exit_module_state(state);
++    return -EBUSY;
++  }
++#endif
++  
++  state = STATE_REGISTER;
++  status = register_chrdev(quantisMajor, DRIVER_NAME, &quantis_fops);
++  if (status > 0) {
++    if (quantisMajor == 0) {
++      QUANTIS_INFO("assigned major number %d",status);
++    } 
++    quantisMajor = status;
++  } else {
++    QUANTIS_ERROR("Can't register driver");
++    quantis_exit_module_state(state);
++    return status;
++  }
++
++  state = STATE_PCI;
++  if ((status = pci_module_init(&quantis_pci_driver)) != 0) {
++    QUANTIS_ERROR("PCI init module failed");
++    quantis_exit_module_state(state);
++    return status;
++  }  
++    
++  state = STATE_PROC;  
++  if((status = quantis_proc_register()) != 0) {
++    QUANTIS_ERROR("PCI init module failed");
++    quantis_exit_module_state(state);
++    return status;
++  }  
++  
++  QUANTIS_INFO("Successful load, %d card(s) found", quantisCardCount);
++  state = STATE_OK;
++  return 0;
++}
++
++module_init(quantis_init_module);
++module_exit(quantis_exit_module);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("id Quantique");
++MODULE_DESCRIPTION(DRIVER_NAME); 
++
++#ifndef LINUX_2_6__
++EXPORT_NO_SYMBOLS;   
++#endif
++
+diff -Naur linux-org/drivers/misc/quantis/quantisio.h linux-ths/drivers/misc/quantis/quantisio.h
+--- linux-org/drivers/misc/quantis/quantisio.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-ths/drivers/misc/quantis/quantisio.h	2006-07-11 15:00:06.000000000 +0200
+@@ -0,0 +1,95 @@
++/*
++ * Copyright (c) 2004, 2005, id Quantique SA, Switzerland
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions are met:
++ *
++ * Redistributions of source code must retain the above copyright notice, this
++ * list of conditions and the following disclaimer.
++ * Redistributions in binary form must reproduce the above copyright notice,
++ * this list of conditions and the following disclaimer in the documentation
++ * and/or other materials provided with the distribution.
++ * Neither the name of id Quantique nor the names of its contributors may be
++ * used to endorse or promote products derived from this software without
++ * specific prior written permission.
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
++ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++ * POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#ifndef QUANTIS_IOCTL_H
++#define QUANTIS_IOCTL_H
++
++#ifdef __cplusplus
++extern "C" {
++#endif 
++	
++#ifdef linux
++#ifndef __KERNEL__
++#include <sys/cdefs.h>
++#include <sys/ioctl.h>
++#endif
++#endif /* linux */
++  
++#ifdef __FreeBSD__
++#ifndef KERNEL
++#include <sys/types.h>
++#endif
++#include <sys/ioccom.h>
++#endif /* __FreeBSD__ */
++
++#if defined(__SVR4) && defined(__sun)
++#include <sys/modctl.h>
++#endif
++
++  /* Magic key to ensure IOCTL are OK */
++#define QUANTIS_IOC_MAGIC  'q'
++  
++  /* get driver version */
++#define QUANTIS_IOCTL_GET_DRIVER_VERSION _IOR(QUANTIS_IOC_MAGIC, 0, unsigned int)
++  
++  /* get number of detected cards */
++#define QUANTIS_IOCTL_GET_CARD_COUNT     _IOR(QUANTIS_IOC_MAGIC, 1, unsigned int)
++  
++  /* get mask of detected modules */
++#define QUANTIS_IOCTL_GET_MODULES_MASK   _IOR(QUANTIS_IOC_MAGIC, 2, unsigned int)
++  
++  /* get card serial number */
++#define QUANTIS_IOCTL_GET_BOARD_VERSION  _IOR(QUANTIS_IOC_MAGIC, 3, unsigned int)
++  
++  /* reset one board */
++#define QUANTIS_IOCTL_RESET_BOARD        _IO(QUANTIS_IOC_MAGIC, 4)
++  
++  /* enable mask module */
++#define QUANTIS_IOCTL_ENABLE_MODULE      _IOW(QUANTIS_IOC_MAGIC, 5, unsigned int)
++  
++  /* disable mask modules */
++#define QUANTIS_IOCTL_DISABLE_MODULE     _IOW(QUANTIS_IOC_MAGIC, 6, unsigned int)
++  
++  /* set test mode */
++#define QUANTIS_IOCTL_SET_TEST_MODE      _IOW(QUANTIS_IOC_MAGIC, 7, unsigned int)
++  
++  /* set debug level */
++#define QUANTIS_IOCTL_SET_DEBUG_LEVEL    _IOW(QUANTIS_IOC_MAGIC, 8, unsigned int)
++  
++  /* get status of modules */
++#define QUANTIS_IOCTL_GET_MODULES_STATUS _IOR(QUANTIS_IOC_MAGIC, 9, unsigned int)
++  
++  /* max number of IOCTL */
++#define QUANTIS_IOCTL_MAXNR 9
++
++#ifdef __cplusplus
++}
++#endif
++	
++  
++#endif // QUANTIS_IOCTL_H
