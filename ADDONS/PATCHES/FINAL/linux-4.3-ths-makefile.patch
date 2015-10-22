@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 3
  SUBLEVEL = 0
  EXTRAVERSION = -rc6
--NAME = Hurr durr I'ma sheep
+-NAME = Blurry Fish Butt
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*

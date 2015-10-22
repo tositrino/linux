@@ -59,7 +59,8 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
-#     2905_2disk-resume-image-fix.patch.log   (needs to be redone)
+#     1600_dm-crypt-lim~egment-size.patch
+#     2905_2disk-resume-image-fix.patch
 #   - using genpatches-4.2-6
 #   - merge old ths branch
 #     git merge v4.3.0-rc1-ths
