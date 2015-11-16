@@ -1,8 +1,9 @@
 Product:                   kernel
-Version:                   4.3.0-rc6
+Version:                   4.3.0
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
-Kurzbeschreibung:          linux kernel
+Kurzbeschreibung:          linux
+ kernel
 Short-Description:         linux kernel
 Provider:                  hanskult.de
 Compiled-By:               THS
