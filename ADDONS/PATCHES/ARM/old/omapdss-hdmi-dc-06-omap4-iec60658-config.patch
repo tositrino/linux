@@ -1,0 +1,131 @@
+Provide more configuration parameters for the IEC-60958 channel status word.
+For this, a new structure containing the relevant parameters is created. Some
+of the parameters previously located in the I2S structure are moved
+to the new IEC-60958 struct to improve the logical organization of the code.
+
+Signed-off-by: Ricardo Neri <ricardo.neri@xxxxxx>
+---
+ drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c |   39 +++++++++++++++++++++-------
+ drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h |   23 ++++++++++++++---
+ 2 files changed, 48 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+index e06139a..da2806c 100644
+--- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
++++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c
+@@ -1119,12 +1119,37 @@ void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
+ 	REG_FLD_MOD(av_base, HDMI_CORE_AV_SPDIF_CTRL,
+ 						cfg->fs_override, 1, 1);
+ 
+-	/* I2S parameters */
+-	REG_FLD_MOD(av_base, HDMI_CORE_AV_I2S_CHST4,
+-						cfg->freq_sample, 3, 0);
++	/* I2S and IEC60958 parameters */
++
++	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_CHST0);
++	r = FLD_MOD(r, cfg->iec60958_cfg.professional, 0, 0);
++	r = FLD_MOD(r, cfg->iec60958_cfg.for_lpcm_aud, 1, 1);
++	r = FLD_MOD(r, cfg->iec60958_cfg.copyright, 2, 2);
++	r = FLD_MOD(r, cfg->iec60958_cfg.emphasis, 5, 3);
++	r = FLD_MOD(r, cfg->iec60958_cfg.mode, 7, 6);
++	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST0, r);
++
++	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST1,
++						cfg->iec60958_cfg.category);
++
++	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_CHST2);
++	r = FLD_MOD(r, cfg->iec60958_cfg.source_nr, 3, 0);
++	r = FLD_MOD(r, cfg->iec60958_cfg.channel_nr, 7, 4);
++	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST2, r);
++
++	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_CHST4);
++	r = FLD_MOD(r, cfg->iec60958_cfg.freq_sample, 3, 0);
++	r = FLD_MOD(r, cfg->iec60958_cfg.clock_accuracy, 7, 4);
++	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST4, r);
++
++	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_CHST5);
++	r = FLD_MOD(r, cfg->iec60958_cfg.freq_sample, 7, 4);
++	r = FLD_MOD(r, cfg->iec60958_cfg.word_length, 3, 1);
++	r = FLD_MOD(r, cfg->iec60958_cfg.word_max_length, 0, 0);
++	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST5, r);
+ 
+ 	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_IN_CTRL);
+-	r = FLD_MOD(r, cfg->i2s_cfg.en_high_bitrate_aud, 7, 7);
++	r = FLD_MOD(r, cfg->en_high_bitrate_aud, 7, 7);
+ 	r = FLD_MOD(r, cfg->i2s_cfg.sck_edge_mode, 6, 6);
+ 	r = FLD_MOD(r, cfg->i2s_cfg.cbit_order, 5, 5);
+ 	r = FLD_MOD(r, cfg->i2s_cfg.vbit, 4, 4);
+@@ -1134,12 +1159,6 @@ void hdmi_core_audio_config(struct hdmi_ip_data *ip_data,
+ 	r = FLD_MOD(r, cfg->i2s_cfg.shift, 0, 0);
+ 	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_IN_CTRL, r);
+ 
+-	r = hdmi_read_reg(av_base, HDMI_CORE_AV_I2S_CHST5);
+-	r = FLD_MOD(r, cfg->freq_sample, 7, 4);
+-	r = FLD_MOD(r, cfg->i2s_cfg.word_length, 3, 1);
+-	r = FLD_MOD(r, cfg->i2s_cfg.word_max_length, 0, 0);
+-	hdmi_write_reg(av_base, HDMI_CORE_AV_I2S_CHST5, r);
+-
+ 	REG_FLD_MOD(av_base, HDMI_CORE_AV_I2S_IN_LEN,
+ 			cfg->i2s_cfg.in_length_bits, 3, 0);
+ 
+diff --git a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
+index 222cc16..4359001 100644
+--- a/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
++++ b/drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h
+@@ -469,11 +469,8 @@ struct hdmi_audio_dma {
+ };
+ 
+ struct hdmi_core_audio_i2s_config {
+-	u8 word_max_length;
+-	u8 word_length;
+ 	u8 in_length_bits;
+ 	u8 justification;
+-	u8 en_high_bitrate_aud;
+ 	u8 sck_edge_mode;
+ 	u8 cbit_order;
+ 	u8 vbit;
+@@ -483,9 +480,26 @@ struct hdmi_core_audio_i2s_config {
+ 	u8 active_sds;
+ };
+ 
++/* TODO: Consider if having this is better than parsing the audio word
++ * directly from the status word */
++struct hdmi_core_audio_iec60958_config {
++	bool professional;
++	bool for_lpcm_aud;
++	bool copyright;
++	u8 emphasis;
++	u8 mode;
++	u8 category;
++	u8 source_nr;
++	u8 channel_nr;
++	u8 freq_sample;
++	u8 clock_accuracy;
++	u8 word_max_length;
++	u8 word_length;
++};
++
+ struct hdmi_core_audio_config {
+ 	struct hdmi_core_audio_i2s_config	i2s_cfg;
+-	u32 freq_sample;
++	struct hdmi_core_audio_iec60958_config iec60958_cfg;
+ 	bool					fs_override;
+ 	u32					n;
+ 	u32					cts;
+@@ -498,6 +512,7 @@ struct hdmi_core_audio_config {
+ 	bool					en_dsd_audio;
+ 	bool					en_parallel_aud_input;
+ 	bool					en_spdif;
++	bool					en_high_bitrate_aud;
+ };
+ 
+ #if defined(CONFIG_OMAP4_DSS_HDMI_AUDIO)
+-- 
+1.7.0.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-omap" in
+the body of a message to majordomo@xxxxxxxxxxxxxxx
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
