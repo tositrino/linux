@@ -32,8 +32,14 @@
 #   - setup & build kernel 4.5.0-rc1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
 # 16/01/25
+#   - commit and updated branch
+#     git push origin v4.5.0-rc1-ths
+#     git commit -m "updated v4.5.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.5)
+#   - setup & build kernel 4.5.0-rc1-ths-x86_64-core2-smp-desktop using gcc-5.3.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
 #   - patch kernel
-#     kv=4.5.0-rc1-ths ; ksrc=/usr/src
+#     kv=4.5.0-rc1 ; ksrc=/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
 #       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
 #     done
@@ -61,6 +67,7 @@
 #     firmware should be added from the repository after kernel installation
 #     -> linux-4.5.0-ths-firmware-whence.patch and alle other firmware patches
 #   - disabled/obsolete gentoo patches:
+#     1500_XATTR_USER_PREFIX.patch disabled (heavy changes in ./mm/shmem.c)
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.4-1
 #   - merge old ths branch
