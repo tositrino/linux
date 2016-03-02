@@ -1,0 +1,16 @@
+diff -Naur linux-2.6.13-org/drivers/ide/ppc/pmac.c linux-2.6.13-id/drivers/ide/ppc/pmac.c
+--- linux-2.6.13-org/drivers/ide/ppc/pmac.c	2005-06-17 21:48:29.000000000 +0200
++++ linux-2.6.13-id/drivers/ide/ppc/pmac.c	2005-08-22 15:40:07.303187040 +0200
+@@ -1382,10 +1382,12 @@
+ 	       hwif->index, model_name[pmif->kind], pmif->aapl_bus_id,
+ 	       pmif->mediabay ? " (mediabay)" : "", hwif->irq);
+ 			
++#ifndef CONFIG_PPC64
+ #ifdef CONFIG_PMAC_PBOOK
+ 	if (pmif->mediabay && check_media_bay_by_base(pmif->regbase, MB_CD) == 0)
+ 		hwif->noprobe = 0;
+ #endif /* CONFIG_PMAC_PBOOK */
++#endif
+ 
+ 	hwif->sg_max_nents = MAX_DCMDS;
+ 

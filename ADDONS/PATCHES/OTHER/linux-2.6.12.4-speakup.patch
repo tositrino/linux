@@ -1,0 +1,11 @@
+--- linux-2.6.12-org/drivers/char/speakup/serialio.h	2005-04-01 07:35:31.617189728 +0200
++++ linux-2.6.12-id/drivers/char/speakup/serialio.h	2005-04-01 08:21:06.157182520 +0200
+@@ -15,4 +15,8 @@
+ #define SPK_TIMEOUT 100			/* buffer timeout in ms */
+ #define BOTH_EMPTY (UART_LSR_TEMT | UART_LSR_THRE)
+ 
++#ifndef SERIAL_PORT_DFNS
++#define SERIAL_PORT_DFNS { 0, 9600, 0x00, 0, 0 }
++#endif
++
+ #endif
