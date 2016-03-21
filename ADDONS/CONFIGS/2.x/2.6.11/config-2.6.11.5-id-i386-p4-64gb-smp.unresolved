@@ -1,0 +1,7 @@
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/net/hamradio/dmascc.ko needs unknown symbol cli
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/net/hamradio/dmascc.ko needs unknown symbol restore_flags
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/net/hamradio/dmascc.ko needs unknown symbol save_flags
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/char/esp.ko needs unknown symbol cli
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/char/esp.ko needs unknown symbol restore_flags
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/char/esp.ko needs unknown symbol save_flags
+WARNING: /lib/modules/2.6.11.5-id-i386-p4-64gb-smp/kernel/drivers/char/esp.ko needs unknown symbol sti
