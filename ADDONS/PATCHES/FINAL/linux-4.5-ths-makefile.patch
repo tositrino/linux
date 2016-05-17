@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2016-03-02 16:26:53.000000000 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 5
- SUBLEVEL = 3
+ SUBLEVEL = 4
  EXTRAVERSION =
 -NAME = Blurry Fish Butt
 +NAME = Odonata Draconis
