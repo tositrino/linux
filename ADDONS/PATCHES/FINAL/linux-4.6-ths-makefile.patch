@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 6
  SUBLEVEL = 0
  EXTRAVERSION =
--NAME = Blurry Fish Butt
+-NAME = Charred Weasel
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
