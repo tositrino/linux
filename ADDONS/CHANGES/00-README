@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 4.6.0-rc1
 # created : 16/01/25
-# changed : 16/03/21
+# changed : 16/05/16
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,42 @@
 #   - setup & build kernel 4.6.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.6.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 16/05/16
+#   - commit and updated branch
+#     git push origin v4.6.0-ths
+#     git commit -m "updated v4.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.6)
+#   - setup & build kernel 4.6.0-ths-x86_64-core2-smp-desktop using gcc-5.3.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.6.0 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.6.0-ths
+#     git commit -m "created v4.6.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.6.0-mmxvi-v-xvi
+#   - updated configs (4.5)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.6-ths-init.patch
+#     linux-4.6-ths-makefile.patch
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.6-1
+#   - merge old ths branch
+#     git merge v4.6.0-rc1-ths
+#   - create new branch from v4.6
+#     git checkout -b v4.6.0-ths v4.6
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 # 16/03/29
 #   - commit and updated branch
 #     git push origin v4.6.0-rc1-ths
