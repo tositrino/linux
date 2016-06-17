@@ -65,6 +65,7 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
+#     2700_ThinkPad-30-brightness-control-fix.patch (obsolete ?)
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.6-3
 #   - merge old ths branch
