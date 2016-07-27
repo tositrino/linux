@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 4.6.4
 # created : 16/01/25
-# changed : 16/07/26
+# changed : 16/07/27
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,24 @@
 #   - setup & build kernel 4.6.4-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.6.4-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 16/07/27
+#   - commit and updated branch
+#     git push origin v4.6.4-ths
+#     git commit -m "updated v4.6.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.7)
+#   - setup & build kernel 4.6.4-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.6.4 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - THS-RELEASE 4.6.4-mmxvi-vii-xxvii
+#   - updated patches:
+#     linux-4.6-ths-init.patch
+#   - disabled patches
+#     linux-4.6-ths-duo.patch - spoils USB3 , USB changes need to be removed from this patch
+#                               most likely that there is a driver update anyway
 # 16/07/26
 #   - commit and updated branch
 #     git push origin v4.6.4-ths
