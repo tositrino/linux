@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 4.7.0
 # created : 16/06/17
-# changed : 16/07/26
+# changed : 16/08/03
 #
 # TODO:
 #   * ubuntu
@@ -31,6 +31,20 @@
 #   - setup & build kernel 4.7.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.7.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
+# 16/08/03
+#   - commit and updated branch
+#     git push origin v4.7.0-ths
+#     git commit -m "updated v4.7.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.7.0-mmxvi-viii-iii
+#   - updated configs (4.6)
+#   - updated patches:
+#     linux-4.7-ths-init.patch
+#   - using genpatches-4.7-1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
 # 16/07/27
 #   - commit and updated branch
 #     git push origin v4.7.0-ths
