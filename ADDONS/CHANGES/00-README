@@ -36,7 +36,7 @@
 #     git commit -m "updated v4.8.0-rc1-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
 #   - updated configs (4.8)
-#   - setup & build kernel 4.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-5.3.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
+#   - setup & build kernel 4.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz)
 #   - patch kernel
 #     kv=4.8.0-rc1 ; ksrc=/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
@@ -64,6 +64,7 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
+#     4200_fbcondecor-3.19.patch (screws up currently)
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.7-1
 #   - merge old ths branch
