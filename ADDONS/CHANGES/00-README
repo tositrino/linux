@@ -30,7 +30,17 @@
 #   - setup & build kernel 4.8.1-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.8.1-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-# 16/07/26
+# 16/10/11
+#   - commit and updated branch
+#     git push origin v4.8.1-ths
+#     git commit -m "updated v4.8.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.8)
+#   - setup & build kernel 4.8.1-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - config changes for nvidia
+#     < CONFIG_DEBUG_MUTEXES=y
+#     > # CONFIG_DEBUG_MUTEXES is not set
+# 16/10/10
 #   - commit and updated branch
 #     git push origin v4.8.1-ths
 #     git commit -m "updated v4.8.1-ths"
