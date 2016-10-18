@@ -1,0 +1,66 @@
+Hi,
+
+This set of patches is inteded to prepare the HDMI driver to implement the DSS
+device driver interface for audio proposed here:
+http://www.spinics.net/lists/linux-omap/msg67303.html
+
+In preparation for that, it removes the current ASoC HDMI codec driver and
+decouples HDMI audio build configuration from ASoC. Instead, a config option
+may be selected by the parties interested in the HDMI audio functionality. The
+last patch effectively implements the DSS audio interface.
+
+Also, this set prepares the HDMI driver for the introduction of the OMAP5 HDMI
+audio functionality by further abstracting the portions of code that are
+generic to all HDMI implementations (e.g, N/CTS params calculation). Also, an
+IP-dependent audio configuration function is introduced as an HDMI IP operation;
+this function takes IP-independent parameters and is intended to be implemented
+for each individual IP.
+
+For the specific case of OMAP4, the configuration of the IEC-60958 channel
+status word is expanded to provide more flexibility. Also, some duplicated
+IEC-60958 definitions are removed to, instead, reuse the definitions provided
+in asound.h The CEA-861 definitions are not yet added to asound.h. I will
+send a patch for that to alsa-devel.
+
+The changes for OMAP4 configuration expand the current support to cover more
+audio sample rates: 32, 44.1, 48, 88.2, 176.4 and 192 kHz. Audio sample world
+length of 16 through 24 bits as well as up to 8 audio channels.
+
+These changes are based on the 3.3 Linux kernel plus the patches for the
+audio MCLK selection (http://www.spinics.net/lists/linux-omap/msg64302.html).
+
+Validation was performed using Onkyo TX-SR508 and Yamaha RX-V367 AV receivers.
+
+BR,
+
+Ricardo
+
+Ricardo Neri (10):
+  OMAPDSS: HDMI: Remove ASoC codec
+  OMAPDSS: HDMI: OMAP4: Remove CEA-861 audio infoframe and IEC-60958
+    enums
+  OMAPDSS: HDMI: OMAP4: Correcty typo in I2S definitions
+  OMAPDSS: HDMI: OMAP4: Decouple wrapper enable and audio start
+  OMAPDSS: HDMI: Decouple HDMI audio from ASoC
+  OMAPDSS: HDMI: OMAP4: Expand configuration for IEC-60958 audio
+  OMAPDSS: HDMI: Relocate N/CTS calculation
+  OMAPDSS: HDMI: Add support for more audio sample rates in N/CTS
+    calculation
+  OMAPDSS: HDMI: OMAP4: Add an audio configuration function
+  OMAPDSS: HDMI: Implement DSS driver interface for audio
+
+ drivers/video/omap2/dss/Kconfig           |    4 +
+ drivers/video/omap2/dss/dss.h             |    7 +
+ drivers/video/omap2/dss/dss_features.c    |    5 +-
+ drivers/video/omap2/dss/hdmi.c            |  339 ++++++++++-------------------
+ drivers/video/omap2/dss/hdmi_panel.c      |   76 +++++++
+ drivers/video/omap2/dss/ti_hdmi.h         |   17 +-
+ drivers/video/omap2/dss/ti_hdmi_4xxx_ip.c |  304 +++++++++++++++++++++-----
+ drivers/video/omap2/dss/ti_hdmi_4xxx_ip.h |  116 ++--------
+ 8 files changed, 488 insertions(+), 380 deletions(-)
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-omap" in
+the body of a message to majordomo@xxxxxxxxxxxxxxx
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
