@@ -47,6 +47,10 @@ Patch:  1000_linux-4.8.1.patch
 From:   http://www.kernel.org
 Desc:   Linux 4.8.1
 
+Patch:  1001_linux-4.8.2.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.8.2
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -58,6 +62,10 @@ Desc:   Enable link security restrictions by default.
 Patch:  2900_dev-root-proc-mount-fix.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=438380
 Desc:   Ensure that /dev/root doesn't appear in /proc/mounts when bootint without an initramfs.
+
+Patch:  4200_fbcondecor.patch
+From:   http://www.mepiscommunity.org/fbcondecor
+Desc:   Bootsplash ported by Uladzimir Bely. (Bug #596126)
 
 Patch:  4400_alpha-sysctl-uac.patch
 From:   Tobias Klausmann (klausman@gentoo.org) and http://bugs.gentoo.org/show_bug.cgi?id=217323 
