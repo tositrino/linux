@@ -4,7 +4,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 9
  SUBLEVEL = 0
- EXTRAVERSION = -rc4
+ EXTRAVERSION =
 -NAME = Psychotic Stoned Sheep
 +NAME = Odonata Draconis
  
