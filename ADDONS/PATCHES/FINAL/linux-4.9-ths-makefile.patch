@@ -1,16 +1,16 @@
 diff -Naur linux-x/Makefile linux-y/Makefile
---- linux-x/Makefile	2016-10-18 09:35:52.000000000 +0200
-+++ linux-y/Makefile	2016-10-18 09:58:47.621479553 +0200
+--- linux-x/Makefile	2016-12-12 10:29:08.000000000 +0100
++++ linux-y/Makefile	2016-12-12 10:44:02.304629782 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 9
  SUBLEVEL = 0
  EXTRAVERSION =
--NAME = Psychotic Stoned Sheep
+-NAME = Roaring Lionus
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
  # To see a list of typical targets execute "make help"
-@@ -816,6 +816,12 @@
+@@ -826,6 +826,12 @@
  LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
@@ -23,7 +23,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  # Default kernel image to build when no specific target is given.
  # KBUILD_IMAGE may be overruled on the command line or
  # set in the environment
-@@ -1089,11 +1095,18 @@
+@@ -1097,11 +1103,18 @@
  	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
  endef
  
@@ -44,7 +44,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  	$(call filechk,utsrelease.h)
  
  PHONY += headerdep
-@@ -1259,6 +1272,10 @@
+@@ -1267,6 +1280,10 @@
  # Directories & files removed with 'make clean'
  CLEAN_DIRS  += $(MODVERDIR)
  
@@ -57,7 +57,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  		  arch/*/include/generated .tmp_objdiff
 diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 --- linux-x/Makefile.addons	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons	2016-10-18 09:58:24.953779592 +0200
++++ linux-y/Makefile.addons	2016-12-12 10:42:02.354451434 +0100
 @@ -0,0 +1,293 @@
 +###
 +### extra version infomation addons
@@ -354,7 +354,7 @@ diff -Naur linux-x/Makefile.addons linux-y/Makefile.addons
 +export KERNELRELEASE
 diff -Naur linux-x/Makefile.addons.debian linux-y/Makefile.addons.debian
 --- linux-x/Makefile.addons.debian	1970-01-01 01:00:00.000000000 +0100
-+++ linux-y/Makefile.addons.debian	2016-10-18 09:58:24.953779592 +0200
++++ linux-y/Makefile.addons.debian	2016-12-12 10:42:02.354451434 +0100
 @@ -0,0 +1,303 @@
 +###
 +### extra version infomation addons

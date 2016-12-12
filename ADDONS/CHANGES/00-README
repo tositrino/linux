@@ -62,7 +62,7 @@
 #   - disabled/obsolete gentoo patches:
 #     4200_fbcondecor-3.19.patch (screws up currently)
 #     4567_distro-Gentoo-Kconfig.patch
-#   - using genpatches-4.9-2
+#   - using genpatches-4.9-1
 #   - merge old ths branch
 #     git merge v4.9.0-rc4-ths
 #   - create new branch from v4.9
