@@ -1,0 +1,238 @@
+#
+# README - source package change documentation
+#
+# package : linux kernel
+# version : 4.8.6
+# created : 16/08/08
+# changed : 16/11/10
+#
+# TODO:
+#   * ubuntu
+#   - setup & build kernel 4.8.6-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (cgl-server-01, Intel(R) Xeon(R) CPU E5440 @ 2.83GHz)
+#   - setup & build kernel 4.8.6-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-02, Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz)
+#   - setup & build kernel 4.8.6-ths-x86_64-generic-smp using gcc-4.4.3 on ubuntu-10.04-x86_64 (ivc-server-03, Intel(R) Xeon(R) CPU X5650  @ 2.67GHz)
+#   * opensuse
+#   * sles
+#   * gentoo-powerpc
+#   * gentoo-x86_32
+#   - setup & build kernel 4.8.6-ths-i386-p4-4gb-smp using gcc-4.5.3 on gentoo-x86_32 (vb-gentoo-x32, on virtualbox (damn-its-late)
+#   * gentoo-x86_64 (intel)
+#   - setup & build kernel 4.8.6-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - setup & build kernel 4.8.6-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (galdov, Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz)
+#   - setup & build kernel 4.8.6-ths-x86_64-core2-smp-desktop using gcc-4.5.2 on gentoo-x86_64 (litrino, Intel Core Duo T9300)
+#   * gentoo-x86_64 (amd)
+#   - setup & build kernel 4.8.6-ths-x86_64-k8-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (the-hive,AMD FX(tm)-8150 Eight-Core Processor)
+#   * arch-arm (armv7)
+#   - setup & build kernel 4.8.6-ths-arm-tegra3-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (carma board)
+#   - setup & build kernel 4.8.6-ths-arm-exynos4-odroidu2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-u2 board)
+#   - setup & build kernel 4.8.6-ths-arm-exynos4-odroidx2-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x2 board)
+#   - setup & build kernel 4.8.6-ths-arm-exynos4-odroidx-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (ordoid-x board)
+#   - setup & build kernel 4.8.6-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
+#   - setup & build kernel 4.8.6-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
+#
+# 16/11/10
+#   - commit and updated branch
+#     git push origin v4.8.6-ths
+#     git commit -m "updated v4.8.6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.7)
+#   - setup & build kernel 4.8.6-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.8.6 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.8.6-ths
+#     git commit -m "created v4.8.6-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.8.6-mmxvi-xi-x
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.8-ths-init.patch
+#     linux-4.8-ths-makefile.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.8-7
+#   - merge old ths branch
+#     git merge v4.8.6-ths
+#   - create new branch from v4.8.6
+#     git checkout -b v4.8.6-ths v4.8.6
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+# 16/10/24
+#   - commit and updated branch
+#     git push origin v4.8.4-ths
+#     git commit -m "updated v4.8.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.7)
+#   - setup & build kernel 4.8.4-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.8.4 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.8.4-ths
+#     git commit -m "created v4.8.4-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.8.4-mmxvi-x-xxiv
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.8-ths-init.patch
+#     linux-4.8-ths-makefile.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.8-5
+#   - merge old ths branch
+#     git merge v4.8.2-ths
+#   - create new branch from v4.8.4
+#     git checkout -b v4.8.4-ths v4.8.4
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+# 16/10/18
+#   - commit and updated branch
+#     git push origin v4.8.2-ths
+#     git commit -m "updated v4.8.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.7)
+#   - setup & build kernel 4.8.2-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.8.2 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.8.2-ths
+#     git commit -m "created v4.8.2-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.8.2-mmxvi-x-xviii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.8-ths-init.patch
+#     linux-4.8-ths-makefile.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.8-3
+#   - merge old ths branch
+#     git merge v4.8.1-rc1-ths
+#   - create new branch from v4.8.2
+#     git checkout -b v4.8.2-ths v4.8.2
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+# 16/10/11
+#   - commit and updated branch
+#     git push origin v4.8.1-ths
+#     git commit -m "updated v4.8.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.8)
+#   - setup & build kernel 4.8.1-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - config changes for nvidia
+#     < CONFIG_DEBUG_MUTEXES=y
+#     > # CONFIG_DEBUG_MUTEXES is not set
+# 16/10/10
+#   - commit and updated branch
+#     git push origin v4.8.1-ths
+#     git commit -m "updated v4.8.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.7)
+#   - setup & build kernel 4.8.1-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.8.1 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.8.1-ths
+#     git commit -m "created v4.8.1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.8.1-mmxvi-x-x
+#   - updated configs (4.7)
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.8-ths-init.patch
+#     linux-4.8-ths-makefile.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.8-2
+#   - merge old ths branch
+#     git merge v4.8.1-rc1-ths
+#   - create new branch from v4.8.1
+#     git checkout -b v4.8.1-ths v4.8.1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+# 16/06/17
+#   - commit and updated branch
+#     git push origin v4.8.0-rc1-ths
+#     git commit -m "updated v4.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - updated configs (4.8)
+#   - setup & build kernel 4.8.0-rc1-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.8.0-rc1 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - commit and push new branch
+#     git push origin v4.8.0-rc1-ths
+#     git commit -m "created v4.8.0-rc1-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.8.0-rc1-mmxvi-viii-viii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.8-ths-duo.patch
+#     linux-4.8-ths-git.patch
+#     linux-4.8-ths-hdrv.patch
+#     linux-4.8-ths-init.patch
+#     linux-4.8-ths-logo.patch
+#     linux-4.8-ths-makefile.patch
+#     linux-4.8-ths-quantis-v1.patch
+#     linux-4.8-ths-quantis-v2.patch
+#     linux-4.8-ths-setlocalversion.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4200_fbcondecor-3.19.patch (screws up currently)
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.7-1
+#   - merge old ths branch
+#     manually merge v4.7.0-ths
+#   - create new branch from v4.8-rc1
+#     git checkout -b v4.8.0-rc1-ths v4.8-rc1
+#   - update repositories
+#     git fetch origin
+#     git fetch stable
+#     git fetch upstream
+#
+
