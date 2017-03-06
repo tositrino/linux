@@ -1,0 +1,842 @@
+diff -Naur linux-x/drivers/misc/duo/duo.c linux-y/drivers/misc/duo/duo.c
+--- linux-x/drivers/misc/duo/duo.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/duo/duo.c	2016-06-17 09:52:33.673258113 +0200
+@@ -0,0 +1,540 @@
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++// This file is part of DUO SDK that allows the use of DUO devices in your own applications
++// For updates and file downloads go to: http://duo3d.com/...
++// Copyright 2014-2015 (c) Code Laboratories, Inc. All rights reserved.
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++#include "duo.h"
++#include <linux/slab.h>
++#include <asm/uaccess.h>
++
++// DO NOT MODIFY!!!
++#define MAX_FRAME_COUNT         (3)
++#define FRAME_HEADER_SIZE       (512*2)
++#define FRAME_DATA_SIZE         (752*480)
++#define FRAME_BUFFER_SIZE       ((FRAME_HEADER_SIZE+FRAME_DATA_SIZE*2)*MAX_FRAME_COUNT)
++
++#define BULK_IN_EP   		    (USB_DIR_IN + 0x02)
++
++// Prevent races between open() and disconnect()
++static DEFINE_MUTEX(disconnect_mutex);
++
++static void duo_bulk_complete(struct urb *urb)
++{
++    struct usb_duo *dev = urb->context;
++    int err, i;
++    void *usbBufPtr;
++
++    if (!test_bit(DUO_BULK_STREAMING, &dev->flags))
++        return;
++
++    if (urb->status == 0)
++    {
++        usbBufPtr = urb->transfer_buffer;
++        // process data here
++        for(i = 0; i < dev->st_params.block_cnt; i++)
++        {
++            // Beginning of the frame - header signature
++            if(!memcmp(usbBufPtr, "ALEXP", 5))
++            {
++                if(dev->data_offset != dev->st_params.frame_size2)
++                {
++                    DBG_ERR("Got 'ALEXP' (%d:%d)[%p]", dev->data_offset,
++                                                       dev->st_params.frame_size2,
++                                                       usbBufPtr);
++                }
++                dev->pCurrFrame = usbBufPtr;
++                dev->data_offset = 0;
++            }
++            else if(dev->pCurrFrame)
++            {
++                // move data offset
++                dev->data_offset += BULK_IN_BLOCK_SIZE;
++                // Is this a complete frame?
++                if(dev->data_offset >= dev->st_params.frame_size2)
++                {
++                    // signal frame complete using dev->frame_event
++                    uintptr_t offset = (uintptr_t)dev->pCurrFrame - (uintptr_t)dev->frame_buffer;
++                    kfifo_in(&dev->frame_fifo, &offset, sizeof(uintptr_t));
++                    dev->pCurrFrame = NULL;
++                    wake_up_interruptible(&dev->frame_event);
++                }
++            }
++            usbBufPtr += BULK_IN_BLOCK_SIZE;
++        }
++    }
++    else
++    {
++        DBG_ERR("%s urb 0x%p status %d count %d", dev->name, urb, urb->status, urb->actual_length);
++    }
++
++    if (!test_bit(DUO_BULK_STREAMING, &dev->flags))
++        return;
++
++    usb_anchor_urb(urb, &dev->bulk_anchor);
++    err = usb_submit_urb(urb, GFP_ATOMIC);
++    if (err < 0)
++    {
++        DBG_ERR("%s urb %p failed to resubmit (%d)", dev->name, urb, -err);
++        usb_unanchor_urb(urb);
++    }
++}
++
++static void _cleanup_anchored_urbs(struct usb_duo *dev)
++{
++    struct urb *urb;
++    DBG_INFO("_cleanup_anchored_urbs");
++    while ((urb = usb_get_from_anchor(&dev->bulk_anchor)))
++    {
++        DBG_INFO("%s usb_kill_urb(%p)", dev->name, urb);
++        usb_kill_urb(urb);
++        // Remove streaming DMA mapping
++        DBG_INFO("%s dma_unmap_single(%p)", dev->name, (void*)urb->transfer_dma);
++        dma_unmap_single(urb->dev->bus->controller, urb->transfer_dma,
++                         urb->transfer_buffer_length, DMA_FROM_DEVICE);
++        usb_free_urb(urb);
++    }
++}
++
++static int _duo_submit_bulk_urbs(struct usb_duo *dev)
++{
++    int ret = 0, i;
++    struct urb *urb;
++    DBG_INFO("alloc, fill & submit urbs (%d)...", dev->st_params.xfer_cnt);
++    for(i = 0; i < dev->st_params.xfer_cnt; i++)
++    {
++        urb = usb_alloc_urb(0, GFP_KERNEL);
++        if (urb == NULL)
++        {
++            DBG_ERR("%s allocating urb failed", dev->name);
++            ret = -ENOMEM;
++            goto error;
++        }
++        usb_fill_bulk_urb(urb, dev->udev, usb_rcvbulkpipe(dev->udev, BULK_IN_EP),
++                          dev->frame_buffer + (i * dev->st_params.xfer_size),
++                          dev->st_params.xfer_size, duo_bulk_complete, dev);
++        // Setup streaming DMA mappings
++        urb->transfer_dma = dma_map_single(urb->dev->bus->controller,
++                                           urb->transfer_buffer,
++                                           urb->transfer_buffer_length, DMA_FROM_DEVICE);
++        urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
++
++        usb_anchor_urb(urb, &dev->bulk_anchor);
++        ret = usb_submit_urb(urb, GFP_KERNEL);
++        if (ret < 0)
++        {
++            DBG_ERR("%s urb %p submission failed (%d)", dev->name, urb, -ret);
++            goto error;
++        }
++        usb_free_urb(urb);
++    }
++    DBG_INFO("done");
++    return 0;
++
++error:
++    _cleanup_anchored_urbs(dev);
++    return ret;
++}
++
++static int duo_open(struct inode *inode, struct file *file)
++{
++    struct usb_duo *dev = NULL;
++    struct usb_interface *interface;
++    int subminor = iminor(inode);
++    int retval = 0;
++
++    DBG_INFO("DUO Open");
++
++    mutex_lock(&disconnect_mutex);
++
++    interface = usb_find_interface(&duo_driver, subminor);
++    if (!interface)
++    {
++        DBG_ERR("can't find device for minor %d", subminor);
++        retval = -ENODEV;
++        goto exit;
++    }
++    dev = usb_get_intfdata(interface);
++    if (!dev)
++    {
++        retval = -ENODEV;
++        goto exit;
++    }
++    // lock this device
++    if (down_interruptible(&dev->sem))
++    {
++        DBG_ERR("sem down failed");
++        retval = -ERESTARTSYS;
++        goto exit;
++    }
++    // Save our object in the file's private structure
++    file->private_data = dev;
++    up(&dev->sem);
++
++exit:
++    mutex_unlock(&disconnect_mutex);
++    return retval;
++}
++
++static int duo_release(struct inode *inode, struct file *file)
++{
++    int retval = 0;
++    struct usb_duo *dev = file->private_data;
++
++    DBG_INFO("DUO Release");
++
++    if (!dev)
++    {
++        DBG_ERR("dev is NULL");
++        retval =  -ENODEV;
++        goto exit;
++    }
++    // Lock our device
++    if (down_interruptible(&dev->sem))
++    {
++        retval = -ERESTARTSYS;
++        goto exit;
++    }
++    if (!dev->udev)
++    {
++        DBG_DEBUG("device unplugged before the file was released");
++        up(&dev->sem);     // Unlock here as duo_delete frees dev
++        duo_delete(dev);
++        goto exit;
++    }
++    if(test_and_clear_bit(DUO_BULK_STREAMING, &dev->flags))
++    {
++        _cleanup_anchored_urbs(dev);
++    }
++    up(&dev->sem);
++
++exit:
++    return retval;
++}
++
++static long duo_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++    int ret = 0;
++    struct usb_duo *dev = file->private_data;
++    unsigned char *tbuf = NULL;
++
++    switch(cmd)
++    {
++        case DUO_CONTROL:
++        {
++            struct duo_ctrltransfer ctrl;
++            if (copy_from_user(&ctrl, (const void __user *)arg, sizeof(ctrl)))
++                return -EFAULT;
++            DBG_INFO("DUO_CONTROL (0x%02X)", ctrl.bRequest);
++
++            if(ctrl.wLength > PAGE_SIZE)
++                return -EINVAL;
++
++            tbuf = (unsigned char *)__get_free_page(GFP_KERNEL);
++            if (!tbuf)
++            {
++                ret = -ENOMEM;
++                goto done;
++            }
++            if(ctrl.bRequestType & USB_DIR_IN) // is it read?
++            {
++                ret = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
++                                       ctrl.bRequest, ctrl.bRequestType,
++                                       ctrl.wValue, ctrl.wIndex,
++                                       tbuf, ctrl.wLength, ctrl.timeout);
++                if ((ret > 0) && ctrl.wLength)
++                    if(copy_to_user(ctrl.data, tbuf, ret))
++                    {
++                        ret = -EFAULT;
++                        goto done;
++                    }
++            }
++            else
++            {
++                if (ctrl.wLength)
++                    if (copy_from_user(tbuf, ctrl.data, ctrl.wLength))
++                    {
++                        ret = -EFAULT;
++                        goto done;
++                    }
++
++                ret = usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0),
++                                      ctrl.bRequest, ctrl.bRequestType,
++                                      ctrl.wValue, ctrl.wIndex,
++                                      tbuf, ctrl.wLength, ctrl.timeout);
++            }
++        }
++        break;
++        case DUO_START_STREAMING:
++        {
++            if (copy_from_user(&dev->st_params, (const void __user *)arg, sizeof(dev->st_params)))
++            {
++                ret = -EFAULT;
++                goto done;
++            }
++            DBG_INFO("DUO_START_STREAMING (%d bytes)", dev->st_params.frame_size);
++
++            if (!test_and_set_bit(DUO_BULK_STREAMING, &dev->flags))
++            {
++                DBG_INFO("xfer_size: %d, block_cnt: %d",
++                         dev->st_params.xfer_size, dev->st_params.block_cnt);
++
++                DBG_INFO("usb_clear_halt");
++                ret = usb_clear_halt(dev->udev, usb_rcvbulkpipe(dev->udev, BULK_IN_EP));
++                if (ret < 0)
++                {
++                    DBG_ERR("%s usb_clear_halt failed (%d)", dev->name, -ret);
++                    goto done;
++                }
++                kfifo_reset(&dev->frame_fifo);
++                // submit urbs
++                ret = _duo_submit_bulk_urbs(dev);
++                if(ret < 0)
++                    clear_bit(DUO_BULK_STREAMING, &dev->flags);
++            }
++        }
++        break;
++        case DUO_STOP_STREAMING:
++        {
++            DBG_INFO("DUO_STOP_STREAMING");
++            if(test_and_clear_bit(DUO_BULK_STREAMING, &dev->flags))
++                _cleanup_anchored_urbs(dev);
++        }
++        break;
++        case DUO_GET_FRAME:
++        {
++            uintptr_t offset;
++            DBG_INFO("DUO_GET_FRAME");
++            ret = wait_event_interruptible(dev->frame_event, (kfifo_len(&dev->frame_fifo) >= sizeof(uintptr_t)));
++            if(ret < 0)
++            {
++                ret = -EFAULT;
++                goto done;
++            }
++            ret = kfifo_out(&dev->frame_fifo, &offset, sizeof(uintptr_t));
++            ret = put_user(offset, (uintptr_t *)arg);
++            if(ret < 0)
++            {
++                ret = -EFAULT;
++                goto done;
++            }
++        }
++        break;
++        case DUO_GET_INFO:
++        {
++            struct duo_info info = { { 1, 0, 35, 226 } };
++            info.frame_header_size = FRAME_HEADER_SIZE;
++            info.frame_buffer_size = PAGE_ALIGN((unsigned long)FRAME_BUFFER_SIZE);
++            DBG_INFO("DUO_GET_INFO");
++            ret = copy_to_user((void __user *)arg, &info, sizeof(info));
++            if(ret < 0)
++            {
++                ret = -EFAULT;
++                goto done;
++            }
++        }
++        break;
++        default:
++            ret = -EINVAL;
++        break;
++    }
++done:
++    if(tbuf) free_page((unsigned long)tbuf);
++    return ret;
++}
++
++static int duo_mmap(struct file *file, struct vm_area_struct *vma)
++{
++    struct usb_duo *dev = file->private_data;
++    unsigned long length = vma->vm_end - vma->vm_start;
++    DBG_INFO("duo_mmap: length: %ld", length);
++    if(dev->frame_buffer == NULL)
++    {
++        DBG_ERR("dev->frame_buffer == NULL");
++        return -EFAULT;
++    }
++    // check length - do not allow larger mappings than the number of pages allocated
++    if (length > dev->frame_buflen)
++    {
++        DBG_ERR("length > dev->frame_buflen");
++        return -EIO;
++    }
++    if (remap_pfn_range(vma, vma->vm_start,
++                        virt_to_phys((void*)dev->frame_buffer) >> PAGE_SHIFT,
++                        length, vma->vm_page_prot) < 0)
++    {
++        DBG_ERR("remap_pfn_range failed");
++        return -EAGAIN;
++    }
++    return 0;
++}
++
++static inline void duo_delete(struct usb_duo *dev)
++{
++    unsigned long i;
++    _cleanup_anchored_urbs(dev);
++    DBG_INFO("duo_delete");
++    if(dev->frame_buffer)
++    {
++        for (i = 0; i < dev->frame_buflen; i += PAGE_SIZE)
++        {
++            struct page *page = virt_to_page((unsigned long)dev->frame_buffer + i);
++            ClearPageReserved(page);
++        }
++        DBG_INFO("free_pages");
++        free_pages((unsigned long)dev->frame_buffer, get_order(dev->frame_buflen));
++        dev->frame_buffer = NULL;
++    }
++    kfifo_free(&dev->frame_fifo);
++    kfree(dev);
++}
++
++static char *duo_devnode(struct device *dev, umode_t *mode)
++{
++    if (mode) *mode = 0666;
++    DBG_INFO("duo_devnode: %s", dev_name(dev));
++    return kasprintf(GFP_KERNEL, "%s", dev_name(dev));
++}
++
++static int duo_probe(struct usb_interface *interface, const struct usb_device_id *id)
++{
++    struct usb_device *udev = interface_to_usbdev(interface);
++    struct usb_duo *dev = NULL;
++    unsigned long i;
++	int retval = -ENODEV;
++
++    if (!udev)
++    {
++		DBG_ERR("udev is NULL");
++		goto exit;
++	}
++
++    DBG_INFO("kzalloc(%ld)", sizeof(struct usb_duo));
++    dev = kzalloc(sizeof(struct usb_duo), GFP_KERNEL);
++    if (!dev)
++    {
++        DBG_ERR("cannot allocate memory for struct usb_duo");
++		retval = -ENOMEM;
++		goto exit;
++	}
++    dev->udev = udev;
++    sema_init(&dev->sem, 1);
++
++    init_usb_anchor(&dev->bulk_anchor);
++    init_waitqueue_head(&dev->frame_event);
++
++    DBG_INFO("kfifo_alloc...");
++    retval = kfifo_alloc(&dev->frame_fifo, sizeof(uintptr_t) * 4, GFP_KERNEL);
++    if (retval)
++    {
++        DBG_ERR("could not allocate memory for frame fifo");
++        retval = -ENOMEM;
++        goto error;
++    }
++
++    // round the frame buffer size to next page size
++    dev->frame_buflen = PAGE_ALIGN((unsigned long)FRAME_BUFFER_SIZE);
++
++    // allocate DMA buffer for all frames
++    DBG_INFO("__get_dma_pages: %ld bytes", dev->frame_buflen);
++    dev->frame_buffer = (__u8*)__get_dma_pages(GFP_KERNEL, get_order(dev->frame_buflen));
++    if(dev->frame_buffer == NULL)
++    {
++        DBG_ERR("could not allocate dma memory for frame buffer");
++        retval = -ENOMEM;
++        goto error;
++    }
++    DBG_INFO("__get_dma_pages: 0x%p, size: %ld bytes", dev->frame_buffer, dev->frame_buflen);
++
++    // Mark the pages reserved...
++    DBG_INFO("Mark the pages reserved...");
++    for (i = 0; i < dev->frame_buflen; i += PAGE_SIZE)
++    {
++        struct page *page = virt_to_page((unsigned long)dev->frame_buffer + i);
++        SetPageReserved(page);
++    }
++
++    // Save our data pointer in this interface device
++    usb_set_intfdata(interface, dev);
++
++    // We can register the device now, as it is ready
++    retval = usb_register_dev(interface, &duo_class);
++    if (retval)
++    {
++		DBG_ERR("not able to get a minor for this device.");
++		usb_set_intfdata(interface, NULL);
++        goto error;
++	}
++	dev->minor = interface->minor;
++    sprintf(dev->name, "/dev/duo%d", dev->minor);
++    DBG_INFO("dev->name = '%s'", dev->name);
++
++    if (usb_set_interface(udev, 0, (FRAME_HEADER_SIZE == 512) ? 0 : 1))
++    {
++        DBG_ERR("could not set i:a[0,0]");
++        usb_set_intfdata(interface, NULL);
++        retval = -ENODEV;
++        goto error;
++    }
++
++    // Retrieve DUO device serial number
++    if (!usb_string(udev, udev->descriptor.iSerialNumber, dev->serial, 256))
++    {
++        DBG_ERR("could not retrieve serial number");
++        retval = -ENODEV;
++        goto error;
++    }
++    DBG_INFO("DUO Serial number: '%s'", dev->serial);
++    DBG_INFO("DUO Camera is now attached to /dev/duo%d", interface->minor);
++exit:
++	return retval;
++
++error:
++    duo_delete(dev);
++	return retval;
++}
++
++static void duo_disconnect(struct usb_interface *interface)
++{
++    struct usb_duo *dev;
++    int minor;
++
++    mutex_lock(&disconnect_mutex);	// Not interruptible
++	dev = usb_get_intfdata(interface);
++	usb_set_intfdata(interface, NULL);
++    down(&dev->sem); // Not interruptible
++    minor = dev->minor;
++    // Give back our minor
++    usb_deregister_dev(interface, &duo_class);
++    dev->udev = NULL;
++    up(&dev->sem);
++    duo_delete(dev);
++	mutex_unlock(&disconnect_mutex);
++    DBG_INFO("DUO Camera /dev/duo%d is now disconnected", minor);
++}
++
++static int __init duo_init(void)
++{
++    int result = usb_register(&duo_driver);
++    if (result)
++    {
++        DBG_ERR("Registering DUO driver failed");
++    }
++    else
++    {
++        DBG_INFO("DUO driver registered successfully");
++	}
++	return result;
++}
++
++static void __exit duo_exit(void)
++{
++    usb_deregister(&duo_driver);
++    DBG_INFO("DUO driver de-registered");
++}
++
++module_init(duo_init);
++module_exit(duo_exit);
++
++MODULE_AUTHOR("Alexander Popovich");
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Kernel module for DUO device");
+diff -Naur linux-x/drivers/misc/duo/duo_driver_api.h linux-y/drivers/misc/duo/duo_driver_api.h
+--- linux-x/drivers/misc/duo/duo_driver_api.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/duo/duo_driver_api.h	2016-06-17 09:52:33.673258113 +0200
+@@ -0,0 +1,44 @@
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++// This file is part of DUO SDK that allows the use of DUO devices in your own applications
++// For updates and file downloads go to: http://duo3d.com/...
++// Copyright 2014-2015 (c) Code Laboratories, Inc. All rights reserved.
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++#ifndef DUO_DRIVER_API_H
++#define DUO_DRIVER_API_H
++
++#include <linux/ioctl.h>
++
++struct duo_ctrltransfer
++{
++    uint8_t bRequestType;        // SB_DIR_IN/USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE
++    uint8_t bRequest;
++    uint16_t wValue;
++    uint16_t wIndex;
++    uint16_t wLength;
++    uint32_t timeout;            // milliseconds
++    void *data;
++};
++
++struct duo_streaming
++{
++    uint32_t xfer_size;          // single USB xfer size
++    uint32_t xfer_cnt;           // number of queued USB transfers
++    uint32_t block_cnt;          // number of FRAME_HEADER_SIZE data blocks per single USB xfer
++    uint32_t frame_size;         // frame size (w*h)
++    uint32_t frame_size2;        // frame size (w*h)*2
++};
++
++struct duo_info
++{
++    uint16_t version[4];          // driver version
++    uint32_t frame_header_size;   // frame header size
++    uint32_t frame_buffer_size;   // frame buffer size
++};
++
++#define DUO_CONTROL             _IOWR('D', 0x00, struct duo_ctrltransfer)
++#define DUO_START_STREAMING     _IOW ('D', 0x01, struct duo_streaming)
++#define DUO_STOP_STREAMING      _IO  ('D', 0x02)
++#define DUO_GET_FRAME           _IOR ('D', 0x03, uintptr_t)
++#define DUO_GET_INFO            _IOR ('D', 0x04, struct duo_info)
++
++#endif // DUO_DRIVER_API_H
+diff -Naur linux-x/drivers/misc/duo/duo.h linux-y/drivers/misc/duo/duo.h
+--- linux-x/drivers/misc/duo/duo.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/duo/duo.h	2016-06-17 09:52:33.673258113 +0200
+@@ -0,0 +1,130 @@
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++// This file is part of DUO SDK that allows the use of DUO devices in your own applications
++// For updates and file downloads go to: http://duo3d.com/...
++// Copyright 2014-2015 (c) Code Laboratories, Inc. All rights reserved.
++////////////////////////////////////////////////////////////////////////////////////////////////////////
++#ifndef DUO_DRIVER_H
++#define DUO_DRIVER_H
++
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/usb.h>			/* USB stuff */
++#include <linux/dma-mapping.h>
++#include <linux/kfifo.h>
++
++#include "duo_driver_api.h"
++
++#if defined(ML_DEBUG)
++    // Debugging levels
++    #define DEBUG_LEVEL_DEBUG		0x1F
++    #define DEBUG_LEVEL_INFO		0x0F
++    #define DEBUG_LEVEL_WARN		0x07
++    #define DEBUG_LEVEL_ERROR		0x03
++    #define DEBUG_LEVEL_CRITICAL	0x01
++
++    #define DBG_DEBUG(fmt, args...) \
++    if ((debug_level & DEBUG_LEVEL_DEBUG) == DEBUG_LEVEL_DEBUG) \
++        printk( KERN_DEBUG "[debug] DUO:%s(%d): " fmt "\n", \
++                __FUNCTION__, __LINE__, ## args)
++    #define DBG_INFO(fmt, args...) \
++    if ((debug_level & DEBUG_LEVEL_INFO) == DEBUG_LEVEL_INFO) \
++        printk( KERN_DEBUG "[info]  DUO:%s(%d): " fmt "\n", \
++                __FUNCTION__, __LINE__, ## args)
++    #define DBG_WARN(fmt, args...) \
++    if ((debug_level & DEBUG_LEVEL_WARN) == DEBUG_LEVEL_WARN) \
++        printk( KERN_DEBUG "[warn]  DUO:%s(%d): " fmt "\n", \
++                __FUNCTION__, __LINE__, ## args)
++    #define DBG_ERR(fmt, args...) \
++    if ((debug_level & DEBUG_LEVEL_ERROR) == DEBUG_LEVEL_ERROR) \
++        printk( KERN_DEBUG "[err]   DUO:%s(%d): " fmt "\n", \
++                __FUNCTION__, __LINE__, ## args)
++    #define DBG_CRIT(fmt, args...) \
++    if ((debug_level & DEBUG_LEVEL_CRITICAL) == DEBUG_LEVEL_CRITICAL) \
++        printk( KERN_DEBUG "[crit]  DUO:%s(%d): " fmt "\n", \
++                __FUNCTION__, __LINE__, ## args)
++
++    static int debug_level = DEBUG_LEVEL_DEBUG; //DEBUG_LEVEL_INFO;
++    module_param(debug_level, int, S_IRUGO | S_IWUSR);
++    MODULE_PARM_DESC(debug_level, "debug level (bitmask)");
++#else
++    #define DBG_DEBUG(fmt, args...)
++    #define DBG_INFO(fmt, args...)
++    #define DBG_WARN(fmt, args...)
++    #define DBG_ERR(fmt, args...)
++    #define DBG_CRIT(fmt, args...)
++#endif
++
++#define BULK_IN_BLOCK_SIZE      (FRAME_HEADER_SIZE)    // default bulk in block size
++
++// Bitmask
++#define DUO_BULK_STREAMING      0
++
++struct usb_duo
++{
++    char                    name[64];
++    char                    serial[256];
++    struct usb_device       *udev;
++    int                     minor;
++    unsigned long           flags;
++
++    struct usb_anchor       bulk_anchor;    // usb anchor
++    struct duo_streaming    st_params;      // USB streaming parameters
++
++    wait_queue_head_t       frame_event;    // wait queue for DUO_GET_FRAME
++    struct kfifo            frame_fifo;
++    unsigned char           *frame_buffer;  // page aligned kmalloc buffer for all frames
++    unsigned long           frame_buflen;   // buffer length
++    void                    *pCurrFrame;    // currently worked on frame
++    unsigned int            data_offset;    // frame data offset in current frame
++    struct semaphore        sem;            // Locks this structure
++};
++static struct usb_driver duo_driver;
++
++static struct usb_device_id duo_table [] =
++{
++    { USB_DEVICE(0x04b4, 0xa1e0) },
++    { USB_DEVICE(0xc0de, 0xa1e0) },
++    {}
++};
++MODULE_DEVICE_TABLE (usb, duo_table);
++
++static int duo_open(struct inode *inode, struct file *file);
++static int duo_release(struct inode *inode, struct file *file);
++static long duo_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
++static int duo_mmap(struct file *filp, struct vm_area_struct *vma);
++
++static struct file_operations duo_fops =
++{
++    .owner = THIS_MODULE,
++    .open =           duo_open,
++    .release =        duo_release,
++    .unlocked_ioctl = duo_ioctl,
++    .mmap =           duo_mmap,
++};
++
++static char *duo_devnode(struct device *dev, umode_t *mode);
++
++static struct usb_class_driver duo_class =
++{
++    .name = "duo%d",
++    .fops = &duo_fops,
++    .devnode = duo_devnode,
++    .minor_base = 0,
++};
++
++static inline void duo_delete(struct usb_duo *dev);
++static int duo_probe(struct usb_interface *interface, const struct usb_device_id *id);
++static void duo_disconnect(struct usb_interface *interface);
++
++static struct usb_driver duo_driver =
++{
++    .name = "DUO Camera",
++    .id_table =     duo_table,
++    .probe =        duo_probe,
++    .disconnect =   duo_disconnect,
++};
++
++static int __init duo_init(void);
++static void __exit duo_exit(void);
++
++#endif // DUO_DRIVER_H
+diff -Naur linux-x/drivers/misc/duo/Kconfig linux-y/drivers/misc/duo/Kconfig
+--- linux-x/drivers/misc/duo/Kconfig	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/duo/Kconfig	2016-06-17 09:52:33.673258113 +0200
+@@ -0,0 +1,8 @@
++config  DUO_CAMERA_DRV
++	tristate "duo camera module driver"
++	default n
++	help
++	  duo camera module driver - make sure to set USB_LIMIT_MAX_PACKETS_HS to zero in 
++	  usb/hosts
++
++
+diff -Naur linux-x/drivers/misc/duo/Makefile linux-y/drivers/misc/duo/Makefile
+--- linux-x/drivers/misc/duo/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-y/drivers/misc/duo/Makefile	2016-06-17 09:52:33.673258113 +0200
+@@ -0,0 +1,4 @@
++#
++# Makefile for the hello dev
++#
++obj-$(CONFIG_DUO_CAMERA_DRV)     += duo.o
+diff -Naur linux-x/drivers/misc/Kconfig linux-y/drivers/misc/Kconfig
+--- linux-x/drivers/misc/Kconfig	2016-06-17 09:23:37.000000000 +0200
++++ linux-y/drivers/misc/Kconfig	2016-06-17 09:52:33.673258113 +0200
+@@ -816,4 +816,5 @@
+ source "drivers/misc/genwqe/Kconfig"
+ source "drivers/misc/echo/Kconfig"
+ source "drivers/misc/cxl/Kconfig"
++source "drivers/misc/duo/Kconfig"
+ endmenu
+diff -Naur linux-x/drivers/misc/Makefile linux-y/drivers/misc/Makefile
+--- linux-x/drivers/misc/Makefile	2016-06-17 09:23:37.000000000 +0200
++++ linux-y/drivers/misc/Makefile	2016-06-17 09:52:33.673258113 +0200
+@@ -56,4 +56,5 @@
+ obj-$(CONFIG_ECHO)		+= echo/
+ obj-$(CONFIG_VEXPRESS_SYSCFG)	+= vexpress-syscfg.o
+ obj-$(CONFIG_CXL_BASE)		+= cxl/
++obj-y				+= duo/
+ obj-$(CONFIG_PANEL)             += panel.o
+diff -Naur linux-x/drivers/usb/host/Kconfig linux-y/drivers/usb/host/Kconfig
+--- linux-x/drivers/usb/host/Kconfig	2016-06-17 09:40:39.000000000 +0200
++++ linux-y/drivers/usb/host/Kconfig	2016-06-17 09:52:33.673258113 +0200
+@@ -26,6 +26,41 @@
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called xhci-hcd.
+ 
++config USB_LIMIT_MAX_PACKETS_SSP
++	int "limit max_packet for super speed plus usb bulk transfer"
++	default 512
++	---help---
++	  set the maximum number of packets in a bulk transfer (set to zero
++	  to disable limitation). do not change if you don't know what you're doing.
++
++config USB_LIMIT_MAX_PACKETS_SS
++	int "limit max_packet for super speed usb bulk transfer"
++	default 512
++	---help---
++	  set the maximum number of packets in a bulk transfer (set to zero
++	  to disable limitation). do not change if you don't know what you're doing.
++
++config USB_LIMIT_MAX_PACKETS_HS
++	int "limit max_packet for high speed usb bulk transfer"
++	default 64
++	---help---
++	  set the maximum number of packets in a bulk transfer (set to zero
++	  to disable limitation). do not change if you don't know what you're doing.
++
++config USB_LIMIT_MAX_PACKETS_FS
++	int "limit max_packet for full speed usb bulk transfer"
++	default 64
++	---help---
++	  set the maximum number of packets in a bulk transfer (set to zero
++	  to disable limitation). do not change if you don't know what you're doing.
++
++config USB_LIMIT_MAX_PACKETS_LS
++	int "limit max_packet for low speed usb bulk transfer"
++	default 8
++	---help---
++	  set the maximum number of packets in a bulk transfer (set to zero
++	  to disable limitation). do not change if you don't know what you're doing.
++
+ if USB_XHCI_HCD
+ 
+ config USB_XHCI_PCI
+diff -Naur linux-x/drivers/usb/host/xhci-mem.c linux-y/drivers/usb/host/xhci-mem.c
+--- linux-x/drivers/usb/host/xhci-mem.c	2016-06-17 09:23:38.000000000 +0200
++++ linux-y/drivers/usb/host/xhci-mem.c	2016-06-17 09:52:33.673258113 +0200
+@@ -1107,24 +1107,24 @@
+ 	switch (udev->speed) {
+ 	case USB_SPEED_SUPER_PLUS:
+ 		slot_ctx->dev_info |= cpu_to_le32(SLOT_SPEED_SSP);
+-		max_packets = MAX_PACKET(512);
++		max_packets = MAX_PACKET(CONFIG_USB_LIMIT_MAX_PACKETS_SSP);
+ 		break;
+ 	case USB_SPEED_SUPER:
+ 		slot_ctx->dev_info |= cpu_to_le32(SLOT_SPEED_SS);
+-		max_packets = MAX_PACKET(512);
++		max_packets = MAX_PACKET(CONFIG_USB_LIMIT_MAX_PACKETS_SS);
+ 		break;
+ 	case USB_SPEED_HIGH:
+ 		slot_ctx->dev_info |= cpu_to_le32(SLOT_SPEED_HS);
+-		max_packets = MAX_PACKET(64);
++		max_packets = MAX_PACKET(CONFIG_USB_LIMIT_MAX_PACKETS_HS);
+ 		break;
+ 	/* USB core guesses at a 64-byte max packet first for FS devices */
+ 	case USB_SPEED_FULL:
+ 		slot_ctx->dev_info |= cpu_to_le32(SLOT_SPEED_FS);
+-		max_packets = MAX_PACKET(64);
++		max_packets = MAX_PACKET(CONFIG_USB_LIMIT_MAX_PACKETS_FS);
+ 		break;
+ 	case USB_SPEED_LOW:
+ 		slot_ctx->dev_info |= cpu_to_le32(SLOT_SPEED_LS);
+-		max_packets = MAX_PACKET(8);
++		max_packets = MAX_PACKET(CONFIG_USB_LIMIT_MAX_PACKETS_LS);
+ 		break;
+ 	case USB_SPEED_WIRELESS:
+ 		xhci_dbg(xhci, "FIXME xHCI doesn't support wireless speeds\n");
