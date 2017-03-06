@@ -43,13 +43,9 @@ EXPERIMENTAL
 Individual Patch Descriptions:
 --------------------------------------------------------------------------
 
-Patch:  1000_linux-4.9.1.patch
+Patch:  1000_linux-4.10.1.patch
 From:   http://www.kernel.org
-Desc:   Linux 4.9.1
-
-Patch:  1001_linux-4.9.2.patch
-From:   http://www.kernel.org
-Desc:   Linux 4.9.2
+Desc:   Linux 4.10.1
 
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
@@ -58,6 +54,10 @@ Desc:   Support for namespace user.pax.* on tmpfs.
 Patch:  1510_fs-enable-link-security-restrictions-by-default.patch
 From:   http://sources.debian.net/src/linux/3.16.7-ckt4-3/debian/patches/debian/fs-enable-link-security-restrictions-by-default.patch/
 Desc:   Enable link security restrictions by default.
+
+Patch:  2300_enable-poweroff-on-Mac-Pro-11.patch
+From:   http://kernel.ubuntu.com/git/ubuntu/ubuntu-xenial.git/patch/drivers/pci/quirks.c?id=5080ff61a438f3dd80b88b423e1a20791d8a774c
+Desc:   Workaround to enable poweroff on Mac Pro 11. See bug #601964.
 
 Patch:  2900_dev-root-proc-mount-fix.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=438380
@@ -74,22 +74,6 @@ Desc:   Enable control of the unaligned access control policy from sysctl
 Patch:  4567_distro-Gentoo-Kconfig.patch
 From:   Tom Wijsman <TomWij@gentoo.org>
 Desc:   Add Gentoo Linux support config settings and defaults.
-
-Patch:  5001_block-cgroups-kconfig-build-bits-for-BFQ-v7r11-4.9.patch
-From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r11 patch 1 for 4.9: Build, cgroups and kconfig bits
-
-Patch:  5002_block-introduce-the-BFQ-v7r11-I-O-sched-for-4.9.patch1
-From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r11 patch 2 for 4.9: BFQ Scheduler
-
-Patch:  5003_block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r11-for-4.9.patch
-From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v7r11 patch 3 for 4.9: Early Queue Merge (EQM)
-
-Patch:  5004_Turn-BFQ-v7r11-into-BFQ-v8r7-for-4.9.0.patch1
-From:   http://algo.ing.unimo.it/people/paolo/disk_sched/
-Desc:   BFQ v8r7 patch 4 for 4.9: Early Queue Merge (EQM)
 
 Patch:  5010_enable-additional-cpu-optimizations-for-gcc.patch
 From:   https://github.com/graysky2/kernel_gcc_patch/
