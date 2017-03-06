@@ -51,6 +51,50 @@ Patch:  1001_linux-4.9.2.patch
 From:   http://www.kernel.org
 Desc:   Linux 4.9.2
 
+Patch:  1002_linux-4.9.3.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.3
+
+Patch:  1003_linux-4.9.4.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.4
+
+Patch:  1004_linux-4.9.5.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.5
+
+Patch:  1005_linux-4.9.6.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.6
+
+Patch:  1006_linux-4.9.7.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.7
+
+Patch:  1007_linux-4.9.8.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.8
+
+Patch:  1008_linux-4.9.9.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.9
+
+Patch:  1009_linux-4.9.10.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.10
+
+Patch:  1010_linux-4.9.11.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.11
+
+Patch:  1011_linux-4.9.12.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.12
+
+Patch:  1011_linux-4.9.13.patch
+From:   http://www.kernel.org
+Desc:   Linux 4.9.13
+
 Patch:  1500_XATTR_USER_PREFIX.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=470644
 Desc:   Support for namespace user.pax.* on tmpfs.
@@ -58,6 +102,10 @@ Desc:   Support for namespace user.pax.* on tmpfs.
 Patch:  1510_fs-enable-link-security-restrictions-by-default.patch
 From:   http://sources.debian.net/src/linux/3.16.7-ckt4-3/debian/patches/debian/fs-enable-link-security-restrictions-by-default.patch/
 Desc:   Enable link security restrictions by default.
+
+Patch:  2300_enable-poweroff-on-Mac-Pro-11.patch
+From:   http://kernel.ubuntu.com/git/ubuntu/ubuntu-xenial.git/patch/drivers/pci/quirks.c?id=5080ff61a438f3dd80b88b423e1a20791d8a774c
+Desc:   Workaround to enable poweroff on Mac Pro 11. See bug #601964.
 
 Patch:  2900_dev-root-proc-mount-fix.patch
 From:   https://bugs.gentoo.org/show_bug.cgi?id=438380

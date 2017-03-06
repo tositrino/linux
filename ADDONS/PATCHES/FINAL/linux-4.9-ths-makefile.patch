@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2016-12-12 10:44:02.304629782 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 9
- SUBLEVEL = 2
+ SUBLEVEL = 13
  EXTRAVERSION =
 -NAME = Roaring Lionus
 +NAME = Odonata Draconis
