@@ -5,7 +5,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
  PATCHLEVEL = 10
  SUBLEVEL = 1
  EXTRAVERSION =
--NAME = Roaring Lionus
+-NAME = Fearless Coyote
 +NAME = Odonata Draconis
  
  # *DOCUMENTATION*
