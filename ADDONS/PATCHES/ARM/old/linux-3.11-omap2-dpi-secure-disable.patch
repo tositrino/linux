@@ -1,0 +1,12 @@
+diff -Naur linux-org/drivers/video/omap2/dss/dpi.c linux-ths/drivers/video/omap2/dss/dpi.c
+--- linux-org/drivers/video/omap2/dss/dpi.c	2013-07-16 10:26:18.000000000 +0200
++++ linux-ths/drivers/video/omap2/dss/dpi.c	2013-07-16 10:57:05.920763073 +0200
+@@ -350,6 +350,8 @@
+ 	struct omap_dss_device *out = &dpi.output;
+ 	int r;
+ 
++    if (dssdev->state == OMAP_DSS_DISPLAY_DISABLED) return;
++
+ 	mutex_lock(&dpi.lock);
+ 
+ 	if (dss_has_feature(FEAT_DPI_USES_VDDS_DSI) && !dpi.vdds_dsi_reg) {
