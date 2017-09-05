@@ -37,8 +37,8 @@
 #     git push origin v4.11.11-ths
 #     git commit -m "updated v4.11.11-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (4.8)
-#   - setup & build kernel 4.11.11-ths-x86_64-core2-smp-desktop using gcc-5.4.0 on gentoo-x86_64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - updated configs (4.11)
+#   - setup & build kernel 4.11.11-ths-x86_64-core2-smp-desktop using gcc-7.1.1 on arch-x64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
 #   - patch kernel
 #     kv=4.11.11 ; ksrc=/usr/src
 #     for pn in firmware realtime gentoo arch arm ths final ; do 
