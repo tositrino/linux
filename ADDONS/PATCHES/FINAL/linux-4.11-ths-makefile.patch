@@ -3,7 +3,7 @@ diff -Naur linux-x/Makefile linux-y/Makefile
 +++ linux-y/Makefile	2017-03-06 09:57:13.429735133 +0100
 @@ -2,7 +2,7 @@
  PATCHLEVEL = 11
- SUBLEVEL = 11
+ SUBLEVEL = 1
  EXTRAVERSION =
 -NAME = Fearless Coyote
 +NAME = Odonata Draconis
