@@ -1,5 +1,5 @@
 Product:                   kernel
-Version:                   4.12.10
+Version:                   4.12.11
 Architecture:              linux
 Source:                    ftp://ftp.kernel.org
 Kurzbeschreibung:          linux
