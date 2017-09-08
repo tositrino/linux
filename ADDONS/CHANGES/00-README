@@ -37,7 +37,48 @@
 #     git push origin v4.12.10-ths
 #     git commit -m "updated v4.12.10-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
-#   - updated configs (4.11)
+#   - updated configs (4.12)
+#   - setup & build kernel 4.12.10-ths-x86_64-core2-smp-desktop using gcc-7.1.1 on arch-x64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.12.10 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - connect default branch
+#     git branch --set-upstream-to=origin/v4.12.10 v4.12.10-ths
+#   - commit and push new branch
+#     git push origin v4.12.10-ths
+#     git commit -m "updated v4.12.10-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.12.10-mmxvii-ix-viii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.12-ths-init.patch (version bump)
+#     linux-4.12-ths-hdrv.patch (needs to include uaccess.h for kernel >= 4.12.0)
+# 17/09/07
+#   - setup & build kernel 4.12.10-ths-x86_64-core2-smp-desktop using gcc-7.1.1 on arch-x64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
+#   - patch kernel
+#     kv=4.12.10 ; ksrc=/usr/src
+#     for pn in firmware realtime gentoo arch arm ths final ; do 
+#       BASEVER=linux-${kv}-ths SRCDIR=${ksrc} ADDONS/tools/patch-kernel --patch ${pn}
+#     done
+#   - connect default branch
+#     git branch --set-upstream-to=origin/v4.12.10 v4.12.10-ths
+#   - commit and push new branch
+#     git push origin v4.12.10-ths
+#     git commit -m "updated v4.12.10-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.12.10-mmxvii-ix-vii
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.12-ths-init.patch (needs to include tty.h for fancy version output)
+# 17/09/05
 #   - setup & build kernel 4.12.10-ths-x86_64-core2-smp-desktop using gcc-7.1.1 on arch-x64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
 #   - patch kernel
 #     kv=4.12.10 ; ksrc=/usr/src
@@ -68,6 +109,8 @@
 #   - obsolete patches
 #     none
 #   - disabled/obsolete gentoo patches:
+#     1700_ia64-fix-module-loading-for-gcc-5.4.patch
+#     4200_fbcondecor.patch
 #     4567_distro-Gentoo-Kconfig.patch
 #   - using genpatches-4.12-11
 #   - merge old ths branch

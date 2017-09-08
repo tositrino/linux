@@ -1,0 +1,16 @@
+diff -Naur linux-x/.gitignore linux-y/.gitignore
+--- linux-x/.gitignore	2017-09-05 09:04:36.341482414 +0200
++++ linux-y/.gitignore	2017-09-05 09:10:39.900264176 +0200
+@@ -97,6 +97,12 @@
+ # id-utils files
+ ID
+ 
++# THS
++THS-*
++config-*
++*.log
++samples/hidraw/hid-example
++
+ *.orig
+ *~
+ \#*#
