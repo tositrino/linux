@@ -37,6 +37,7 @@
 #     git push origin v4.11.12-ths
 #     git commit -m "updated v4.11.12-ths"
 #     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+# 17/09/05
 #   - updated configs (4.11)
 #   - setup & build kernel 4.11.12-ths-x86_64-core2-smp-desktop using gcc-7.1.1 on arch-x64 (damn-its-late, Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz)
 #   - patch kernel
