@@ -1,0 +1,12 @@
+diff -Naur linux-x/kernel/workqueue.c linux-y/kernel/workqueue.c
+--- linux-x/kernel/workqueue.c	2015-09-01 07:48:43.000000000 +0200
++++ linux-y/kernel/workqueue.c	2015-09-02 08:18:52.789056814 +0200
+@@ -2614,7 +2614,7 @@
+ out_unlock:
+ 	mutex_unlock(&wq->mutex);
+ }
+-EXPORT_SYMBOL_GPL(flush_workqueue);
++EXPORT_SYMBOL(flush_workqueue);
+ 
+ /**
+  * drain_workqueue - drain a workqueue

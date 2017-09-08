@@ -1,0 +1,15 @@
+diff -Naur linux-org/arch/arm/kernel/smp.c linux-ths/arch/arm/kernel/smp.c
+--- linux-org/arch/arm/kernel/smp.c	2012-07-24 16:51:29.000000000 +0200
++++ linux-ths/arch/arm/kernel/smp.c	2012-07-24 17:01:15.643326392 +0200
+@@ -563,7 +563,10 @@
+ 
+ 	cpumask_copy(&mask, cpu_online_mask);
+ 	cpumask_clear_cpu(smp_processor_id(), &mask);
+-	smp_cross_call(&mask, IPI_CPU_STOP);
++
++    // smp_cross_call(&mask, IPI_CPU_STOP);
++    if (!cpumask_empty(&mask))
++      smp_cross_call(&mask, IPI_CPU_STOP);
+ 
+ 	/* Wait up to one second for other CPUs to stop */
+ 	timeout = USEC_PER_SEC;
