@@ -9,26 +9,26 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define UTS_RELEASE        "4.13.0"
-#define THS_RELEASE        "2017-09-08"
+#define UTS_RELEASE        "4.13.1"
+#define THS_RELEASE        "2017-09-11"
 
 const char *cbanner_data[]  = {
 
 
                                //12345678901234567890123456789012345678901234567890123456789012345678901234567890
-                                "88888 8   8 888888                              e         8   eeee    eeee \n"
-                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e      e8      8    8  8 \n"
-                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888      8    eee    8e 8 \n"
-                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8       8      8    8e 8 \n"
+                                "88888 8   8 888888                              e         8   eeee      8  \n"
+                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e      e8      8     e8  \n"
+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888      8    eee      8  \n"
+                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8       8      8      8  \n"
                                 "  88  88  8 e   88   88   8 88   88   8 88  8   8888    8888  8888    8888 \n"
                                 "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888  8888 88 8888 \n",
 
                                 "ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n",
 
-                                "e   e                                e         8  eeee    eeee o8o  db  o8o\n"
-                                "8   8   eeee eeeee  eeeee eeee e     8 e      e8     8    8  8 o8888db8888o\n"
-                                "8eee8e  8    8   8  8   8 8    8     8888      8   eee    8  8     odbo    \n"
-                                "88   8  8eee 8eee8e 8e  8 8eee 8e      8       8     8    8  8 o88o db o88o\n"
+                                "e   e                                e         8  eeee      8  o8o  db  o8o\n"
+                                "8   8   eeee eeeee  eeeee eeee e     8 e      e8     8     e8  o8888db8888o\n"
+                                "8eee8e  8    8   8  8   8 8    8     8888      8   eee      8      odbo    \n"
+                                "88   8  8eee 8eee8e 8e  8 8eee 8e      8       8     8      8  o88o db o88o\n"
                                 "88   8  88   88   8 88  8 88   88    8888    8888 8888    8888 oo   db   oo\n"
                                 "88   8  88ee 88   8 88  8 88ee 88ee  8888 88 8888 8888 88 8888      db     \n",
 
@@ -64,19 +64,19 @@ const char *cbanner_data[]  = {
 
 const char *cbanner_1      = "\n"
 
-                                "88888 8   8 888888                              e         8   eeee    eeee \n"
-                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e      e8      8    8  8 \n"
-                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888      8    eee    8e 8 \n"
-                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8       8      8    8e 8 \n"
+                                "88888 8   8 888888                              e         8   eeee      8  \n"
+                                "  8   8   8 8        e   e  eeee eeeee  eeeee   8 e      e8      8     e8  \n"
+                                "  8e  8eee8 8eeeee   8   8  8    8   8  8   8   8888      8    eee      8  \n"
+                                "  88  88  8     88   8eee8e 8eee 8eee8e 8e  8     8       8      8      8  \n"
                                 "  88  88  8 e   88   88   8 88   88   8 88  8   8888    8888  8888    8888 \n"
                                 "  88  88  8 8eee88   88   8 88ee 88   8 88  8   8888 88 8888  8888 88 8888 \n"
                                 " ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n" ;
 
 const char *cbanner_2      = "\n"
-                                "e   e                                e         8  eeee    eeee o8o  db  o8o\n"
-                                "8   8   eeee eeeee  eeeee eeee e     8 e      e8     8    8  8 o8888db8888o\n"
-                                "8eee8e  8    8   8  8   8 8    8     8888      8   eee    8  8     odbo    \n"
-                                "88   8  8eee 8eee8e 8e  8 8eee 8e      8       8     8    8  8 o88o db o88o\n"
+                                "e   e                                e         8  eeee      8  o8o  db  o8o\n"
+                                "8   8   eeee eeeee  eeeee eeee e     8 e      e8     8     e8  o8888db8888o\n"
+                                "8eee8e  8    8   8  8   8 8    8     8888      8   eee      8      odbo    \n"
+                                "88   8  8eee 8eee8e 8e  8 8eee 8e      8       8     8      8  o88o db o88o\n"
                                 "88   8  88   88   8 88  8 88   88    8888    8888 8888    8888 oo   db   oo\n"
                                 "88   8  88ee 88   8 88  8 88ee 88ee  8888 88 8888 8888 88 8888      db     \n"
                                 " ths kernel release " THS_RELEASE " / linux-" UTS_RELEASE "\n" ;
@@ -113,8 +113,8 @@ const char *cbanner_3      = "\n"
 
 void showversion( void )
 {
-  printf("\n testbanner version 1.0.0 - test linux banner output\n");
-  printf(" copyright (c) 2004 by <THS <tositrino@hanskult.de>\n\n");
+  printf("\n testbanner version 1.0.1 - test linux banner output\n");
+  printf(" copyright (c) 2004-2017 by <THS <tositrino@hanskult.de>\n\n");
 }
 
 
