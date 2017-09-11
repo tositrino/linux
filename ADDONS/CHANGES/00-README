@@ -4,7 +4,7 @@
 # package : linux kernel
 # version : 4.13.0
 # created : 17/09/08
-# changed : 17/09/08
+# changed : 17/09/11
 #
 # TODO:
 #   * ubuntu
@@ -32,7 +32,7 @@
 #   - setup & build kernel 4.13.0-ths-arm-omap4-smp using gcc-4.7.2/crossdev target armv7a-hardfloat-linux-gnueabi (overo/panda board)
 #   - setup & build kernel 4.13.0-ths-arm-smp using gcc-4.7.2/crossdev target armv7a-softfloat-linux-gnueabi
 #
-# 17/09/08
+# 17/09/11
 #   - commit and updated branch
 #     git push origin v4.13.0-ths
 #     git commit -m "updated v4.13.0-ths"
@@ -47,6 +47,23 @@
 #     done
 #   - connect default branch
 #     git branch --set-upstream-to=origin/v4.13.0-ths v4.13.0-ths
+#   - commit and push new branch
+#     git push origin v4.13.0-ths
+#     git commit -m "created v4.13.0-ths"
+#     git add -A -v -f ./ADDONS ./WORK ./APPLIED-PATCHES .gitignore
+#   - THS-RELEASE 4.13.0-mmxvii-ix-xi
+#   - updated tools
+#     kversion.figlet testversion.c
+#   - added patches:
+#     none
+#   - updated patches:
+#     linux-4.13-ths-init.patch
+#   - obsolete patches
+#     none
+#   - disabled/obsolete gentoo patches:
+#     4567_distro-Gentoo-Kconfig.patch
+#   - using genpatches-4.13-1
+# 17/09/08
 #   - commit and push new branch
 #     git push origin v4.13.0-ths
 #     git commit -m "created v4.13.0-ths"
